@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6214,
+ "raw": "FAULT: process_rhs",
+ "reasoning": "We need to identify which function contains the fault causing SimpleLazyObject not being resolved. The description: In Django 3.1, kwargs passed to get_context_data are SimpleLazyObject. When using get_object_or_404(Account, slug=offer_slug), the lookup uses Exact.lookup process_rhs. The SimpleLazyObject is not resolved, leading to DB error. So the faulty function likely is in django/db/models/lookups.py where the RHS is processed without resolving lazy objects. Which function? Possibly FieldGetDbPrepValueMixin.get_db_prep_lookup? Or Exact.process_rhs? Let's think.\n\nThe SimpleLazyObject is a lazy wrapper that resolves when used as string. In lookups, they call get_prep_lookup or get_db_prep_lookup. The function that should resolve lazy objects is probably resolve_expression_parameter or something. But the issue is that SimpleLazyObject is passed as RHS and not resolved. The function that should resolve is probably FieldGetDbPrepValueMixin.get_db_prep_lookup, which calls field.get_prep_value. But maybe the bug is in Lookup.__init__? Actually the SimpleLazyObject is passed as rhs to Lookup, then later in get_db_prep_lookup they call field.get_prep_lookup? Let's search memory: In Django 3.1, there was a change where URL kwargs are wrapped in SimpleLazyObject for request.user? Not sure.\n\nThe question: \"Which function contains the fault? Answer with one function name from the list\". So we need to pick the function that is at fault. Likely \"process_rhs\" in BuiltinLookup or Exact. The SimpleLazyObject not being resolved occurs in process_rhs of Exact (or BuiltinLookup). The Exact.lookup's process_rhs probably just returns the value unchanged. The resolution should happen earlier. The bug is that process_rhs doesn't resolve lazy objects. So the faulty function is \"process_rhs\" in BuiltinLookup? The list includes \"process_rhs\" in BuiltinLookup, Exact, IExact, etc. The specific function that is used for Exact lookup is Exact.process_rhs. That likely is the culprit.\n\nThus answer: process_rhs (in Exact). But they ask function name from list, not class. So \"process_rhs\". However there are multiple overloads. The list includes \"process_rhs\" under BuiltinLookup, Exact, IExact, etc. The most specific is Exact.process_rhs. So answer: process_rhs. Probably they want \"process_rhs\". I'll output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1550,
+ "response_tokens": 516,
+ "elapsed_s": 1.68,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "process_rhs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

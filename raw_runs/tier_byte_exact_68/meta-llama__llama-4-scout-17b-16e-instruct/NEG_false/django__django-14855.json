@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3503,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identify the issue**: The problem arises when a model containing a ForeignKey field is viewed or edited in a custom Admin Site. If that ForeignKey field is listed in `readonly_fields`, the generated URL for the link is incorrect, pointing to `/admin/...` instead of `/custom-admin/...`.\n2. **Understand the cause**: The issue is caused by the line `url = reverse(url_name, args=[quote(remote_obj.pk)])` in `get_admin_url`. This line does not specify the correct namespace for a custom Admin Site.\n3. **Locate the function**: The function responsible for this issue is `get_admin_url` within the `AdminReadonlyField` class in `django/contrib/admin/helpers.py`.\n\n# Fixed solution:\nThe fix involves modifying the `get_admin_url` method to include the `current_app` parameter when calling `reverse`. Here is how you can do it:\n\n```python\ndef get_admin_url(self, remote_field, remote_obj):\n    url_name = f\"admin:{remote_field.model._meta.app_label}:{remote_field.model._meta.model_name}_change\"\n    url = reverse(\n        url_name,\n        args=[quote(remote_obj.pk)],\n        current_app=self.model_admin.admin_site.name  # Specify the current admin site\n    )\n    # Rest of the method...\n```\n\n# Explanation of changes:\n* **Added `current_app` parameter**: When calling `reverse`, we now specify the `current_app` parameter with `self.model_admin.admin_site.name`. This ensures that the URL is generated for the correct Admin Site.\n\n# Tests and example uses:\nTo verify the fix, you can create a test case that checks the generated URL for a readonly ForeignKey field in a custom Admin Site. Ensure that the URL points to the correct Admin Site.\n\n# FAULT:\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 820,
+ "response_tokens": 383,
+ "elapsed_s": 1.08,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "FAULT",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

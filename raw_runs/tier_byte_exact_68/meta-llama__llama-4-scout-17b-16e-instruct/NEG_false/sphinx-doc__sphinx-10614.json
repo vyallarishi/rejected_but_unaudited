@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5278,
+ "raw": "To solve this issue, we need to identify the faulty function and understand how it's causing the problem. Based on the provided information, the issue seems to be related to how the `refuri` is being handled in the `html_visit_inheritance_diagram` function.\n\nThe problem arises when the `refuri` is relative to the current document's directory, and a static `../` is prepended to it. This creates a broken path when the link is embedded in the SVG file.\n\nAfter analyzing the situation, it appears that the fault lies in the `html_visit_inheritance_diagram` function.\n\nFAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1342,
+ "response_tokens": 131,
+ "elapsed_s": 0.6,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

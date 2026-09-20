@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5734,
+ "raw": "To solve this issue, we need to identify the function in `django/forms/models.py` that is responsible for the incorrect behavior of `modelform_factory` when it comes to handling the `formfield_callback` specified in the `Meta` attribute of a `ModelForm` class.\n\nThe problem arises because `modelform_factory` does not use the `formfield_callback` from the `Meta` options of the provided `form` class if no `formfield_callback` is explicitly provided to `modelform_factory`. This suggests that the issue lies in how `modelform_factory` handles its arguments and how it constructs the new form class.\n\nLet's analyze the provided information:\n\n1. **Understanding the Issue**: The `modelform_factory` function is supposed to create a form class based on a given model and form class. However, it does not properly inherit or utilize the `formfield_callback` defined in the `Meta` class of the provided form class if no callback is explicitly passed to `modelform_factory`.\n\n2. **Candidate Functions**: Several functions are listed in `django/forms/models.py`, but we need to focus on those directly related to creating model forms and handling their metadata.\n\n3. **Analysis**:\n    - The `modelform_factory` function is directly involved in creating a form class from a model and a base form class. It accepts a `form` argument and a `formfield_callback` argument, which defaults to `None` if not provided.\n    - The behavior described suggests that `modelform_factory` should check if a `formfield_callback` is provided in the `Meta` options of the `form` class and use it if no explicit `formfield_callback` is given.\n\n4. **Identifying the Fault**:\n    - The fault seems to be in how `modelform_factory` handles the `formfield_callback`. Specifically, it does not fallback to using the `formfield_callback` specified in the `Meta` class of the provided form if no `formfield_callback` is explicitly provided.\n\n5. **Conclusion**:\n    - The function that contains the fault is `modelform_factory`. This function needs to be adjusted to properly handle and inherit the `formfield_callback` from the `Meta` options of the provided form class when no explicit callback is provided.\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1318,
+ "response_tokens": 469,
+ "elapsed_s": 1.43,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 7735,
+ "raw": "FAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1809,
+ "response_tokens": 91,
+ "elapsed_s": 0.71,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

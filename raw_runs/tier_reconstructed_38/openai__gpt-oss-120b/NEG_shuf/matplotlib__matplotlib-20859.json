@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8339,
+ "raw": "FAULT: Legend.__init__",
+ "reasoning": "We need to answer which function contains the fault. The description says the error arises because Legend.__init__ checks parent is Axes or Figure, not SubFigure. So the faulty function is Legend.__init__ (in legend.py). The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So we output \"FAULT: Legend.__init__\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 2052,
+ "response_tokens": 105,
+ "elapsed_s": 0.86,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

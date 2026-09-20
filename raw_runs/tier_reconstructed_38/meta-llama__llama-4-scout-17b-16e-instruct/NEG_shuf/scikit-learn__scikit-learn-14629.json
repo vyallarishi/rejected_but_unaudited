@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6456,
+ "raw": " Process and Reasoning\n\nThe issue presented is an `AttributeError` that occurs when using `cross_val_predict` with the `method='predict_proba'` argument and a `MultiOutputClassifier`. The error message indicates that the `MultiOutputClassifier` object has no attribute `classes_`. \n\nTo solve this issue, we need to understand how `cross_val_predict` works and how it interacts with `MultiOutputClassifier`. The `cross_val_predict` function is used to predict the output of a model on a given dataset using cross-validation. The `MultiOutputClassifier` is a classifier that can handle multiple output classification problems.\n\nThe error occurs because `MultiOutputClassifier` does not have a `classes_` attribute. Instead, each estimator in the `MultiOutputClassifier` has its own `classes_` attribute. \n\nThe function that contains the fault is likely to be the one that handles the prediction logic in `cross_val_predict`, specifically when to access `estimator.classes_`.\n\n## Solution\n\nThe fault is in the_order` function in `sklearn/model_selection/_validation.py function is called by `cross_val_predict` when `method='predict'` and is responsible for ensuring that the predictions are in the correct order fix the issue, we need to modify the `_enforce_prediction_order to handle the case where the estimator is a `MultiOutputClassifier`. \n\nHere is the corrected code:\n\n```python\ndef _enforce_prediction_order(classes, n_classes, method):\n    if method == 'predict_proba':\n        # For multi-output classifiers, we need to access the classes_ attribute # of each estimator\n        if isinstance(classes, list):\n            n len(classes)\n            for i in range(n_outputs):\n                predictions[:, i, :] = _enforce_prediction_order(\n                    classes[i], predictions[:, i, :], n_classes[i], method\n                )\n        else:\n            # Ensure that the predictions are in the correct order\n            predictions = predictions[:,ort(classes)]\n    return predictions\n```\n\nHowever, a more accurate fix directly modifying the `cross_val_predict` function to handle `MultiOutput correctly. \n\nThe correct fix the line where `classes_` is accessed `MultiOutputClassifier`. \n\n```python hasattr(estimator, 'classes_'):\n    classes_\nelif hasattr(estimator, 'estimators # Handle MultiOutputClassifier\n    classes = [est.classes_ for est in estimator.estimators_]\nelse:\n    raise ValueError(\"Estimator needs to have a 'classes_' attribute or be a MultiOutputClassifier\")\n```\n\nBut actually, the fix can be simply applied to the `cross_val_predict` function by changing how `classes_` is retrieved:\n\n```python\ndef cross_val_predict(estimator, X, y=None, groups=None, cv=None,\n                      n_jobs=None, verbose=0, fit_params=None,\n                      pre_dispatch='2*n_jobs', method='predict'):\n    ...\n    if method in ('predict_proba', 'decision_function'):\n        if not hasattr(estimator, 'classes_'):\n            if hasattr(estimator, 'estimators_'):\n                # MultiOutputClassifier\n                classes = [e.classes_ for e in estimator.estimators_]\n            else:\n                raise ValueError(\n                    \"Estimator needs to have a 'classes_' attribute \"\n                    be a MultiOutputClassifier\")\n        else:\n            classes = estimator    ...\n```\n\nSo, the function name the fault is:\n\nFAULT: _enforce",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1641,
+ "response_tokens": 861,
+ "elapsed_s": 8.27,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_enforce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

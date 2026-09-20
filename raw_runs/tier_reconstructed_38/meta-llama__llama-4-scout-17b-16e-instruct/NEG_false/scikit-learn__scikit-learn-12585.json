@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3086,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to the `clone` function in `sklearn.base`, which fails when one or more instance parameters are estimator types (i.e., not instances, but classes). The error occurs because the `clone` function is trying to call `get_params` on the estimator class, which is not an instance.\n\nTo solve this issue, we need to modify the `clone` function to handle the case where the estimator is a class, not an instance. The current implementation checks if the estimator has a `get_params` method, but this check is not sufficient because a class can have a `get_params` method without being an instance.\n\n### Solution\n\nThe solution involves modifying the `clone` function in `sklearn.base` to correctly handle the case where the estimator is a class. We can do this by adding an additional check to see if the estimator is a class.\n\n```python\ndef clone(estimator, safe=True):\n    \"\"\"\n    A class method to clone an estimator.\n\n    Parameters\n    ----------\n    estimator : object\n        The estimator to be cloned.\n\n    safe : boolean, optional\n        If safe is False, a warning is issued because the clone\n        may not be an estimator as it depends on the init.\n        If safe is True, a check is made to ensure that the\n        clone is an estimator.\n\n    Returns\n    -------\n    estimator : object\n        The cloned estimator.\n\n    Notes\n    -----\n    If estimator is not an estimator, a warning is issued\n    and the estimator is returned as is.\n    \"\"\"\n\n    # Check if estimator is a class\n    if isinstance(estimator, type):\n        return estimator\n\n    # Check if estimator has a get_params method\n    if not hasattr(estimator, 'get_params'):\n        raise TypeError(\"Estimator needs to have a get_params method.\")\n\n    # Get the parameters of the estimator\n    params = estimator.get_params(deep=False)\n\n    # Create a new instance of the estimator\n    new_estimator = estimator.__class__\n\n    # Set the parameters of the new estimator\n    new_object_params = {}\n    for name, param in params.items():\n        if isinstance(param, (list, tuple, set)):\n            new_object_params[name] = [clone(v, safe) for v in param]\n        elif hasattr(param, 'get_params'):\n            new_object_params[name] = clone(param, safe)\n        else:\n            new_object_params[name] = param\n\n    new_estimator = new_estimator(**new_object_params)\n\n    return new_estimator\n```\n\nHowever, a more straightforward and minimal fix would be to modify the line in `base.py` as follows:\n\n```python\nelif not hasattr(estimator, 'get_params') or isinstance(estimator, type):\n    return estimator\n```\n\nThis change ensures that if the estimator is a class, it is returned as is, without attempting to clone it.\n\n### FAULT\n\nThe function that contains the fault is `clone`. \n\nFAULT: clone",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 743,
+ "response_tokens": 616,
+ "elapsed_s": 5.7,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

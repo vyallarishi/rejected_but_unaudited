@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 5078,
+ "raw": "FAULT: get_order_by",
+ "finish_reason": "stop",
+ "prompt_tokens": 1147,
+ "response_tokens": 6,
+ "elapsed_s": 0.36,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

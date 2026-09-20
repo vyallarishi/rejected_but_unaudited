@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16136",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5219,
+ "raw": "## Step 1: Analyze the issue description\nThe issue arises when a GET request is made to a view that only supports POST requests, defined as an async method. This results in a 500 error with a traceback indicating that an `HttpResponseNotAllowed` object cannot be used in an 'await' expression.\n\n## 2: Understand the view and URL pattern\nThe view `Demo` is defined with an async `post` method but does not define a `get` method or any other HTTP method. The URL pattern maps to this view.\n\n## 3: Identify the problematic code flow\nWhen a GET request is made to this view, Django's `dispatch` method in `View` class is called. It checks if the requested method (in this case, GET) is allowed. Since it's not, it calls `http_method_not_allowed`.\n\n## 4: Locate the source of the error\nThe error occurs because `http_method_not_allowed` returns an `HttpResponseNotAllowed` object synchronously. However, since the view's method (`post`) is async, the execution is wrapped in `async_to_sync`, which expects an awaitable return value.\n\n## 5: Determine the faulty function\nThe faulty function is the one that returns `HttpResponseNotAllowed` synchronously when the request method is not allowed. This function is `http_method_not_allowed` in the `View` class, but more precisely, the issue lies in how `dispatch` handles the return value of `http_method_not_allowed` when the view is async.\n\n## 6: Conclusion\nGiven that `dispatch` is the method that handles the execution of the view and it's where the async context is introduced, and considering that `http_method_not_allowed` is called from within `dispatch`, the core issue is actually with how `dispatch` returns the result of `http_method_not_allowed`. However, based on the information provided and focusing on the direct cause of the error message, the critical aspect is the handling of the response in an async context.\n\nThe final answer is: \nFAULT: dispatch",
+ "finish_reason": "stop",
+ "prompt_tokens": 1298,
+ "response_tokens": 424,
+ "elapsed_s": 1.51,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "dispatch",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

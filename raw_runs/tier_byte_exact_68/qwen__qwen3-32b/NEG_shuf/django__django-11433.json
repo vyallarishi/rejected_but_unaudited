@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11433",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6175,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is about the `cleaned_data` not overwriting the default values of model fields when a form is submitted. The user mentioned that when a field isn't in the data payload but has a default on the model, the `cleaned_data` can't overwrite it. \n\nLooking at the functions listed, the key part is probably in how the form data is constructed into the model instance. The `construct_instance` function is mentioned as a candidate. The description says that `_post_clean` calls `construct_instance`, which only considers fields present in the original submission, not all in `cleaned_data`. \n\nSo, if `construct_instance` is responsible for populating the model instance, and it's not taking into account the `cleaned_data` fields that were added programmatically (like during form cleaning), then that's where the problem is. The function might be using the initial data or the submitted data, but not the modified `cleaned_data`. \n\nThe `construct_instance` function's job is to take the form data and apply it to the model instance. If it's not checking `cleaned_data` for all fields, especially those that were added after validation, then those fields with defaults won't be set properly. For example, if a field wasn't in the submitted data but was added to `cleaned_data` during form cleaning (maybe derived from another field), `construct_instance` should use that value instead of the model's default. But if it's only looking at the original data, it skips that.\n\nSo the fault is likely in `construct_instance` because it's not correctly applying all the fields from `cleaned_data`, leading to the model instance using the default instead of the value set in `cleaned_data`.\n</think>\n\nFAULT: construct_instance",
+ "finish_reason": "stop",
+ "prompt_tokens": 1465,
+ "response_tokens": 382,
+ "elapsed_s": 17.38,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "construct_instance",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

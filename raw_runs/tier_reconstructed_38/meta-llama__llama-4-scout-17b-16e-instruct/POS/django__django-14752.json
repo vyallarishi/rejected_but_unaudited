@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3689,
+ "raw": "FAULT: get",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 828,
+ "response_tokens": 4,
+ "elapsed_s": 0.42,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

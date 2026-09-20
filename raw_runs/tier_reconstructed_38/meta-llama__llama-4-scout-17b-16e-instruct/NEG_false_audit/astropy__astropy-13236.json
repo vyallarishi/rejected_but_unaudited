@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9235,
+ "raw": "To solve this issue, we need to identify the function that is responsible for automatically converting a structured `np.array` to an `NdarrayMixin` when it is added as a column to an `astropy.table.Table`. \n\nThe issue description provides a code snippet that points to the problematic behavior:\n```python\n# Structured ndarray gets viewed as a mixin unless already a valid\n# mixin class\nif (not isinstance(data, Column) and not data_is_mixin\n        and isinstance(data, np.ndarray) and len(data.dtype) > 1):\n    data = data.view(NdarrayMixin)\n    data_is_mixin = True\n```\nThis code is likely part of the `Table` class, specifically in the `__init__` method or another method that initializes the table with data.\n\nUpon reviewing the provided code, the `__init__` method of the `Table` class is a good candidate to investigate further. This method is responsible for initializing the table with data, and it is likely where the conversion from a structured `np.array` to an `NdarrayMixin` occurs.\n\nThe function that contains the fault is:\nFAULT: `__init__`",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2235,
+ "response_tokens": 241,
+ "elapsed_s": 6.09,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9843,
+ "raw": "FAULT: filter_members",
+ "reasoning": "We need to identify which function contains the fault causing private-members option to be boolean only, not accepting arguments. The description: filter_members handles private members inclusion based on options.private_members. Let's locate function filter_members in Documenter class. It likely checks self.options.private_members and expects boolean. So the fault is that filter_members does not handle list of member names. So answer: filter_members. The list includes function filter_members defined as:\n\ndef filter_members(self, members: List[Tuple[str, Any]], want_all: bool)\n\nThus the fault is in filter_members. Provide that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2371,
+ "response_tokens": 132,
+ "elapsed_s": 0.88,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

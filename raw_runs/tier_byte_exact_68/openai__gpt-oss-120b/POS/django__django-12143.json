@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 6258,
+ "raw": "FAULT: get_formsets_with_inlines",
+ "finish_reason": "stop",
+ "prompt_tokens": 1537,
+ "response_tokens": 896,
+ "elapsed_s": 2.38,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_formsets_with_inlines",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

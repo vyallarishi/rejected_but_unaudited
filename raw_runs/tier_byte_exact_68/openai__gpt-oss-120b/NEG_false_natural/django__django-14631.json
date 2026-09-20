@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14631",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 3581,
+ "raw": "FAULT: _clean_fields",
+ "finish_reason": "stop",
+ "prompt_tokens": 883,
+ "response_tokens": 176,
+ "elapsed_s": 0.62,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_clean_fields",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

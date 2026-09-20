@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5025,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "We need to answer: Which function contains the fault? The description points to cross_val_predict's internal handling of method='predict_proba' and accessing estimator.classes_. The code snippet link is in sklearn/model_selection/_validation.py lines 857-866. That's within cross_val_predict function. So the fault function is cross_val_predict. The list includes cross_val_predict. So answer: FAULT: cross_val_predict.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1305,
+ "response_tokens": 99,
+ "elapsed_s": 0.72,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5073,
+ "raw": "### Thought Process and Reasoning\n\nThe issue described involves a `SplitArrayField` with a `BooleanField` always having widgets checked after the first `True` value when rendering a form with pre-existing data. This suggests a problem with how the widgets are being initialized or rendered, particularly in how their attributes are being set.\n\nThe key to solving this issue lies in understanding how the `SplitArrayWidget` and `CheckboxInput` work together. The `SplitArrayWidget` is responsible for rendering a list of sub-widgets (in this case, checkboxes) for an array field. When rendering these sub-widgets, it calls `get_context` on each, passing a shared `attrs` dictionary.\n\nThe `CheckboxInput` widget's `get_context` method modifies the `attrs` dictionary by adding `'checked': True` when the checkbox's value is `True`. This modification is where the problem arises because the same `attrs` dictionary is reused for all sub-widgets. Once a checkbox with a `True` value is encountered, all subsequent checkboxes in the list are rendered with `'checked': True`, regardless of their actual value.\n\nGiven this understanding, the fault lies in the `get_context` method of the `SplitArrayWidget` class. This method is responsible for creating the context for each sub-widget and is where the shared `attrs` dictionary is passed to `self.widget.get_context` (which is `CheckboxInput.get_context` in this case) for each item in the data. The reuse of the `final_attrs` dictionary across iterations of the loop, combined with the modification of this dictionary by `CheckboxInput.get_context`, leads to the observed behavior.\n\n### Solution\n\nThe solution involves ensuring that each sub-widget receives its own `attrs` dictionary, rather than sharing a single dictionary across all sub-widgets. This can be achieved by creating a copy of the `final_attrs` dictionary for each iteration of the loop in `SplitArrayWidget.get_context`.\n\n### FAULT\n\nFAULT: get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 1097,
+ "response_tokens": 406,
+ "elapsed_s": 1.16,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5958,
+ "raw": "## Step 1: Analyzing the issue description\nThe issue description mentions that `has_key`, `has_keys`, and `has_any_keys` JSONField lookups don't handle numeric keys on SQLite, MySQL, and Oracle databases. This indicates a problem with how these lookups are implemented for these specific databases.\n\n## Step 2: Understanding the provided example\nThe example given shows a model with a JSONField and tests for the presence of keys 'foo' and '1111' using the `has_key` lookup. The test fails for the numeric key '1111' on SQLite, suggesting the issue lies in how SQLite handles JSON paths, particularly with numeric keys.\n\n## 3: Identifying the relevant code\nThe candidate functions provided are from `django/db/models/fields/json.py`. The key functions to look at are those related to `HasKeyLookup`, `HasKeys`, and `HasAnyKeys`, as they directly pertain to the `has_key`, `has_keys`, and `has_any_keys` lookups.\n\n## 4: Examining the HasKeyLookup class\nThe `HasKeyLookup` class and its methods (`as_sqlite`, `as_mysql`, `as_oracle`) are crucial because they define how the `has_key` lookup is translated into SQL for different databases. The issue specifically mentions SQLite, MySQL, and Oracle, so these methods are likely where the problem lies.\n\n## 5: Focusing on the as_sqlite method\nThe localization notes point out that the `as_sqlite` method of `HasKeyLookup` generates an incorrect SQL template. Specifically, it fails to prefix the key with `$.` to form a valid JSON path when the key is numeric.\n\n## 6: Conclusion\nGiven the information and the process of elimination, the fault lies in the `as_sqlite` method of the `HasKeyLookup` class. This method does not correctly handle numeric keys by not properly formatting them as JSON paths.\n\nFAULT: as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1467,
+ "response_tokens": 407,
+ "elapsed_s": 1.23,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

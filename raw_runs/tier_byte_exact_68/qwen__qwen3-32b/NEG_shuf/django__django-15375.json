@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7302,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that when using aggregate() with a default after annotate(), Django generates invalid SQL. The user provided a traceback and some code context.\n\nLooking at the error message, the generated SQL is \"SELECT FROM ...\", which is missing the columns to select. The key part is that when the default is added to the aggregate, it wraps the aggregate in a Coalesce, but the SQL generation doesn't handle this correctly when there's an annotate involved.\n\nThe localization notes mention that get_aggregation is involved. The description says that get_aggregation detects existing annotations and uses a subquery. When there's a Coalesce (due to the default), it fails to add the aggregate's alias to the outer query's columns. That leads to an empty SELECT list.\n\nSo, the problem is in the get_aggregation method. It's not properly handling the case where the aggregation is wrapped in a Coalesce when there are existing annotations. The method is responsible for setting up the subquery and adding the necessary columns to select. When the aggregate is wrapped, maybe it's not correctly extracting the alias or adding it to the outer query's select columns.\n\nLooking at the functions listed, the one mentioned in the localization notes is get_aggregation. The other functions like add_annotation or resolve_expression might be involved, but the core issue is in how get_aggregation handles the aggregation when there are existing annotations and a default is provided. Therefore, the fault is in get_aggregation.\n</think>\n\nFAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1816,
+ "response_tokens": 320,
+ "elapsed_s": 1.03,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

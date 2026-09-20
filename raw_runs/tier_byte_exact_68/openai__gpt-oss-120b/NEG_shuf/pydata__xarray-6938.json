@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 8471,
+ "raw": "FAULT: Dataset.swap_dims",
+ "finish_reason": "stop",
+ "prompt_tokens": 2443,
+ "response_tokens": 372,
+ "elapsed_s": 1.31,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "swap_dims",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

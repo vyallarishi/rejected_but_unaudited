@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-13135",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 6434,
+ "raw": "FAULT: fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1934,
+ "response_tokens": 257,
+ "elapsed_s": 1.05,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

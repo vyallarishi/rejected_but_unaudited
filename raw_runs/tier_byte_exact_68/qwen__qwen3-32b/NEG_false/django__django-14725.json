@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4334,
+ "raw": "<think>\nOkay, let's try to figure out which function is the fault here. The issue is about model formsets allowing new object creation even when users want an \"edit only\" view. The problem is that using extra=0 isn't reliable because someone can add more forms via JavaScript or POST data.\n\nLooking at the candidate functions, the localization notes point to save_new_objects. Let me think. The description says that when a user submits extra forms, save_new_objects is called, which loops through self.extra_forms and saves new objects. So if the goal is to disallow new objects, we need to prevent save_new_objects from creating them.\n\nBut how does the formset decide whether to call save_new_objects? The BaseModelFormSet has save_new_objects, which is responsible for saving new objects. So if we can override this method in a custom formset to do nothing or prevent new object creation, that would solve the problem. But the question is which function is the fault. The issue is that the current implementation allows new objects to be created via extra forms. The function that directly creates new objects is save_new_objects because it loops through the extra forms and calls save_new on each. Therefore, the fault lies in save_new_objects because it's the one that actually creates the new instances. To fix this, one would need to override this method in a custom formset to skip saving extra forms. So the answer should be save_new_objects.\n</think>\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1040,
+ "response_tokens": 301,
+ "elapsed_s": 16.25,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

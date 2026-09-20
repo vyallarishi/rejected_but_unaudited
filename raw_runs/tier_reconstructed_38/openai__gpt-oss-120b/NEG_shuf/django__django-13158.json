@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13158",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9203,
+ "raw": "FAULT: set_empty",
+ "reasoning": "We need to determine which function contains the fault causing QuerySet.none() on combined queries returns all results. The description: Using ModelMultipleChoiceField with a union queryset. When form submitted empty, all objects matching the queryset are added. Using OR (|) works fine. So bug likely in QuerySet.none() handling for union (CombinedQuery). The path: ModelMultipleChoiceField.clean() -> QuerySet.none() -> Query.set_empty(). The function set_empty adds a NothingNode to where clause. For union query, maybe set_empty doesn't work correctly, causing empty queryset not being empty. So the fault is in Query.set_empty. The list includes set_empty. So answer: set_empty.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2159,
+ "response_tokens": 154,
+ "elapsed_s": 0.95,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "set_empty",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

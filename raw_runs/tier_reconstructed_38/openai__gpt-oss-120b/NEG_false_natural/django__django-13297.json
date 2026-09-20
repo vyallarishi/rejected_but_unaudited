@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6322,
+ "raw": "FAULT: FieldGetDbPrepLookup",
+ "reasoning": "We need to identify which function contains the fault causing SimpleLazyObject not being resolved when using get_object_or_404 with slug from kwargs. The description says that kwargs.get returns SimpleLazyObject in Django 3.1. The lookup processing likely fails to resolve it. The function that should resolve lazy objects is probably in FieldGetDbPrepValueMixin.get_db_prep_lookup or process_rhs. The SimpleLazyObject is a lazy proxy that resolves when used as string, but maybe the lookup's get_prep_lookup doesn't call force_text. The function that fails is likely `FieldGetDbPrepValueMixin.get_db_prep_lookup`? Actually the lookup chain: Exact.lookup inherits FieldGetDbPrepValueMixin and BuiltinLookup. In Exact.process_rhs, they call super().process_rhs which is BuiltinLookup.process_rhs? Let's check Django code: In django/db/models/lookups.py, BuiltinLookup.process_rhs does something like: rhs = self.rhs; if isinstance(rhs, (list, tuple, set)): ... else: rhs = self.get_db_prep_lookup(rhs, connection). The get_db_prep_lookup is from FieldGetDbPrepValueMixin, which calls field.get_db_prep_lookup(value, connection). That may not resolve SimpleLazyObject. The resolution of SimpleLazyObject likely occurs in `django.utils.functional` when converting to str. So the fault is that the lookup does not resolve lazy objects before passing to DB. Which function should resolve? Possibly `FieldGetDbPrepValueMixin.get_db_prep_lookup` is missing a call to `force_text` or `resolve_expression`. But the question: \"Which function contains the fault? Answer with one function name from the list\". Likely the function that fails to resolve is `FieldGetDbPrepValueMixin.get_db_prep_lookup`. However the list includes `FieldGetDbPrepValueMixin.get_db_prep_lookup`? Actually list shows `class FieldGetDbPrepValueMixin:` with method `def get_db_prep_lookup(self, value, connection):`. So that is a candidate.\n\nThus answer: `FieldGetDbPrepValueMixin.get_db_prep_lookup`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1569,
+ "response_tokens": 451,
+ "elapsed_s": 1.58,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "FieldGetDbPrepLookup",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

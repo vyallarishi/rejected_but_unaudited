@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16256",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4592,
+ "raw": "FAULT: create_reverse_many_to_one_manager",
+ "finish_reason": "stop",
+ "prompt_tokens": 1116,
+ "response_tokens": 9,
+ "elapsed_s": 0.28,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "create_reverse_many_to_one_manager",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

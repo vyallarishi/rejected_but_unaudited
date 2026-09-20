@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15695",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5871,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The issue is with the RenameIndex operation crashing when an unnamed index is moved backward and then forward again. The error happens because the index name \"new_pony_test_idx\" already exists when re-applying the migration.\n\nFrom the description, the problem seems to be in the database_backwards method. When the RenameIndex operation is reversed (database_backwards), it's supposed to restore the old index name. But if the index was unnamed, maybe it's not correctly reverting the name. The localization notes mention that in database_backwards, when handling an unnamed index, self.old_fields is populated, and the code returns early, making the operation a no-op. That means the old index name isn't being restored, so when database_forwards is called again, it tries to create the new name which already exists.\n\nLooking at the candidate functions, the RenameIndex class's database_backwards method is likely the culprit. The method isn't properly handling the case where the index was auto-generated (unnamed), leading to the failure when reversing the operation. The code checks if self.old_fields is present and returns, but maybe it should be checking something else, like whether the original index name was auto-generated and needs to be restored.\n\nSo the faulty function is RenameIndex.database_backwards. The method isn't correctly reverting the index name when the original was unnamed, leading to the duplicate error on subsequent forwards operations.\n</think>\n\nFAULT: RenameIndex.database_backwards",
+ "finish_reason": "stop",
+ "prompt_tokens": 1398,
+ "response_tokens": 314,
+ "elapsed_s": 0.96,
+ "key_suffix": "sruaC4",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "database_backwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2650,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that their custom database router isn't being respected when it comes to creating the django_migrations table on non-default databases. They have a router that only allows migrations on the 'default' database, but during tests, when the test databases are created, the migrate command runs for each database, and the MigrationRecorder ends up creating the django_migrations table even on databases where it shouldn't.\n\nLooking at the issue description, the key part is in the ensure_schema method. The problem seems to be that when ensure_schema is called, it checks if the table exists and creates it if it doesn't. But during this process, it doesn't check the router's allow_migrate rule. So even though the router says that migrations shouldn't be allowed on other databases, the ensure_schema function is creating the table regardless.\n\nThe user's router's allow_migrate method returns False for any database that isn't 'default'. But when the test runner sets up the databases, it runs migrate on all databases. The MigrationRecorder's ensure_schema method is called, which creates the django_migrations table if it doesn't exist. Since this method doesn't use the router to check if creating the table is allowed, it proceeds to create the table on non-default databases, which violates the router's rules.\n\nSo the fault lies in the ensure_schema function because it doesn't respect the database router's allow_migrate setting. The other functions like record_applied might be called correctly with the router, but the initial creation of the table in ensure_schema is the problem. The ensure_schema function is responsible for creating the table, and it doesn't check the router's rules before doing so. Therefore, the correct function to identify as the fault is ensure_schema.\n</think>\n\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 590,
+ "response_tokens": 375,
+ "elapsed_s": 9.26,
+ "key_suffix": "QqzJWR",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

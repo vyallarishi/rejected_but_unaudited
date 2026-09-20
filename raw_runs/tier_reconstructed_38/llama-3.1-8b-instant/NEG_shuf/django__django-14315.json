@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14315",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 2532,
+ "raw": "settings_to_cmd_args_env",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 614,
+ "response_tokens": 6,
+ "elapsed_s": 0.3,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "settings_to_cmd_args_env",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

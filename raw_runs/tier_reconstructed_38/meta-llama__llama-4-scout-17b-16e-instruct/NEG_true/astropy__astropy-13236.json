@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 11991,
+ "raw": "### Thought Process and Reasoning\n\nThe issue at hand involves the automatic conversion of a structured `np.array` into an `NdarrayMixin` when added as a column to an `astropy.table.Table`. This behavior is controlled by a specific code block within the `astropy` library. The goal is to identify the function that contains the fault, which is responsible for this automatic conversion.\n\nThe code block in question is:\n```python\n# Structured ndarray gets viewed as a mixin unless already a valid\n# mixin class\nif (not isinstance(data, Column) and not data_is_mixin\n        and isinstance(data, np.ndarray) and len(data.dtype) > 1):\n    data = data.view(NdarrayMixin)\n    data_is_mixin = True\n```\nThis block checks if the data is a structured numpy array and not already a `Column` or a mixin class. If so, it converts the data into an `NdarrayMixin`.\n\nThe proposal is to add a `FutureWarning` here, informing users that in the future (version 5.2), structured arrays will be added as `Column` objects instead of being converted to `NdarrayMixin`. The plan is to change this behavior in version 5.2.\n\n### Solution\n\nTo identify the function that contains the fault, we need to locate where this code block resides. Based on the provided information, the relevant function is likely within the `astropy.table` module.\n\nUpon reviewing the `astropy/table/table.py` file, we find the `_init_from_ndarray` method, which seems to be responsible for initializing a table from a numpy array. This method contains the code block that performs the automatic conversion of structured arrays to `NdarrayMixin`.\n\nTherefore, the function that contains the fault is `_init_from_ndarray`.\n\n### Answer\n\n FAULT: _init_from_ndarray",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2843,
+ "response_tokens": 381,
+ "elapsed_s": 7.19,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_init_from_ndarray",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16662",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 3136,
+ "raw": "FAULT: as_string",
+ "finish_reason": "stop",
+ "prompt_tokens": 717,
+ "response_tokens": 5,
+ "elapsed_s": 0.51,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "as_string",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

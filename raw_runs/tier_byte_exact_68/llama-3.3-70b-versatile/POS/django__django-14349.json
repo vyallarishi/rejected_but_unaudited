@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 4969,
+ "raw": "FAULT: URLValidator",
+ "finish_reason": "stop",
+ "prompt_tokens": 1215,
+ "response_tokens": 5,
+ "elapsed_s": 0.31,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "URLValidator",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

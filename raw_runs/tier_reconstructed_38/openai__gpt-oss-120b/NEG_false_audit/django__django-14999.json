@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6780,
+ "raw": "FAULT: RenameModel.database_forwards",
+ "reasoning": "We need to identify which function contains the fault causing RenameModel with db_table defined to be a noop, but currently it drops/recreates foreign key constraints in Postgres, and recreates table in sqlite. The description says: In Postgres, it drops and recreates foreign key constraints. In sqlite it recreates the table (as expected for a table renaming). The issue: RenameModel with db_table should be a noop. So if model already has db_table defined, renaming model should not change the underlying DB table name; it's just a Python model rename, not a DB table rename. The code currently calls schema_editor.alter_db_table(new_model, old_model._meta.db_table, new_model._meta.db_table). That will rename the DB table from old name to new name, even though db_table is explicitly set, causing unnecessary operations. The fix likely is to make RenameModel's database_forwards a noop when db_table is set (i.e., when old_model._meta.db_table != new_model._meta.db_table? Actually if db_table is set, both old and new model have same db_table, so rename should be noop). The function causing the fault is RenameModel.database_forwards (or maybe database_backwards). The description says \"database_forwards: Yes. This function is the primary driver of the symptom. 1. It is called to apply the `RenameModel` operation to the database. 2. It retrieves the `old_model` and `new_model` states. 3. It then unconditionally calls `schema_editor.alter_db_table(new_model, old_model._meta.db_table, new_model._meta.db_table)`.\" So the fault is in RenameModel.database_forwards. The list includes \"def database_forwards(self, app_label, schema_editor, from_state, to_state):\" under RenameModel. So answer: RenameModel.database_forwards. The function name likely just \"database_forwards\". But they ask \"Which function contains the fault? Answer with one function name from the list\". So we should give \"RenameModel.database_forwards\" or just \"database_forwards\". The list shows methods under classes, but they are named \"def database_forwards(self, app_label, schema_editor, from_state, to_state):\". To be precise, we can answer \"RenameModel.database_forwards\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 1594,
+ "response_tokens": 496,
+ "elapsed_s": 1.63,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "database_forwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-4604",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4567,
+ "raw": "FAULT: visit_assign",
+ "reasoning": "We need to identify which function contains the fault causing unused-import false positive for a module used in a type comment. The description says visit_assign is called on the assignment line, but no logic for parsing type comment. So the fault likely is in visit_assign or leave_assign or maybe _store_type_annotation_names. The function that should handle type comments is probably _store_type_annotation_names or _store_type_annotation_node. The issue: import abc is considered unused because type comment referencing abc.ABC is not recognized. The code that processes type comments likely resides in _store_type_annotation_names. The fault is that visit_assign does not call that. But the question: \"Which function contains the fault? Answer with one function name from the list\". The fault is that visit_assign does not handle type comments. So the function containing the fault is visit_assign. However they might want the function that should handle type comments but doesn't: _store_type_annotation_names. But the description says \"visit_assign: Yes, a path exists. This function is called on the X = ... # type: abc.ABC line. The provided code snippet does not show any logic for parsing the type comment associated with the assignment node. This failure to inspect the type comment and mark abc as 'used' is the reason it is later flagged as an unused import.\" So the fault is in visit_assign. So answer: visit_assign.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1222,
+ "response_tokens": 295,
+ "elapsed_s": 1.23,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "visit_assign",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-8898",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9197,
+ "raw": "FAULT: _regexp_csv_transfomer",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when they use a regex with a comma in the bad-name-rgxs configuration option, Pylint crashes. The issue seems to be that Pylint splits the regex on commas, which messes up the regular expression.\n\nLooking at the configuration example, they have bad-name-rgxs set to \"(foo{1,3})\". The comma here is part of the regex syntax for repetition, like {min,max}. But if Pylint splits the value by commas, it would split this into [\"(foo{1\", \"3}\"], which are invalid regex patterns. Then, when trying to compile these split parts, it throws an error because they're incomplete.\n\nThe user's analysis points to the _regexp_csv_transfomer function. The traceback shows that this function is called, which splits the value using a CSV transformer, leading to incorrect splitting. The _regexp_csv_transfomer probably uses a method that splits the input string by commas without handling cases where commas are part of the regex.\n\nIn the provided code, _regexp_csv_transfomer is responsible for processing the bad-name-rgxs option. It likely splits the input string into parts using commas as separators, which isn't correct when commas are part of the regex pattern. The function then tries to compile each split part as a separate regex, leading to errors when those parts are invalid.\n\nOther functions like _regex_transformer might handle single regex patterns, but since the issue is with a list (CSV) of regexes, the problem is in the CSV handling part. The _regexp_csv_transfomer is the one that splits the input and compiles each part. Therefore, the fault is in this function because it's splitting on commas incorrectly, not accounting for commas within the regex syntax.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2389,
+ "response_tokens": 391,
+ "elapsed_s": 3.33,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_regexp_csv_transfomer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

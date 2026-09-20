@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7189,
+ "raw": "FAULT: Exact.process_rhs",
+ "reasoning": "We need to identify which function contains the fault causing SimpleLazyObject not being resolved in get_object_or_404 slug lookup. The description points to process_rhs in lookup classes. The SimpleLazyObject is passed as RHS; the lookup's process_rhs should resolve it. In Django 3.1, maybe they changed to not resolve lazy objects automatically. The function that fails is likely FieldGetDbPrepValueMixin.get_db_prep_lookup or something. But the question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\"\n\nWe need to pick the function that contains the bug. The bug is that process_rhs does not resolve SimpleLazyObject. The candidate functions list includes many. The relevant one is in class Exact (inherits FieldGetDbPrepValueMixin, BuiltinLookup). It defines process_rhs. That likely is where the lazy object is not resolved. So the fault is in Exact.process_rhs.\n\nThus answer: FAULT: process_rhs? But need full function name: Exact.process_rhs? The list shows \"def process_rhs(self, compiler, connection):\" under Exact. So answer: FAULT: Exact.process_rhs\n\nLet's output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1739,
+ "response_tokens": 264,
+ "elapsed_s": 1.29,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "process_rhs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

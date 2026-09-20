@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4124,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The issue is that when you set a child object (Product) on a parent (Order) where the child hasn't had its primary key (sku) set yet, saving the parent ends up with the wrong product_id. Specifically, the product_id is saved as an empty string instead of waiting until the child's sku is set.\n\nLooking at the code example, when they do order.product = Product(), then later set order.product.sku = \"foo\" and save, the order's product_id is still empty. But when the sku is set at the time of assignment (Product(sku=\"foo\")), it works. So the problem is that when the Product instance is assigned to the Order's foreign key, Django immediately takes whatever the primary key of the Product is at that moment. If it's not set yet (like an empty string), that's what gets saved, even if later the Product's primary key is set and saved.\n\nNow, the question is which function in the listed Django code is responsible for this behavior. The user mentioned functions in django/db/models/fields/related_descriptors.py. The key functions here are probably in the descriptors that handle the foreign key assignments.\n\nLooking at the ForwardManyToOneDescriptor's __set__ method. Because when you assign order.product = Product(), that's going to trigger the __set__ method of the descriptor. The descriptor is responsible for setting the product_id on the Order instance. If the Product instance's primary key isn't saved yet, maybe it's using the current value of the primary key, which is empty.\n\nIn the ForwardManyToOneDescriptor's __set__ method, when you pass a model instance as the value, it probably sets the foreign key to the primary key of that instance. But if that instance hasn't been saved yet, and the primary key is a CharField (non-auto), then the primary key might be empty. Django might not be handling the case where the related instance hasn't been saved yet and has a non-auto primary key.\n\nIn the case of auto-incrementing primary keys, when you save the model, Django assigns the ID. But for non-auto fields like CharField as primary key, if you assign an unsaved instance, Django doesn't know that the primary key will change later. So when you set order.product to an unsaved Product with empty sku, the Order's product_id is set to empty. Then even after you set sku and save the Product, the Order's product_id is already set to empty.\n\nSo the problem is that the ForwardManyToOneDescriptor's __set__ method is immediately taking the primary key from the related instance, even if that instance hasn't been saved yet. For non-auto primary keys, this can lead to incorrect values if the related instance's primary key is later set and saved.\n\nTherefore, the faulty function is ForwardManyToOneDescriptor's __set__ method. That's where the foreign key value is being set based on the related instance's primary key at the time of assignment, without considering that the related instance might not have a primary key yet (especially for non-auto fields).\n</think>\n\nFAULT: ForwardManyToOneDescriptor.__set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 896,
+ "response_tokens": 651,
+ "elapsed_s": 1.78,
+ "key_suffix": "15GW3E",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

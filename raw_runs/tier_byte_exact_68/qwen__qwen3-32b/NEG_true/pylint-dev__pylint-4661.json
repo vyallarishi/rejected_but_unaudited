@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6857,
+ "raw": "<think>\nOkay, let's try to figure out which function in pylint is responsible for creating that .pylint.d directory in the home folder and how to make it XDG compliant.\n\nThe user mentioned that the problem is about moving the data storage to the correct XDG directory, specifically $HOME/.local/share/<PROGRAM_NAME>. The main issue is that pylint is creating a .pylint.d directory instead of using the proper XDG path.\n\nLooking at the candidate functions provided, the user has done some analysis. They mentioned that _get_pdata_path is involved because it uses the PYLINT_HOME constant which is set to ~/.pylint.d. This function generates paths like ~/.pylint.d/some_file.stats. So, changing PYLINT_HOME to the XDG-compliant path would fix the directory creation.\n\nOther functions like load_results and save_results probably use _get_pdata_path to get the path, so if _get_pdata_path is fixed, those would follow. The SimilarChecker's persistence is mentioned as a cause, but the actual path is determined in _get_pdata_path.\n\nThe user also ruled out some functions. For example, find_pylintrc deals with config files, not data storage. The initialize function triggers checkers, but the path is determined elsewhere. The make_options function sets the persistent option, but that's about enabling the feature, not the path.\n\nSo the key is the _get_pdata_path function because it directly constructs the path using the PYLINT_HOME constant. Changing that constant to use XDG's $HOME/.local/share/pylint would redirect where the data is stored. Therefore, the fault lies in _get_pdata_path because it's the function that determines the path for the data files.\n</think>\n\nFAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 1463,
+ "response_tokens": 359,
+ "elapsed_s": 1.12,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

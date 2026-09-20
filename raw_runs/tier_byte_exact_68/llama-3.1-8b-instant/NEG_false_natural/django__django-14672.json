@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 8285,
+ "raw": "FAULT: identity",
+ "finish_reason": "stop",
+ "prompt_tokens": 2111,
+ "response_tokens": 4,
+ "elapsed_s": 0.42,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "identity",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

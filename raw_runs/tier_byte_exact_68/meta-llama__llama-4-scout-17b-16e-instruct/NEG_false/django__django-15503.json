@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5801,
+ "raw": "## Step 1: Analyzing the issue description\nThe issue at hand involves the `has_key`, `has_keys`, and `has_any_keys` lookups for `JSONField` in Django, specifically when using numeric keys on SQLite, MySQL, and Oracle databases. The problem arises because these lookups fail to correctly handle numeric keys.\n\n## 2: Understanding the provided example and code\nThe example given demonstrates a model `JsonFieldHasKeyTest` with a `JSONField` named `data`. Two instances of this model are created with different keys in their `data` fields: one with a string key `'foo'` and another with a numeric key `'1111'`. A test case attempts to filter instances based on the presence of these keys using `data__has_key`.\n\n## 3: Identifying the root cause\nThe root cause of the issue lies in how the `HasKeyLookup` class handles the generation of SQL for different database backends. Specifically, the `as_sqlite` method of the `HasKeyLookup` class is identified as faulty because it generates an incorrect SQL template when dealing with numeric keys.\n\n## 4: Locating the faulty function\nThe faulty function is related to how SQLite handles JSON path expressions. In the context of Django's `JSONField` and its lookups, the function that specifically deals with SQLite's JSON functions and path expressions is `as_sqlite` within the `HasKeyLookup` class or related classes.\n\n## 5: Precise identification of the fault\nGiven that `as_sqlite` is mentioned in the context of generating incorrect SQL for SQLite, and considering the structure of Django's JSON field lookups, the precise function to examine is the one directly responsible for SQLite's handling of `has_key` lookups on `JSONField`.\n\nThe final answer is: \nFAULT: as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1439,
+ "response_tokens": 379,
+ "elapsed_s": 1.24,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 17563,
+ "raw": "FAULT: _unstack_once",
+ "reasoning": "We need to identify which function contains the fault causing to_unstacked_dataset to break for single-dim variables. The issue arises when to_unstacked_dataset tries to reconstruct dataset from stacked DataArray with MultiIndex coordinate y. The error is MergeError: conflicting values for variable 'y' on objects to be combined. Likely due to to_unstacked_dataset using Dataset.merge on slices that have coordinate y as scalar vs coordinate variable. The function that does this is probably Dataset._unstack_once or Dataset.unstack? Actually to_unstacked_dataset is a method on DataArray? Let's recall: DataArray has method to_unstacked_dataset? Actually DataArray has method to_unstacked_dataset? I think DataArray has method to_unstacked_dataset (maybe defined in DataArray class). But the list provided includes Dataset._unstack_once, Dataset.unstack, but not DataArray.to_unstacked_dataset. However the question: \"to_unstacked_dataset broken for single-dim variables\". The function likely is DataArray.to_unstacked_dataset, but not listed. In the list, there is no DataArray class functions. The list is from dataset.py. The function that merges variables is probably Dataset._replace or merge. But the error arises when merging multiple DataArrays each with coordinate y that conflict. The code that merges is Dataset.merge (or Dataset.update). In to_unstacked_dataset, they likely call Dataset.merge on a list of datasets created from each slice. So the fault is in Dataset._unstack_once? That function probably creates a dataset for each variable slice and then merges them. The conflict arises because y coordinate is scalar vs coordinate variable. So the bug is in Dataset._unstack_once.\n\nThus answer: _unstack_once.",
+ "finish_reason": "stop",
+ "prompt_tokens": 4746,
+ "response_tokens": 375,
+ "elapsed_s": 1.46,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_unstack_once",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

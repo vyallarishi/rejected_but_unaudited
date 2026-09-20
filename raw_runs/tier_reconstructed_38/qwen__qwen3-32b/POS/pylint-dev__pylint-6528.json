@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6861,
+ "raw": "FAULT: _discover_files",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue where Pylint isn't respecting the ignore options in recursive mode. The user mentioned that when using --recursive=y, the ignore options like --ignore, --ignore-paths, and --ignore-patterns don't work. The problem is that even when those options are set, Pylint still checks files in directories that should be ignored, like .a/foo.py.\n\nLooking at the provided code, the candidate functions are in pylint/lint/pylinter.py. The user highlighted the _discover_files function as a possible culprit. The note says that _discover_files uses os.walk to find all .py files but doesn't filter based on the ignore options. That makes sense because if the function is responsible for discovering files and not applying the ignore patterns there, then those ignores wouldn't be respected. \n\nSo, the _discover_files function is supposed to collect all the files to check, but if it doesn't filter out the ignored directories or files as per the options, then those files would still be processed. The other functions like check or check_single_file might not have the logic to check the ignore patterns again, so the initial discovery phase is where the filtering should happen.\n\nTherefore, the fault is likely in the _discover_files function because it's not applying the ignore settings when recursively discovering files. That function needs to filter out the ignored paths before proceeding to check them.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1671,
+ "response_tokens": 300,
+ "elapsed_s": 4.9,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

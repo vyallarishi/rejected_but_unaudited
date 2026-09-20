@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6654,
+ "raw": "FAULT: reduce",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1511,
+ "response_tokens": 4,
+ "elapsed_s": 0.35,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

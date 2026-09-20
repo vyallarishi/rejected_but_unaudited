@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-20916",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 1802,
+ "raw": "## Step 1: Analyze the issue description\nThe issue describes a problem with pretty-printing Unicode in SymPy, specifically with formatting subscripts on Greek letters. The example given shows that '\u03c90' is printed instead of '\u03c9\u2080'.\n\n## 2: Identify the relevant functions\nThe candidate functions given are from `sympy/printing/conventions.py`, and they are `split_super_sub` and `requires_partial`. The issue seems to be related to how subscripts are handled in the printing process.\n\n## 3: Understand the printing process for symbols\nWhen a symbol like `Symbol('omega0')` is pretty-printed, the printer calls `_print_Symbol`. This function then calls `split_super_sub` with the symbol's name. `split_super_sub` identifies the base and subscript parts of the symbol's name.\n\n## 4: Determine the fault\nThe fault seems to be in how the subscript is processed after `split_super_sub` returns. The subscript '0' is not converted to its Unicode form '\u2080' when the base is a Greek letter like 'omega'.\n\n## 5: Locate the fault in the given functions\nGiven that `split_super_sub` correctly identifies the subscript and the base, but the subscript is not properly converted to Unicode, we need to look at what happens after `split_super_sub` is called. The description points towards the logic in `_print_Symbol` or the handling of the subscript after it's returned from `split_super_sub`.\n\n## 6: Choose the function containing the fault\nThe function `split_super_sub` is directly involved in identifying and separating the superscript and subscript parts of a symbol. However, the issue seems to be with how these parts are then used to construct the final output, specifically the subscript not being converted to Unicode. Since `split_super_sub` does the splitting and `_print_Symbol` uses this split, if `_print_Symbol` is not provided, we focus on what's directly mentioned: `split_super_sub` does its job but the result's subscript part ('0') is not converted to '\u2080'. The actual fault might be in how `_print_Symbol` handles the subscript, but based on provided information, we deduce:\n\nFAULT: split_super_sub",
+ "finish_reason": "stop",
+ "prompt_tokens": 450,
+ "response_tokens": 458,
+ "elapsed_s": 1.56,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "split_super_sub",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

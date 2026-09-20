@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6682,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when they decorate the __init__ method with something that uses functools.wraps, the __init__ doesn't show up in the documentation. They mentioned that they have napoleon_include_init_with_doc set to True, which should make it work. But because the __init__ is decorated, Sphinx isn't recognizing it properly.\n\nLooking at the problem description, the root cause seems to be in the line cls = obj.__globals__[cls_path]. The obj here is the decorated __init__ method. The __globals__ of the decorated function doesn't contain the class anymore, which leads Sphinx to think that the method isn't part of the class. This results in cls_is_owner being False, so the MethodDocumenter isn't used, and the __init__ isn't documented.\n\nThe key part here is that the can_document_member function is responsible for determining whether a member can be documented. The user's analysis points out that inspect.isroutine(member) returns False because the decorator changes the nature of the member. The can_document_member function in the Documenter class (or one of its subclasses) is the one that checks if a member can be documented by the current documenter.\n\nIn the case of a method, the ClassDocumenter's can_document_member would check if the member is a routine (function or method). If the decorated __init__ is not considered a routine anymore (because the decorator wraps it), then can_document_member returns False. As a result, the MethodDocumenter isn't selected, and the __init__ isn't processed correctly.\n\nSo the function in question is can_document_member. The problem arises because when the member is decorated, inspect.isroutine returns False, so the function returns False, leading to the wrong documenter being chosen. Therefore, the fault lies in the can_document_member function's inability to recognize decorated __init__ methods as members that should be documented by the appropriate documenter (like MethodDocumenter).\n</think>\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1785,
+ "response_tokens": 422,
+ "elapsed_s": 1.39,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

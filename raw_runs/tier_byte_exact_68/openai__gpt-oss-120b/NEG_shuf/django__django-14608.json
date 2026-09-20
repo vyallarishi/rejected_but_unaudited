@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 3448,
+ "raw": "FAULT: full_clean",
+ "finish_reason": "stop",
+ "prompt_tokens": 863,
+ "response_tokens": 423,
+ "elapsed_s": 1.36,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "full_clean",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

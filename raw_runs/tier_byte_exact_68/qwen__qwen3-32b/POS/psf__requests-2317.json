@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3155,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that when they pass a byte string method like b'GET' to requests, it gets converted into a string that looks like \"b'GET'\", which is causing a 404 error because the HTTP method can't be that.\n\nLooking at the code, the line in question is method = builtin_str(method). So in Python 3, builtin_str is str, and when you convert a bytes object to a string using str(), it gives you the literal representation, like \"b'GET'\". That's not what they want. They need it to be the actual string 'GET' instead.\n\nThe problem starts when the client (python-neutronclient) is passing a bytes object for the method. The requests library is expecting a string. The safe_encode_list function in neutronclient is converting things to bytes, which is causing this issue. But the question is, which part of requests is at fault here?\n\nThe prepare_method function in PreparedRequest is where the method is processed. The line self.method = builtin_str(self.method).upper() is where the conversion happens. If the method is passed as bytes, converting it with str() gives the wrong result. So the fault is that prepare_method is using builtin_str (which is str in Python 3) on the method, which doesn't handle bytes correctly. Instead, it should decode the bytes to a string, probably using .decode('utf-8') or something similar. But since the method is supposed to be a string, maybe requests should check if it's bytes and handle that, or the client shouldn't pass bytes. However, since the user says that in Python 2.6 it works, maybe in Python 2, the str() of a bytes (which is a str in Python 2) works, but in Python 3, it's different.\n\nSo the function that's causing the problem is prepare_method in the PreparedRequest class. That's where the conversion from bytes to string is mishandled. Therefore, the FAULT is prepare_method.\n</think>\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 776,
+ "response_tokens": 438,
+ "elapsed_s": 1.2,
+ "key_suffix": "15GW3E",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

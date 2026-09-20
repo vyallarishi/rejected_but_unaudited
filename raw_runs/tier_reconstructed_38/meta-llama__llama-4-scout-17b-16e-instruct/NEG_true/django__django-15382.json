@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8488,
+ "raw": "## Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem arises when using `filter` with a `~models.Exists` subquery that is empty. This results in the entire `WHERE` block being removed from the query, leading to an `EmptyResultSet`.\n\n2. **Identifying the relevant code path**: The issue seems to stem from how the `~models.Exists` subquery is processed, particularly when the subquery is empty.\n\n3. **Analyzing the provided functions**: \n   - The `set_empty` function is a direct mechanism for producing an `EmptyResultSet`. It is called when the query is determined to be empty.\n   - The `add_q` function is directly on the causal path, receiving the `Q` object containing `~Exists(EmptyQuerySet)`.\n   - The `as_sql` function is part of the SQL compilation process and is not the cause of the decision to empty the query.\n\n4. **Determining the faulty function**: Based on the analysis, the `add_q` function appears to be where the issue originates. This function calls `_add_q` to process the `Q` object, which seems to incorrectly determine that the query should be empty when faced with `~models.Exists` of an empty queryset.\n\n## Step 2: Conclusion\nThe faulty function is `add_q`, as it is directly involved in processing the `Q` object that leads to the incorrect determination that the query should be empty.\n\nThe final answer is: \nFAULT: add_q",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1969,
+ "response_tokens": 313,
+ "elapsed_s": 3.08,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

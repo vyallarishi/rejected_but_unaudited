@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8285,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The issue is about a missing call to make_hashable on through_fields in ManyToManyRel. The error occurs when trying to hash the identity tuple, which includes through_fields. The problem arises because through_fields is a list, which is unhashable.\n\nLooking at the candidate functions, the ManyToManyRel class's __init__ method is probably where through_fields is initialized. The __init__ method of ManyToManyRel is called when the ManyToManyField is created, and it's passed through_fields as a list. The identity method includes through_fields as part of the tuple. Since the list isn't hashable, when the hash is computed, it throws an error.\n\nThe solution would be to ensure that through_fields is hashable. The make_hashable function is used elsewhere for similar purposes. So in the __init__ method of ManyToManyRel, when through_fields is assigned, it should be processed with make_hashable to convert it into a tuple or another hashable type. The current __init__ doesn't do that, leading to the unhashable list being part of the identity.\n\nTherefore, the faulty function is ManyToManyRel's __init__ method. That's where through_fields is set without being made hashable.\n</think>\n\nFAULT: __init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 2125,
+ "response_tokens": 275,
+ "elapsed_s": 0.91,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

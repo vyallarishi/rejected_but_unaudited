@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 15078,
+ "raw": "FAULT: ClassDocumenter.format_signature",
+ "reasoning": "\nOkay, let's try to figure out why using `autodoc_typehints = \"description\"` causes the autoclass to show a return type for the class itself. The user provided a minimal example where a class `Square` has an `__init__` method with a return type of `None`, and when using `autoclass` with that configuration, the generated docs show a return type for the class, which isn't desired.\n\nFirst, I need to recall how Sphinx's autodoc works. The `autoclass` directive generates documentation for a class, including its methods. When `autodoc_typehints` is set to \"description\", type hints are added as descriptions, not in the signature. But the issue here is that the class itself is showing a return type, which doesn't make sense because classes don't have return types. The return type here is probably coming from the `__init__` method's return annotation.\n\nLooking at the code, the `__init__` method has `-> None`. Normally, when you document a class with `autoclass`, the class's signature isn't shown with a return type because the class itself isn't a function. However, when using `autodoc_typehints = \"description\"`, maybe the code is trying to display the return type of the `__init__` method as part of the class's documentation somehow.\n\nI should look into the `ClassDocumenter` class in `sphinx/ext/autodoc/__init__.py`. The `ClassDocumenter` is responsible for handling the documentation of classes. The method `format_signature` in `ClassDocumenter` probably deals with how the class's signature is formatted. \n\nWait, classes don't have signatures like functions. But maybe the `ClassDocumenter` is using the `__init__` method's signature for something. In Sphinx, when you document a class, the `__init__` method's parameters are often included in the class's signature. For example, if you have a class `Square` with an `__init__` that takes `width` and `height`, the class might be displayed as `class Square(width: int, height: int)`, without the return type. But if the return type is included, that's a problem.\n\nLooking at the `format_signature` method in `ClassDocumenter`, perhaps when `autodoc_typehints` is set to \"description\", it's including the return annotation from the `__init__` method. The `format_signature` method might be calling some helper function that constructs the signature string, including the return type when it shouldn't.\n\nAnother possibility is the `_call_format_args` method, which is mentioned in the localization notes. The note says that `_call_format_args()` returns the full signature of `__init__`, including `-> None`, and that `format_signature` parses it and appends the return annotation. If the code isn't filtering out the return type for the class's signature, that could be the issue.\n\nSo, the `ClassDocumenter.format_signature` function is likely the one responsible for generating the signature string for the class. If it's using the `__init__` method's signature and including the return type, that's the problem. The function should probably exclude the return type when displaying the class's signature.\n\nTherefore, the fault is in the `ClassDocumenter.format_signature` function. That's where the return type from `__init__` is being included in the class's signature when using the \"description\" style for type hints.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 3543,
+ "response_tokens": 745,
+ "elapsed_s": 15.36,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

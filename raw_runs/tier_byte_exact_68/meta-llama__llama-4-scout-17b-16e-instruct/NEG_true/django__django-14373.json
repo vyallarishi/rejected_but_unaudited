@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14373",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3165,
+ "raw": "To solve this issue, we need to identify the function responsible for formatting the four-digit year ('Y' specifier) in the `DateFormat` class. The problem statement indicates that the `Y` specifier is not zero-padded for years less than 1000.\n\nUpon reviewing the provided information, we can see that the `DateFormat` class has a method `Y(self)`, which is likely responsible for formatting the four-digit year. The issue description and localization notes suggest that this method returns the integer year directly without padding it with leading zeros.\n\nGiven this information, we can conclude that the function containing the fault is the `Y` method in the `DateFormat` class.\n\nFAULT: Y",
+ "finish_reason": "stop",
+ "prompt_tokens": 777,
+ "response_tokens": 144,
+ "elapsed_s": 0.56,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "Y",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

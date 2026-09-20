@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2062,
+ "raw": "FAULT: timesince",
+ "reasoning": "We need to answer which function contains the fault. The issue is timesince() raises TypeError with USE_TZ=True and >1 month interval. The description says pivot instantiated in timesince.py lines 93-100 does not take into account tzinfo. So the faulty function is timesince. So answer: timesince.",
+ "finish_reason": "stop",
+ "prompt_tokens": 571,
+ "response_tokens": 80,
+ "elapsed_s": 0.82,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

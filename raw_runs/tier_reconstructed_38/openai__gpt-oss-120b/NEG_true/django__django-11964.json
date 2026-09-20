@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8638,
+ "raw": "FAULT: Model.__init__",
+ "reasoning": "We need to identify which function contains the fault causing the enum value not being converted to its primitive when assigning to model field. The description says that when creating instance with MyChoice.FIRST_CHOICE, the attribute holds the enum member, not its value. The conversion should happen in field's to_python or get_prep_value? Actually when assigning, Django's model field descriptor may coerce via get_prep_value? Let's recall: In Django model fields, assignment goes through the descriptor that returns the value directly; there is no conversion on assignment. The conversion occurs when saving to DB (get_prep_value) and when loading from DB (from_db_value). However the test expects that after creation (before saving?) they call MyObject.objects.create which saves to DB. The create method does save, so after saving, the instance returned should have the field value as the primitive (string). But they see enum. That suggests that after saving, the instance still holds enum because the field's get_prep_value maybe returns enum? Actually get_prep_value should convert enum to its value. In Django's implementation for CharField with choices, there is a method get_prep_value that returns value. For choices, they may not convert. But there is a method get_prep_value in Field that calls self.to_python(value). For CharField, to_python returns str(value) if not None. But if value is enum, str(enum) returns \"MyChoice.FIRST_CHOICE\". That's what we see. So the conversion is wrong: to_python should return value.value (the enum's value). In Django 3.0 maybe bug. The function containing fault likely is CharField.to_python or Field.get_prep_value? The list includes many functions; we need to pick one from list. The list includes \"Model.__init__\", \"Model.from_db\", etc. The fault is in the field's to_python method, but that function is not listed. The list includes \"ModelStateFieldsCacheDescriptor.__get__\", \"ModelState\", etc. Not field methods. The only candidate that deals with conversion on assignment is Model.__init__ maybe? But the issue is that __init__ assigns raw value without conversion. However the conversion should happen later. The bug is that __init__ doesn't coerce enum to its value. So the fault is in Model.__init__.\n\nThus answer: Model.__init__.\n\nCheck list: \"def __init__(self, *args, **kwargs):\" under class Model. So output that.\n\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1999,
+ "response_tokens": 528,
+ "elapsed_s": 1.74,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

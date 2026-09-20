@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-13877",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 10256,
+ "raw": "FAULT: _eval_det_bareiss",
+ "finish_reason": "stop",
+ "prompt_tokens": 2866,
+ "response_tokens": 9,
+ "elapsed_s": 0.47,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_eval_det_bareiss",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

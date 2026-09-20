@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3803,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The user mentioned that when using pytest 3.6.0, there's a ValueError when collecting tests that use a patch with a numpy array as the 'new' argument. The error occurs because somewhere in the code, there's a check like p.new in sentinels, and when p.new is a numpy array, this check causes an issue because numpy arrays don't play well with the 'in' operator in this context.\n\nLooking at the stack trace provided, the error happens in the num_mock_patch_args function. The user's analysis suggests that this function is where the problem arises. The function num_mock_patch_args is part of the pytest code, and it's trying to determine how many mock patch arguments there are. It does this by iterating over patchings and checking if p.new is in sentinels. But when p.new is a numpy array, the 'in' operation returns a boolean array instead of a single boolean, leading to the ValueError.\n\nWait, the user also mentioned that they thought num_mock_patch_args was ruled out, but then realized the true cause is upstream. But according to the error message, the problem is in the list comprehension in num_mock_patch_args where p.new is checked against sentinels. The error is because p.new is a numpy array, and checking if it's in sentinels causes a boolean array, which can't be converted to a single truth value. \n\nSo the function that's at fault here is num_mock_patch_args. The code in that function is using the 'in' operator on a numpy array, which isn't handled properly. The issue is that when p.new is a numpy array, the expression p.new in sentinels triggers numpy's __contains__ method, which returns a boolean array. But Python expects a single boolean here, leading to the ambiguity error.\n\nTherefore, the function that contains the fault is num_mock_patch_args. The problem is in how it checks if p.new is in sentinels, which needs to be adjusted to handle numpy arrays properly, perhaps by checking the type or using a different method to determine if it's a sentinel value.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1027,
+ "response_tokens": 458,
+ "elapsed_s": 6.02,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

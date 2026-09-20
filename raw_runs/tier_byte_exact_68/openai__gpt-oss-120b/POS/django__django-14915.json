@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14915",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4999,
+ "raw": "FAULT: ModelChoiceIterator.choice",
+ "finish_reason": "stop",
+ "prompt_tokens": 1275,
+ "response_tokens": 196,
+ "elapsed_s": 37.29,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "choice",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

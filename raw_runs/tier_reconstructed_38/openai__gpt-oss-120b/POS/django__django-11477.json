@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1191,
+ "raw": "FAULT: translate_url",
+ "reasoning": "We need to identify which function contains the fault. The issue: translate_url() creates incorrect URL when optional named groups are missing. The description says translate_url receives a URL, calls resolve() to get match, then reverse() with kwargs that include optional groups set to None. The reverse likely includes those None values, causing incorrect URL. The fault could be in translate_url (not handling None) or reverse (including None). The description says \"translate_url: Yes, this function directly orchestrates the process that fails. 1... 4. The function then calls reverse() with these kwargs\". So the fault is likely in translate_url, because it doesn't filter out None values. So answer: translate_url.",
+ "finish_reason": "stop",
+ "prompt_tokens": 342,
+ "response_tokens": 157,
+ "elapsed_s": 0.88,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "translate_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

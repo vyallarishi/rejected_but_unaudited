@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3209,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Multi-db setup**: The issue arises in a multi-database setup where one connection is for the Django project and several others connect to different databases for information.\n2. **Router configuration**: A router is defined to allow migrations only on the 'default' database connection.\n3. **MigrationRecorder behavior**: When running tests, the `migrate` command is called against each connection. This leads to `MigrationRecorder` attempting to record applied migrations, which in turn tries to ensure the schema exists.\n4. **Schema creation issue**: The `ensure_schema` method checks if the `Migration` model table exists in the connection. If not, it creates the table without considering the router's `allow_migrate` rules.\n5. **Fault localization**: The fault lies in the `ensure_schema` method of `MigrationRecorder`, which creates the `django_migrations` table without checking the router's `allow_migrate` rules.\n\n# Fixed solution:\nThe fix involves modifying the `ensure_schema` method to check the router's `allow_migrate` rules before creating the `django_migrations` table.\n\n```python\nfrom django.db import router\n\nclass MigrationRecorder:\n    # ...\n\n    def ensure_schema(self):\n        if not self.has_table():\n            if not router.allow_migrate(self.connection.alias, self.Migration):\n                return  # or raise an exception, depending on the desired behavior\n            editor = self.connection.schema_editor()\n            editor.create_model(self.Migration)\n```\n\n# Explanation of changes:\n*   **Added router check**: Before creating the `django_migrations` table, we now check if the router allows migration on the current database connection for the `Migration` model.\n*   **Conditional creation**: If the router disallows migration, we simply return without creating the table.\n\n# Tests and example uses:\nTo test the fix, you can write test cases that verify the `MigrationRecorder` behaves correctly with different database routers. For example:\n\n```python\nfrom django.test import TestCase\nfrom django.db import connections\nfrom django.db.migrations.recorder import MigrationRecorder\n\nclass TestMigrationRecorder(TestCase):\n    def test_allow_migrate(self):\n        # Set up a test router that allows migration on 'default' only\n        router = Router()\n        connections['default'].router = router\n\n        # Create a MigrationRecorder instance\n        recorder = MigrationRecorder(connections['default'])\n\n        # Ensure schema on 'default' connection\n        recorder.ensure_schema()\n\n        # Check that the django_migrations table exists on 'default'\n        self.assertTrue(recorder.has_table())\n\n        # Try to ensure schema on a non-allowed connection\n        connections['other'].router = router\n        recorder_other = MigrationRecorder(connections['other'])\n        recorder_other.ensure_schema()\n\n        # Check that the django_migrations table does not exist on 'other'\n        self.assertFalse(recorder_other.has_table())\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 701,
+ "response_tokens": 597,
+ "elapsed_s": 1.77,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

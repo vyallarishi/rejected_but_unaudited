@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 8250,
+ "raw": "FAULT: _check_early_stopping_scorer",
+ "finish_reason": "stop",
+ "prompt_tokens": 2183,
+ "response_tokens": 249,
+ "elapsed_s": 1.03,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

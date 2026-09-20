@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 8124,
+ "raw": "FAULT: ManyToManyRel.identity",
+ "finish_reason": "stop",
+ "prompt_tokens": 2166,
+ "response_tokens": 134,
+ "elapsed_s": 0.94,
+ "key_suffix": "AG0xGb",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "identity",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

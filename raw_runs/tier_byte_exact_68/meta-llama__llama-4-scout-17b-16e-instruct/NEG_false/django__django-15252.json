@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2711,
+ "raw": "## Step 1: Understanding the issue\nThe problem arises in a multi-db setup where Django should only create tables in the 'default' connection, not in other connections. A router is defined to allow migrations only on the 'default' database.\n\n## Step 2: Identifying the current behavior\nDuring functional tests, the `migrate` command is called against each connection when test databases are created. This leads to an attempt to apply migrations, which in turn tries to record that a migration has been applied. The `MigrationRecorder` attempts to ensure its schema, which involves checking if the `Migration` model table exists in the connection and creating it if not found.\n\n## 3: Analyzing the expected behavior\nThe expected behavior, given the router, is that the `Migration` table should not be created on any connection other than the 'default' connection.\n\n## 4: Localizing the issue\nThe issue is localized to the `ensure_schema` method of `MigrationRecorder`, which does not check the `db_router`'s `allow_migrate` rules before creating the `django_migrations` table.\n\n## 5: Identifying the faulty function\nThe faulty function is `ensure_schema` because it does not respect the `allow_migrate` rules defined in the router. It checks if the `Migration` table exists and creates it if it doesn't, without considering whether the current database allows migrations according to the router.\n\nThe final answer is:\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 604,
+ "response_tokens": 299,
+ "elapsed_s": 1.12,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

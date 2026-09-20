@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15127",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4487,
+ "raw": "To solve this issue, we need to identify the function that contains the fault, which is causing the `LEVEL_TAGS` not to be updated when using `@override_settings`. \n\nThe problem arises because the `LEVEL_TAGS` module-level variable is defined at import time by calling `get_level_tags()`. When settings are changed during a test using `@override_settings`, this cached value becomes stale. \n\nThe `get_level_tags` function is the source of the problem because its return value is cached at the module level in `django.contrib.messages.storage.base.py`. \n\nHowever, among the provided options, there isn't a direct reference to `get_level_tags`. Instead, we can see that the issue involves how messages are loaded and handled, particularly in relation to their tags and levels.\n\nUpon examining the provided information and analyzing the potential paths and functions involved, we notice that the `_loaded_messages` function could play a role in how messages are handled and how their properties, such as `level_tag`, are accessed. \n\nHowever, based on the description and the process of elimination, the actual fault seems to relate more directly to how settings changes are handled and how they affect the `LEVEL_TAGS` variable. \n\nThe function `get_level_tags` itself isn't listed, but we are looking for a function within the given list that could be associated with the issue or lead to it. \n\nGiven that and re-evaluating the roles of the listed functions, we find:\n\nFAULT: _loaded_messages",
+ "finish_reason": "stop",
+ "prompt_tokens": 983,
+ "response_tokens": 298,
+ "elapsed_s": 0.93,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_loaded_messages",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

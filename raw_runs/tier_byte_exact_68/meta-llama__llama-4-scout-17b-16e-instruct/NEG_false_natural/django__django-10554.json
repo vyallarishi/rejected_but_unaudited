@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7299,
+ "raw": "To solve this issue, we need to understand the problem and the code involved. The problem arises when using `union` with querysets and then applying `order_by` on the resulting queryset. This causes an error because the `order_by` operation is not compatible with the `union` operation.\n\nThe issue seems to be related to how Django handles the cloning of querysets, specifically when using `union`. When a queryset is cloned, its attributes are copied, but if the queryset contains a `union` operation, the cloned queryset shares the same sub-queries as the original queryset. When `order_by` is called on the cloned queryset, it modifies the shared sub-queries, causing the original queryset to become corrupted.\n\nThe fault lies in the `clone` method of the `Query` class in `django/db/models/sql/query.py`. This method performs a shallow copy of the `__dict__` of the query object, which means that it shares the same sub-queries between the original and cloned querysets.\n\nTo fix this issue, we need to make sure that the `clone` method creates a deep copy of the query object, so that the sub-queries are not shared between the original and cloned querysets.\n\nThe function that contains the fault is:\n```\nFAULT: clone\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1866,
+ "response_tokens": 267,
+ "elapsed_s": 1.13,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

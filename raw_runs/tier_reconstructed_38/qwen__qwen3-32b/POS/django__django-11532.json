@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5108,
+ "raw": "FAULT: message",
+ "reasoning": "Okay, let's try to figure out which function in the provided list is causing the issue. The problem is that when the hostname is a non-ASCII value like \"\u6b63\u5b97\", and the email encoding is set to something like iso-8859-1, the code crashes because it can't encode the Message-ID header properly.\n\nFrom the description, the error occurs when Django tries to generate the Message-ID using make_msgid with the DNS_NAME, which is the hostname. The hostname here is in Unicode, and when the encoding is not Unicode (like iso-8859-1), converting the Message-ID header to that encoding fails because the domain part has non-ASCII characters.\n\nLooking at the Django code, the message() method in EmailMessage is where the Message-ID is set. Specifically, in the message.py file, line 260, they call make_msgid with domain=DNS_NAME. The DNS_NAME is a global variable, probably set based on the system's hostname. \n\nThe error happens because when the Message-ID is created, it includes the domain part (the hostname) as-is, without converting it to punycode, which is necessary for proper encoding in email headers. So the problem is that the domain name isn't being converted to a format that can be safely encoded with the given encoding (like iso-8859-1).\n\nNow, looking at the functions listed, the message() method in the EmailMessage class is where the Message-ID is assigned. The function that's directly responsible for creating the Message-ID is make_msgid, but that's called within the message() method. However, the question is about which function in the provided list contains the fault. The message() method is part of the EmailMessage class, so the function in question here would be the message() method.\n\nWait, but the actual code that sets the Message-ID is in the message() function. So when the message() function calls make_msgid with the non-ASCII domain, the resulting Message-ID can't be encoded properly. Therefore, the fault is in the message() function because it's using the non-converted domain name directly. The fix would involve converting the domain to punycode before passing it to make_msgid. Since the message() function is where this happens, that's the faulty function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1283,
+ "response_tokens": 483,
+ "elapsed_s": 2.1,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

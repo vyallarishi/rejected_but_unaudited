@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-8898",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8084,
+ "raw": " issue, we need to identify the function that is causing the problem. The error message indicates that the issue is with the `bad-name-rgxs` option in the pylint configuration file option is used to specify regular expressions for bad names.\n\nThe problem arises tries to parse the regular expression `\"(foo{1,3})\"`. The error message suggests that pylint is splitting the regular expression at the comma, which is not the expected behavior.\n\nAfter analyzing the provided code and configuration, it appears that the issue lies in the `_regexp_csv_transfomer` function in `pylint/config/argument.py`. This function is responsible for transforming the regular expression strings.\n\nThe fault is in the `_regexp_csv_transfomer` function. \n\nFAULT: _regexp_csv_transfomer",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2075,
+ "response_tokens": 193,
+ "elapsed_s": 1.83,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_regexp_csv_transfomer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

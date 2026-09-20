@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 16523,
+ "raw": "FAULT: format_signature",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue where the return type is being displayed for the class when using autodoc_typehints = \"description\". \n\nThe user's problem is that when they use the autoclass directive with that configuration, the generated documentation shows a return type for the class itself. Looking at the code example, the Square class's __init__ method has a return type of None. But classes themselves don't have return types; only functions and methods do. So the issue is likely that the documentation generator is incorrectly applying the return type annotation from the __init__ method to the class signature.\n\nIn Sphinx's autodoc, the ClassDocumenter is responsible for handling classes. The key part here is how the signature for the class is formatted. Normally, a class doesn't have a return type in its signature, but when using the description style for type hints, maybe the code is mistakenly including the return type from the __init__ method.\n\nLooking at the ClassDocumenter's methods, the format_signature method is responsible for generating the signature string. The DocstringSignatureMixin (which ClassDocumenter inherits from) has a format_signature method that might be pulling in the return annotation. \n\nWait, the ClassDocumenter's format_signature method might be calling the parent class's method. The DocstringSignatureMixin's format_signature could be extracting the return annotation from the __init__ method and adding it to the class signature. \n\nAnother possibility is the _call_format_args method, which is used to format the arguments. But the return type is separate from the arguments. \n\nAlternatively, the _find_signature method in ClassDocumenter could be finding the __init__ method's signature and including its return type. If the code is incorrectly taking the __init__'s return type and adding it to the class's signature, that would explain the problem.\n\nWait, when you document a class with autoclass, the signature shown is for the class's __init__ method. But the class itself isn't a function, so the return type shouldn't be displayed. The format_signature method in ClassDocumenter might be including the return type from the __init__ method's signature, which is incorrect.\n\nLooking at the ClassDocumenter's format_signature method, it's possible that when autodoc_typehints is set to \"description\", it's including the return annotation in the signature. The format_signature method in the DocstringSignatureMixin might be the one responsible for this. \n\nIn the DocstringSignatureMixin's format_signature, the code might be generating the signature string by including the return annotation. For example, if the __init__ method's return type is None, it's being added as -> None in the class's signature. \n\nSo the fault is likely in the format_signature method of the DocstringSignatureMixin, which is used by the ClassDocumenter. When autodoc_typehints is set to \"description\", it's including the return type in the class's signature, which is incorrect.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 3887,
+ "response_tokens": 621,
+ "elapsed_s": 5.97,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

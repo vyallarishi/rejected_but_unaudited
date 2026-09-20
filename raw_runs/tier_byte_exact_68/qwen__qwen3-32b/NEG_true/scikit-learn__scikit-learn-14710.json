@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 9391,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is using HistGradientBoostingClassifier with string labels and early stopping, and it's throwing a TypeError because it's trying to compare a string and a float. \n\nLooking at the traceback, the error happens in numpy's unique function when trying to sort an array that contains both integers and strings. The root cause seems to be that during early stopping, the scorer is being called with y_true as integers (probably because the labels were encoded internally) and y_pred as strings (since the model's predict method returns the original class labels). \n\nThe _check_early_stopping_scorer method in the HistGradientBoostingClassifier is responsible for checking the early stopping condition. It calls the scorer, which in turn uses the model's predict method. Since the model's predict returns the original string labels, but the true labels passed to the scorer are the encoded integers, this mismatch causes the error when calculating accuracy.\n\nSo the fault lies in the _check_early_stopping_scorer method because it's the place where the scorer is invoked with the incorrect y_true (encoded integers) and y_pred (original strings). The method should ensure that both y_true and y_pred are in the same format, perhaps by decoding the predicted labels or encoding the true labels appropriately before passing them to the scorer. Since the current implementation doesn't handle this, it leads to the TypeError.\n</think>\n\nFAULT: _check_early_stopping_scorer",
+ "finish_reason": "stop",
+ "prompt_tokens": 2469,
+ "response_tokens": 308,
+ "elapsed_s": 0.98,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

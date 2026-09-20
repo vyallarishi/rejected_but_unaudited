@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 5025,
+ "raw": "cross_val_predict",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1259,
+ "response_tokens": 4,
+ "elapsed_s": 0.32,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

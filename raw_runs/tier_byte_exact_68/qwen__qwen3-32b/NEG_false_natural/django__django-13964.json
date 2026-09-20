@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4225,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The issue is that when you set a child object (Product) on a parent (Order) and then later set the primary key of that child, the parent doesn't update its foreign key reference. So when you save the parent, it ends up with an empty string as the product_id, which causes a foreign key violation.\n\nLooking at the code example, when they do order.product = Product(), then later set order.product.sku = \"foo\" and save, the product_id in the Order remains empty. But if the sku is set before assigning to order.product, it works. So the problem is that when the Product instance is assigned to the Order's foreign key, the Order's product_id is set to the current value of the Product's primary key. But if the Product's primary key is later changed before saving, the Order doesn't notice and doesn't update the product_id field.\n\nThe key here is how Django's descriptors handle the assignment of related objects. The ForwardManyToOneDescriptor's __set__ method is probably involved here. When you assign the Product instance to order.product, the descriptor sets the product_id on the Order to whatever the primary key of the Product is at that moment. But if the Product's primary key is then modified, the Order doesn't track that change because the product_id is stored directly on the Order instance. So once the Order has the product_id set to an empty string, changing the Product's sku later doesn't affect the Order's product_id.\n\nSo the fault lies in the __set__ method of the ForwardManyToOneDescriptor. When the value (Product instance) is assigned, it immediately takes the primary key of that instance and sets the foreign key field (product_id) on the Order. If the primary key of the related instance changes later, there's no mechanism for the Order to know about that change because the foreign key is stored as a separate attribute. Therefore, the __set__ method is responsible for capturing the state of the related instance's primary key at the time of assignment, not\u4e4b\u540e\u7684\u53d8\u5316.\n\nTherefore, the function in question is ForwardManyToOneDescriptor.__set__.\n</think>\n\nFAULT: ForwardManyToOneDescriptor.__set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 915,
+ "response_tokens": 455,
+ "elapsed_s": 1.3,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

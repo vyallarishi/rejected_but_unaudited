@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5178,
+ "raw": "FAULT: message",
+ "reasoning": "\nOkay, let's try to figure out which function in the Django code is causing the problem here. The issue is that when the hostname is a non-ASCII value like \"\u6b63\u5b97\", and the email encoding is set to something like iso-8859-1, the code crashes because it can't encode the Message-ID header properly. \n\nThe error traceback points to the `forbid_multi_line_headers` function. Let me look at that. The error occurs when trying to encode the value of the header. The `forbid_multi_line_headers` function checks if the header value can be encoded in ASCII, and if not, it tries to encode it using the provided encoding (like iso-8859-1). But in this case, the domain in the Message-ID is a non-ASCII hostname, which can't be encoded with the given encoding. \n\nThe problem starts when `make_msgid` is called with the DNS_NAME, which is the hostname. If the hostname is non-ASCII, the Message-ID will contain those characters. Then, when setting the header in the email message, Django's code tries to encode it, but since the encoding might not support those characters, it throws an error.\n\nSo the question is, where should the fix be applied? The candidate functions are in the message.py file. The `forbid_multi_line_headers` function is part of the process that checks and encodes headers. But the root issue is that the domain in the Message-ID isn't being converted to a format that's compatible with the encoding. The correct approach would be to convert the domain to punycode, which is an ASCII-compatible encoding for domain names. \n\nLooking at where the DNS_NAME is used, it's in the `message` method of `EmailMessage`, where it calls `make_msgid` with the domain. The `make_msgid` function is from the standard library, but Django could be modifying the domain. However, the problem is that Django isn't ensuring that the domain is in a format that can be encoded with the email's encoding. \n\nThe `sanitize_address` function is ruled out because the issue isn't with email addresses but with the domain in the Message-ID. The `forbid_multi_line_headers` function is involved in the error handling, but the actual fault is earlier: not converting the domain to punycode before creating the Message-ID. \n\nTherefore, the function that needs to be fixed is where the Message-ID is generated. That's in the `message` method of the `EmailMessage` class. Specifically, when calling `make_msgid(domain=DNS_NAME)`, Django should convert the DNS_NAME to punycode to ensure it's ASCII-compatible. The `message` method is responsible for creating the email message and setting the headers, so that's where the domain conversion should happen. \n\nSo the FAULT is in the `message` method of the `EmailMessage` class. The function in the list provided is `message` under the `EmailMessage` class. Therefore, the answer should be `message`.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1301,
+ "response_tokens": 634,
+ "elapsed_s": 12.62,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-23314",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 5038,
+ "raw": "FAULT: draw",
+ "finish_reason": "stop",
+ "prompt_tokens": 1438,
+ "response_tokens": 4,
+ "elapsed_s": 0.45,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

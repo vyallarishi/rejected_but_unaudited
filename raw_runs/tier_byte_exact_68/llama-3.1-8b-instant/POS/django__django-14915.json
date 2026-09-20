@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14915",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 4999,
+ "raw": "FAULT: ModelChoiceIteratorValue",
+ "finish_reason": "stop",
+ "prompt_tokens": 1235,
+ "response_tokens": 7,
+ "elapsed_s": 0.34,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "ModelChoiceIteratorValue",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

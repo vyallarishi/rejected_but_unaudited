@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 11172,
+ "raw": "FAULT: ManyToManyRel",
+ "finish_reason": "stop",
+ "prompt_tokens": 2728,
+ "response_tokens": 6,
+ "elapsed_s": 0.7,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "ManyToManyRel",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

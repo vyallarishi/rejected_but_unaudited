@@ -1,0 +1,20 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3913,
+ "raw": "To solve this issue, let's analyze the problem step by step.\n\nThe problem arises when attempting to access a URL like `http://.example.com`, which results in a `UnicodeError`. The expected result is an `InvalidUrl` exception.\n\n1. **Understanding the Issue**: The error occurs because the URL contains an invalid hostname (`.example.com`). The `idna` codec fails when trying to encode this hostname.\n\n2. **Identifying the Relevant Code**: The issue seems to be related to how the URL is processed before being passed to the network stack. Specifically, the `prepare_url` method in `requests/models.py` is a key point of interest. This method is responsible for preparing the URL for the request.\n\n3. **Analyzing the `prepare_url` Method**: In this method, the URL is parsed, and then the hostname is extracted and potentially encoded using IDNA (Internationalized Domain Names in Applications). If the hostname cannot be encoded (for example, if it's empty or too long), a `UnicodeError` is raised.\n\n4. **Determining the Fault**: The fault lies in how the `prepare_url` method handles invalid hostnames. Currently, it does not catch the `UnicodeError` that is raised when the hostname cannot be encoded. \n\n5. **Solution Approach**: To fix this issue, we need to modify the `prepare_url` method to catch the `UnicodeError` and raise an `InvalidURL` exception instead. This ensures that the error is handled consistently and provides a clear indication that the URL is invalid.\n\nGiven the information and the need to identify a single function name where the fault resides, the most relevant function to examine and potentially modify is `prepare_url`, as it is directly involved in parsing and processing the URL.\n\nFAULT: prepare_url",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1045,
+ "response_tokens": 362,
+ "elapsed_s": 4.51,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

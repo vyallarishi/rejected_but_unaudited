@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5515,
+ "raw": "To solve this issue, we need to identify the function responsible for creating a form class based on a given model and form. The problem arises from the fact that the `modelform_factory` function does not use the `formfield_callback` specified in the `Meta` class of the provided form.\n\nThe `modelform_factory` function is defined in `django/forms/models.py`. This function creates a new form class based on the provided model and form. It constructs a new `Meta` class with the given options, including the `formfield_callback`. However, if no `formfield_callback` is provided to the `modelform_factory` function, it defaults to `None`, overriding any `formfield_callback` specified in the form's `Meta` class.\n\nHere is the step-by-step analysis of the problem:\n\n1. **Understanding the Issue**: The issue is that the `modelform_factory` function does not use the `formfield_callback` from the form's `Meta` class if no callback is provided to the function.\n\n2. **Identifying the Function**: The function responsible for this behavior is `modelform_factory`.\n\n3. **Analyzing the Function**: The `modelform_factory` function constructs a new form class. It creates a new `Meta` class with the provided options. If `formfield_callback` is not provided, it defaults to `None`.\n\n4. **Proposed Solution**: To fix the issue, we need to modify the `modelform_factory` function to use the `formfield_callback` from the form's `Meta` class if no callback is provided.\n\nThe function that contains the fault is:\n```\nFAULT: modelform_factory\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1273,
+ "response_tokens": 340,
+ "elapsed_s": 1.43,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

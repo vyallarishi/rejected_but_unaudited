@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4964,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is talking about a problem with the Django admin where a custom admin site's URL isn't being generated correctly for a readonly ForeignKey field. The generated URL uses /admin/ instead of /custom-admin/. \n\nThe user mentions that in django/contrib/admin/helpers.py, the get_admin_url function is using reverse without the current_app parameter. They fixed it by adding current_app with the admin site's name. Now, they want to know if they're on the right track and which function is at fault.\n\nLooking at the code structure, the get_admin_url is a method inside the AdminReadonlyField class. The problem arises when this method is called, and the reverse function doesn't include the current_app, leading to the wrong URL namespace being used. Since the custom admin site uses a different namespace, omitting current_app causes reverse to default to the standard 'admin' namespace instead of the custom one.\n\nThe user's fix involves adding current_app=self.model_admin.admin_site.name to the reverse call. That makes sense because the current_app parameter tells Django which application namespace to use. In the Django admin, custom admin sites have their own namespaces, so when generating URLs, you need to specify that namespace to avoid conflicts.\n\nNow, looking at the list of candidate functions provided, the one that's directly involved here is get_admin_url. The other functions like AdminForm, ActionForm, etc., don't seem directly related to URL reversing in this context. The get_admin_url method is specifically responsible for generating the admin URL for the readonly field, and that's where the reverse is called without the necessary current_app parameter.\n\nSo the fault lies in the get_admin_url function because it's the one that's using reverse incorrectly without considering the custom admin site's namespace. The user's fix targets this exact line, so the answer should be get_admin_url.\n</think>\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 1155,
+ "response_tokens": 400,
+ "elapsed_s": 1.16,
+ "key_suffix": "c6aTkM",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

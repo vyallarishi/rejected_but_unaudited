@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6871,
+ "raw": "FAULT: CreateModel.reduce",
+ "reasoning": "We need to identify which function contains the fault causing CreateModel + AlterModelManagers not being reduced. The description says reduce method in CreateModel likely missing handling for AlterModelManagers. So function is CreateModel.reduce. The list includes CreateModel.reduce. So answer: CreateModel.reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1586,
+ "response_tokens": 72,
+ "elapsed_s": 0.77,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

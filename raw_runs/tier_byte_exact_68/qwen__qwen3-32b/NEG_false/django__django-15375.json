@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5954,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem occurs when using aggregate() with a default value after annotate(). The error is a syntax error in SQL because the generated query has \"SELECT FROM...\" which is invalid. \n\nLooking at the debug output, the query is trying to select from a subquery but the outer SELECT doesn't have any columns listed. The user mentioned that the issue is in get_aggregation. Let me check the functions listed.\n\nThe user says that when using the default argument in aggregate, the generated SQL is wrong. The candidate functions include get_aggregation. The localization notes also point to get_aggregation as handling the aggregate call on an annotated queryset. \n\nIn the notes, it says that get_aggregation detects existing annotations and uses a subquery. It then instantiates an AggregateQuery. The problem arises because when there's a Coalesce (which is used when default is provided), the aggregate's alias isn't added to the outer query's columns. \n\nSo, the fault is likely in get_aggregation's handling of the aggregation when a default is provided. It might not correctly adding the aggregate field to the outer query's select columns when using a subquery. The function responsible for adding the aggregation to the query would be get_aggregation. Therefore, the answer should be get_aggregation.\n</think>\n\nFAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1523,
+ "response_tokens": 282,
+ "elapsed_s": 0.97,
+ "key_suffix": "sruaC4",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

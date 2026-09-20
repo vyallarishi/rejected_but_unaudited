@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10323",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5261,
+ "raw": "To solve this issue, we need to identify the function responsible for the incorrect indentation when using the `literalinclude` directive with the `:prepend:` option.\n\nThe problem arises from the order of operations in the `LiteralIncludeReader.read` method. Specifically, the `prepend_filter` is applied before the `dedent_filter`. This causes the prepended lines to be incorrectly dedented, resulting in poor indentation.\n\nThe fault lies in the `LiteralIncludeReader.read` method, which defines the filter order. However, among the provided functions, the one that directly handles the filtering is `prepend_filter`.\n\nThe issue is that `dedent_filter` is applied to the entire content, including the prepended lines, which causes the problem. To fix this, we should modify the `prepend_filter` or the `read` method to apply `dedent_filter` only to the original content, excluding the prepended lines.\n\nHowever, based on the given information and the structure of the code, the function that contains the fault is:\n\nFAULT: `prepend_filter` \n\nThis is because `prepend_filter` adds the specified line(s) to the content before `dedent_filter` is applied, causing the incorrect indentation. \n\nBut to be precise and follow the structure, we can say that `read` method is responsible for setting up the filter order. Yet it was not in the list.\n\nAmong the options, a related function is:\n\nFAULT: `LiteralIncludeReader.read` \n\nHowever I am picking \n\nFAULT: `prepend_filter`",
+ "finish_reason": "stop",
+ "prompt_tokens": 1365,
+ "response_tokens": 308,
+ "elapsed_s": 1.02,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepend_filter",
+ "parse_method": "fault_line",
+ "hit_output_cap": false,
+ "predicted_function_original": null,
+ "parse_method_original": "none"
+}

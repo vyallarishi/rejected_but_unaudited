@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8307,
+ "raw": "FAULT: changelist_view",
+ "reasoning": "\nOkay, let's try to figure out which function in the Django admin code is responsible for the missing transaction handling in the list_editable processing.\n\nThe issue is that when using list_editable in the changelist view, multiple model instances are saved, and if an error occurs during this process, there's no transaction to roll back the changes, leading to an inconsistent database state. The user is saying that the changelist_view function is where this should be addressed.\n\nLooking at the candidate functions, the key one here is changelist_view. The description mentions that changelist_view handles POST requests for list_editable fields and saves multiple instances. If there's no transaction around this, partial updates could leave the database in an unexpected state. \n\nOther functions like save_model or save_form might be involved in individual saves, but the problem here is specifically about the bulk saving in the changelist view. The changelist_view is responsible for processing the formset and saving the data. If that function doesn't use a transaction, then errors during the save process wouldn't be rolled back. \n\nSo the fault is likely in the changelist_view function because it's the one handling the bulk save operation for list_editable fields, and adding a transaction there would prevent partial updates in case of errors.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1894,
+ "response_tokens": 267,
+ "elapsed_s": 4.8,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 5460,
+ "raw": "_convert_field_to_tz",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1451,
+ "response_tokens": 6,
+ "elapsed_s": 2.0,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3848,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves a `UnicodeError` being raised when attempting to access a URL with an invalid hostname, specifically `http://.example.com`. The expected behavior is to raise an `InvalidUrl` exception instead. \n\nTo solve this, we need to identify where in the `requests` library the URL is being processed, and how the error is being handled. The `requests` library relies heavily on the `urllib3` library for handling URLs and connections.\n\nThe provided information points towards the `prepare_url` method in `requests/models.py` as a potential location for the fault. This method is responsible for preparing the URL for a request, which includes parsing and validating the URL.\n\nUpon closer inspection, the `prepare_url` method calls `parse_url` to break down the URL into its components. The `parse_url` function is where the URL is initially parsed, and it's likely that this is where the error originates.\n\nHowever, the actual fault lies in how the hostname is handled. The `PreparedRequest` class has a method `_get_idna_encoded_host` which is responsible for encoding the hostname using IDNA (Internationalized Domain Names in Applications). If the hostname is invalid (e.g., it starts with a dot), this method will raise a `UnicodeError`.\n\nThe method that contains the fault is `_get_idna_encoded_host`, as it is responsible for handling the encoding of the hostname and does not properly handle invalid hostnames.\n\n### Solution\n\n```python\n# The fault is in the _get_idna_encoded_host method of the PreparedRequest class.\nFAULT: _get_idna_encoded_host\n```\n\nThis method should be modified to catch the `UnicodeError` exception and raise an `InvalidUrl` exception instead, to align with the expected behavior of the `requests` library. \n\nHere's an example of how the method could be modified:\n\n```python\ndef _get_idna_encoded_host(host):\n    try:\n        # existing code to encode the hostname\n    except UnicodeError:\n        raise InvalidUrl(\"URL has an invalid label.\")\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1028,
+ "response_tokens": 425,
+ "elapsed_s": 8.07,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_get_idna_encoded_host",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

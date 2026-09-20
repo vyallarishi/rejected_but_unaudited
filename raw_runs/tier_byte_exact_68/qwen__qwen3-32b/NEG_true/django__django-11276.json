@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11276",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3371,
+ "raw": "<think>\nOkay, let's see. The issue is about replacing Django's own escape function with Python's built-in html.escape(). The description says that Django's escape is duplicating the standard library's version, which is available since Python 3.2. The main points are performance and code duplication.\n\nThe user ran some benchmarks and saw a significant speed improvement when switching to the standard library's function. Also, there's a note about the output difference for the single quote, which is functionally equivalent but a backward incompatible change in the literal output.\n\nLooking at the list of candidate functions in django/utils/html.py, the one that's directly mentioned as the cause is the escape() function. The localization notes also point out that the escape function's use of str.translate is causing the performance issue. The other functions like escapejs, format_html, etc., aren't directly mentioned as the main issue here. The problem is specifically with the escape() function's implementation. So the fault is in the escape function.\n</think>\n\nFAULT: escape",
+ "finish_reason": "stop",
+ "prompt_tokens": 761,
+ "response_tokens": 209,
+ "elapsed_s": 0.77,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "escape",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

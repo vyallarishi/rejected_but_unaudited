@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 2157,
+ "raw": "FAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 588,
+ "response_tokens": 76,
+ "elapsed_s": 0.64,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

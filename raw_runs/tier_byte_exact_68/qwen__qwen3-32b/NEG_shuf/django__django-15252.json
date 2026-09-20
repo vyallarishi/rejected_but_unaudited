@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3365,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that the MigrationRecorder isn't respecting the db_router's allow_migrate rules. Their setup has multiple databases, and they only want migrations to run on the 'default' database. They have a router that returns True only for 'default'. \n\nThe issue comes up during testing when the test runner creates test databases. It calls migrate on each connection, which leads to the MigrationRecorder trying to create the django_migrations table on non-default databases. The router's allow_migrate isn't being checked here, so the table gets created where it shouldn't.\n\nLooking at the code flow: when migrate is run for a non-default db, the MigrationRecorder's record_applied is called. This calls ensure_schema, which checks if the Migration model's table exists. If not, it creates it. But here, the code doesn't check the router's allow_migrate before creating the table. So the fault is that the ensure_schema method is creating the table without considering the router's rules.\n\nThe user mentioned that the problem is in the ensure_schema function because that's where the code proceeds to create the model without checking the router. So the answer should be ensure_schema.\n</think>\n\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 733,
+ "response_tokens": 261,
+ "elapsed_s": 0.8,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

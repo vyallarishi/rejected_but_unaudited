@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5957,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that when using shared axes and calling ax.clear(), extra ticks and labels appear that shouldn't be there. The user mentioned that this is a regression between 3.4.1 and 3.4.2. \n\nFirst, I need to understand what ax.clear() does. From the code, ax.clear() calls cla(), which in turn calls self.xaxis.clear() and self.yaxis.clear(). The Axis.clear() method is probably resetting some properties. The user's localization notes suggest that the problem is that the NullFormatter, which hides the tick labels on interior axes, is being removed when clear is called. \n\nLooking at the Axis class, there's a clear method. The Axis.clear() function would reset the axis properties, including the formatters. If the shared axes rely on those formatters being set (like NullFormatter for hidden labels), then clearing them would revert to the default formatter, which shows the labels. \n\nThe key here is that when you have shared axes, some axes might have their formatters set to NullFormatter to hide the labels. But when you call clear on each axis, each axis's xaxis and yaxis are cleared, which resets their formatters to the default. This would cause all axes to show their labels again, even if they are interior ones. \n\nSo the fault lies in the Axis.clear() method. When it resets the formatters, it's not preserving the NullFormatter that was applied for shared axes. The cla() method, which is called by clear, triggers this by calling the axis's clear. \n\nLooking at the candidate functions, the Axis class has a clear method. The problem is that Axis.clear() is resetting the formatter, which was set to NullFormatter in the case of shared axes. Therefore, the fault is in the Axis.clear() function.\n</think>\n\nFAULT: Axis.clear",
+ "finish_reason": "stop",
+ "prompt_tokens": 1600,
+ "response_tokens": 394,
+ "elapsed_s": 1.21,
+ "key_suffix": "X6XBbC",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

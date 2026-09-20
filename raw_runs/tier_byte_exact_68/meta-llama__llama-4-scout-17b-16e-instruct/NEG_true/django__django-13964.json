@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5622,
+ "raw": "## Step 1: Understanding the issue\nThe problem arises when saving a parent object after setting a foreign key relationship to a child object that has a non-auto CharField as its primary key. If the child object's primary key is set after the relationship is initialized, the parent object's foreign key field is not updated correctly.\n\n## Step 2: Identifying the relevant code\nThe issue seems to be related to how the foreign key field is set on the parent object when the related child object has a non-numeric primary key. This involves understanding how Django handles foreign key relationships, particularly in the `related_descriptors.py` file.\n\n## 3: Analyzing the `__set__` method in `ForeignKeyDeferredAttribute`\nThe `__set__` method in `ForeignKeyDeferredAttribute` is responsible for setting the foreign key attribute on the parent object. This method is called when the relationship is assigned, e.g., `order.product = Product()`. The method sets the underlying foreign key field (`order.product_id`) based on the value of the related object's primary key.\n\n## 4: Understanding the problem with non-auto primary keys\nWhen the related object has a non-auto primary key (in this case, a CharField), and its primary key is set after the relationship is initialized, the parent object's foreign key field is not updated correctly. This is because the `__set__` method sets the foreign key field based on the related object's primary key at the time of assignment, which might not be the final value.\n\n## 5: Locating the fault\nThe fault lies in the `__set__` method of `ForeignKeyDeferredAttribute`. This method does not correctly handle the case where the related object's primary key changes after the relationship is initialized.\n\nThe final answer is:\nFAULT: __set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1237,
+ "response_tokens": 366,
+ "elapsed_s": 1.43,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

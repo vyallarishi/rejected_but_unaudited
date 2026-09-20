@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6274,
+ "raw": "<think>\nOkay, let's try to figure out where the bug is. The user is having an issue with SVG inheritance diagrams in Sphinx generating incorrect links when the diagram is in a subdirectory. The problem doesn't occur with PNGs, so it's specific to SVG output.\n\nLooking at the provided code functions, the key one seems to be html_visit_inheritance_diagram. The user's analysis mentions that this function is called during HTML builds and checks the graphviz_output_format. They note that it gets a refuri relative to the current document's directory (like my_package/) and then incorrectly prepends a '../' to it. This creates a path that's one level up, leading to a 404 because the SVG is in a different location.\n\nThe explanation says that the function is responsible for generating the SVG and embedding the links. Since SVG uses the object tag, the links inside the SVG are relative to the SVG's location. But if the code generating those links is using the current document's path instead of the SVG's path, the relative URLs would be wrong. For example, if the current document is in my_package/index.html, the refuri is my_class_1.html, but prepending '../' would make it ../my_class_1.html, which is at the root level instead of inside my_package.\n\nThe generate_dot function is ruled out because it just uses the URLs provided. The latex_visit function isn't relevant here. The get_relative_uri function is mentioned as possibly being called with the wrong 'from_' argument. But according to the user's analysis, the fault lies in html_visit_inheritance_diagram where it's incorrectly modifying the refuri by adding '../'.\n\nSo the function where the incorrect path is being constructed is html_visit_inheritance_diagram. That's where the code is taking the refuri and altering it in a way that breaks the relative path for SVG links when they're in subdirectories.\n</think>\n\nFAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1609,
+ "response_tokens": 403,
+ "elapsed_s": 1.27,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

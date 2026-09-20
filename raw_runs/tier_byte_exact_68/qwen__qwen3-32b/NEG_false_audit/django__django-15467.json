@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5614,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user says that when they define radio_fields in their ModelAdmin, their custom empty_label gets overridden by the default \"None\". \n\nLooking at the code example, the user sets the empty_label in formfield_for_foreignkey, but when they call super(), the BaseModelAdmin's formfield_for_foreignkey is called. In that method, there's a check for if the field is in radio_fields. If so, it sets kwargs['empty_label'] to _('None') if the field is blank. That's probably where the override is happening.\n\nThe user's analysis points to the line in BaseModelAdmin.formfield_for_foreignkey where kwargs['empty_label'] is being set. The suggested fix is to change that line to use the existing empty_label if it's provided. So the faulty function here is formfield_for_foreignkey in the BaseModelAdmin. That's the one that's overwriting the empty_label that the user tried to set.\n\nSo the function that contains the fault is formfield_for_foreignkey.\n</think>\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1339,
+ "response_tokens": 231,
+ "elapsed_s": 17.92,
+ "key_suffix": "vsRRmV",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 8339,
+ "raw": "Legend",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2006,
+ "response_tokens": 2,
+ "elapsed_s": 0.37,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "Legend",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

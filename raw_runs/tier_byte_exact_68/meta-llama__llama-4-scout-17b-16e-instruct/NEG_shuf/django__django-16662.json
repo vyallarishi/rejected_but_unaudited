@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16662",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3136,
+ "raw": "To solve this issue, we need to identify where in the code the imports for migration files are being sorted and ensure they are sorted according to Django's coding style and isort defaults. This style requires that all import module statements come before from module import objects in each section.\n\nThe issue description points towards the `django/db/migrations/writer.py` file, specifically mentioning the `MigrationWriter` class. Within this class, the `as_string` method seems to be the key, as it generates the Python code for the migration file.\n\nThe problem arises from how imports are collected and sorted in the `as_string` method. Currently, the imports are sorted using Python's built-in `sorted()` function, which performs a lexicographical sort. This does not differentiate between `import module` and `from module import objects` statements, leading to a violation of the coding style.\n\nGiven the description and the process of elimination, the function that contains the fault is the one responsible for generating the string representation of the migration, specifically where the sorting of imports occurs.\n\nFAULT: as_string",
+ "finish_reason": "stop",
+ "prompt_tokens": 687,
+ "response_tokens": 217,
+ "elapsed_s": 0.88,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "as_string",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

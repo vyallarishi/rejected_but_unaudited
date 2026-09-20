@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 1900,
+ "raw": "FAULT: Scanner",
+ "reasoning": "\nOkay, let's try to figure out which function in the given list is causing the issue. The problem is that when Pytest's Expression.compile is called with \"False\", it triggers an assertion failure in Python's compile.c. The error message mentions that the compiler_nameop function is asserting that the name isn't \"None\", \"True\", or \"False\". \n\nSo, the custom parser in Pytest's code is generating an ast.Name node for \"False\", which is then passed to Python's compile function. The debug build's assertion is failing because it's encountering \"False\" as a name. The question is, which part of Pytest's code is generating that incorrect AST node?\n\nLooking at the candidate functions, the expression.py file has a Scanner class and several parsing functions like expression(), expr(), and others. The Scanner's lex method is responsible for tokenizing the input string. If the Scanner is not correctly handling keywords like \"False\", it might be treating them as regular names. \n\nIn the case of the input \"False\", the Scanner should recognize it as a keyword. But if the tokenization process isn't correctly identifying \"False\" as a keyword (like TokenType.KEYWORD), instead treating it as a regular name (TokenType.NAME), then the parser would generate a Name node with the id \"False\". \n\nThe parsing functions like expression(), and_expr(), etc., probably build the AST based on the tokens provided by the Scanner. If the Scanner's lex method isn't distinguishing between keywords and regular names, that would be the root cause. For example, in the Scanner's __init__ or lex method, maybe there's logic that fails to check if an identifier is a keyword and thus creates a NAME token instead of a KEYWORD token. \n\nThe TokenType enum might have entries for keywords, but if the Scanner isn't properly checking for those, then keywords would be treated as regular names. The accept method in Scanner might be expecting certain token types, but if the initial lexing isn't correct, that would lead to incorrect AST construction.\n\nSo the fault likely lies in the Scanner's lex method. If the Scanner isn't correctly identifying \"False\" as a keyword token, it would result in the AST node that triggers the assertion failure. Therefore, the Scanner class's lex function is probably the culprit here.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 521,
+ "response_tokens": 476,
+ "elapsed_s": 10.15,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "Scanner",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

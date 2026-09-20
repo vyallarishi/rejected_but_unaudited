@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8369,
+ "raw": "FAULT: reduce",
+ "reasoning": "\nOkay, let's try to figure out which function contains the fault based on the given information. The issue is about optimizing migrations where a CreateModel followed by an AlterModelManagers can be reduced to just CreateModel. The localization notes mention that the 'reduce' method is the one where a path exists. Specifically, the optimizer calls this method with a CreateModel and then an AlterModelManagers operation, but there's a missing 'elif' block for handling AlterModelManagers. \n\nLooking at the candidate functions, the 'reduce' method is part of the ModelOperation class. The problem is that when trying to combine CreateModel with AlterModelManagers, the reduce method doesn't have a case for that. The existing code handles combining with DeleteModel, RenameModel, and AlterModelOptions, but not AlterModelManagers. Since the reduce method is responsible for optimizing operations, this missing block would prevent the optimization from happening. Therefore, the fault is in the 'reduce' method of the ModelOperation class. The answer should be the function name as specified.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1838,
+ "response_tokens": 222,
+ "elapsed_s": 12.01,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

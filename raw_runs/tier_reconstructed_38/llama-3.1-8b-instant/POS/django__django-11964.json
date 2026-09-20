@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6154,
+ "raw": "FAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1436,
+ "response_tokens": 6,
+ "elapsed_s": 0.39,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

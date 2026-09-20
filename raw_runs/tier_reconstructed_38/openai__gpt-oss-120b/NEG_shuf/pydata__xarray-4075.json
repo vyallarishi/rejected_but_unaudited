@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7761,
+ "raw": "FAULT: dot",
+ "reasoning": "We need to identify which function contains the fault based on description. The issue is weighted mean with boolean weights. The description says internal sum_of_weights is calculated as xr.dot(dta.notnull(), wgt). That yields boolean True. So the bug is in dot function or in sum_of_weights calculation. The list includes dot(*arrays, dims=None, **kwargs). Likely dot returns boolean when inputs are boolean. So the fault is in dot. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: dot.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2161,
+ "response_tokens": 140,
+ "elapsed_s": 0.91,
+ "key_suffix": "w3to9u",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16255",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2959,
+ "raw": "FAULT: get_latest_lastmod",
+ "finish_reason": "stop",
+ "prompt_tokens": 735,
+ "response_tokens": 7,
+ "elapsed_s": 0.49,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_latest_lastmod",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

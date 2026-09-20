@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2831,
+ "raw": "<think>\nOkay, let's try to figure out which function is responsible for this issue. The problem is that when you set a header to None in a session, it sends \"None\" as the value instead of omitting the header. The user expects that setting it to None would remove it, but instead, it's being sent with the value 'None'.\n\nLooking at the code structure provided, the relevant part is probably in the Request or PreparedRequest classes. The user mentioned that the prepare_headers function is involved. Let me check the description again.\n\nThe localization notes say that prepare_headers receives a headers dictionary with {'Accept-Encoding': None}, then builds a CaseInsensitiveDict without filtering out None values. The tuple ('Accept-Encoding', None) is stored, and later converted to the string 'None' during HTTP serialization.\n\nSo the issue is that prepare_headers doesn't check for None values and remove them. Instead, it includes them, and when the headers are serialized, None becomes the string 'None'.\n\nLooking at the functions listed, the prepare_headers method is part of the PreparedRequest class. The function's job is to prepare the headers, and it's supposed to process the headers dictionary. The problem is that it doesn't filter out headers with None values. So the fault lies in the prepare_headers function because it doesn't handle None values correctly. Instead of removing them, it includes them, leading to the incorrect header value.\n\nTherefore, the answer should be prepare_headers.\n</think>\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 661,
+ "response_tokens": 304,
+ "elapsed_s": 0.85,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 9179,
+ "raw": "FAULT: _init_from_ndarray",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2250,
+ "response_tokens": 8,
+ "elapsed_s": 0.74,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_init_from_ndarray",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

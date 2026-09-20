@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5741,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that when using shared axes and calling ax.clear(), extra ticks and labels appear that shouldn't be there. The issue started between versions 3.4.1 and 3.4.2. \n\nSo, the code uses subplots with shared x and y axes. Then, in a loop, each axis is cleared and a plot is drawn. The problem is that after clearing, the tick labels that should be hidden (because they're shared) become visible again. \n\nLooking at the candidate functions, there's the Axis class's clear method. Because when you call ax.clear(), it probably calls cla(), which in turn calls the Axis's clear. The Axis.clear() method might be resetting the formatters and tick parameters, which for shared axes, are supposed to have some NullFormatter to hide the labels. \n\nIn shared axes, the internal axes (not the bottom and left ones) have their formatters set to NullFormatter so that labels don't show. When you call clear on the axis, maybe it's resetting the formatter back to the default, which makes all labels visible. That would explain why after clearing, the labels that should be hidden are shown again.\n\nLooking at the Axis class's clear method, it's supposed to reset the axis properties to default. If the default includes a formatter that's not NullFormatter, then after clearing, those formatters are reapplied, breaking the shared axis hiding. \n\nSo the fault is likely in the Axis.clear() method because it's responsible for resetting the formatters and tick parameters, which are necessary for maintaining the hidden state of shared axes' labels. When you clear, it's undoing the NullFormatter that was applied to the non-bottom and non-left axes. \n\nTherefore, the function in question is the clear method of the Axis class.\n</think>\n\nFAULT: clear",
+ "finish_reason": "stop",
+ "prompt_tokens": 1556,
+ "response_tokens": 389,
+ "elapsed_s": 1.25,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

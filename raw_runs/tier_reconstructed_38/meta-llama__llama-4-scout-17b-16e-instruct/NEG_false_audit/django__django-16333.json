@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3284,
+ "raw": "## Step 1: Analyze the issue description\nThe issue describes a problem with the `UserCreationForm` from `django.contrib.auth.forms` where data from `ManyToManyField` form fields is not saved. This is because the `save` method of `UserCreationForm` does not call `self.save_m2m()` when `commit=True`.\n\n## Step 2: Understand the cause\nThe cause of the issue is that `UserCreationForm` inherits from `ModelForm`, and when `save(commit=True)` is called, it should save the model instance and then call `save_m2m()` to save the many-to-many relationships. However, the current implementation of `UserCreationForm.save(commit=True)` only saves the main model instance but does not explicitly call `save_m2m()`.\n\n## 3: Identify the faulty function\nThe faulty function is the one that directly causes the symptom. Given that `UserCreationForm.save(commit=True)` is called and it does not properly save many-to-many fields, we need to look at the `save` method of `UserCreationForm`.\n\n## 4: Verify against candidate functions\nLooking at the candidate functions provided:\n- The `save` method in `UserCreationForm` is a likely candidate because it's directly involved in saving the form data.\n\n## 5: Conclusion\nThe function that contains the fault is `UserCreationForm.save` because it does not call `self.save_m2m()` when `commit=True`, which is necessary for saving many-to-many relationships.\n\nFAULT: save",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 753,
+ "response_tokens": 317,
+ "elapsed_s": 1.19,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

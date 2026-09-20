@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3216,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Problem Description**: The issue arises when the `python-neutronclient` passes a byte string `method=b'GET'` to the `requests` library. This byte string is then processed in the `requests` library, specifically in the `PreparedRequest.prepare_method` function.\n2. **Localization of the Problem**: The problematic line of code is in the `prepare_method` function of the `PreparedRequest` class: `self.method = builtin_str(self.method).upper()`. \n3. **Understanding the Issue**: In Python 3, `builtin_str` is an alias for `str`. When `str(b'GET')` is executed, it evaluates to the literal string `\"b'GET'\"`, not the string `\"GET\"`. This string is then uppercased to `\"B'GET'\"`, which is an invalid HTTP method.\n4. **Conclusion**: The fault lies in the `prepare_method` function of the `PreparedRequest` class.\n\n# Fixed solution:\nThe bug can be fixed by decoding the byte string to a regular string before uppercasing it. Here is the corrected function:\n\n```python\ndef prepare_method(self, method):\n    if method is None:\n        return\n    self.method = method.decode('ascii').upper() if isinstance(method, bytes) else method.upper()\n```\n\nHowever, the actual fix applied to the `requests` library would likely be:\n\n```python\ndef prepare_method(self, method):\n    if method is None:\n        return\n    self.method = builtin_str(method, 'ascii').upper()\n```\n\n# Explanation of changes:\n*   **Added a check for bytes**: Before uppercasing the method, we check if it's a byte string. If it is, we decode it to a regular string using ASCII encoding.\n*   **Used `builtin_str` with encoding**: Alternatively, we can use `builtin_str` with an encoding to decode the byte string directly.\n\n# Tests and example uses:\nYou can test this function with both byte strings and regular strings:\n\n```python\nprepared_request = PreparedRequest()\nprepared_request.prepare_method(b'GET')\nprint(prepared_request.method)  # Outputs: GET\n\nprepared_request.prepare_method('post')\nprint(prepared_request.method)  # Outputs: POST\n```\n\n# Fault identification:\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 790,
+ "response_tokens": 478,
+ "elapsed_s": 1.62,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

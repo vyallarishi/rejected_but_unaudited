@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14894",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4076,
+ "raw": "To solve this task, I will follow a step-by-step approach to identify the function that contains the fault.\n\n### Step 1: Understand the Issue\nThe issue is a `ZeroDivisionError` in the `_sparse_fit` function for SVM when the `support_vectors_` attribute is empty. This error occurs when using sparse data.\n\n### Step 2: Analyze the Provided Code and Error Message\nThe provided code reproduces the error by fitting an SVM model to sparse data using `scipy.sparse.csr_matrix`. The error message points to the `_sparse_fit` function in `sklearn/svm/base.py`, specifically to the line where `dual_coef_indptr` is calculated.\n\n### Step 3: Identify the Candidate Functions\nThe candidate functions in `sklearn/svm/base.py` are listed, including `_sparse_fit`, `fit`, `_dense_fit`, and others.\n\n### Step 4: Localize the Fault\nThe fault is localized to the `_sparse_fit` function because it directly handles sparse data and contains the line that raises the `ZeroDivisionError`. The error occurs when `n_SV` (the number of support vectors) is 0, causing a division by zero when calculating `dual_coef_indices.size / n_class`.\n\n### Step 5: Determine the Faulty Function\nBased on the localization notes and the analysis, the faulty function is `_sparse_fit`. This function needs to handle the case where `support_vectors_` is empty (i.e., `n_SV = 0`) to prevent the division by zero error.\n\nThe final answer is:\nFAULT: _sparse_fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1215,
+ "response_tokens": 327,
+ "elapsed_s": 1.33,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_sparse_fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

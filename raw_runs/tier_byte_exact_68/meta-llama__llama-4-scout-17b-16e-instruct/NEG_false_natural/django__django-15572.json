@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15572",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2461,
+ "raw": "To solve this issue, we need to understand the problem and the code changes that led to the regression.\n\nThe problem occurs when an empty string is present in the `TEMPLATES['DIRS']` setting. In Django versions prior to 3.2.3, the autoreload mechanism would not match the empty string to a directory, but with the normalization of template directories using `pathlib.Path`, an empty string is now transformed into the project root.\n\nThe autoreload mechanism uses the `template_changed` function to detect changes in templates. This function is called when a file change is detected, and it checks if the file path has a `.py` suffix.\n\nGiven the information provided, we need to identify which function contains the fault.\n\nThe functions `get_template_directories`, `reset_loaders`, `watch_for_template_changes`, and `template_changed` are candidates.\n\nHowever, `get_template_directories` only reads the value and does not propagate it to the code path that produces the output, so it can be ruled out.\n\nThe issue arises from the normalization of template directories, which affects how the `template_changed` function behaves. Specifically, when an empty string is normalized to the project root, it causes the autoreload mechanism to detect changes in Python files (like `.pyc` files) as template changes.\n\nThe fault lies in the `template_changed` function, which does not correctly handle the case where the file path is not a template file but a Python file (like a `.pyc` file).\n\nFAULT: template_changed",
+ "finish_reason": "stop",
+ "prompt_tokens": 602,
+ "response_tokens": 311,
+ "elapsed_s": 1.09,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "template_changed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

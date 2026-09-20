@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-17084",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4667,
+ "raw": "FAULT: resolve_ref",
+ "finish_reason": "stop",
+ "prompt_tokens": 1215,
+ "response_tokens": 298,
+ "elapsed_s": 1.1,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "resolve_ref",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

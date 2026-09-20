@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13128",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4427,
+ "raw": "To solve this issue, we need to understand how Django's ORM handles expressions and output fields. The problem arises from the fact that when subtracting two `DateTimeField` instances, the ORM incorrectly infers the result as another `DateTimeField` instead of a `DurationField`.\n\nThe key to solving this issue lies in understanding how the ORM determines the output field of an expression. Specifically, we need to look into how `CombinedExpression` and its subclasses handle the determination of their output fields.\n\nUpon reviewing the provided code and the issue description, it becomes clear that the problem is related to how the `_resolve_output_field` method in `BaseExpression` (or possibly in a subclass) handles the output field determination for combined expressions like subtraction.\n\nGiven that `get_source_fields()` returns two `DateTimeField` instances for the subtraction operation, and the ORM incorrectly infers the result as a `DateTimeField`, we need to identify the method responsible for this inference.\n\nThe critical method here is `_resolve_output_field` because it is responsible for determining the output field of an expression. This method seems to be where the logic for inferring the output field type based on the source expressions' fields is located.\n\nThe fault lies in the `_resolve_output_field` method. This method needs to be adjusted so that it correctly infers the output field for temporal subtraction operations as a `DurationField`, not a `DateTimeField`.\n\nFAULT: _resolve_output_field",
+ "finish_reason": "stop",
+ "prompt_tokens": 1057,
+ "response_tokens": 295,
+ "elapsed_s": 1.05,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_resolve_output_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7200,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Problem Description**: When using `union` with querysets and then applying `order_by` on the resulting queryset, it breaks when the querysets are re-evaluated or certain operations are performed on them.\n2. **Understanding the Issue**: The problem seems to stem from how Django handles cloning of querysets, specifically when `union` is used. When `order_by` is called on a queryset, it clones the queryset. However, in the case of a `union` queryset, this cloning process does not create a deep copy of the sub-queries, leading to modifications of the original queryset's sub-queries when operations like `order_by` are applied to the cloned queryset.\n3. **Identifying the Faulty Function**: The issue seems to relate to how querysets are cloned, particularly in the context of `union` querysets. The `clone` method in `Query` objects appears to be a point of interest because it is responsible for creating a copy of a query.\n\n# Fixed solution:\nThe actual fix involves modifying the `clone` method of the `Query` class to perform a deep copy of its attributes, specifically `combined_queries` when dealing with `union` querysets. However, directly providing a code fix here is complex without referencing the Django codebase. The essence of the fix is to ensure that when a queryset is cloned, especially one created with `union`, all its components, including sub-queries, are properly copied to avoid shared state modifications.\n\nGiven the nature of the problem, a direct code solution isn't straightforward without delving into Django's source code. The key takeaway is that the `clone` method needs to handle `union` querysets by deep copying their sub-queries.\n\n# Explanation of changes:\n- **Deep Copying in `clone` Method**: The primary change involves modifying the `clone` method to use `copy.deepcopy` for attributes like `combined_queries` to ensure that sub-queries are not shared between the original and cloned querysets.\n\n# Tests and example uses:\nTesting this fix would involve creating querysets with `union`, applying `order_by` on them, and then performing operations that previously caused errors, verifying that the errors no longer occur.\n\n# FAULT:\n```python\nclone\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1849,
+ "response_tokens": 479,
+ "elapsed_s": 1.52,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

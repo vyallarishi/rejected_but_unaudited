@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 7331,
+ "raw": "FAULT: swap_dims",
+ "finish_reason": "stop",
+ "prompt_tokens": 2147,
+ "response_tokens": 5,
+ "elapsed_s": 1.5,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "swap_dims",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

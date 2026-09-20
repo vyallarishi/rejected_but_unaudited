@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14631",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5116,
+ "raw": "<think>\nOkay, let's try to figure out which function contains the fault based on the given description. The issue is about BaseForm's _clean_fields() and changed_data not accessing values via BoundField. The problem is that they don't use BoundField, leading to inconsistencies like form._clean_fields() returning a different value from form[name].initial when they should be the same.\n\nLooking at the candidate functions, the main suspects are _clean_fields and changed_data. The description mentions that both of these functions don't use BoundField. The localization notes specifically talk about changed_data using complex logic with self.fields.items() and mixing self[name].initial with manual value reconstruction. The proposed fix is to loop over BoundFields and call a method like _did_change() on them.\n\nThe question is asking which function contains the fault. The problem is in both _clean_fields and changed_data, but the answer needs to be one function name from the list. However, looking at the rules, the user wants the function that is the primary source of the fault. The description says that the issue is that both functions don't access values through BoundField. But in the localization notes, the example given is about changed_data. Also, the ruled out sections mention that has_changed is affected because it uses changed_data, but the actual fault is in changed_data's implementation.\n\nSo the main function with the fault is changed_data. The problem is that changed_data is not using BoundField to access the initial values and current values, leading to inconsistencies. The proposed fix is to move the logic into BoundField, which would be called by changed_data. Therefore, the fault lies in the current implementation of changed_data in BaseForm.\n</think>\n\nFAULT: changed_data",
+ "finish_reason": "stop",
+ "prompt_tokens": 1138,
+ "response_tokens": 352,
+ "elapsed_s": 9.26,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "changed_data",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

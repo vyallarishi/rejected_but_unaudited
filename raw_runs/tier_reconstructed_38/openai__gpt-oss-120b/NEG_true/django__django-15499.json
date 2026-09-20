@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7364,
+ "raw": "FAULT: CreateModel.reduce",
+ "reasoning": "We need to identify which function contains the fault: missing handling for AlterModelManagers in reduce method of CreateModel. The description says: \"During migration optimization, CreateModel + AlterModelOptions is reduced to just CreateModel, with the model options. Similarly, CreateModel + AlterModelManagers can become just CreateModel.\" The code has reduce method in CreateModel that handles DeleteModel, RenameModel, AlterModelOptions but missing AlterModelManagers. So the fault is in CreateModel.reduce method. The function name is \"reduce\". But need full name? The list includes \"CreateModel.reduce\". So answer: CreateModel.reduce. The format: FAULT: <function_name>. So \"CreateModel.reduce\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 1682,
+ "response_tokens": 157,
+ "elapsed_s": 0.95,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

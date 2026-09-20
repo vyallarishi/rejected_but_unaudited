@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7331,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that using .swap_dims() modifies the original object, which shouldn't happen. They provided a minimal example where after calling swap_dims, the original dataset's variables have their dimensions changed.\n\nLooking at the code, the candidate functions include various parts of the Dataset class, especially around swap_dims. But the user also provided some localization notes pointing to the Dataset.swap_dims function. Let me think through how swap_dims works.\n\nIn the localization notes, it says that in Dataset.swap_dims, when handling the variable 'lev', it creates a shallow copy with v.copy(deep=False). If that copy isn't actually creating a new object, then modifying var.dims would modify the original variable in the dataset. \n\nWait, in xarray, Variables are the building blocks. When you do a shallow copy, it should copy the data and dims but maybe not deeply. If the original variable is in the dataset, and we do a shallow copy, but then modify the dims of that copy, does it affect the original? If the shallow copy is not actually creating a new object, then yes. But why would v.copy(deep=False) not create a new object? Because maybe for some reason, the copy method isn't working as intended. Or perhaps when the variable is already part of the dataset, modifying it through a copy is still referencing the same object?\n\nAlternatively, maybe the problem is that when you swap_dims, it's supposed to create a new dataset, but in some cases, it's not properly copying the variables, leading to in-place modifications. The key line in the example is when they call ds.swap_dims(z='lev'), which should return a new dataset, but perhaps during this process, the original variables are being modified.\n\nThe user's hypothesis is that in the swap_dims function, when handling the variable that's being promoted to a dimension coordinate, the code does v.copy(deep=False), but that copy isn't actually a new object. Then, when setting var.dims = new_dims, it's modifying the original variable in the original dataset. \n\nSo the fault would be in the Dataset.swap_dims function. The problem is that when creating the new dataset, it's not properly copying the variables, leading to in-place modifications of the original variables. The specific line would be where they do v.copy(deep=False) and then modify the dims. If that copy isn't deep enough, then the original variable's dims get changed.\n\nTherefore, the function at fault is Dataset.swap_dims. The issue is that it's not creating a proper copy of the variable, leading to unintended side effects on the original dataset.\n</think>\n\nFAULT: Dataset.swap_dims",
+ "finish_reason": "stop",
+ "prompt_tokens": 2174,
+ "response_tokens": 557,
+ "elapsed_s": 1.67,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "swap_dims",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-22719",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 10069,
+ "raw": "FAULT: convert_units",
+ "finish_reason": "stop",
+ "prompt_tokens": 2651,
+ "response_tokens": 308,
+ "elapsed_s": 1.2,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "convert_units",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

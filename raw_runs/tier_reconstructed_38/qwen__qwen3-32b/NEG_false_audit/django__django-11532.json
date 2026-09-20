@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5335,
+ "raw": "FAULT: message",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The issue is that when the hostname is a non-ASCII value like \"\u6b63\u5b97\", and the email encoding is set to something like iso-8859-1, the code crashes when trying to encode the Message-ID header. \n\nThe error traceback points to the `forbid_multi_line_headers` function in message.py. Let me look at that function. The function tries to encode the header value to ASCII first. If that fails, it proceeds to use the provided encoding (like iso-8859-1) with the Header class. But in this case, the domain in the Message-ID is non-ASCII, so when trying to encode it with iso-8859-1, which doesn't support those characters, it throws an error.\n\nThe problem arises because the Message-ID is generated using the DNS_NAME, which is the hostname. If the hostname is non-ASCII, it needs to be converted to punycode for the email headers to handle it properly. The current code doesn't do that conversion. \n\nLooking at the candidate functions, the `message` method in `EmailMessage` is responsible for creating the message and setting the Message-ID header. Specifically, it calls `make_msgid(domain=DNS_NAME)`. The `DNS_NAME` is the hostname, which in this case is non-ASCII. The `make_msgid` function probably doesn't convert the domain to punycode, leading to the invalid characters in the header.\n\nSo the fault lies in the `message` method of the `EmailMessage` class because it's directly using the non-ASCII domain without converting it to a format that can be safely encoded with the specified encoding (like iso-8859-1). The `forbid_multi_line_headers` function is where the error is raised, but the root cause is that the Message-ID is being set with an improperly encoded domain. Therefore, the `message` method should handle converting the domain to punycode before passing it to `make_msgid`.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1329,
+ "response_tokens": 434,
+ "elapsed_s": 9.21,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

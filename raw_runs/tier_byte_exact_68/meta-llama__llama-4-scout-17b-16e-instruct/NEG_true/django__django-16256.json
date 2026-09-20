@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16256",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6406,
+ "raw": "FAULT: from_queryset",
+ "finish_reason": "stop",
+ "prompt_tokens": 1477,
+ "response_tokens": 6,
+ "elapsed_s": 0.62,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "from_queryset",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

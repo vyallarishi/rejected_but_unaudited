@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6902,
+ "raw": "To solve this issue, we need to identify the function that is responsible for the faulty behavior. The problem arises from the fact that the `URLValidator` tests are failing on Python versions with a fix for bpo-43882. This fix changes the behavior of `urlsplit()` to strip all instances of LF, CR, and tab characters before splitting the URL.\n\nThe issue is that the `URLValidator` is not correctly handling URLs with newline characters. When a URL with a newline character is passed to the validator, it is stripped by `urlsplit()` before the validator has a chance to check for it.\n\nThe `URLValidator` class inherits from `RegexValidator` and overrides the `__call__` method to perform URL-specific validation. This method uses `urlsplit()` to split the URL into its components and then validates each component.\n\nGiven the information provided, the function that contains the fault is the `__call__` method of the `URLValidator` class. This method is responsible for validating the URL and is where the fix for the issue should be implemented.\n\nThe fix for this issue could involve adding a check for newline characters in the URL before splitting it, or modifying the `URLValidator` to correctly handle URLs with newline characters.\n\nFAULT: __call__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1612,
+ "response_tokens": 259,
+ "elapsed_s": 1.03,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__call__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

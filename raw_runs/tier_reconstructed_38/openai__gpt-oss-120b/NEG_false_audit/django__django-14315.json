@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14315",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1511,
+ "raw": "FAULT: settings_to_cmd_args_env",
+ "reasoning": "We need to determine which function contains the fault causing database client runshell not respecting os.environ values. The description: \"postgresql client returns empty dict instead of None for env as a result os.environ is not used and empty env passed to subprocess.\" The bug introduced in a commit. The candidate functions: class DatabaseClient(BaseDatabaseClient): def settings_to_cmd_args_env(cls, settings_dict, parameters): def runshell(self, parameters):\n\nWe need to identify which function contains the fault. Likely the bug is in settings_to_cmd_args_env returning {} instead of None when no env variables needed, causing BaseDatabaseClient.runshell to think env is provided (empty dict) and thus not merging os.environ. The upstream BaseDatabaseClient.runshell probably does something like:\n\nargs, env = self.settings_to_cmd_args_env(settings_dict, parameters)\nif env is None:\n    env = os.environ.copy()\nelse:\n    env.update(os.environ)\n\nBut if env is {} (empty dict) instead of None, it will treat as provided and not include os.environ. So the fault is in settings_to_cmd_args_env returning {} instead of None. So the function containing the fault is settings_to_cmd_args_env.\n\nThus answer: settings_to_cmd_args_env.",
+ "finish_reason": "stop",
+ "prompt_tokens": 457,
+ "response_tokens": 270,
+ "elapsed_s": 1.13,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "settings_to_cmd_args_env",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

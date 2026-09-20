@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 3373,
+ "raw": "FAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 878,
+ "response_tokens": 85,
+ "elapsed_s": 0.71,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

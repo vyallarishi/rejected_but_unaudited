@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6756,
+ "raw": "FAULT: dot",
+ "reasoning": "We need to answer with the function name that contains the fault. The description says dot calls _sum_of_weights which incorrectly returns boolean True when weights are boolean. The function likely is `_sum_of_weights` or maybe `dot`. The list of candidate functions includes `dot`. The description: \"dot: Yes, this function directly produces the incorrect output. It calls `_sum_of_weights`, which incorrectly returns a boolean `True` when weights are boolean.\" So the fault is in `_sum_of_weights`? But `_sum_of_weights` is not listed among candidate functions. The list includes many functions but not `_sum_of_weights`. The only listed that directly produces incorrect output is `dot`. So answer: dot.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1931,
+ "response_tokens": 157,
+ "elapsed_s": 0.97,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4002,
+ "raw": "FAULT: timesince",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The issue is that when using timesince() with USE_TZ=True and a time interval of more than a month, there's a TypeError about subtracting offset-naive and offset-aware datetimes. \n\nThe user mentioned that the problem arises in the timesince function when the datetime objects have different timezone info. The test case they provided uses timezone.now(), which should be timezone-aware. Then they subtract 31 days to get a past datetime 'd'. When calculating timesince(d), the error occurs because somewhere in the code, an offset-naive datetime is being subtracted from an offset-aware one.\n\nLooking at the code in django/utils/timesince.py, the timesince function uses a helper function called _timeuntil, which in turn uses a pivot datetime. The pivot is created using datetime.datetime.now() if no 'now' is provided. But when USE_TZ is True, the 'now' should probably be timezone-aware. \n\nIn the code snippet they referenced (lines 93-100), the pivot is created without timezone info, making it naive. If 'd' is a timezone-aware datetime (as it is in the test case with USE_TZ=True), subtracting a naive pivot from an aware 'd' would cause the TypeError. \n\nSo the fault is in the timesince function because it doesn't handle timezone-aware datetimes properly when creating the pivot. The fix would involve ensuring that the pivot has the same timezone as 'd' when USE_TZ is True. The user suggested adding 0, d.tzinfo to the datetime call, which would make the pivot aware. \n\nOther functions like timeuntil might be similar, but the problem specifically mentions timesince. The other functions listed in the localization notes (like _makeline, legend, etc.) aren't relevant here. The key is that the pivot in timesince isn't timezone-aware when it should be. \n\nTherefore, the function containing the fault is 'timesince'.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 982,
+ "response_tokens": 425,
+ "elapsed_s": 8.35,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

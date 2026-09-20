@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3985,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that the ascii.qdp reader in Astropy expects QDP commands to be in uppercase, but the user provided them in lowercase. The error occurs because the reader doesn't recognize the lowercase command.\n\nLooking at the candidate functions, the key one seems to be _line_type. The description mentions that _line_type is called with the line 'read serr 1 2', and the regular expression _command_re is case-sensitive, expecting 'READ'. Since the line is in lowercase, the regex doesn't match, leading to an error.\n\nBut wait, maybe the fault isn't in _line_type itself, but in how the regex is defined. The regex pattern is r\"READ [TS]ERR(\\s+[0-9])+\", which uses uppercase READ. Since regex is case-sensitive by default, this would only match uppercase commands. The issue is that the regex isn't case-insensitive, so it fails when the command is in lowercase.\n\nSo the problem lies in the regular expression used in _line_type. The function _line_type is responsible for determining the type of line (command, data, etc.), and it uses this regex. Therefore, the fault is in _line_type because it uses a case-sensitive regex. To fix it, the regex should be made case-insensitive, perhaps by adding the re.IGNORECASE flag.\n\nBut the question asks which function contains the fault. The regex is defined in _line_type, so the answer would be _line_type. Alternatively, maybe the regex is defined elsewhere? The code snippet shows that _command_re is defined in the module, but the function _line_type uses it. If the regex is case-sensitive by default, then the fault is in how the regex is compiled without the case-insensitive flag.\n\nSo the function where the regex is defined or used without case-insensitivity is the problem. Since the user's analysis points to _line_type being the one where the regex is applied, and the regex is case-sensitive, the fault is in _line_type. Therefore, the answer should be _line_type.\n</think>\n\nFAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 1106,
+ "response_tokens": 447,
+ "elapsed_s": 1.25,
+ "key_suffix": "3U6wj9",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

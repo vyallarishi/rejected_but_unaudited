@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6145,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that ModelAdmin's lookup_allowed is incorrectly raising a DisallowedModelAdminLookup when there's a foreign key as a primary key. The test case provided shows that when using a OneToOneField as the primary key (like Restaurant's place field), the lookup 'restaurant__place__country' is being transformed into 'restaurant__country', which isn't in the list_filter, hence the disallowed lookup.\n\nLooking at the localization notes, the key part is in the lookup_allowed function. The function processes the lookup path parts. When it processes 'place' in the lookup 'restaurant__place__country', it checks if the field is in the target_fields of the previous field's path info. Since 'place' is the primary key of Restaurant, it's part of the target_fields for the 'restaurant' foreign key. Therefore, the condition field not in prev_field.path_infos[-1].target_fields evaluates to False, so 'place' isn't added to relation_parts. This causes the relation_parts to become ['restaurant', 'country'], leading to the lookup being checked as 'restaurant__country', which isn't allowed.\n\nThe problem seems to be in how lookup_allowed handles the path parts when a field is a primary key. The function might be incorrectly assuming that if a field is a target field of the previous relation, it's part of an inheritance or a concrete relation, thus skipping it. However, in this case, the 'place' field is a OneToOneField as the primary key, which is a different scenario.\n\nThe lookup_allowed function is responsible for validating the lookup paths. The issue arises in how it processes the relation parts, particularly when a field is a primary key. The code in lookup_allowed checks if the current field is in the target_fields of the previous field's path info. If it is, it skips adding it to relation_parts. This logic might be incorrect in cases where the field is a primary key but not part of inheritance.\n\nSo the faulty function is lookup_allowed. It's the one that's making the incorrect determination about the relation path when a primary key is involved. The specific condition that checks if the field is in the target_fields is causing the 'place' part to be omitted, leading to an incorrect lookup path.\n</think>\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1418,
+ "response_tokens": 482,
+ "elapsed_s": 1.35,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

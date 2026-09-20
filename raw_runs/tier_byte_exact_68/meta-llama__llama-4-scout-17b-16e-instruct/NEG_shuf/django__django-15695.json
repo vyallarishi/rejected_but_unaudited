@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15695",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8684,
+ "raw": "To solve this issue, we need to analyze the provided information and identify the function that contains the fault.\n\nThe problem lies in the `RenameIndex` operation, specifically when an unnamed index for `unique_together` is moving backward and forward. The `RenameIndex` operation crashes when re-applied because it tries to rename an index to a name that already exists.\n\nThe issue arises from the `database_backwards` method of the `RenameIndex` operation. When the `database_backwards` method is called for an unnamed index, it checks `if self.old_fields:`, which evaluates to true, and then returns without reverting the database index name. As a result, when the `database_forwards` method is called subsequently, it attempts to rename an index to a name that already exists, causing a `ProgrammingError`.\n\nBased on the provided code and the analysis of the issue, the function that contains the fault is the `database_backwards` method of the `RenameIndex` operation.\n\nHowever, the exact function name from the list provided is not directly mentioned. But we can derive that the fault is in the `RenameIndex` operation. \n\nFAULT: database_backwards",
+ "finish_reason": "stop",
+ "prompt_tokens": 1923,
+ "response_tokens": 240,
+ "elapsed_s": 0.91,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_backwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

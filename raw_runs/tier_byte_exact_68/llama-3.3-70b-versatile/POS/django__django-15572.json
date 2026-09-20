@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15572",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 2284,
+ "raw": "FAULT: template_changed",
+ "finish_reason": "stop",
+ "prompt_tokens": 607,
+ "response_tokens": 5,
+ "elapsed_s": 12.53,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "template_changed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

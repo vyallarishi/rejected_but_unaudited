@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5188,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. The problem arises from the change in URL splitting behavior in Python versions patched for bpo-43882. This change affects how URLs with line breaks (LF, CR, or tab characters) are handled.\n\nThe issue is specifically related to the `URLValidator` class in `django/core/validators.py`. The `URLValidator` class inherits from `RegexValidator` and overrides the `__call__` method to validate URLs. \n\nWhen a URL with a line break is passed to the `URLValidator`, the initial regex validation fails, raising a `ValidationError`. However, due to the change in Python, `urlsplit()` now strips the line breaks and successfully parses the URL. This leads to the URL being reconstructed without the line breaks and passed to the validator again, resulting in a successful validation.\n\nThe fault lies in the fact that the `URLValidator` does not explicitly handle URLs with line breaks. To fix this issue, we need to modify the `URLValidator` to reject URLs containing line breaks.\n\nBased on the provided information, the function that contains the fault is:\n\nFAULT: URLValidator.__call__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1245,
+ "response_tokens": 242,
+ "elapsed_s": 0.88,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__call__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

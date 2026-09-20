@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 2995,
+ "raw": "FAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 739,
+ "response_tokens": 179,
+ "elapsed_s": 0.83,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

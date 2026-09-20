@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5377,
+ "raw": "## Step 1: Analyze the problem description\nThe issue described is related to the generation of inheritance diagrams using the `sphinx.ext.inheritance_diagram` plugin. Specifically, when the diagram is created in a file not in the root directory, the links within the SVG diagram lead to 404 pages. This problem does not occur when using the default PNG mode.\n\n## 2: Understand the reproduction steps\nTo reproduce the issue, a demo project is provided. The steps involve extracting the project, installing Sphinx, building the HTML documentation, and then navigating to specific pages to observe the broken links in the SVG inheritance diagrams.\n\n## 3: Identify the expected behavior\nThe expected behavior is that the links within the SVG inheritance diagrams should correctly navigate to the corresponding HTML pages without resulting in 404 errors, regardless of the directory level of the file containing the diagram.\n\n## 4: Examine the link generation\nThe links generated in the SVG file are relative to the SVG file itself but are constructed as if they were relative to the file in which the SVG is embedded. This discrepancy leads to incorrect URLs when the SVG is embedded in a non-root directory file.\n\n## 5: Review the provided code and Sphinx version\nThe Sphinx version used is 5.0.2, and the extensions used include `sphinx.ext.autodoc`, `sphinx.ext.graphviz`, and `sphinx.ext.inheritance_diagram`.\n\n## 6: Determine the faulty function\nBased on the description and analysis, the faulty function appears to be `html_visit_inheritance_diagram`. This function is responsible for handling the `inheritance_diagram` node during HTML builds. It incorrectly constructs the `refuri` for links in the SVG diagram by prepending a static `../` to the path, which becomes incorrect when the diagram is embedded in a file not in the root directory.\n\n## 7: Conclusion\nGiven the information and analysis, the function that contains the fault is `html_visit_inheritance_diagram`.\n\nFAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1359,
+ "response_tokens": 417,
+ "elapsed_s": 2.77,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

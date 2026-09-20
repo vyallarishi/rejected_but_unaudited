@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 4417,
+ "raw": "save",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1011,
+ "response_tokens": 2,
+ "elapsed_s": 0.28,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "save",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

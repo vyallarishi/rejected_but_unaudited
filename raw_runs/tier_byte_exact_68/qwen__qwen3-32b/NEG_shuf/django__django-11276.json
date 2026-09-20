@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11276",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3472,
+ "raw": "<think>\nOkay, let's try to figure out which function contains the fault based on the given information. The issue is about replacing Django's custom escape function with Python's built-in html.escape(). The main points mentioned are performance improvements and a minor difference in how quotes are handled.\n\nThe user provided a list of candidate functions in django/utils/html.py. The key functions mentioned are escape, escapejs, json_script, conditional_escape, format_html, format_html_join, linebreaks, MLStripper, _strip_once, strip_tags, strip_spaces_between_tags, smart_urlquote, urlize, avoid_wrapping, html_safe.\n\nThe problem is that Django's escape function is duplicating Python's html.escape(). The candidate functions to look at would be the ones that handle escaping. The escape function in Django is likely the one that's causing the duplication. The description says that the escape function in Django uses str.translate, which is slower. So replacing that with html.escape would be the main change here.\n\nLooking at the functions, the escape function is the primary candidate. The user also mentions that the function's implementation using str.translate is the direct cause. So the FAULT is in the escape function because it's the one that's currently using the slower method and causing duplication.\n\nOther functions like escapejs or format_html might use escaping but the main issue is with the escape function itself. The answer should be the escape function.\n</think>\n\nFAULT: escape",
+ "finish_reason": "stop",
+ "prompt_tokens": 763,
+ "response_tokens": 293,
+ "elapsed_s": 27.02,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "escape",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

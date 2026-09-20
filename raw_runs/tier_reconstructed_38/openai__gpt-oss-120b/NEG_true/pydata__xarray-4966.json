@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4966",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7150,
+ "raw": "FAULT: UnsignedIntegerCoder.decode",
+ "reasoning": "We need to answer with the function name that contains the fault. Based on reasoning, the issue is in decode_cf_variable handling of _Unsigned attribute. The code path is in UnsignedIntegerCoder.decode. That coder handles unsigned integer conversion based on attribute. It likely only handles unsigned=True case. So the fault is in UnsignedIntegerCoder.decode. The list includes that function. So answer: UnsignedIntegerCoder.decode.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1979,
+ "response_tokens": 102,
+ "elapsed_s": 61.13,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "decode",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

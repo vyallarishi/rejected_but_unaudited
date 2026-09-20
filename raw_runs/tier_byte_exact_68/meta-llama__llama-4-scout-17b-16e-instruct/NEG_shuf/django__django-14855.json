@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4964,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. The problem description points to the `get_admin_url` method in the `AdminReadonlyField` class, which is located in `django/contrib/admin/helpers.py`. This method is responsible for generating the URL for a readonly ForeignKey field in a custom Admin Site.\n\nThe issue arises because the `get_admin_url` method uses `reverse` without the `current_app` argument, which causes the URL to be generated for the default 'admin' namespace instead of the custom admin site namespace.\n\nThe `get_admin_url` method is defined in the `AdminReadonlyField` class. Therefore, the function that contains the fault is `get_admin_url`.\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 1159,
+ "response_tokens": 154,
+ "elapsed_s": 0.73,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

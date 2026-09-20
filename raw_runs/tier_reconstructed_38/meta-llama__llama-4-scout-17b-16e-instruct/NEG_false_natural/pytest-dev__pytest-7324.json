@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 1999,
+ "raw": "To solve this issue, let's analyze the problem step by step.\n\n1. **Understanding the Issue**: The problem occurs when `Expression.compile(\"False\")` is called, leading to a crash in the Python interpreter in a debug build for Python 3.8+. The error message points to an assertion failure in the `compiler_nameop` function in `Python/compile.c`. This suggests that the issue is related to how the `compile()` function handles certain input, specifically the string \"False\".\n\n2. **Analyzing the Code Path**: The `Expression.compile` method is called with the input string \"False\". This string is then passed through a custom parser, `expression(Scanner(input))`, which likely constructs an Abstract Syntax Tree (AST) representing the expression. In this case, the AST node is probably an `ast.Name` node with the id 'False'.\n\n3. **Python's Built-in `compile()` Function**: The AST node is then passed to Python's built-in `compile()` function. In Python 3.8+ debug builds, this leads to the `compiler_nameop` function being called for `ast.Name` nodes. The assertion failure occurs because the `compiler_nameop` function checks that the name is not one of the special names \"None\", \"True\", or \"False\".\n\n4. **Identifying the Fault**: The fault lies in how the `Expression.compile` method handles the compilation of expressions. Specifically, it does not handle the case where the input string is a boolean literal (\"True\" or \"False\") in a way that avoids passing these literals directly to the `compile()` function.\n\n5. **Locating the Faulty Function**: Given the information, the faulty function is likely `Expression.compile`, as it is the entry point for the bug. However, the question asks for a function name from the provided list. \n\nThe critical insight here is recognizing that `Expression.compile` is where the issue originates because it directly leads to the problematic `compile()` call. However, since we need to identify a function that, when modified, could prevent the crash, we should consider how the input is processed.\n\nThe function `compile` in the class `Expression` is where the `compile()` function is called with the constructed AST. Therefore, this is the most direct place to address the issue.\n\nFAULT: compile",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 531,
+ "response_tokens": 475,
+ "elapsed_s": 6.58,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "compile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

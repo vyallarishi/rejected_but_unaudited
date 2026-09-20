@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4320,
+ "raw": "FAULT: clone",
+ "reasoning": "We need to identify which function contains the fault. The issue is with clone failing for parameters that are estimator types (i.e., classes). The traceback shows error in sklearn/base.py line 60: new_object_params = estimator.get_params(deep=False). The problem is that estimator is a class, not an instance, so calling get_params without self fails. The code in clone checks if hasattr(estimator, 'get_params') but doesn't check if estimator is a class. So the faulty function is clone (in sklearn/base.py). The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" The list includes clone among others. So answer: clone.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1083,
+ "response_tokens": 163,
+ "elapsed_s": 0.93,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

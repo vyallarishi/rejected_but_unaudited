@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1900,
+ "raw": "FAULT: expr",
+ "reasoning": "We need to identify which function contains the fault causing the assertion failure. The bug occurs when Expression.compile receives \"False\". It parses to ast.Name node with id 'False'. Then compile() asserts that name is not \"False\", \"True\", \"None\". In Python's AST, constants like False are represented as ast.Constant in newer versions, but older parser may produce ast.Name for these identifiers. The custom parser likely incorrectly treats \"False\" as a name rather than a constant. So the fault is in the parser function that creates ast.Name for identifiers, not handling boolean literals. Which function? In expression parsing, likely function `primary`? But list includes: expression, expr, and_expr, not_expr. The parser likely builds Name nodes for identifiers. The bug is that it doesn't treat \"False\" specially. The function that creates the node is probably `primary` but not listed. Among listed, maybe `expr` or `not_expr`. Let's think: The grammar for markers: expression -> or_expr? Not sure. But \"False\" is a simple identifier, so the parser likely goes to `expr` which calls `and_expr` etc. Eventually a token of type NAME is accepted and returns ast.Name. So the function that creates the Name node is probably `primary` but not listed. However the list includes `expression(s: Scanner)`, `expr(s: Scanner)`, `and_expr(s: Scanner)`, `not_expr(s: Scanner)`. The simplest is `expr`. I'd answer `expr`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 577,
+ "response_tokens": 322,
+ "elapsed_s": 1.25,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "expr",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8093,
+ "raw": "FAULT: _check_early_stopping_scorer\n\n# Explanation of changes:\nThe issue arises from the fact that `y_true` is integer-encoded while `y_pred` are the original class labels (strings). To fix this issue, we should ensure that `y_true` is also in its original form when computing the score during early stopping.\n\n# Fixed solution:\n```python\nimport numpy as np\nfrom sklearn.experimental import enable_hist_gradient_boosting\nfrom sklearn.ensemble import HistGradientBoostingClassifier\n\ndef encode_y(self, y):\n    \"\"\" Encode labels into enum classes \"\"\"\n    if self.n_classes_ is None:\n        self.n_classes_ = np.unique(y).size\n        self.classes_ = np.unique(y)\n    else:\n        check_is_fitted(self)\n    return np.searchsorted(self.classes_, y)\n\ndef _check_early_stopping_scorer(self, X_binned_small_train, y_small_train,\n                                 X_binned_val, y_val):\n    \"\"\" Check if early stopping criterion is met.\n\n    If the scorer is a (binary) classification scorer, then we need to\n    encode the target variable in the same way that the `decision_function`\n    does i.e. by mapping to {0, 1} or {-1, 1}.\n\n    \"\"\"\n    if self.loss_.is_bounded:\n        # Loss is computed on the decision function, i.e. margin\n        self._check_early_stopping_loss(\n            X_binned_small_train, y_small_train,\n            X_binned_val, y_val,\n        )\n        return\n\n    y_small_train_enc = self._encode_y(y_small_train)\n    train_score = self.scorer_(\n        self, X_binned_small_train, y_small_train_enc\n    )\n    self.train_score_.append(train_score)\n\n    y_val_enc = self._encode_y(y_val)\n    val_score = self.scorer_(\n        self, X_binned_val, y_val_enc\n    )\n    self.val_score_.append(val_score)\n```\n\n# Explanation of changes:\n- I added a method `_encode_y` which encodes labels into enum classes.\n- I updated the `_check_early_stopping_scorer` method to use the encoded labels when computing the score during early stopping.\n\n# Tests and example uses:\n```python\nX = np.random.randn(100, 10)\ny = np.array(['x'] * 50 + ['y'] * 50, dtype=object)\ngbrt = HistGradientBoostingClassifier(n_iter_no_change=10)\ngbrt.fit(X, y)\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2061,
+ "response_tokens": 537,
+ "elapsed_s": 1.71,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

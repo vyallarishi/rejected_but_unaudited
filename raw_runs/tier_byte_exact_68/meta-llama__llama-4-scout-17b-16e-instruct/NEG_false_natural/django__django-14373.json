@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14373",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 1875,
+ "raw": "To solve this issue, we need to identify the function responsible for the 'Y' format specifier in the `DateFormat` class. The problem statement indicates that the `Y` specifier is not zero-padded for years less than 1000.\n\nThe `DateFormat` class has a method `Y(self)` that handles the 'Y' format specifier. The issue seems to be with this method, as it returns the year directly without padding it with zeros.\n\nUpon reviewing the provided information, we can see that the `Y(self)` method is indeed the one that needs to be modified to pad the year with zeros.\n\nThe fault is in the `Y(self)` method of the `DateFormat` class.\n\nFAULT: Y",
+ "finish_reason": "stop",
+ "prompt_tokens": 494,
+ "response_tokens": 150,
+ "elapsed_s": 0.57,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "Y",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

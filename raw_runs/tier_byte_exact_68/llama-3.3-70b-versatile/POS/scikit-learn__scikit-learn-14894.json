@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14894",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 4011,
+ "raw": "FAULT: _sparse_fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1225,
+ "response_tokens": 6,
+ "elapsed_s": 0.3,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_sparse_fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

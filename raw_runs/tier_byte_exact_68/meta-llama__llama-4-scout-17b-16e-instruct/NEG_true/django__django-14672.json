@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 11172,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves a `TypeError: unhashable type: 'list'` when checking a proxy model in Django. This error occurs because the `through_fields` attribute in a `ManyToManyRel` object is a list, and lists are not hashable. The `ManyToManyRel` object is added to a set during model checks, which triggers the `__hash__` method. This method calls `hash(self.identity)`, and since `self.identity` includes `self.through_fields`, the presence of the list causes the error.\n\nThe `ForeignObjectRel` class, from which `ManyToManyRel` inherits, has an `identity` property that returns a tuple. This tuple includes various attributes of the relation, such as `self.field`, `self.to`, and `self.through_fields`. To make the `identity` hashable, Django uses the `make_hashable` function on certain attributes. However, this function is not applied to `self.through_fields` when it is a list.\n\n### Solution\n\nThe solution involves modifying the `ManyToManyRel` class to ensure that `self.through_fields` is hashable. This can be achieved by applying the `make_hashable` function to `self.through_fields` in the `identity` property of the `ManyToManyRel` class.\n\n### FAULT\n\n```python\n# The fault is in the __init__ method of the ManyToManyRel class \n# where through_fields is not made hashable.\n\n__init__\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2729,
+ "response_tokens": 320,
+ "elapsed_s": 1.23,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

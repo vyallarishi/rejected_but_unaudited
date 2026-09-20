@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14915",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5873,
+ "raw": "To solve this issue, we need to identify the source of the problem, which is that `ModelChoiceIteratorValue` is not hashable. This means it cannot be used as a key in a dictionary, which is what the error is occurring from in the `create_option` method.\n\nThe `ModelChoiceIteratorValue` class is defined in `django/forms/models.py`. Looking at this class, we see that it does not have a `__hash__` method defined. In Python, if a class does not define a `__hash__` method, it will not be hashable.\n\nThe fault lies in the fact that the `ModelChoiceIteratorValue` class does not define a `__hash__` method. However, to pinpoint the exact function or class that needs modification, we should look for where `ModelChoiceIteratorValue` is used in a context that requires it to be hashable.\n\nGiven the context provided, the issue arises when trying to use an instance of `ModelChoiceIteratorValue` as a key in a dictionary (`if value in self.show_fields`). This implies that we need to make `ModelChoiceIteratorValue` hashable.\n\nThe `ModelChoiceIteratorValue` class already defines `__eq__`, which is a good start for making it hashable, but it lacks a `__hash__` method. \n\nThe solution involves adding a `__hash__` method to the `ModelChoiceIteratorValue` class. \n\nHere is how you could define it:\n\n```python\nclass ModelChoiceIteratorValue:\n    # existing methods...\n\n    def __hash__(self):\n        return hash(self.value)\n```\n\nThis definition assumes that `self.value` is hashable. If `self.value` can be unhashable, a more complex approach might be needed.\n\nGiven the information and focusing on the task:\n\nFAULT: ModelChoiceIteratorValue.__init__ \n\nHowever, based on the task requirements to provide a function name, and focusing on where the fix should be applied:\n\nFAULT: ModelChoiceIteratorValue",
+ "finish_reason": "stop",
+ "prompt_tokens": 1414,
+ "response_tokens": 410,
+ "elapsed_s": 1.61,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

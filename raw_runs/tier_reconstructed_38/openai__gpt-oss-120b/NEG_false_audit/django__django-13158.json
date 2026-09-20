@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13158",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6966,
+ "raw": "FAULT: set_empty",
+ "reasoning": "We need to identify which function contains the fault causing QuerySet.none() on combined queries returns all results. The description: Using ModelMultipleChoiceField with a queryset that is a union of two querysets. When form submitted empty, all objects matching the queryset are added (i.e., the clean method probably uses queryset.none() to get empty set for validation?). Actually ModelMultipleChoiceField.clean() does something: if required and empty, raise ValidationError; else returns queryset.filter(pk__in=value). It also uses self.queryset.filter(pk__in=value). If value empty, it returns self.queryset.none()? Let's recall: In ModelMultipleChoiceField.clean, it does:\n\nif self.required and not value:\n    raise ValidationError...\nif not value:\n    return self.queryset.none()\n...\nqs = self.queryset.filter(pk__in=value)\nif len(qs) != len(value):\n    raise ValidationError...\nreturn qs\n\nThus when empty, returns queryset.none(). For a union queryset, .none() should return empty queryset, but due to bug, it returns all results. The .none() method is defined on QuerySet: returns self._clone().filter(pk__in=[]) maybe? Actually .none() returns a clone with .query.set_empty(). Let's check: QuerySet.none() returns self._clone(klass=EmptyQuerySet) maybe? In Django, QuerySet.none() returns self._clone(klass=EmptyQuerySet). EmptyQuerySet overrides __iter__ to return empty. But maybe for CombinedQuery (union), .none() returns a CombinedQuery with empty? The bug likely in Query.set_empty() which adds a NothingNode to where clause. For CombinedQuery, maybe set_empty doesn't propagate correctly, causing union to ignore empty and return all rows. So the faulty function is set_empty in class Query. The description mentions set_empty adds a NothingNode to main query's where clause. For union query, final result set is determined by its combined queries, and set_empty may not affect combined query. So the fault is in set_empty.\n\nThus answer: set_empty.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1687,
+ "response_tokens": 439,
+ "elapsed_s": 1.54,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "set_empty",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

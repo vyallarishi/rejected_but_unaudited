@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4210,
+ "raw": "FAULT: _arithmetic_mask",
+ "reasoning": "We need to identify which function contains the fault causing mask propagation error. Likely _arithmetic_mask or _arithmetic. The error occurs when one operand has mask None. The handle_mask is np.bitwise_or, which expects arrays, but receives None for missing mask. The code probably does something like `handle_mask(self.mask, operand.mask)` without checking None. The function that does mask handling is `_arithmetic_mask`. So fault is there. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: _arithmetic_mask.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1250,
+ "response_tokens": 149,
+ "elapsed_s": 0.91,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

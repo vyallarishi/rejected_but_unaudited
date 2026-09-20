@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7506,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is about ModelAdmin.lookup_allowed() raising a DisallowedModelAdminLookup when there's a foreign key as a primary key. The user provided a test case where they have a Restaurant model with a OneToOneField as the primary key, pointing to a Place model. Then, a Waiter model has a foreign key to Restaurant. The list_filter includes 'restaurant__place__country', but lookup_allowed is incorrectly disallowing this.\n\nLooking at the localization notes, the key part is in the lookup_allowed function. The explanation says that when processing the 'place' part of the lookup path, since 'place' is the primary key of Restaurant, it's considered as a target field of the incoming 'restaurant' relation. Because of that, the code skips adding 'place' to the relation_parts, leading to the path being shortened to 'restaurant__country' instead of 'restaurant__place__country'. This causes the lookup_allowed to check against the wrong path, which isn't in list_filter, hence the disallowed error.\n\nSo the problem is in how lookup_allowed processes the path parts, particularly when a field is both a primary key and a foreign key. The code seems to treat it as a concrete inheritance scenario, which it's not. The function that handles this logic is lookup_allowed in the BaseModelAdmin class. Therefore, the fault lies in the lookup_allowed function's handling of the path parts when a field is a primary key and part of a relation.\n</think>\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1737,
+ "response_tokens": 322,
+ "elapsed_s": 0.99,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

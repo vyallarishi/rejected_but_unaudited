@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9078,
+ "raw": "To address the issue described, we need to identify where in the code the auto-transformation of a structured column into an `NdarrayMixin` occurs. This transformation happens when adding a structured `np.array` to a `Table`. The code snippet provided in the issue description points to a specific part of the `astropy.table.table` module where this transformation is performed.\n\nThe transformation is done in the following lines of code:\n\n```python\n# Structured ndarray gets viewed as a mixin unless already a valid\n# mixin class\nif (not isinstance(data, Column) and not data_is_mixin\n        and isinstance(data, np.ndarray) and len(data.dtype) > 1):\n    data = data.view(NdarrayMixin)\n    data_is_mixin = True\n```\n\nThis code checks if the data is a numpy array with a structured dtype (i.e., `len(data.dtype) > 1`) and not already a `Column` or a mixin class. If so, it converts the data into an `NdarrayMixin` to ensure compatibility with the `Table` class.\n\nThe proposal is to add a `FutureWarning` here, informing users that in the future (as of version 5.2), structured arrays will be added as `Column` instances instead of being auto-transformed into `NdarrayMixin` instances.\n\nGiven the information and the goal to identify the function that contains the fault (or in this case, the code section that needs modification), we look for the function where this logic is implemented.\n\nThe function that contains this logic is not directly listed, but based on the description and the code snippet, it seems to be part of the `Table` class's `__init__` method or a method that handles the addition of columns to a `Table`. \n\nHowever, the exact function name from the provided list that directly relates to this issue isn't explicitly mentioned, but we can infer that the modification needs to occur in a method that handles the initialization or addition of columns to a `Table`.\n\nGiven the choices and the context provided, the most relevant function that could contain the necessary modification for adding a `FutureWarning` and eventually changing the behavior is likely related to how columns are initialized or converted within a `Table`.\n\nFAULT: _init_from_ndarray",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2207,
+ "response_tokens": 465,
+ "elapsed_s": 8.13,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_init_from_ndarray",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

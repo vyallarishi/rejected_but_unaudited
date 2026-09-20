@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2410,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user wants to add header rows to the RestructuredText output using astropy's QTable. They provided some example code where using the 'header_rows' parameter works with 'ascii.fixed_width' but not with 'ascii.rst', causing a TypeError about an unexpected keyword argument 'header_rows'.\n\nLooking at the traceback, the error occurs when the RST writer is initialized. The error message says that RST.__init__() got an unexpected keyword argument 'header_rows'. That suggests that the RST class doesn't accept 'header_rows' as a parameter, but the user is trying to pass it.\n\nIn the code, the user calls tbl.write with format=\"ascii.rst\" and header_rows=[\"name\", \"unit\"]. The error is in the __init__ method of the RST class. So, the RST writer probably doesn't handle the header_rows argument, unlike the fixed_width writer.\n\nThe candidate functions mentioned include the RST class's __init__ method. The task is to find which function contains the fault. The user also mentioned that the RST class's __init__ doesn't chain any parameters, which might be relevant.\n\nThe issue is that when the writer is created for 'ascii.rst', the 'header_rows' argument is passed to the RST writer's __init__ method, but it's not expecting it. So the RST writer needs to be modified to accept and process the header_rows parameter. Therefore, the fault lies in the RST class's __init__ method because it doesn't handle the header_rows argument, leading to the TypeError.\n\nSo the function with the fault is RST.__init__.\n</think>\n\nFAULT: RST.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 670,
+ "response_tokens": 362,
+ "elapsed_s": 0.95,
+ "key_suffix": "mT2ohy",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

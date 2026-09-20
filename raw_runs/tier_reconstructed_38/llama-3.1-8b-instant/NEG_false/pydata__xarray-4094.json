@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 17637,
+ "raw": "to_stacked_array",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 4722,
+ "response_tokens": 5,
+ "elapsed_s": 0.63,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "to_stacked_array",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

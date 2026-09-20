@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 11830,
+ "raw": "FAULT: draw",
+ "reasoning": "We need to identify which function contains the fault causing offset dash linestyle ignored for patches. The description says there is a comment in draw: \"Patch has traditionally ignored the dashoffset.\" and a context manager that overwrites dash offset to 0. So the function is likely Patch.draw or maybe in patches.Patch.draw. Let's locate: In lib/matplotlib/patches.py, there is a draw method. The fault is there. So answer: draw. Probably the method is Patch.draw. So output: FAULT: draw.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3120,
+ "response_tokens": 121,
+ "elapsed_s": 0.91,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

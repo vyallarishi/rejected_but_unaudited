@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8307,
+ "raw": "FAULT: changelist_view",
+ "reasoning": "We need to identify which function contains the fault: \"Add transaction handling to Changelist list_editable processing.\" The issue: changelist_view missing a transaction. So the function that needs to be wrapped is changelist_view. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: changelist_view.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1965,
+ "response_tokens": 102,
+ "elapsed_s": 0.83,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 14922,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The problem is that the `autodoc_typehints = \"description\"` option causes Sphinx's `autoclass` to include the class's \"return type\" for code such as this:\n\n```python\nclass Square:\n    \"\"\"A class representing a square figure.\"\"\"\n\n    def __init__(self, width: int, height: int) -> None:\n        self.width = width\n        self.height = height\n```\n\nThe expected behavior is that there should be no return type listed for the class.\n\nAfter analyzing the code and the Sphinx documentation, it appears that the issue is related to the `autodoc_typehints` option and how it interacts with the `autoclass` directive.\n\nThe fault is in the `_call_format_args` function in the `sphinx/ext/autodoc/__init__.py` file. This function is responsible for creating the signature string that is displayed for the `__init__` method of the class.\n\nTo fix this issue, we need to modify the `_call_format_args` function to handle the `autodoc_typehints = \"description\"` option correctly.\n\nHere is the corrected code:\n\n```python\ndef _call_format_args(self, **kwargs: Any):\n    # ...\n    retann = return_annotation if return_annotation != '-> None' else ''\n    # ...\n```\n\nThis change ensures that the return annotation is not included in the signature string when it is `-> None`, which is the expected behavior.\n\nFAULT: _call_format_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3483,
+ "response_tokens": 323,
+ "elapsed_s": 5.1,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_call_format_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

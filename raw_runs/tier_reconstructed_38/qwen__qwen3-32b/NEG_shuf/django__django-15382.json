@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6781,
+ "raw": "FAULT: _add_q",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using a filter with ~Exists on an empty queryset, the entire WHERE block gets removed, leading to an EmptyResultSet. The user mentioned that this is similar to issue #33018, which I might need to recall or look into, but since I can't do that, I'll focus on the given code.\n\nThe key functions mentioned are in django/db/models/sql/query.py. The user provided a list of functions and some localization notes indicating that add_q is on the causal path. The add_q function receives the Q object with ~Exists(EmptyQuerySet) and calls _add_q. The bug happens during _add_q, leading to self.set_empty() being called, which marks the query as empty.\n\nSo, the problem is likely in the _add_q function. Let me think about how Django's query building works. When you have a filter like ~Exists, Django should generate a NOT EXISTS subquery. However, if the subquery is empty (like MyModel.objects.none()), then the NOT EXISTS would always be true, right? Because there are no rows to exist. So the condition should act as a tautology, meaning the WHERE clause should just be 1=1 or similar. But instead, Django is setting the query as empty, which removes the WHERE block entirely, leading to an empty result set.\n\nWait, why would it set the query as empty? Maybe when processing the Exists with an empty queryset, Django is optimizing it out incorrectly. For example, Exists with an empty queryset would evaluate to false, so ~Exists would be true. But if the Exists is part of a filter, then the negation would be true. However, if the query builder sees that the subquery is empty, it might be making an incorrect optimization.\n\nLooking at the functions, the _add_q function is responsible for adding the Q object to the query. If during this process, when handling the Exists expression, it determines that the subquery is empty, it might be applying some logic that causes the entire query to be marked as empty. For instance, if the Exists is part of a condition that is always true, maybe the code is trying to simplify it and ends up removing the condition, but in a way that triggers set_empty().\n\nAnother angle: when you have a NOT EXISTS with an empty subquery, the condition is always true. So the filter should not affect the results. But in the example, the user's query ends up as an empty result set. That suggests that Django is incorrectly optimizing the condition into something that makes the entire query impossible. Maybe when the Exists is processed, if the subquery is empty, it's being treated as a false condition, so the NOT becomes true, but the query builder is not handling that correctly. Or perhaps when the subquery is empty, the Exists is optimized out, but the negation is not properly handled, leading to the WHERE clause being removed.\n\nThe set_empty() function is called when the query is determined to return no results. So if during the processing of the ~Exists(EmptyQuerySet), the code thinks that the condition is impossible (which it's not), it would call set_empty(), leading to the EmptyResultSet.\n\nSo the fault is likely in the _add_q function, which processes the Q object and applies the filter. When handling the Exists expression with an empty queryset, it's incorrectly determining that the condition can't be satisfied, leading to set_empty() being called. Therefore, the function responsible is _add_q, which is part of the Query class.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1582,
+ "response_tokens": 752,
+ "elapsed_s": 16.12,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

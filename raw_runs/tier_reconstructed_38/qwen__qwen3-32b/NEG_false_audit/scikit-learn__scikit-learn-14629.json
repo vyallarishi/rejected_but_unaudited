@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5074,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is getting an AttributeError when using cross_val_predict with method='predict_proba' on a MultiOutputClassifier. The error says that the MultiOutputClassifier doesn't have a 'classes_' attribute. \n\nFirst, I remember that MultiOutputClassifier works by fitting one classifier per output. So each estimator in estimators_ would have their own classes_ attribute. But the cross_val_predict function is trying to access estimator.classes_ directly on the MultiOutputClassifier instance, which doesn't have that attribute. That's probably the issue.\n\nLooking at the code link provided, the lines in question (L857-L866) in _validation.py's cross_val_predict function. The code there checks if the method is 'predict_proba' and then tries to use estimator.classes_. For MultiOutputClassifier, this would fail because classes_ isn't at the top level.\n\nSo the function in question is cross_val_predict. The problem is that when the method is 'predict_proba', the code assumes the estimator has a classes_ attribute, which isn't the case for MultiOutputClassifier. The fix would involve modifying cross_val_predict to handle cases where the estimator doesn't have classes_ directly, perhaps by accessing it through the underlying estimators.\n\nTherefore, the function containing the fault is cross_val_predict.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1284,
+ "response_tokens": 284,
+ "elapsed_s": 6.23,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

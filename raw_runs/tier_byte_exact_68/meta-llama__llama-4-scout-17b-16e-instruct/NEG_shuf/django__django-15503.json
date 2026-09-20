@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7291,
+ "raw": "## Step 1: Analyzing the Issue\nThe problem lies in the `has_key`, `has_keys`, and `has_any_keys` lookups for `JSONField` in Django, specifically when using numeric keys on SQLite, MySQL, and Oracle databases. The issue arises because these databases require a specific path format when querying JSON data.\n\n## 2: Understanding the Code Structure\nThe relevant code for handling JSON field lookups is located in `django/db/models/fields/json.py`. This includes classes like `HasKeyLookup`, `HasKeys`, and `HasAnyKeys`, which inherit from `PostgresOperatorLookup` or directly implement specific database backend logic.\n\n## 3: Identifying the Faulty Function\nThe fault seems to be in how the `HasKeyLookup` class handles the generation of SQL queries for different database backends. Specifically, the `as_sqlite`, `as_mysql`, and `as_oracle` methods of `HasKeyLookup` (or its subclasses) need to properly format the key path for the JSON data.\n\n## 4: Focusing on SQLite\nFor SQLite, the method `as_sqlite` in the `HasKeyLookup` class is responsible for generating the SQL query. The error message suggests that the issue is with how the key is passed to the `JSON_TYPE` function, indicating it should be a path (e.g., `$.key`) rather than just the key.\n\n## 5: Conclusion\nGiven the information and the process of elimination, the function that contains the fault is likely one of the database-specific implementations of the `HasKeyLookup` class. Specifically, for SQLite, it would be the `as_sqlite` method. However, since the task requires identifying a single function name and given the structure of the provided code, the most direct answer related to the handling of `has_key` lookups across different databases (including SQLite) would point towards the `HasKeyLookup` class and its database-specific methods.\n\nFAULT: as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1758,
+ "response_tokens": 408,
+ "elapsed_s": 1.73,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

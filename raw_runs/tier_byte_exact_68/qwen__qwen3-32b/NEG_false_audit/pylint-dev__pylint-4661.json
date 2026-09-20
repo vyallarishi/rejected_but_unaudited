@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 1926,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user wants pylint to follow the XDG Base Directory Specification, specifically moving the .pylint.d directory out of their home folder into the proper location like $HOME/.local/share/<PROGRAM_NAME>. \n\nThe problem is that pylint is creating a .pylint.d directory in the home folder, which violates the XDG spec. The user provided some candidate functions in pylint/config/__init__.py: _get_pdata_path, load_results, save_results, find_pylintrc. \n\nLooking at the localization notes, it says that _get_pdata_path is used by a utility class to generate a file path. This function reads the PYLINT_HOME constant, which is set to ~/.pylint.d. So, whenever this function is called, it uses that constant to create paths like ~/.pylint.d/some_file.stats. The calling code then writes to those paths, creating the directory.\n\nThe other functions like load_results and save_results might be using _get_pdata_path to get the path, but the root issue seems to be that PYLINT_HOME is hardcoded to ~/.pylint.d. However, the user is asking which function contains the fault. Since _get_pdata_path is the one that directly uses the PYLINT_HOME constant and constructs the path, changing that function to use the XDG-compliant path would fix the issue. The other functions might be using this helper, so the main problem lies in _get_pdata_path. \n\nWait, but the PYLINT_HOME is a constant, so maybe that's defined elsewhere. However, the user's note says that _get_pdata_path reads PYLINT_HOME, which is the source of the incorrect path. So modifying _get_pdata_path to use the XDG directory instead of the hardcoded ~/.pylint.d would resolve the problem. Therefore, the faulty function is _get_pdata_path because it's responsible for generating the incorrect path.\n</think>\n\nFAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 442,
+ "response_tokens": 410,
+ "elapsed_s": 1.08,
+ "key_suffix": "sruaC4",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

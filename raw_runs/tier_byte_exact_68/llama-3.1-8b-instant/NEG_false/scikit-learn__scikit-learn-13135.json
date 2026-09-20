@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-13135",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 6277,
+ "raw": "FAULT: _validate_n_bins",
+ "finish_reason": "stop",
+ "prompt_tokens": 1858,
+ "response_tokens": 7,
+ "elapsed_s": 0.5,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_validate_n_bins",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

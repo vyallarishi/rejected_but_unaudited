@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6456,
+ "raw": "FAULT: _enforce_prediction_order",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is getting an AttributeError when using cross_val_predict with a MultiOutputClassifier and method='predict_proba'. The error is that the MultiOutputClassifier doesn't have a 'classes_' attribute. \n\nFirst, I need to recall how cross_val_predict works. When you call cross_val_predict with a method, like 'predict_proba', it needs to collect the probability predictions from the model. For that, some estimators have a predict_proba method, and maybe they also have a classes_ attribute which is used to determine the class labels for the probabilities.\n\nLooking at the user's code, they're using a MultiOutputClassifier wrapped around LinearDiscriminantAnalysis. The MultiOutputClassifier itself doesn't have a classes_ attribute. Instead, each individual estimator in the MultiOutputClassifier (i.e., mo_clf.estimators_) would have their own classes_. \n\nThe user mentioned that in the code (specifically in _validation.py lines 857-866), the code is trying to access estimator.classes_. But for a MultiOutputClassifier, that's not present. So the code is expecting the main estimator to have classes_, but in this case, the MultiOutputClassifier doesn't have that attribute. \n\nSo the problem is that cross_val_predict, when using method='predict_proba', is trying to access estimator.classes_ to get the class labels. But for MultiOutputClassifier, this attribute isn't present. Instead, each individual estimator in the MultiOutputClassifier has its own classes_. \n\nThe function in question here is cross_val_predict. When it's called with method='predict_proba', it probably calls some internal functions that require the estimator to have a classes_ attribute. The cross_val_predict function might be using a helper function that assumes the estimator has classes_, which isn't the case for MultiOutputClassifier.\n\nLooking at the code for cross_val_predict, it delegates to _fit_and_predict, which in turn might call _enforce_prediction_order. The _enforce_prediction_order function is mentioned in the user's code link. That function is trying to enforce the order of predictions based on classes_. So if the estimator doesn't have classes_, this function would fail.\n\nTherefore, the fault is in the _enforce_prediction_order function. This function unconditionally accesses estimator.classes_, which is not available in MultiOutputClassifier. The function needs to handle cases where the estimator is a meta-estimator like MultiOutputClassifier, which doesn't have a top-level classes_ attribute but has it in the individual estimators.\n\nSo the correct answer should be the _enforce_prediction_order function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1616,
+ "response_tokens": 549,
+ "elapsed_s": 7.6,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_enforce_prediction_order",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

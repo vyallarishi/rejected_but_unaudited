@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3243,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to the `clone` function in `sklearn.base`, which fails when one or more instance parameters are estimator types (i.e., not instances, but classes). The error occurs because the `clone` function attempts to call `get_params` on the estimator class, which is not an instance, leading to a `TypeError`.\n\nTo solve this issue, we need to modify the `clone` function to handle estimator classes correctly. The current implementation checks if the estimator has a `get_params` method, but it does not verify if the estimator is a class or an instance.\n\n### Solution\n\nThe solution involves modifying the `clone` function in `sklearn.base` to correctly handle estimator classes. We need to add a check to ensure that the estimator is an instance before attempting to call `get_params` on it.\n\n### Fault Identification\n\nThe fault is in the `clone` function, specifically in the line where it checks if the estimator has a `get_params` method.\n\n### Correct Function Name\n\nFAULT: clone\n\n### Explanation of Changes\n\nTo fix the issue, we can modify the `clone` function to check if the estimator is a class before attempting to clone it. We can do this by adding a check using `isinstance(estimator, type)`.\n\n```python\ndef clone(estimator, safe=True):\n    # ...\n    if not hasattr(estimator, 'get_params') or isinstance(estimator, type):\n        return estimator\n    # ...\n```\n\nThis change ensures that if the estimator is a class, it will be returned as is, without attempting to call `get_params` on it.\n\n### Complete Corrected Code\n\n```python\ndef clone(estimator, safe=True):\n    if not hasattr(estimator, 'get_params') or isinstance(estimator, type):\n        return estimator\n    elif safe and not estimator._get_tag('poor_score', None):\n        raise ValueError(\n            \"Cannot clone estimator %s. Only estimators with \"\n            \"a `get_params` method can be cloned. \" % estimator)\n    else:\n        # XXX: use inspect.getparameterspec if we can rely on it\n        params = estimator.get_params(deep=False)\n        new_object_params = {}\n        for name, param in params.items():\n            new_object_params[name] = clone(param, safe=False)\n        new_estimator = estimator.__class__\n        return new_estimator(**new_object_params)\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 771,
+ "response_tokens": 502,
+ "elapsed_s": 7.35,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

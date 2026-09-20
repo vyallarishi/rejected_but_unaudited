@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3425,
+ "raw": "FAULT: expression",
+ "reasoning": "We need to determine which function contains the fault causing the crash. The bug: Expression.compile(\"False\") leads to AST Name node with id 'False', then compile() asserts that name is not \"False\", \"True\", \"None\". In Python's compile.c, they assert that Name nodes for constants are not allowed; they should be ast.Constant. So the parser should produce ast.Constant for literals, not ast.Name. The bug is in the parser that builds AST from token. Likely in function expression(s: Scanner) or maybe in not_expr, and_expr, etc. The token type for name vs literal? The parser likely treats identifiers as Name nodes, but should treat \"True\", \"False\", \"None\" specially. So the fault is in function expression(s: Scanner) or maybe in a helper that builds Name nodes. Let's think: The parser likely builds ast.Name for any identifier token. The token type maybe TokenType.NAME. The parser may have a mapping for literals. The bug is that it doesn't handle \"False\". So the function that creates the AST node is probably expression(s: Scanner) which returns ast.Name for token. Or maybe a function that processes primary expressions: maybe expr(s) or and_expr(s). The simplest answer: expression(s: Scanner). The question: \"Which function contains the fault? Answer with one function name from the list\". Likely the function that constructs the AST node for a name token: expression(s: Scanner). So answer: expression.",
+ "finish_reason": "stop",
+ "prompt_tokens": 879,
+ "response_tokens": 315,
+ "elapsed_s": 1.24,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "expression",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

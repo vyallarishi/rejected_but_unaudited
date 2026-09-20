@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 15148,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The problem is that when using the `autodoc_typehints = \"description\"` option in Sphinx, the `autoclass` directive includes the class's \"return type\" for code that has a type hint for the `__init__` method.\n\nThe root cause of this issue is in the `sphinx/ext/autodoc/__init__.py` file, specifically in the `_call_format_args` function of the `ClassDocumenter` class.\n\nThe issue arises because the `_call_format_args` function is not correctly handling the return type annotation for the `__init__` method when `autodoc_typehints` is set to `\"description\"`. \n\nTo fix this issue, we need to modify the `_call_format_args` function to correctly handle the return type annotation.\n\nHere is the corrected code:\n\n```python\ndef _call_format_args(self, **kwargs: Any):\n    # ...\n\n    retann = inspect.signature(self._get_signature()).return_annotation\n    if retann == inspect._empty:\n        retann = None\n    else:\n        retann = self.format_annotation(retann)\n\n    # ...\n\n    if retann:\n        sig += f\" -> {retann}\"\n    # ...\n```\n\nHowever, the above code might still have some logical errors. A more accurate fix would involve understanding how Sphinx handles type hints and return annotations.\n\nAfter careful analysis, it appears that the issue is caused by the fact that the return type annotation is being included in the signature string even when it's `None`. \n\nThe correct fix would be to modify the `ClassDocumenter` class to exclude the return type annotation when it's `None`.\n\n```python\ndef _call_format_args(self, **kwargs: Any):\n    # ...\n\n    retann = inspect.signature(self._get_signature()).return_annotation\n    if retann == inspect._empty or retann is None:\n        retann = None\n    else:\n        retann = self.format_annotation(retann)\n\n    # ...\n\n    if retann and retann != \"None\":\n        sig += f\" -> {retann}\"\n    # ...\n```\n\nHowever, based on the provided conversations and code changes, the actual fix seems to be in the `sphinx/ext/autodoc/__init__.py` file, in the `_call_format_args` function of the `ClassDocumenter` class.\n\nThe function name that contains the fault is:\n```\nFAULT: _call_format_args\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3530,
+ "response_tokens": 517,
+ "elapsed_s": 11.98,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_call_format_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

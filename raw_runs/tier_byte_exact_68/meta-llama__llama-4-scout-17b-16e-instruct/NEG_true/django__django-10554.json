@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8489,
+ "raw": "FAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 2117,
+ "response_tokens": 4,
+ "elapsed_s": 0.9,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

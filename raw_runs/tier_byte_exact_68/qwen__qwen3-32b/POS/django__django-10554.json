@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7134,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is describing an issue with Django's QuerySet union and ordering. When they create a union of two querysets and apply ordering, then later try to reorder or evaluate the queryset, it breaks with a ProgrammingError about ORDER BY position not being in the select list.\n\nLooking at the trace, the error occurs when the queryset is evaluated again. The problem seems to be related to how the union query is handled when ordering is applied. The user mentions that when they call qs.order_by().values_list..., it modifies the original queryset, leading to corruption when it's evaluated again.\n\nThe localization notes suggest that when clone is called during order_by(), it shares the combined_queries between the original and clone. Then, modifying the clone (like adding order by) changes the sub-queries in-place, which affects the original. This implies that the clone method isn't properly deep copying the combined_queries, leading to shared state between the original and cloned Query objects.\n\nIn Django's Query class, the clone method is responsible for creating a copy of the query. If the clone is shallow, attributes like combined_queries (which hold the subqueries for union) would be references to the same objects in both the original and the clone. When the clone modifies these subqueries (like adding an order by), it affects the original's subqueries as well. \n\nThe fault likely lies in the clone method of the Query class not properly handling the combined_queries attribute. Instead of a shallow copy, it should create a deep copy of the subqueries to prevent modifications in the clone from affecting the original. The function in question would be the clone method of the Query class. \n\nLooking at the list of functions provided, the relevant one is 'clone' within the Query class. The problem arises because when the clone is made, the combined_queries are not duplicated, leading to shared state. Therefore, the fault is in the 'clone' function of the Query class.\n</think>\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 1869,
+ "response_tokens": 412,
+ "elapsed_s": 1.22,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

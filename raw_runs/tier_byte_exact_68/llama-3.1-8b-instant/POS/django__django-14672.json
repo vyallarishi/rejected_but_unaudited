@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 8124,
+ "raw": "FAULT: identity",
+ "finish_reason": "stop",
+ "prompt_tokens": 2077,
+ "response_tokens": 4,
+ "elapsed_s": 0.49,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "identity",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

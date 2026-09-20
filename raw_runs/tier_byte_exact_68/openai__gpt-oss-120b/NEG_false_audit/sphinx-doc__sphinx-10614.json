@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5435,
+ "raw": "FAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1443,
+ "response_tokens": 107,
+ "elapsed_s": 0.8,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

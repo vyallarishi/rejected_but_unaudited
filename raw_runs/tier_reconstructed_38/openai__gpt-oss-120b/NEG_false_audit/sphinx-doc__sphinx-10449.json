@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 15148,
+ "raw": "FAULT: ClassDocumenter.format_signature",
+ "reasoning": "We need to identify which function in the list contains the fault causing autodoc_typehints=\"description\" to include return type for class __init__ in autoclass. The description says format_signature is responsible for creating signature string displayed. It mentions a regex within this function parses signature and extracts None as return annotation (retann). The function then reconstructs signature, appending return annotation maybe incorrectly. So the faulty function likely is `format_signature` in `ClassDocumenter` or maybe in `FunctionDocumenter`. The list includes many `format_signature` methods: in Documenter? Actually there is `Documenter.format_signature`? In list: Documenter.format_signature(self, **kwargs). Also in FunctionDocumenter.format_signature, ClassDocumenter.format_signature, MethodDocumenter.format_signature, etc. The issue is for autoclass, which uses ClassDocumenter, which uses its own format_signature that probably calls super? Let's recall Sphinx code: In ClassDocumenter, format_signature returns something like `class MyClass(arg1, arg2)`. It uses the __init__ signature. The return annotation is being added erroneously. The bug likely in `ClassDocumenter.format_signature`. So answer: `ClassDocumenter.format_signature`. The list includes `ClassDocumenter.format_signature(self, **kwargs: Any)`. So output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3608,
+ "response_tokens": 289,
+ "elapsed_s": 1.32,
+ "key_suffix": "U0l0Y0",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

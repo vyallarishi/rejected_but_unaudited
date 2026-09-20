@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14894",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4233,
+ "raw": "FAULT: _sparse_fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1326,
+ "response_tokens": 344,
+ "elapsed_s": 1.23,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_sparse_fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

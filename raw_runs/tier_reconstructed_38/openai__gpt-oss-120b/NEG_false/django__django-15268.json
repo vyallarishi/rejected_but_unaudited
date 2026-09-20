@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2585,
+ "raw": "FAULT: reduce",
+ "reasoning": "We need to identify which function contains the fault. The issue: Optimize multiple AlterFooTogether operations into one. The optimizer should combine consecutive AlterUniqueTogether and AlterIndexTogether operations that first set empty then set new values. The reduce method is used to combine operations. The base class reduce returns False, meaning not reducible. The specific operations (AlterUniqueTogether, AlterIndexTogether) need to implement reduce to combine with previous ones. The fault is that they don't override reduce, so the optimizer can't combine. The question: \"Which function contains the fault? Answer with one function name from the list\". The list includes many methods: __new__, deconstruct, state_forwards, database_forwards, database_backwards, describe, migration_name_fragment, references_model, references_field, allow_migrate_model, reduce, __repr__. The fault is that reduce method in base class returns False, causing inability to combine. So the faulty function is reduce (in base class). So answer: reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 680,
+ "response_tokens": 213,
+ "elapsed_s": 1.1,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

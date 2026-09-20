@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3448,
+ "raw": "## Step 1: Identify the Problem\nThe issue is that non-form errors in FormSets do not have the `nonform` CSS class added, unlike non-field errors in forms. This class is crucial for custom ErrorList instances to differentiate between form field errors, non-field errors in forms, and non-form errors in FormSets.\n\n## Step 2: Understand the Cause\nThe cause of the problem lies in how `ErrorList` instances are created for non-form errors in FormSets. Specifically, when `BaseFormSet.full_clean` is called, it validates the formset and executes the line `self._non_form_errors = self.error_class()`. This line instantiates `ErrorList` without providing an `error_class` argument that could associate the `nonform` CSS class with non-form errors.\n\n## 3: Locate the Relevant Function\nThe function responsible for this behavior is `full_clean` in `BaseFormSet`. However, to directly address the issue of adding the `nonform` CSS class for non-form errors, we need to look at how errors are handled and rendered in FormSets.\n\n## 4: Analyze Candidate Functions\nGiven the candidate functions in `django/forms/formsets.py`, we need to find the one that directly deals with error handling and rendering for FormSets. The `non_form_errors` method and the `errors` method are potential candidates, but the key is in how `ErrorList` is instantiated for non-form errors.\n\n## 5: Identify the Fault\nThe fault lies in how `ErrorList` for non-form errors is created without the `nonform` CSS class. The `non_form_errors` method in `BaseFormSet` returns `self._non_form_errors`, which is an instance of `ErrorList`. However, the critical point is the instantiation of `ErrorList` in `full_clean` or related methods.\n\n## 6: Specify the Faulty Function\nGiven the information and analysis, the function that contains the fault related to the instantiation and handling of non-form errors in FormSets is `full_clean` in `BaseFormSet`. This is where the decision on how to instantiate `ErrorList` for non-form errors is made.\n\nFAULT: full_clean",
+ "finish_reason": "stop",
+ "prompt_tokens": 804,
+ "response_tokens": 454,
+ "elapsed_s": 1.44,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "full_clean",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

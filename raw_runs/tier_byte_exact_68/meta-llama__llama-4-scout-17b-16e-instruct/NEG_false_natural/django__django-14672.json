@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8285,
+ "raw": "To solve this issue, we need to identify where the `through_fields` attribute is being used in a way that causes it to be unhashable. The error message indicates that the issue is with the `__hash__` method of the `ManyToManyRel` class.\n\nUpon reviewing the code, we can see that the `identity` property of the `ManyToManyRel` class includes `self.through_fields`. If `self.through_fields` is a list, it is unhashable and will cause an error when trying to hash the `identity` tuple.\n\nThe solution is to make `self.through_fields` hashable by converting it to a tuple if it is a list. This can be done in the `__init__` method of the `ManyToManyRel` class.\n\nHere is the corrected code:\n\n```python\nclass ManyToManyRel(ForeignObjectRel):\n    def __init__(self, field, to, related_name=None, related_query_name=None,\n                 through=None, through_fields=None, **kwargs):\n        super().__init__(field, to, related_name=related_name,\n                         related_query_name=related_query_name, **kwargs)\n        self.through = through\n        self.through_fields = tuple(through_fields) if through_fields is not None else None\n```\n\nThe fault is in the `__init__` method of the `ManyToManyRel` class. \n\nFAULT: __init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 2104,
+ "response_tokens": 299,
+ "elapsed_s": 1.41,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

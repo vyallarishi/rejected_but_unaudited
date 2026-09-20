@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2470,
+ "raw": "<think>\nOkay, let's try to figure out where the issue is. The user is saying that in Django's FormSets, non-form errors don't have the 'nonform' CSS class added, unlike how non-field errors have the 'nonfield' class in regular forms. They want this fixed so that custom ErrorList can distinguish between different error types.\n\nLooking at the localization notes, the problem is in the full_clean method of BaseFormSet. The note says that when BaseFormSet.full_clean is called, it executes self._non_form_errors = self.error_class(), which creates an ErrorList without the 'nonform' CSS class. \n\nIn regular forms, when non-field errors are created, they use the error_class with 'nonfield' as a class. For example, in a Form's full_clean, non-field errors are initialized with error_class={'nonfield'}, I think. But in the formset's case, when creating _non_form_errors, they're not adding that 'nonform' class. \n\nSo the function in question is full_clean in BaseFormSet. The error is that when initializing self._non_form_errors, they don't pass the nonform CSS class. The fix would involve modifying that line to include the 'nonform' class when creating the ErrorList instance. Therefore, the faulty function is full_clean.\n</think>\n\nFAULT: full_clean",
+ "finish_reason": "stop",
+ "prompt_tokens": 586,
+ "response_tokens": 282,
+ "elapsed_s": 0.9,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "full_clean",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

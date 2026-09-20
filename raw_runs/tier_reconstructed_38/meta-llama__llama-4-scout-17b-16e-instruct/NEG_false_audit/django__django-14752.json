@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3903,
+ "raw": "## Step 1: Understand the issue\nThe issue is about refactoring the `AutocompleteJsonView` in Django's admin interface to support extra fields in autocomplete responses. Currently, adding new attributes to autocomplete field results requires extending `AutocompleteJsonView` and fully overriding the `get` method, which is cumbersome and prone to maintenance issues.\n\n## Step 2: Identify the problem\nThe problem lies in the `get` method of `AutocompleteJsonView`, specifically in how it constructs the JSON response. The list comprehension that creates the `results` list is hardcoded, making it difficult for users to add custom fields without overriding the entire method.\n\n## 3: Determine the solution\nThe solution involves adding a customization extension point to the `get` method. This can be achieved by moving the construction of the `results` list to a separate method, allowing users to easily override and customize the serialization of results.\n\n## 4: Locate the relevant code\nThe relevant code is in `django/contrib/admin/views/autocomplete.py`, specifically in the `AutocompleteJsonView` class.\n\n## 5: Identify the faulty function\nThe faulty function is `get`, as it directly produces the symptom by hardcoding the structure of each result item.\n\n## Step 6: Confirm the solution\nThe solution is to introduce a new method, e.g., `serialize_result`, that can be overridden to customize the serialization of results. The `get` method would then use this new method to construct the `results` list.\n\n## Step 7: Provide the answer\nThe function that contains the fault is `get`.\n\nFAULT: get",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 872,
+ "response_tokens": 326,
+ "elapsed_s": 7.51,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3173,
+ "raw": "FAULT: clone",
+ "reasoning": "\nOkay, let's try to figure out why the clone function is failing here. The user is trying to clone a StandardScaler where one of its parameters is the StandardScaler class itself. The error occurs because when clone is called on the parameter (which is a class), it tries to call get_params on it. But since the class's get_params is a method that requires 'self' (an instance), passing the class itself leads to a missing argument error.\n\nLooking at the clone function in sklearn/base.py, the problem arises when the estimator parameter is a class instead of an instance. The current code checks if the estimator has get_params, which classes do because they inherit the method. However, when it's a class, calling get_params would require an instance. So the fix would involve checking if the estimator is a class (type) and handling it differently.\n\nThe user's suggested fix is to modify the condition in the clone function. The original code checks if the estimator has get_params and isn't an instance of a class. The proposed change would check if it's a class (isinstance(estimator, type)), and then handle it. But I need to see where exactly in the code this check is needed.\n\nThe FAULT is in the clone function. The function tries to call get_params on a class, which doesn't work. The error happens because the code doesn't check if the estimator is a class or an instance. So the clone function is the one with the fault.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 774,
+ "response_tokens": 308,
+ "elapsed_s": 3.47,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

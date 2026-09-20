@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2898,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem arises when trying to remove a default header from a session by setting its value to `None`. Instead of removing the header, it sends `None` as the header value.\n2. **Analyzing the provided code**: The code snippet shows that setting `session.headers['Accept-Encoding'] = None` results in `Accept-Encoding: None` being sent, whereas deleting the header with `del session.headers['Accept-Encoding']` works as expected.\n3. **Identifying the root cause**: The root cause lies in how the `PreparedRequest` class handles headers in its `prepare_headers` method. Specifically, it does not filter out `None` values from the headers dictionary.\n4. **Localization notes**: The `prepare_headers` method receives a `headers` dictionary and iterates through its items without checking for `None` values. This leads to `('Accept-Encoding', None)` being stored in `self.headers`, which is later converted to a string and sent as a header.\n\n# Fixed solution:\nThe fault lies in the `prepare_headers` method of the `PreparedRequest` class. To fix this, we need to modify this method to filter out `None` values from the headers dictionary.\n\n```python\ndef prepare_headers(self, headers):\n    if headers is None:\n        headers = {}\n    for key, value in headers.items():\n        if value is not None:\n            self.headers[key] = value\n```\n\nHowever, since we are only asked for the function name that contains the fault:\n\n# Explanation of changes:\n* **Identifying the faulty function**: The function that contains the fault is `prepare_headers`.\n* **Understanding the fix**: The fix involves modifying the `prepare_headers` method to ignore `None` values when preparing the headers.\n\n# Tests and example uses:\nTo test the fix, you can use the following example:\n```python\nimport requests\n\nsession = requests.Session()\nsession.headers['Accept-Encoding'] = None\n\n# Before fix, this would send \"Accept-Encoding: None\"\n# After fix, this should not send the Accept-Encoding header\nresponse = session.get('http://example.com')\nprint(response.request.headers)\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 673,
+ "response_tokens": 450,
+ "elapsed_s": 1.37,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

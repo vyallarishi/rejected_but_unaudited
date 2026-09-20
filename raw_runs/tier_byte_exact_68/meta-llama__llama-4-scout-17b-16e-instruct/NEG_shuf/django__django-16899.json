@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4747,
+ "raw": "To solve this task, I will analyze the provided information and the structure of the functions listed.\n\nThe issue is related to the error message for `readonly_fields` checks in `ModelAdmin`. The error message does not include the field name, which makes it harder to understand the error. \n\nLooking at the provided functions, I notice that there are several functions related to checking different aspects of `ModelAdmin`, such as `_check_readonly_fields` and `_check_readonly_fields_item`. \n\nThe function `_check_readonly_fields_item` seems particularly relevant, as it is likely responsible for checking individual items in `readonly_fields`. \n\nUpon closer inspection, I suspect that the function `_check_readonly_fields_item` is where the error message is generated. Therefore, this function likely contains the fault.\n\nFAULT: _check_readonly_fields_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 1149,
+ "response_tokens": 168,
+ "elapsed_s": 0.91,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

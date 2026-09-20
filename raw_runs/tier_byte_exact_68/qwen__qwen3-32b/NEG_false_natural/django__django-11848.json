@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2334,
+ "raw": "<think>\nOkay, let's try to figure out which function in the list provided has the issue with the two-digit year check in Django's parse_http_date. \n\nThe problem description says that the current logic is hard-coded to treat years 0-69 as 2000-2069 and 70-99 as 1970-1999. But according to RFC 7231, the correct approach is to check if the timestamp is more than 50 years in the future and adjust accordingly based on the current year. So the existing code isn't using a sliding window relative to the current time but instead fixed thresholds.\n\nLooking at the candidate functions, the user mentioned that parse_http_date is the one where the year is extracted and converted. The localization notes also point to parse_http_date having the if year <70 logic. So the function in question is parse_http_date. \n\nThe user ruled out parse_http_date as being downstream, but the localization notes indicate that the faulty logic is within parse_http_date. Wait, the \"Ruled out\" section says that parse_http_date is downstream and the data is already malformed when it's called. But the localization notes contradict that by saying the faulty logic is in parse_http_date. Hmm, maybe there's confusion here. Let me re-read that part.\n\nThe \"Ruled out\" section says: \"parse_http_date: This function runs downstream of the failure, operating on data that is already malformed by the time it executes, so the root cause is upstream.\" But the localization notes say that the parse_http_date function has the if year <70 logic. So perhaps there's a mistake in the ruled out part? Or maybe the problem is that the function is processing the date string in a way that's incorrect, even if the input is correct. \n\nWait, the issue is that the two-digit year check is incorrect. The parse_http_date function is supposed to parse the date, including handling two-digit years according to the RFC. If the code in parse_http_date is using a fixed threshold (like adding 2000 for years <70 and 1900 otherwise), that's the incorrect logic. The correct approach would be to calculate based on the current year. So the fault is in parse_http_date's logic for converting two-digit years. \n\nBut according to the \"Ruled out\" note, the user says that parse_http_date is downstream and the data is already malformed. That might be a mistake. Because if the function itself is applying the incorrect conversion, then it's the root cause. Maybe the user made an error in their analysis. \n\nGiven the problem description and the localization notes, the function with the faulty logic is parse_http_date. The other functions listed don't seem related to date parsing. So the answer should be parse_http_date.\n</think>\n\nFAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 596,
+ "response_tokens": 596,
+ "elapsed_s": 1.62,
+ "key_suffix": "sruaC4",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

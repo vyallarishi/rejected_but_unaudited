@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9686,
+ "raw": "FAULT: filter_members",
+ "reasoning": "\nOkay, let's try to figure out which function is responsible for the issue with the :private-members: option in Sphinx's autodoc. The user wants to specify individual private members to document instead of all of them when using :private-members:. \n\nLooking at the provided code, the key is to find where the private-members option is processed. The user mentioned that currently, the option acts as a boolean, including all private members if set. The problem is that they want to pass specific member names to it.\n\nThe function filter_members is highlighted in the localization notes. The note says that filter_members skips private members unless they are given explicitly or the private-members option is set. The current logic treats private-members as a boolean. So, if the option is present, it includes all private members. But the user wants to specify which ones to include.\n\nThe filter_members function is part of the Documenter class. Its job is to filter the members based on various options like members, undoc-members, private-members, etc. If the private-members option is modified to accept a list of names, then filter_members would need to check if a member is in that list instead of just checking if the option is True.\n\nSo, the fault lies in the filter_members function because it's where the decision is made to include or exclude private members based on the option. The current implementation doesn't handle specific member names, only a boolean flag. To support specifying individual private members, this function would need to be adjusted to check against a list of names provided in the option.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2283,
+ "response_tokens": 323,
+ "elapsed_s": 6.57,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

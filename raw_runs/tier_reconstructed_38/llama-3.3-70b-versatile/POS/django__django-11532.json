@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 5108,
+ "raw": "FAULT: message",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1276,
+ "response_tokens": 4,
+ "elapsed_s": 0.3,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

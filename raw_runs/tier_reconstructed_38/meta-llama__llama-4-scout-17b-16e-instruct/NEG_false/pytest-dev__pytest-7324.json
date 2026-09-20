@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 1900,
+ "raw": "## Step 1: Understand the issue\nThe issue is that Pytest crashes the interpreter on a debug build for Python 3.8+ when compiling an expression with `Expression.compile(\"False\")`. This suggests that there's a problem with how the expression is being compiled or executed.\n\n## Step 2: Identify the problematic code path\nThe problematic code path involves calling `Expression.compile(\"False\")`, which leads to a custom parser returning an AST node. This node is then passed to the Python built-in `compile()`, which fails in a debug build.\n\n## 3: Analyze the role of the `compile` function\nThe `compile` function in the `Expression` class seems to be the entry point for the bug. It calls a custom parser and then compiles the parsed expression.\n\n## 4: Determine the faulty function\nGiven that the issue arises from compiling an expression and the error occurs in a debug build of Python 3.8+, and considering the information provided, the fault seems to be related to how expressions are handled or compiled within the `Expression` class.\n\n## 5: Conclusion\nThe function that contains the fault is likely related to the compilation or parsing of expressions. Since `Expression.compile` is the method called and it's responsible for compiling the input string into an executable form, we need to look at functions directly involved in this process.\n\nThe final answer is: \nFAULT: compile",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 514,
+ "response_tokens": 286,
+ "elapsed_s": 4.59,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "compile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

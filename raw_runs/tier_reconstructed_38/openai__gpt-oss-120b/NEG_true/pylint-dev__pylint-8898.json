@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-8898",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9197,
+ "raw": "FAULT: _regexp_csv_transfomer",
+ "reasoning": "We need to answer which function contains the fault. Based on description, the bug is in _regexp_csv_transfomer, which splits on commas incorrectly. So answer: _regexp_csv_transfomer.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2406,
+ "response_tokens": 59,
+ "elapsed_s": 0.66,
+ "key_suffix": "U0l0Y0",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_regexp_csv_transfomer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

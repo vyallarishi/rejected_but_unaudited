@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13128",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6061,
+ "raw": "To solve this issue, we need to understand the problem and then identify the function that contains the fault.\n\nThe problem is that temporal subtraction is not working without `ExpressionWrapper`. The error occurs when trying to annotate a Django model with a temporal subtraction operation. The operation is between two `DateTimeField` instances, and the result should be a `DurationField`.\n\nThe issue arises because the ORM incorrectly infers the output type of the subtraction operation as a `DateTimeField` instead of a `DurationField`. This happens in the `_resolve_output_field` function of the `CombinedExpression` class.\n\nThe `_resolve_output_field` function checks the output types of the children of an expression to determine the output type of the expression. In the case of a subtraction operation between two `DateTimeField` instances, it incorrectly assumes the result is also a `DateTimeField`.\n\nBased on this understanding, the function that contains the fault is `_resolve_output_field`.\n\nFAULT: _resolve_output_field",
+ "finish_reason": "stop",
+ "prompt_tokens": 1394,
+ "response_tokens": 200,
+ "elapsed_s": 0.76,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_resolve_output_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

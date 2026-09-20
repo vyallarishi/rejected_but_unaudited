@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-23314",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8024,
+ "raw": "<think>\nOkay, let's try to figure out which function in the provided list is causing the issue with set_visible not working for 3D subplots.\n\nThe user's code creates two 3D subplots, then tries to hide ax1 using set_visible(False). But when they run plt.show(), ax1 is still visible. The problem seems to be that the 3D axes aren't respecting the visibility setting.\n\nLooking at the localization notes, it mentions that when draw is called on the Axes3D instance, it doesn't check self.get_visible() at the beginning. Normally, when an artist is invisible, the draw method should exit early if visible is False. If the draw method doesn't check visibility, then even if set_visible(False) is called, the axes would still draw.\n\nSo the fault likely lies in the draw method of the Axes3D class. The draw function is responsible for rendering the axes, and if it doesn't check whether the artist is visible before proceeding, then setting visibility to False won't have any effect.\n\nIn the list of functions provided, the 'draw' method is part of the Axes3D class. The note says that during the draw process, the method does not check self.get_visible(), which would explain why the axes remain visible even after set_visible(False) is called. Therefore, the draw function is not respecting the visibility flag, leading to the bug.\n</think>\n\nFAULT: draw",
+ "finish_reason": "stop",
+ "prompt_tokens": 2048,
+ "response_tokens": 292,
+ "elapsed_s": 0.96,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

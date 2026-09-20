@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6046,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user provided a test case where ModelAdmin.lookup_allowed() is raising a DisallowedModelAdminLookup when it shouldn't. The issue seems to be related to a foreign key that's also a primary key, specifically in a chain like 'restaurant__place__country'.\n\nThe test case involves models where Restaurant has a OneToOneField to Place as its primary key. Then Waiter has a ForeignKey to Restaurant. When using list_filter with 'restaurant__place__country', the lookup_allowed method is supposed to return True, but it's incorrectly disallowing it.\n\nThe user's analysis suggests that the admin is treating the foreign key as a primary key as if it's part of a concrete inheritance. So when processing the lookup path, it's short-circuiting 'restaurant__place__country' to 'restaurant__country', which doesn't exist in the model.\n\nLooking at the code, the lookup_allowed function is the one that checks if a lookup is allowed. The problem might be in how it processes the relation parts. The user mentioned that during processing, when 'place' is part of the path, since it's a primary key, the code skips adding it to the relation parts, leading to an incorrect path.\n\nThe key part is in the lookup_allowed function where it checks if the current field is in the target_fields of the previous field's path info. If the current field is a primary key, it's considered a target field, so the code skips adding it to the relation_parts. This causes the lookup path to be shortened, leading to a disallowed lookup.\n\nSo the fault is in the lookup_allowed function's logic for handling primary keys in the relation chain. The function isn't correctly handling the case where a field is both a foreign key and a primary key, leading to incorrect path reconstruction.\n</think>\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1400,
+ "response_tokens": 387,
+ "elapsed_s": 1.13,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

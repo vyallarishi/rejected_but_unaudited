@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6748,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identifying the root cause**: The issue arises when the `__init__` method of a class is decorated. Even though the decorator preserves the docstring, Sphinx fails to document this method. This happens because Sphinx checks if a member is a routine using `inspect.isroutine(member)`, which returns `False` for decorated functions.\n\n2. **Understanding Sphinx's documentation process**: Sphinx uses the `can_document_member` function to determine whether a member of a class can be documented. This function is crucial in deciding which documenter to use for a particular member.\n\n3. **Location of the fault**: The fault lies in how Sphinx handles decorated methods. Specifically, when Sphinx checks if a member is a routine, it fails for decorated methods because `inspect.isroutine` returns `False`. This leads to the selection of an inappropriate documenter (`InstanceAttributeDocumenter` instead of `MethodDocumenter`), which does not correctly handle the documentation of methods like `__init__`.\n\n4. **Identifying the function containing the fault**: The function that contains the fault is the one responsible for determining whether a member can be documented, which involves checking if the member is a routine.\n\n# Fixed solution:\nThe actual fix involves changing how Sphinx determines if a member is a method or not, specifically in the `can_document_member` function. However, directly editing this function might not be straightforward without understanding the broader context of Sphinx's autodoc functionality.\n\nGiven the analysis, we need to focus on the `can_document_member` method within the `Documenter` class.\n\n# Explanation of changes:\n- The key change involves modifying the `can_document_member` function to correctly identify decorated methods as routines.\n\n# Tests and example uses:\nTesting this fix would involve ensuring that decorated `__init__` methods are properly documented by Sphinx.\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1780,
+ "response_tokens": 390,
+ "elapsed_s": 1.74,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

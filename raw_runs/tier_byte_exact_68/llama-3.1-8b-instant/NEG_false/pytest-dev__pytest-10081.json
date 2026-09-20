@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 4871,
+ "raw": "FAULT: _inject_setup_teardown_fixtures",
+ "finish_reason": "stop",
+ "prompt_tokens": 1229,
+ "response_tokens": 10,
+ "elapsed_s": 0.44,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_inject_setup_teardown_fixtures",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

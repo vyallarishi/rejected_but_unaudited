@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4281,
+ "raw": "To solve this issue, we need to understand how Django handles foreign key relationships, particularly when the primary key of the related object is not auto-incrementing and is set manually.\n\nThe problem arises when we try to save a parent object after setting its foreign key to a child object that has a non-numeric primary key. If the child object's primary key is set after it's assigned to the parent, the parent doesn't seem to \"see\" the change in the primary key.\n\nLet's analyze the given code:\n\n```python\nwith transaction.atomic():\n    order = Order()\n    order.product = Product()\n    order.product.sku = \"foo\"\n    order.product.save()\n    order.save()\n    assert Order.objects.filter(product_id=\"\").exists()  # Succeeds, but shouldn't\n    assert Order.objects.filter(product=order.product).exists()  # Fails\n```\n\nIn this case, `order.product_id` is set to an empty string when `order.product` is assigned, instead of being updated when `order.product.sku` is set to `\"foo\"`.\n\nThe issue seems to be in the `__set__` method of the `ForeignKeyDeferredAttribute` class, which is responsible for handling the assignment of a related object to a foreign key.\n\n```python\nclass ForeignKeyDeferredAttribute(DeferredAttribute):\n    def __set__(self, instance, value):\n        # ...\n        if value is None:\n            self.delete_from_db(instance)\n        else:\n            try:\n                value_pk = value.pk\n            except AttributeError:\n                # ...\n            self.field.set_raw_value(instance, value_pk)\n```\n\nThe problem here is that `value.pk` is accessed before the `value` object's primary key is set. To fix this, we need to make sure that we don't access `value.pk` until the `value` object's primary key is set.\n\nThe correct solution involves modifying the `__set__` method to not access `value.pk` immediately. Instead, we should access it when the value is actually needed.\n\nThe fault is in the `ForeignKeyDeferredAttribute` class's `__set__` method, but specifically, it's more related to how `ForwardManyToOneDescriptor` handles the setting of the related object.\n\nThe function that contains the fault is:\n\n```\nFAULT: ForwardManyToOneDescriptor.__set__\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 948,
+ "response_tokens": 475,
+ "elapsed_s": 1.32,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

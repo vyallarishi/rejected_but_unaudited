@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6216,
+ "raw": "## Step 1: Understand the Issue\nThe issue arises when creating an instance of a model that has a field with choices defined by `TextChoices` or `IntegerChoices`. The value returned by the getter of the field is of the same type as the one created by `enum.Enum` (enum value), which can lead to unexpected issues.\n\n## Step 2: Identify the Relevant Code\nThe problem seems to be related to how Django handles the assignment and retrieval of enum values in model instances. Specifically, when `MyObject.objects.create(my_str_value=MyChoice.FIRST_CHOICE)` is called, the `my_str_value` attribute of the instance is set to the enum object `MyChoice.FIRST_CHOICE` rather than its string value `'first'`.\n\n## 3: Analyze the Model Creation Process\nIn Django, when creating a model instance, the `__init__` method of the model class is called. This method performs a raw assignment of the provided values to the instance's attributes. However, it does not explicitly convert enum members to their primitive values.\n\n## 4: Determine the Faulty Function\nThe fault seems to be in how the model instance's attributes are initialized and retrieved. The `__init__` method of the `Model` class in `django/db/models/base.py` is a key point of interest. However, the actual conversion and handling of enum values are more closely related to the specific field types (like `CharField` and `IntegerField`) and how they interact with the enum choices.\n\n## 5: Consider the Role of `__str__` and `__repr__`\nThe `__str__` and `__repr__` methods of the enum members and the model instance are crucial. For enum members, `__str__` returns the name of the enum member (e.g., `'FIRST_CHOICE'`), while `__repr__` returns the full path to the enum member (e.g., `'<MyChoice.FIRST_CHOICE: first>'`). The issue might not be directly with these methods but with how Django's model fields handle enum values.\n\n## 6: Conclusion\nGiven the information and focusing on the model instance creation and attribute access, the issue seems to stem from how Django's model base class handles the setting and getting of attribute values, particularly with enum types. The method that directly deals with setting and getting attribute values on the model instance is not explicitly listed, but `__init__` is a critical method. However, based on the provided list and focusing on model base functionality:\n\nThe final answer is: <function `__init__`>",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1447,
+ "response_tokens": 537,
+ "elapsed_s": 5.61,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

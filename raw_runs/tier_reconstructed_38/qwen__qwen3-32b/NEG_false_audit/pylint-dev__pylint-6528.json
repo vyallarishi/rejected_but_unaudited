@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7093,
+ "raw": "FAULT: _discover_files",
+ "reasoning": "\nOkay, let's try to figure out which function in PyLinter is responsible for the issue where Pylint doesn't respect the ignore options in recursive mode. The user mentioned that when using --recursive=y, the --ignore, --ignore-paths, and --ignore-patterns flags aren't working as expected. The problem seems to be that even when specifying to ignore a directory like .a, Pylint still processes files within it.\n\nLooking at the candidate functions, the key one is probably _discover_files. The user's note says that this function uses os.walk to find .py files but doesn't filter based on the ignore options. So if that's the case, then the fault would be in _discover_files because it's not applying the ignore patterns when discovering files recursively.\n\nBut wait, maybe the filtering is done elsewhere. Let me think. The _discover_files function is supposed to collect all the files when running recursively. If it's not filtering out the ignored ones here, then those files would still be processed. The user's example shows that .a/foo.py is being analyzed even when ignored. So during the file discovery phase, the ignores should filter out that directory. If _discover_files is not doing that, then the subsequent functions like check or check_single_file would receive those files and process them, leading to the issue.\n\nThe user also ruled out _is_in_ignore_list_re as the cause, but that's probably a helper function. The main problem is that the ignore logic isn't applied in the file discovery step. So the function that's supposed to handle the discovery and apply the ignores isn't doing so. The _discover_files function is the one that's responsible for finding the files, and if it doesn't filter based on the ignore options, then those options are effectively ignored.\n\nTherefore, the fault is in the _discover_files function. It needs to incorporate the ignore patterns and directories when recursively searching for files. Without that filtering, all files are passed to the checking functions, which is why the user is seeing the same output regardless of the ignore flags.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1719,
+ "response_tokens": 431,
+ "elapsed_s": 10.24,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

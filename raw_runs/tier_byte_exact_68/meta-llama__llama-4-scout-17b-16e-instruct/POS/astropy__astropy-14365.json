@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2649,
+ "raw": "To solve this issue, let's analyze the problem step by step. The problem statement indicates that the `ascii.qdp` table format in Astropy assumes QDP commands are in upper case, but QDP itself is case-insensitive. This leads to an error when trying to read a QDP file with lower-case commands.\n\nThe expected behavior is that the QDP file should be read into a `Table` without errors, even if the commands are in lower case. The provided example shows that the file `test.qdp` with the content `read serr 1 2` followed by some data should be read without crashing.\n\nUpon examining the code and the provided information, the issue seems to stem from the `_line_type` function in `astropy/io/ascii/qdp.py`, specifically from the regular expression used to match QDP commands. This function is responsible for determining the type of a line in the QDP file.\n\nThe fault lies in the `_line_type` function because it uses a case-sensitive regular expression to match commands. To fix this, the regular expression should be made case-insensitive.\n\nHere is the function name that contains the fault:\n\nFAULT: _line_type\n\nThe solution involves modifying the regular expressions used in `_line_type` to be case-insensitive. This can typically be achieved by adding the `re.IGNORECASE` flag to the regular expression compilation or by making the pattern itself case-insensitive (e.g., using `[rR]ead` instead of `READ`).\n\nFor instance, the line with the regular expression could be modified as follows:\n\n```python\n_command_re = re.compile(r\"(?i)READ [TS]ERR(\\s+[0-9])+\")  # Make the pattern case-insensitive\n```\n\nBy making this change, the code will correctly identify QDP commands regardless of their case, aligning with the case-insensitive nature of QDP itself.",
+ "finish_reason": "stop",
+ "prompt_tokens": 794,
+ "response_tokens": 387,
+ "elapsed_s": 1.23,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

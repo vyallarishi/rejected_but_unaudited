@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11433",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 4827,
+ "raw": "FAULT: construct_instance",
+ "finish_reason": "stop",
+ "prompt_tokens": 1166,
+ "response_tokens": 5,
+ "elapsed_s": 0.37,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "construct_instance",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

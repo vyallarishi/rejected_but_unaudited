@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14096",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 3838,
+ "raw": "FAULT: __getattr__",
+ "finish_reason": "stop",
+ "prompt_tokens": 990,
+ "response_tokens": 6,
+ "elapsed_s": 0.43,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__getattr__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

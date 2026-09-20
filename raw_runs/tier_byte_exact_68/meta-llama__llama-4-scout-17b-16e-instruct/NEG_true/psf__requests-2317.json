@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5079,
+ "raw": "To solve this issue, we need to understand the problem and the code flow. The problem arises when a byte string `method=b'GET'` is passed to `requests`. This byte string is then converted to a literal string `\"b'GET'\"` instead of the expected string `'GET'`. This conversion happens in the `prepare_method` function of the `PreparedRequest` class.\n\nThe `prepare_method` function is called by the `prepare` function, which is in turn called by `Session.request`. The `prepare_method` function contains the line `self.method = builtin_str(self.method).upper()`. \n\nIn Python 3, `builtin_str` is an alias for `str`, and `str(b'GET')` evaluates to the literal string `\"b'GET'\"`. This string is then uppercased to `\"B'GET'\"` and stored as the request's method.\n\nThe fault lies in the `prepare_method` function. This function should handle byte strings correctly, converting them to their string equivalent. However, the current implementation using `builtin_str` does not do this correctly.\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 1199,
+ "response_tokens": 229,
+ "elapsed_s": 1.34,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

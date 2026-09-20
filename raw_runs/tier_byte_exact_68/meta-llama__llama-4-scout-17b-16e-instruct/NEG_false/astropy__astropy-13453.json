@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7562,
+ "raw": "To solve this issue, we need to identify the function responsible for writing the HTML table and modify it to apply the formatting specified in the `formats` dictionary.\n\n### Thought Process\n\n1. **Understanding the Issue**: The problem lies in the way astropy's `write()` method handles the `formats` option when outputting to HTML format. The `formats` option is ignored, and the output is not formatted as required.\n\n2. **Identifying the Relevant Code**: The code responsible for writing HTML tables is located in `astropy/io/ascii/html.py`. Specifically, the `HTMLOutputter` class and its `__call__` method seem to be involved in generating the HTML output.\n\n3. **Analyzing the Code**: Upon closer inspection, it appears that the `HTMLOutputter` class does not apply the formatting specified in the `formats` dictionary. This is in contrast to other output formats like CSV, RST, etc., which do respect the formatting.\n\n4. **Finding the Solution**: To fix this issue, we need to modify the `write` method of the `HTML` class in `astropy/io/ascii/html.py` to apply the formatting specified in the `formats` dictionary. This can be achieved by calling `self.data.format_columns(cols)` before generating the HTML output.\n\n### Solution\n\nThe fault lies in the `write` method of the `HTML` class. \n\nHere's how you can fix it:\n\n```python\n# In astropy/io/ascii/html.py\n\nclass HTML(core.BaseReader):\n    # ... existing methods ...\n\n    def write(self, table):\n        # Apply column formatting\n        cols = self.header.cols\n        for i, col in enumerate(cols):\n            if table._data[i].shape:\n                # Format each row of the column\n                formatted_col = []\n                for val in table._data[i]:\n                    if hasattr(self.formats, '__getitem__') and i in self.formats:\n                        formatted_val = self.formats[i](val)\n                    else:\n                        formatted_val = str(val)\n                    formatted_col.append(formatted_val)\n                table._data[i] = formatted_col\n\n        # ... rest of the write method ...\n```\n\nHowever, the optimal solution would be to use `core.BaseData`'s `format_columns` method:\n\n```python\n# In astropy/io/ascii/html.py\n\nclass HTML(core.BaseReader):\n    # ... existing methods ...\n\n    def write(self, table):\n        self.data.format_columns(table)\n        # ... rest of the write method ...\n```\n\n### FAULT\n\nBased on the analysis, the function that contains the fault is:\n\n```\nFAULT: write\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1968,
+ "response_tokens": 547,
+ "elapsed_s": 2.24,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "write",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3343,
+ "raw": "FAULT: _combine",
+ "reasoning": "We need to answer which function contains the fault. The issue is that Q.__and__ doesn't support Exists on right side, but Exists.__and__ works because Exists likely implements __rand__? Actually Exists is an expression subclass, not Q. The problem is that Q._combine expects other to be Q, raising TypeError. The missing method is __rand__ on Exists to handle reverse operation, but the fault is in Q._combine because it doesn't accept non-Q. However the question: \"Which function contains the fault? Answer with one function name from the list\". The list includes many functions; the relevant one is Q._combine. That's where the TypeError is raised. So answer: _combine. But they might want the function name exactly as in list: def _combine(self, other, conn): So function name is _combine. Provide \"FAULT: _combine\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 941,
+ "response_tokens": 192,
+ "elapsed_s": 0.89,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_combine",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

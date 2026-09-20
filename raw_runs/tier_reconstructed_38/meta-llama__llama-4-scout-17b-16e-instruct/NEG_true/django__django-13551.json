@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2603,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 550,
+ "response_tokens": 8,
+ "elapsed_s": 0.76,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

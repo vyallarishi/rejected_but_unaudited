@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-3677",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 5834,
+ "raw": "FAULT: merge_core",
+ "finish_reason": "stop",
+ "prompt_tokens": 1613,
+ "response_tokens": 5,
+ "elapsed_s": 0.48,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "merge_core",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

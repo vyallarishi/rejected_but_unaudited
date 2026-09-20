@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 1533,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 369,
+ "response_tokens": 7,
+ "elapsed_s": 0.24,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

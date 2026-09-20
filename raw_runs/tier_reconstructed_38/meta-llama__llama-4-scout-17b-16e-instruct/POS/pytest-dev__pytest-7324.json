@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 1840,
+ "raw": "## Step 1: Understanding the Issue\nThe issue described involves Pytest crashing the interpreter on a debug build for Python 3.8+ when compiling an expression with `Expression.compile(\"False\")`. This leads to an assertion failure in the `compiler_nameop` function within Python's `compile.c`.\n\n## Step 2: Analyzing the Reproducer\nThe short reproducer provided shows that passing `\"False\"` to `Expression.compile` results in a crash. This suggests that the issue lies in how the input string is handled, particularly when it results in an AST node that represents a boolean value (`ast.Name(id='False', ...)`) being passed to the built-in `compile()` function.\n\n## 3: Identifying the Faulty Function\nThe `Expression.compile` method is the entry point for this bug. It calls a custom parser (`expression(Scanner(input))`) which returns an AST node. This AST node is then passed to the Python built-in `compile()` function. The problem arises in Python 3.8+ debug builds when `compile()` encounters specific AST nodes, like `ast.Name` for boolean literals.\n\n## 4: Relating to the Provided Code\nGiven the candidate functions in `src/_pytest/mark/expression.py`, we need to find which one directly contributes to the crash. The `Expression` class has a `compile` method that seems to be the entry point. However, the actual fault might be in how the expression is parsed and compiled, potentially involving the `expression` function or how the `Scanner` and `expression` functions interact to produce the AST.\n\n## 5: Conclusion\nThe `compile` method of the `Expression` class is directly involved as it's the method called with the input string. However, the root cause seems to stem from how the AST is generated and then compiled. Given that `Expression.compile` is where the problematic compilation starts, and considering that it directly leads to the invocation of `compile()` with a potentially problematic AST node, we focus on this method as the point of failure.\n\nThe final answer is: \nFAULT: compile",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 498,
+ "response_tokens": 426,
+ "elapsed_s": 1.51,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "compile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

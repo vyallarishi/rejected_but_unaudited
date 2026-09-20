@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8985,
+ "raw": "To solve this issue, we need to understand the problem and the provided code. The error occurs when trying to order a union queryset with derived querysets. \n\nThe problem arises from the fact that when `order_by()` is called on a queryset, it clones the queryset. However, in the case of a union queryset, the `clone()` method does not create a deep copy of the `combined_queries` attribute, which contains the sub-queries for the union. As a result, when `order_by()` is called on the clone, it modifies one of the shared sub-query objects in-place, corrupting the state of the original queryset.\n\nThe fault lies in the `clone()` method of the `Query` class, which is responsible for creating a copy of the query object. \n\nThe solution involves modifying the `clone()` method to create a deep copy of the `combined_queries` attribute.\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 2214,
+ "response_tokens": 186,
+ "elapsed_s": 1.02,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

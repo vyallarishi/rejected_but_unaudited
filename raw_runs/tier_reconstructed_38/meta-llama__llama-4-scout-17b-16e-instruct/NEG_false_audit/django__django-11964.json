@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6373,
+ "raw": "1: Understand the issue\nThe problem arises when creating an instance of a model with a field that has choices limited to a TextChoices or IntegerChoices enum. The value stored in the model instance is of the enum type, not the primitive type (e.g., string or integer) that the enum represents.\n\n##2: Identify the relevant code path\nWhen `MyObject.objects.create_value=MyChoice.FIRST_CHOICE)` is called, it directly assigns the enum object `MyChoice.FIRST_CHOICE` to the `my_str attribute of the model instance. This assignment occurs in the `Model.__init__` method, which is a part of Django's model base class.\n\n## 3: Analyze the Model.__init__ method\nThe `Model.__init__` method in `django/db/models/base.py` performs the initialization of a model instance. It directly sets the attributes of the instance based on the provided keyword arguments without converting enum values to their primitive types.\n\n## 4: Determine the fault\nThe fault lies in how the.__init__` method assignment of enum values to model fields. It does not convert enum members to their primitive values, leading enum object being stored as the attribute value instead of its primitive value.\n\n## 5: Conclusion\nGiven that is with how model instances are initialized and attributes are set, specifically with enum values not being converted to their primitive types, the function that contains the fault is `Model.__init__`.\n\nFAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1633,
+ "response_tokens": 358,
+ "elapsed_s": 2.64,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

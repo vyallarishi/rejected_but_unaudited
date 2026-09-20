@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5144,
+ "raw": "FAULT: URLValidator.__call__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1298,
+ "response_tokens": 267,
+ "elapsed_s": 1.04,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__call__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

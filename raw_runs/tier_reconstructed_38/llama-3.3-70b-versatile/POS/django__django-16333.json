@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 3069,
+ "raw": "FAULT: save",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 727,
+ "response_tokens": 4,
+ "elapsed_s": 0.26,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6662,
+ "raw": "Legend",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1637,
+ "response_tokens": 2,
+ "elapsed_s": 0.48,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "Legend",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

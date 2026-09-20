@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3742,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "We need to answer with the function name that contains the fault. The description says the error occurs in num_mock_patch_args function, where it does `if not p.attribute_name and p.new in sentinels`. The issue is that `p.new` is a numpy array, and `p.new in sentinels` triggers array truth value. So the faulty function is `num_mock_patch_args`. The list includes that function. So answer: FAULT: num_mock_patch_args.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1060,
+ "response_tokens": 114,
+ "elapsed_s": 0.77,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

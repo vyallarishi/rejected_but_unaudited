@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5335,
+ "raw": "To solve this issue, let's analyze the problem step by step.\n\n1. **Understanding the Issue**: The problem arises when the computer hostname is set to a non-ASCII value (e.g., \"\u6b63\u5b97\") and the email encoding is set to a non-unicode encoding like `iso-8859-1`. This causes an error when trying to send an email because Python attempts to convert all headers to the specified encoding, including the `Message-ID` header, which contains the hostname.\n\n2. **Identifying the Source of the Problem**: The error occurs in the `message.py` file within the `django/core/mail` directory. Specifically, the issue is with how the `Message-ID` header is generated and encoded.\n\n3. **Analyzing the Code**: The `Message-ID` header is generated using `make_msgid(domain=DNS_NAME)`. The `DNS_NAME` variable is set to a non-ASCII hostname, which causes the problem when the email encoding is set to `iso-8859-1`.\n\n4. **Finding a Solution**: To fix this issue, we need to ensure that the domain name is converted to a format that can be safely encoded in any email header. The standard way to handle non-ASCII domain names in emails is to use their punycode representation.\n\n5. **Identifying the Faulty Function**: The fault lies in how the `domain` is handled when generating the `Message-ID` header. Specifically, the `make_msgid` function is called with a `domain` parameter that may contain non-ASCII characters.\n\n6. **Solution Approach**: We need to modify the code so that it converts the domain name to punycode before using it to generate the `Message-ID` header. This can be achieved by using the `idna` library, which provides functions for converting between Unicode and IDNA-encoded (punycode) representations of domain names.\n\nGiven the analysis, the function that contains the fault is `make_msgid` in `django/core/mail/message.py`, as it is responsible for generating the `Message-ID` header and does not properly handle non-ASCII domain names.\n\nHowever, based on the provided information and standard practices, the actual function that needs modification or consideration is not directly listed, but we can infer that `forbid_multi_line_headers` or the code generating the `Message-ID` header needs adjustment.\n\nThe final answer is:\n```python\nforbid_multi_line_headers\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1307,
+ "response_tokens": 498,
+ "elapsed_s": 7.16,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "forbid_multi_line_headers",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2314,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user wants to add header rows to the RestructuredText (RST) output from an Astropy QTable. They provided some example code showing that when they try to use the 'header_rows' argument with the 'ascii.rst' format, it throws an error. The traceback points to the RST.__init__() method receiving an unexpected keyword argument 'header_rows'.\n\nLooking at the code structure, the RST class is in astropy/io/ascii/rst.py. The error occurs because the 'header_rows' parameter is passed to the RST writer, but the __init__ method of the RST class doesn't accept it. In Astropy's ASCII module, different writers handle various formats. The 'fixed_width' format probably accepts 'header_rows' because it's designed to allow multiple header rows, but the RST writer isn't set up that way.\n\nThe RST class inherits from FixedWidth, but maybe it doesn't properly handle the 'header_rows' parameter in its initialization. The FixedWidth class might expect certain parameters, but if RST's __init__ doesn't pass 'header_rows' along, that would cause the error. Alternatively, the RST writer might not support multiple header rows at all, so the parameter is unrecognized.\n\nLooking at the candidate functions mentioned: the RST class's __init__ is part of the issue. The user mentioned that the true cause is upstream, but the error is in the RST __init__ method getting an unexpected argument. So the problem is that the RST writer doesn't accept 'header_rows' even though it's passed through the write method.\n\nTherefore, the fault lies in the RST class's __init__ method not handling the 'header_rows' parameter. The __init__ needs to be modified to accept and process this argument, possibly by passing it to the parent class or using it to set up the headers correctly for RST format.\n</think>\n\nFAULT: RST.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 655,
+ "response_tokens": 419,
+ "elapsed_s": 1.22,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

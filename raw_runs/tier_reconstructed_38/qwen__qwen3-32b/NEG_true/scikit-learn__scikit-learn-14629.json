@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6148,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "\nOkay, let's try to figure out where the problem is. The user is using cross_val_predict with a MultiOutputClassifier and method 'predict_proba', which is causing an AttributeError because the MultiOutputClassifier doesn't have a 'classes_' attribute.\n\nLooking at the code, the error occurs when cross_val_predict tries to access estimator.classes_. The user mentioned that for MultiOutputClassifier, they need to access mo_clf.estimators_[i].classes_ instead. So the issue is that the code path in cross_val_predict assumes that the estimator has a classes_ attribute, but when using MultiOutputClassifier, this isn't present at the top level.\n\nThe relevant function here is cross_val_predict. When method is 'predict_proba', the code probably tries to get the classes_ from the estimator to structure the probability predictions. But since MultiOutputClassifier doesn't have classes_, it throws an error.\n\nLooking at the functions listed, the cross_val_predict function is the one that would be responsible for handling the method parameter and accessing the estimator's attributes. The specific part where estimator.classes_ is accessed without checking if it's a MultiOutputClassifier or similar would be the problem.\n\nSo the fault is in cross_val_predict. The function doesn't handle the case where the estimator is a MultiOutputClassifier and doesn't have the classes_ attribute directly. It needs to check if the estimator is a multi-output wrapper and then access the individual estimators' classes_ instead.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1522,
+ "response_tokens": 302,
+ "elapsed_s": 2.97,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

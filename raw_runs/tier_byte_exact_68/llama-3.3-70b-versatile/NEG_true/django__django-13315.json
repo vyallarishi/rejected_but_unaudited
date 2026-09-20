@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13315",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 5637,
+ "raw": "FAULT: apply_limit_choices_to_to_formfield",
+ "finish_reason": "stop",
+ "prompt_tokens": 1313,
+ "response_tokens": 10,
+ "elapsed_s": 0.43,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "apply_limit_choices_to_to_formfield",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

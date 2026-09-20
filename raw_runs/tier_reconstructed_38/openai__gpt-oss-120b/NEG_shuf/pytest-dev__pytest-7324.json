@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3315,
+ "raw": "FAULT: expr",
+ "reasoning": "We need to identify which function contains the fault causing the crash. The bug is that Expression.compile uses Python's compile on an AST that contains Name node with id \"False\". In Python debug builds, compile asserts that name is not \"None\", \"True\", \"False\". So the parser should treat these as constants, not names. So the fault is in the parser that creates ast.Name for \"False\" instead of ast.Constant. Likely in expression parsing functions: maybe in expression(s: Scanner) or in not_expr, etc. The token type for literals? The parser likely doesn't handle boolean literals specially. So the function that returns the AST node for a name token is probably `expression` or `expr` or `not_expr`. Which one creates Name nodes? Let's think: The grammar likely supports identifiers and maybe constants. The bug is that \"False\" is parsed as a name token, not a constant. So the function that maps token to AST node is probably `expr` or `not_expr`. The simplest answer: `expr`. But could be `expression`. The top-level function `expression(s: Scanner)` probably calls `expr` and returns AST. The actual creation of Name node likely in `expr`. So answer: `expr`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 884,
+ "response_tokens": 266,
+ "elapsed_s": 1.0,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "expr",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

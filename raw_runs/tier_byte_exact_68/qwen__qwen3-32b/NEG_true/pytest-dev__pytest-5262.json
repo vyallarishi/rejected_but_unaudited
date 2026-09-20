@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 9766,
+ "raw": "<think>\nOkay, let's try to figure out which function in the provided list is causing the issue. The problem is that when youtube-dl writes to the captured output in pytest, it's sending bytes, but the EncodedFile's write method is expecting a string. The error occurs because youtube-dl checks the mode of the file object and sees a 'b' (binary mode), so it sends bytes instead of strings. However, the EncodedFile's write method can't handle bytes, leading to a TypeError.\n\nLooking at the code, the EncodedFile class's __init__ method takes a buffer and an encoding. The buffer here is probably a binary buffer (like from a file opened in binary mode), which has a mode attribute with 'b' in it. When youtube-dl checks the mode of the EncodedFile, it's actually getting the mode from the underlying buffer because the EncodedFile doesn't have its own mode attribute. So, the EncodedFile's write method is being called with bytes, which it doesn't handle.\n\nThe key here is that the EncodedFile's __init__ method stores the buffer but doesn't set its own mode attribute. Therefore, when someone accesses the mode property of the EncodedFile instance, it falls back to the buffer's mode, which includes 'b'. This leads youtube-dl to believe it's writing to a binary stream and thus sends bytes, which then causes the error because EncodedFile's write method doesn't accept bytes.\n\nSo, the fault lies in how the EncodedFile class is handling the mode. The EncodedFile is supposed to be a text-based wrapper around a binary buffer, but it's not properly managing the mode attribute. The __init__ method of EncodedFile is the starting point here. The buffer passed in has a mode that includes 'b', and since EncodedFile doesn't override the mode attribute, when youtube-dl checks the mode, it sees 'rb+' or similar and sends bytes. \n\nTherefore, the function that's at fault is the __init__ method of the EncodedFile class. It's creating the EncodedFile with a buffer that has a binary mode, but the EncodedFile itself should present a text mode (without 'b') to prevent libraries like youtube-dl from sending bytes instead of strings. The __init__ method doesn't set the mode correctly for the EncodedFile instance, leading to the incorrect behavior.\n</think>\n\nFAULT: __init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 2384,
+ "response_tokens": 508,
+ "elapsed_s": 1.53,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

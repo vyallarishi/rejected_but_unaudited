@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 15078,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The problem is that the `autodoc_typehints = \"description\"` option causes Sphinx's `autoclass` to include the class's \"return type\" for code such as the `__init__` method in the `Square` class.\n\nThe `autodoc_typehints = \"description\"` option is used to include type hints in the documentation. However, it seems that this option is causing the return type `None` to be displayed for the `__init__` method.\n\nAfter analyzing the code, we can see that the issue lies in the `format_signature` method of the `DocstringSignatureMixin` class. This method is responsible for creating the signature string that is displayed for the `__init__` method.\n\nThe problem arises from the fact that the `retann` variable is not being cleared between different signatures. This means that if the first signature has a return annotation, it will be displayed for all subsequent signatures, even if they do not have a return annotation.\n\nTo fix this issue, we need to reset the `retann` variable to `None` after each signature is processed. This can be achieved by adding a line to reset `retann` to `None` after the signature is reconstructed.\n\nHere is the corrected code:\n\n```python\ndef _call_format_args(self, **kwargs: Any):\n    # ...\n    retann = self.get_return_annotation()\n    # ...\n    if retann:\n        # ...\n    else:\n        retann = None  # <--- Add this line to reset retann\n    # ...\n```\n\nHowever, based on the conversations and code changes provided, the fault is in the `_call_format_args` function.\n\nFAULT: _call_format_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3517,
+ "response_tokens": 369,
+ "elapsed_s": 4.03,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_call_format_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3689,
+ "raw": "FAULT: get",
+ "reasoning": "\nOkay, let's see. The user is talking about refactoring the AutocompleteJsonView in Django's admin to make it easier to add extra fields in the autocomplete response. The main issue is that currently, if someone wants to add extra data to the autocomplete results, they have to override the entire get() method, which is not ideal because when the original method changes, their custom code might break. \n\nThe proposed solution is to extract the part where the results are serialized into a separate method, like serialize_result(), so that users can just override that method instead of the whole get(). The example shows that in the current get() method, there's a list comprehension that builds the 'results' dictionary with 'id' and 'text'. By moving that into a helper method, it becomes easier to extend.\n\nLooking at the candidate functions listed, the get() method is part of AutocompleteJsonView. The problem lies in the get() method because that's where the results are constructed. The user is suggesting modifying the get() method to use a helper method for serialization. So the fault is in the get() function of AutocompleteJsonView. The current hardcoded part in get() is what needs to be refactored. Therefore, the function that contains the fault is the get() method.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 830,
+ "response_tokens": 268,
+ "elapsed_s": 3.42,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 11061,
+ "raw": "FAULT: draw",
+ "reasoning": "We need to answer with the function name that contains the fault. The description says there is a comment \"Patch has traditionally ignored the dashoffset.\" and a context manager that overwrites dash offset with 0. Likely in Patch.draw method. Let's locate: In patches.py, class Patch has draw(self, renderer). That likely contains the code. So answer: draw. Provide as \"draw\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 2958,
+ "response_tokens": 93,
+ "elapsed_s": 0.77,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

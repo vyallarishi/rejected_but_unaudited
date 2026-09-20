@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7141,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when they define radio_fields in their ModelAdmin, it overrides the empty_label they set in formfield_for_foreignkey. \n\nSo, looking at the code example, they have a MyModelAdmin class where they set radio_fields to 'myfield', and in formfield_for_foreignkey, they try to set the empty_label. But when they do that, the custom empty_label isn't applied because the super call (which goes to BaseModelAdmin's formfield_for_foreignkey) sets the empty_label to _('None') if the field is blank.\n\nThe key part in the description is that in django/contrib/admin/options.py, around line 234, there's code that sets kwargs['empty_label'] based on whether the field is blank. The user suggests changing that line to check if there's already an empty_label in kwargs before applying the default.\n\nThe problem here is that when radio_fields is used, the BaseModelAdmin's formfield_for_foreignkey method is called, and it's overwriting the empty_label that the user set. The user's analysis points to the line in BaseModelAdmin.formfield_for_foreignkey where the empty_label is being set unconditionally when the field is in radio_fields. \n\nLooking at the list of functions provided, the relevant one is BaseModelAdmin.formfield_for_foreignkey. That's where the empty_label is being overwritten. The user's fix suggests modifying how the empty_label is assigned there. So the fault lies in that function because it's not respecting the empty_label provided in the kwargs when radio_fields is in use.\n</think>\n\nFAULT: BaseModelAdmin.formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1655,
+ "response_tokens": 349,
+ "elapsed_s": 1.03,
+ "key_suffix": "15GW3E",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

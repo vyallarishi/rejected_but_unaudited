@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3365,
+ "raw": "To solve this issue, we need to understand the problem and then identify the function that contains the fault.\n\nThe problem is that the `MigrationRecorder` does not obey the `db_router` allow_migrate rules. Specifically, when running tests, the `migrate` command is called against each connection, and the `MigrationRecorder` tries to create the `django_migrations` table on each connection, even if the `db_router` has specified that migrations should not be allowed on those connections.\n\nThe key to solving this issue is to identify where the `MigrationRecorder` decides to create the `django_migrations` table. The relevant code is in the `ensure_schema` method of the `MigrationRecorder` class.\n\nThe `ensure_schema` method checks if the `django_migrations` table exists on the current connection. If it does not exist, it tries to create it. However, it does not check the `db_router` allow_migrate rules before creating the table.\n\nTherefore, the function that contains the fault is `ensure_schema`.\n\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 731,
+ "response_tokens": 216,
+ "elapsed_s": 0.98,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

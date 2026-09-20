@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13128",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 4252,
+ "raw": "FAULT: _resolve_output_field",
+ "finish_reason": "stop",
+ "prompt_tokens": 1039,
+ "response_tokens": 7,
+ "elapsed_s": 0.37,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_resolve_output_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2925,
+ "raw": "## Step 1: Identify the Problem\nThe problem lies in the rendering of a `SplitArrayField` with a `BooleanField` where all widgets are checked after the first `True` value in the initial data array.\n\n## Step 2: Understand the Cause\nThe cause of this issue is that the `CheckboxInput` widget's `get_context` method modifies the `attrs` dictionary by setting `'checked': True` when it encounters a `True` value. This modified dictionary is then used for all subsequent widgets, causing them to be rendered as checked.\n\n## 3: Analyze the Candidate Functions\nThe candidate functions are from `django/contrib/postgres/forms/array.py`. We need to find which function is responsible for creating and updating the `final_attrs` dictionary that is used for all subwidgets.\n\n## 4: Examine the `SplitArrayWidget` Class\nThe `SplitArrayWidget` class has a `get_context` method that creates a single `final_attrs` dictionary for all subwidgets. This method loops through the data, calling `self.widget.get_context` for each item and passing the same `final_attrs` dictionary instance each time.\n\n## 5: Identify the Faulty Function\nGiven that the `get_context` method of `SplitArrayWidget` is where the `final_attrs` dictionary is created and updated for each subwidget, and considering that `CheckboxInput.get_context` modifies the `attrs` dictionary, the faulty function is likely the one that allows this modification to persist across all widgets.\n\n## 6: Conclusion\nThe function that contains the fault is `get_context` of the `SplitArrayWidget` class, as it is responsible for the creation and reuse of the `final_attrs` dictionary. However, based on the provided information and following the format strictly for the answer:\n\nFAULT: get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 661,
+ "response_tokens": 374,
+ "elapsed_s": 1.54,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

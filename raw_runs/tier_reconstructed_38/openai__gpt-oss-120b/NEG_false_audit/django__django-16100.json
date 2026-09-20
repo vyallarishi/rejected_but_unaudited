@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7185,
+ "raw": "FAULT: changelist_view",
+ "reasoning": "We need to identify which function contains the fault: missing transaction handling for list_editable processing. The description says \"Add transaction handling to Changelist list_editable processing.\" The function likely is changelist_view in ModelAdmin, which processes POST for list_editable. The issue: missing transaction. So the fault is in changelist_view. The list includes \"changelist_view(self, request, extra_context=None)\". So answer: changelist_view.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1724,
+ "response_tokens": 108,
+ "elapsed_s": 0.84,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

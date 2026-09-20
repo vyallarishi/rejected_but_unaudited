@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4967,
+ "raw": "FAULT: setup",
+ "finish_reason": "stop",
+ "prompt_tokens": 1324,
+ "response_tokens": 147,
+ "elapsed_s": 0.83,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "setup",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

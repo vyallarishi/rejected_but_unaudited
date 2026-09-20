@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4969,
+ "raw": "### Thought Process and Reasoning\n\nThe issue arises from a change in Python's URL splitting behavior due to a fix for bpo-43882. This change causes URLs with certain characters (LF, CR, and tabs) to be stripped before being validated. As a result, tests for the `URLValidator` in Django fail because they expect a `ValidationError` to be raised for URLs containing these characters.\n\nTo identify the faulty function, we need to examine how the `URLValidator` handles URLs and how it interacts with the changed URL splitting behavior in Python.\n\nThe `URLValidator` is a subclass of `RegexValidator`, and its `__call__` method is where the validation logic resides. This method first attempts to validate the URL using a regular expression. If the validation fails, it catches the `ValidationError`, splits the URL into its components using `urlsplit`, and then reconstructs the URL without the forbidden characters.\n\nGiven this context, the fault lies in how the `URLValidator` handles the URL after it has been stripped of certain characters by Python's `urlsplit` function. Specifically, the issue is with the `__call__` method of the `URLValidator` class.\n\n### Solution\n\nThe function that contains the fault is:\n\n```\nFAULT: URLValidator.__call__\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1200,
+ "response_tokens": 264,
+ "elapsed_s": 1.03,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__call__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

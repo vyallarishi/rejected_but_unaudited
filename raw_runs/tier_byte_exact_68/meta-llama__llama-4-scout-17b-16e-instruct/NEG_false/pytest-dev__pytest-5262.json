@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8179,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The error occurs when `youtube-dl` logs to pytest's captured output. The issue arises because `_pytest.capture.EncodedFile` mode includes `b` (binary), which `youtube-dl` uses to decide whether to write `bytes` or `str`.\n\nThe key to solving this problem lies in the `EncodedFile` class in `src/_pytest/capture.py`. The `EncodedFile` class is used to capture output and encode it to text. However, its `mode` attribute is not explicitly set, which leads to the problem.\n\nUpon closer inspection, we find that the `EncodedFile` class proxies attribute lookup to the underlying buffer. This means that when `youtube-dl` accesses the `mode` attribute of the `EncodedFile` object, it gets the binary mode string from the underlying buffer, which includes the `b` character.\n\nTo fix this issue, we need to modify the `EncodedFile` class to override the `mode` attribute and exclude the `b` character. This can be achieved by adding a `mode` property to the `EncodedFile` class that returns the mode without the `b` character.\n\nHere is the corrected code:\n\n```python\nclass EncodedFile(object):\n    def __init__(self, buffer, encoding):\n        self.buffer = buffer\n        self.encoding = encoding\n\n    @property\n    def mode(self):\n        mode = self.buffer.mode\n        return mode.replace('b', '')\n\n    def write(self, obj):\n        if isinstance(obj, six.text_type):\n            obj = obj.encode(self.encoding, \"replace\")\n        elif _PY3:\n            raise TypeError(\n                \"write() argument must be str, not {}\".format(type(obj).__name__)\n            )\n        self.buffer.write(obj)\n\n    def writelines(self, linelist):\n        if _PY3:\n            linelist = [l.encode(self.encoding, \"replace\") for l in linelist]\n        self.buffer.writelines(linelist)\n\n    def name(self):\n        return self.buffer.name\n\n    def __getattr__(self, name):\n        return getattr(self.buffer, name)\n```\n\nThe function that contains the fault is `EncodedFile`'s `__init__` and its implicit handling of the `mode` attribute. However, based on the provided code and following the required format for the answer:\n\nFAULT: EncodedFile",
+ "finish_reason": "stop",
+ "prompt_tokens": 2026,
+ "response_tokens": 502,
+ "elapsed_s": 1.75,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "EncodedFile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

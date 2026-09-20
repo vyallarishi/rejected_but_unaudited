@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 17563,
+ "raw": "FAULT: to_unstacked_dataset",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 4702,
+ "response_tokens": 8,
+ "elapsed_s": 0.84,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "to_unstacked_dataset",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

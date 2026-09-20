@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3243,
+ "raw": "FAULT: clone",
+ "reasoning": "We need to identify which function contains the fault causing the error. The error occurs in sklearn.base.clone, which calls estimator.get_params(deep=False). In the recursive call, estimator is a class (StandardScaler), not an instance. The class has get_params attribute (function) but calling it without instance leads to missing self. So the bug is in clone: it should check if estimator is a class (type) before trying to call get_params. The question: \"Which function contains the fault?\" The candidate list includes clone, BaseEstimator.get_params, etc. The fault is in clone function. So answer: clone.",
+ "finish_reason": "stop",
+ "prompt_tokens": 841,
+ "response_tokens": 139,
+ "elapsed_s": 0.85,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

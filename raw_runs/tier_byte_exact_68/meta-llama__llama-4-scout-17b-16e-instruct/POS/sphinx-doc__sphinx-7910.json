@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6682,
+ "raw": "To solve this issue, we need to identify the function that is responsible for determining whether a member can be documented. The problem arises when the `__init__` method is decorated, and Sphinx fails to recognize it as a method.\n\nThe key to solving this issue lies in understanding how Sphinx handles decorated methods. When a method is decorated, its `__globals__` attribute does not contain the class in which it is defined. This causes Sphinx to incorrectly identify the method as not being a member of the class.\n\nThe function that contains the fault is `can_document_member`. This function is responsible for determining whether a member can be documented. It checks if the member is a routine using `inspect.isroutine(member)`. However, when the member is a decorated method, `inspect.isroutine(member)` returns `False`, causing the function to return `False` and preventing the method from being documented.\n\nThe issue can be fixed by modifying the `can_document_member` function to unwrap the decorated method before checking if it is a routine.\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1762,
+ "response_tokens": 216,
+ "elapsed_s": 1.05,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

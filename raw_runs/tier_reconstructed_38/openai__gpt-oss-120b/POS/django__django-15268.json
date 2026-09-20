@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2525,
+ "raw": "FAULT: reduce",
+ "reasoning": "We need to identify which function contains the fault. The issue: Optimize multiple AlterFooTogether operations into one. The reduce method is used to combine operations. The base class Operation.reduce probably returns False, meaning not reducible. The specific operations (AlterUniqueTogether, AlterIndexTogether) need to override reduce to combine consecutive operations that cancel each other (like removing then adding). The fault is that they don't override reduce, so base implementation returns False. So the function containing the fault is reduce in base class? Or the missing override? The question: \"Which function contains the fault? Answer with one function name from the list\". The list includes reduce. So the faulty function is reduce (in base class). So answer: reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 664,
+ "response_tokens": 160,
+ "elapsed_s": 0.84,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

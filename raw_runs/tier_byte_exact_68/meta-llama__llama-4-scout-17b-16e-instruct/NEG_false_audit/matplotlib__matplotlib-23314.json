@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-23314",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5195,
+ "raw": "To solve this issue, we need to understand the problem and the code provided. The problem statement indicates that the `set_visible()` function is not working as expected for 3D projections in matplotlib. Specifically, when `set_visible(False)` is called on an axes object with a 3D projection, the axes still appear visible.\n\nThe provided code snippet demonstrates this issue:\n```python\nimport matplotlib.pyplot as plt\nfrom matplotlib.gridspec import GridSpec\n\nfig, (ax1, ax2) = plt.subplots(1, 2, subplot_kw={'projection': '3d'})\nax1.scatter(1,1,1)\nax2.scatter(1,1,1, c='r')\nax1.set_visible(False)\n\nplt.show()\n```\nIn this example, `ax1` is set to be invisible, but it still appears when the plot is displayed.\n\nThe expected behavior is that `ax1` should not be visible when `set_visible(False)` is called.\n\nAfter analyzing the code and the issue, it appears that the problem lies in the `draw` method of the `Axes3D` class. This method does not check the visibility of the axes before drawing it.\n\nTo fix this issue, we need to modify the `draw` method to check the visibility of the axes before drawing it. The correct function to modify is the `draw` method in the `Axes3D` class.\n\nFAULT: draw",
+ "finish_reason": "stop",
+ "prompt_tokens": 1448,
+ "response_tokens": 292,
+ "elapsed_s": 1.09,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8205,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves the `.swap_dims()` method in xarray, which appears to modify the original object under certain conditions. To address this, we need to understand how `.swap_dims()` works and where the mutation of the original object might be occurring.\n\n1. **Understanding `.swap_dims()`**: This method swaps the dimensions of a dataset. It can promote a data variable to a dimension coordinate variable if specified.\n\n2. **Identifying the Issue**: The problem arises when a data variable that is swapped into being a dimension coordinate variable seems to modify the original object's `.dims` or related attributes.\n\n3. **Analyzing the Code**: The provided Minimal Complete Verifiable Example (MCVE) demonstrates the issue. It creates a dataset `ds`, swaps its dimensions so that `\"lev\"` becomes a dimension coordinate, and then creates another dataset `ds2` based on transformations of `ds`. When `ds2` undergoes a similar dimension swap, its original structure is altered unexpectedly.\n\n4. **Localization of the Fault**: The fault seems to be related to how variables are handled during the dimension swap, particularly when creating a new dataset with a variable that transitions from a data variable to a dimension coordinate.\n\n5. **Candidate Functions**: The primary function to examine is `Dataset.swap_dims`, as it directly performs the dimension swapping.\n\n6. **Reasoning**: The issue likely stems from how variables are copied or referenced during the swapping process. If a variable is not properly copied when its role changes (from data variable to dimension coordinate), modifying it could affect the original dataset.\n\n### Solution\n\nThe fault lies in the implementation of `Dataset.swap_dims`. Specifically, when constructing the new dataset, if a variable is to become a dimension coordinate, it seems that the code does not ensure a deep copy of the variable's properties. This could lead to in-place modifications of the original variable objects.\n\nTo fix this, one should ensure that when a variable transitions from a data variable to a dimension coordinate, its properties (like `dims`) are updated on a copy of the variable, not the original.\n\n### FAULT\n\n```python\n_FAULT: swap_dims\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2305,
+ "response_tokens": 439,
+ "elapsed_s": 1.54,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "swap_dims",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

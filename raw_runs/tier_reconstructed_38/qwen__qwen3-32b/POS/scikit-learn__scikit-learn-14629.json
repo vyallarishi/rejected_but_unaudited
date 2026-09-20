@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4855,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is getting an AttributeError when using cross_val_predict with method='predict_proba' on a MultiOutputClassifier. The error says that the MultiOutputClassifier doesn't have a 'classes_' attribute. \n\nFirst, I remember that cross_val_predict is supposed to generate predictions (or probabilities in this case) using cross-validation. The MultiOutputClassifier wraps individual classifiers for each output. Normally, when you call predict_proba on a MultiOutputClassifier, it returns predictions from each underlying estimator. But cross_val_predict might be trying to access the classes_ attribute of the top-level estimator, which in this case (MultiOutputClassifier) doesn't have it. Instead, each individual estimator in the MultiOutputClassifier's estimators_ list would have their own classes_.\n\nLooking at the user's code, when they call cross_val_predict with method='predict_proba', the error occurs because the code is trying to access estimator.classes_ where estimator is the MultiOutputClassifier. But that's not present. The correct approach would be to get the classes_ from each individual estimator in the MultiOutputClassifier.\n\nThe user mentioned the code in _validation.py lines 857-866. Let me check that part. The function cross_val_predict is in _validation.py, and when method is 'predict_proba', it might be using the _enforce_prediction_order function, which uses the classes_ attribute. \n\nIn the _enforce_prediction_order function, they try to get the classes_ from the estimator. For a MultiOutputClassifier, this would fail because the classes_ aren't at the top level. The function probably expects that the estimator has a classes_ attribute, which is true for most classifiers, but not for MultiOutputClassifier. \n\nSo the fault is in the cross_val_predict function because it's not handling the case where the estimator (MultiOutputClassifier) doesn't have a classes_ attribute. Instead, it should be accessing the individual estimators' classes_ attributes. \n\nWait, but cross_val_predict is a general function that works with any estimator. How can it know that for MultiOutputClassifier, it needs to look into each estimator? Maybe the MultiOutputClassifier should have a classes_ attribute that aggregates the classes from each individual estimator. But I don't think it does. \n\nAlternatively, maybe the cross_val_predict function is incorrectly assuming that all estimators have a classes_ attribute when using predict_proba. The MultiOutputClassifier's predict_proba returns a list of arrays (one per output), and each of those would have their own classes. But cross_val_predict is trying to get the classes_ from the top-level estimator, which isn't there. \n\nSo the function that's causing the problem is cross_val_predict, because it's using estimator.classes_ without checking if the estimator actually has that attribute. The specific code path is when method is 'predict_proba', which requires accessing classes_ to enforce the order of predictions. \n\nTherefore, the FAULT is in cross_val_predict.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1239,
+ "response_tokens": 626,
+ "elapsed_s": 13.91,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

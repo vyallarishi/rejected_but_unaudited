@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7562,
+ "raw": "<think>\nOkay, let's try to figure out why the HTML format isn't respecting the formats argument. The user provided a code example where they set formats for column 'a' to format it with two decimal places in scientific notation. When writing to HTML, it doesn't apply that format, but it works for CSV and RST.\n\nLooking at the candidate functions in astropy/io/ascii/html.py, the HTML class is probably involved here. The write method in the HTML class is called when the user calls Table.write with format='html'. \n\nIn the localization notes, it says that the HTML.write method is called, but it doesn't call self.data.format_columns(cols), which is where the formatting is usually applied. Other formats probably do call this method, which applies the formats dictionary. So the issue is that the HTML writer isn't processing the formats correctly.\n\nThe HTML class's write method is responsible for handling the writing process. If it's not calling the format_columns method, then the formatting specified in the formats argument isn't being applied. Instead, the raw data is being converted to strings without any formatting. \n\nTherefore, the fault lies in the HTML.write function because it's not properly applying the formats. The other formats, like CSV, probably do call the necessary methods to apply the formatting. The write method in the HTML class needs to be modified to handle the formats argument correctly, perhaps by invoking the format_columns method or another part of the framework that processes the formats.\n</think>\n\nFAULT: HTML.write",
+ "finish_reason": "stop",
+ "prompt_tokens": 2025,
+ "response_tokens": 307,
+ "elapsed_s": 1.49,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "write",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

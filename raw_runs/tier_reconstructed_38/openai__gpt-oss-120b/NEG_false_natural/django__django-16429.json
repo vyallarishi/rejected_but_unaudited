@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1839,
+ "raw": "FAULT: timesince",
+ "reasoning": "We need to answer which function contains the fault. The issue is timesince() raises TypeError with USE_TZ=True and >1 month interval. The description says pivot instantiated in timesince.py lines 93-100 does not take into account tzinfo. So the faulty function is timesince (the function that raises error). The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" The list includes def timesince(...), def timeuntil(...). The fault is in timesince. So answer: FAULT: timesince.",
+ "finish_reason": "stop",
+ "prompt_tokens": 523,
+ "response_tokens": 140,
+ "elapsed_s": 0.86,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

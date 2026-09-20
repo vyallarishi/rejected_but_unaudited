@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6216,
+ "raw": "FAULT: __init__",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is using Django's TextChoices for a model field, but when they create an instance with MyChoice.FIRST_CHOICE, the my_str_value isn't being stored as the string 'first' but instead as the enum member. Then, when they test, they expect the string but get the enum's string representation, which is 'MyChoice.FIRST_CHOICE'.\n\nSo the issue is that when the model is initialized, the value of MyChoice.FIRST_CHOICE (which is an enum member) is being assigned directly to the field without converting it to the underlying string value. The model's __init__ method is setting the attribute directly, without going through the field's validation or conversion steps. \n\nIn Django, when you pass a value to a model instance during creation, the __init__ method should handle converting that value into the correct form for the field. But in this case, since MyChoice.FIRST_CHOICE is an enum, the model isn't converting it to the string 'first' before storing it. So when the user checks the value, it's still the enum member, not the string. \n\nLooking at the Model's __init__ method, it's possible that it's not properly handling the conversion for choices fields. The __init__ method might be setting the value directly without checking if it's an enum and converting it. The correct behavior would be for the model to take the enum member and extract its value (the string) before assigning it to the instance's attribute. \n\nSo the fault likely lies in the __init__ method of the Model class in Django. The __init__ method isn't converting the enum member to its primitive value when initializing the model instance. Instead, it's just assigning the enum object, which leads to the stored value being the enum instead of the string.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1434,
+ "response_tokens": 393,
+ "elapsed_s": 5.3,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

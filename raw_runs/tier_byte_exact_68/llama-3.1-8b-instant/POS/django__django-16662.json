@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16662",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 2190,
+ "raw": "FAULT: as_string",
+ "finish_reason": "stop",
+ "prompt_tokens": 493,
+ "response_tokens": 5,
+ "elapsed_s": 0.26,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "as_string",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

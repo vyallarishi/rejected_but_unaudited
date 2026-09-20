@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1668,
+ "raw": "FAULT: timesince",
+ "reasoning": "We need to answer with the function name that contains the fault. The issue is with timesince() function. The description says timesince() raises TypeError with USE_TZ=True and >1 month interval. So the faulty function is timesince. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So output: FAULT: timesince.",
+ "finish_reason": "stop",
+ "prompt_tokens": 487,
+ "response_tokens": 104,
+ "elapsed_s": 0.89,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-8898",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7072,
+ "raw": "FAULT: _regexp_csv_transfomer",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is saying that when they use a regular expression with a comma in the bad-name-rgxs configuration option, Pylint crashes. The example given is the regex \"(foo{1,3})\", which is split incorrectly because Pylint uses a CSV transformer that splits on commas, mangling the regex.\n\nLooking at the code provided, the relevant functions are probably the ones handling the transformation of the regex patterns. The user mentioned that _regexp_csv_transfomer is central. Let me check what that function does. \n\nThe _regexp_csv_transfomer probably uses the _csv_transformer, which splits the input string by commas. So if the regex has a comma inside, like in {1,3}, the CSV splitter would split it into two separate strings, which are not valid regexes. That's why when they try to compile \"(foo{1\" and \"3})\", both are invalid, leading to a re.error.\n\nThe fault here is that the CSV splitting isn't handling cases where commas are inside the regex. The function responsible for splitting the input into a list of regex strings is splitting on commas without considering that commas can be part of the regex syntax. The _csv_transformer is likely splitting on commas naively, without any context or escaping.\n\nLooking at the list of functions, the _regexp_csv_transfomer is the one that's supposed to handle the list of regex patterns. Since it's using a CSV transformer that splits on commas, but doesn't properly handle commas within the regex, that's where the problem is. The function _regexp_csv_transfomer is the one that applies this splitting, so it's the one with the fault. The function's job is to parse a comma-separated list of regex patterns, but it's not handling cases where commas are part of the regex syntax.\n\nTherefore, the fault lies in the _regexp_csv_transfomer function because it uses a CSV transformer that splits on commas without proper handling of commas within the regex patterns.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1895,
+ "response_tokens": 430,
+ "elapsed_s": 8.82,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_regexp_csv_transfomer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

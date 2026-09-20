@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 1769,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user wants pylint to follow the XDG Base Directory Specification, specifically moving the .pylint.d directory out of their home folder into the proper location like $HOME/.local/share/<PROGRAM_NAME>.\n\nThe problem is that pylint is creating a directory in the home folder, which violates the XDG specs. The user mentioned that the .pylint.d directory is being created because of the PYLINT_HOME constant set to ~/.pylint.d. \n\nLooking at the candidate functions in pylint/config/__init__.py, the functions listed are _get_pdata_path, load_results, save_results, and find_pylintrc. The user provided some localization notes indicating that _get_pdata_path is involved in generating the path using PYLINT_HOME. \n\nThe key part here is that _get_pdata_path reads the PYLINT_HOME constant, which is set to ~/.pylint.d. So whenever this function is called, it uses that path. The other functions like save_results and load_results probably use _get_pdata_path to get the path where they store or load data. But the root cause is that PYLINT_HOME is set to the home directory's .pylint.d. \n\nHowever, the question is asking which function contains the fault. The fault is likely in the function that defines or uses the PYLINT_HOME constant. But since the user says that the PYLINT_HOME is a constant in the code, the function that's directly using this constant to generate the path would be _get_pdata_path. \n\nWait, but maybe the actual issue is in how the path is determined. The _get_pdata_path function is responsible for generating the path based on the base name. If it's using the PYLINT_HOME constant which is set to the home directory, then changing that constant would fix the issue. But since the user is asking which function is the fault, perhaps the function that's creating the path incorrectly is _get_pdata_path. Because that's where the path is constructed using the incorrect base.\n\nSo the answer would be _get_pdata_path because it's using the PYLINT_HOME which is set to the home directory's .pylint.d. The function needs to be modified to use the XDG specified directory instead. The other functions might call it, but the actual problem lies in _get_pdata_path generating the path incorrectly.\n</think>\n\nFAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 414,
+ "response_tokens": 501,
+ "elapsed_s": 1.49,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

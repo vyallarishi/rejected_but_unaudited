@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9078,
+ "raw": "FAULT: _convert_data_to_col",
+ "reasoning": "We need to identify which function contains the fault: the automatic conversion of structured np.array to NdarrayMixin when added as column. The code snippet is in Table __init__ or conversion functions. The snippet:\n\n```\n# Structured ndarray gets viewed as a mixin unless already a valid\n# mixin class\nif (not isinstance(data, Column) and not data_is_mixin\n        and isinstance(data, np.ndarray) and len(data.dtype) > 1):\n    data = data.view(NdarrayMixin)\n    data_is_mixin = True\n```\n\nWhere is that? Likely in Table._convert_data_to_col or Table._convert_col_for_table. Search memory: In astropy.table.table._convert_data_to_col, they handle data conversion. The snippet likely resides there. So the function containing the fault is _convert_data_to_col. The question: \"Which function contains the fault? Answer with one function name from the list\". So answer: _convert_data_to_col.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2270,
+ "response_tokens": 219,
+ "elapsed_s": 1.11,
+ "key_suffix": "04ZFOa",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_convert_data_to_col",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

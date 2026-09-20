@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 2334,
+ "raw": "FAULT: parse_http_date_safe",
+ "finish_reason": "stop",
+ "prompt_tokens": 590,
+ "response_tokens": 7,
+ "elapsed_s": 1.26,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "parse_http_date_safe",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1349,
+ "raw": "FAULT: reverse",
+ "reasoning": "We need to identify which function contains the fault causing translate_url to create incorrect URL when optional named groups are missing. The description says translate_url calls resolve to get match, then reverse with kwargs=match.kwargs. For optional groups missing, match.kwargs contains key with None. reverse likely includes that None causing wrong URL. So the fault is in reverse handling of None values for optional named groups. So function reverse is faulty. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: reverse.",
+ "finish_reason": "stop",
+ "prompt_tokens": 376,
+ "response_tokens": 135,
+ "elapsed_s": 0.84,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reverse",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

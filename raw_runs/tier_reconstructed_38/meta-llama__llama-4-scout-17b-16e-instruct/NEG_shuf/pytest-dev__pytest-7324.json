@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3315,
+ "raw": "To solve this issue, let's analyze the problem step by step.\n\n1. **Understanding the Issue**: The problem occurs when `Expression.compile(\"False\")` is called, leading to a crash in the Python interpreter on a debug build for Python 3.8+. The error message points to an assertion failure in the `compiler_nameop` function within the Python source code, specifically related to the compilation of a name object (`ast.Name`) that represents a boolean literal (\"False\").\n\n2. **Analyzing the Code Flow**: \n   - The `Expression.compile` method is called with the input string `\"False\"`.\n   - This method likely uses a custom parser to create an Abstract Syntax Tree (AST) node representing the expression.\n   - The AST node for `\"False\"` is passed to the built-in `compile()` function.\n   - In Python 3.8+ debug builds, the `compile()` function, or more specifically the `compiler_nameop` function it calls, asserts that the name object does not represent a built-in constant like `\"None\"`, `\"True\"`, or `\"False\"`.\n\n3. **Identifying the Fault**:\n   - The fault lies in how the `Expression.compile` method handles the compilation of expressions that could potentially be confused with built-in constants.\n   - Specifically, passing `\"False\"` (or `\"True\"`) directly to `compile()` can trigger this issue because the Python interpreter's `compile()` function does not expect to see boolean literals as names.\n\n4. **Locating the Function**:\n   - Given the information and the code structure provided, the function that contains the fault is likely where the `compile()` function is called with user-input data that could be a boolean literal.\n\n5. **Conclusion**:\n   - The function `compile` within the `Expression` class seems to be the entry point for this issue. However, based on the task's requirement for a specific function name and analyzing the call stack and logic provided, the actual function to focus on would be the one directly involved in handling or compiling the input expressions.\n\nFAULT: compile",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 821,
+ "response_tokens": 422,
+ "elapsed_s": 7.08,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "compile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

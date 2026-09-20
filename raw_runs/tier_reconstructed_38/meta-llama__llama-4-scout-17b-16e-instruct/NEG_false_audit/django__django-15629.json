@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8117,
+ "raw": "To solve this issue, we need to identify the function in `django/db/backends/base/schema.py` that is responsible for altering fields, specifically foreign key fields, and ensure that the collation is properly propagated.\n\nThe issue arises when the primary key field of a model is altered to have a specific collation, but the foreign key fields that reference this primary key do not have the same collation. This results in a foreign key constraint error.\n\nThe function `alter_field` seems like a potential candidate, but it is ruled out. However, upon closer inspection, we can see that `alter_field` calls `_alter_field`, which in turn calls `_alter_column_type_sql`, `_alter_column_null_sql`, and `_alter_column_default_sql`. \n\nThe key function here appears to be `_alter_field`, but the actual fault seems to be in how the `db_parameters` are handled for foreign key fields. \n\nThe correct function to look at would be the one that handles the db parameters for the field. \n\nLooking at the code, we can see that `new_field.db_parameters()` is called in `_alter_field`. The `db_parameters` method for a `ForeignKey` field does not propagate the collation from the referenced field.\n\nHowever, looking at the code structure, it seems that `column_sql` is a key function that generates the SQL for a column. \n\nThe fault seems to be in how `column_sql` handles the `db_parameters` for foreign key fields.\n\nBut actually, looking closely at `django/db/backends/base/schema.py`, the issue seems to be with how the field is altered.\n\nFAULT: _alter_field",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1912,
+ "response_tokens": 333,
+ "elapsed_s": 1.22,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_alter_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

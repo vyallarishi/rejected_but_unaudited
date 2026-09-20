@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 11218,
+ "raw": "FAULT: Patch.draw",
+ "reasoning": "\nOkay, let's try to figure out where the bug is. The user is saying that when they set a linestyle with an offset on a patch object in Matplotlib, the offset doesn't take effect. They provided some code examples showing that with Line2D objects, the offset works, but with patches like Rectangle, it doesn't.\n\nLooking at the problem, the key is that the linestyle's offset is being ignored for patches. The user mentioned that in the Patch class's draw method, there's a comment saying that patches have traditionally ignored the dashoffset. Then there's a context manager that sets the dash pattern's offset to 0 temporarily. That seems like the issue because it's overriding the user's specified offset.\n\nSo, the draw method in the Patch class is where the problem lies. The code is explicitly setting the dash offset to 0, which would cause the offset to have no effect. The Line2D objects don't have this override, so their linestyle offsets work correctly. Therefore, the fault is in the draw method of the Patch class. The function that needs to be fixed is the draw method in the Patch class.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2975,
+ "response_tokens": 239,
+ "elapsed_s": 6.57,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

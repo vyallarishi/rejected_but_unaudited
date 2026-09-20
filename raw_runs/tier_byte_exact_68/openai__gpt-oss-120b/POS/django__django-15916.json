@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5515,
+ "raw": "FAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1338,
+ "response_tokens": 123,
+ "elapsed_s": 0.77,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

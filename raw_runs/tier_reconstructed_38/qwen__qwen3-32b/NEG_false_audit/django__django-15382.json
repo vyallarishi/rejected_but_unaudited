@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6290,
+ "raw": "FAULT: add_q",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using a filter with ~Exists on an empty queryset, the entire WHERE clause gets removed, leading to an EmptyResultSet. The user mentioned that this is similar to issue #33018, which I'm not familiar with, but maybe it's related to how Django handles empty querysets in Exist subqueries.\n\nLooking at the candidate functions, the key is to find where the query processing leads to the entire WHERE clause being cleared. The user's analysis points to add_q as being on the causal path. The add_q function receives the Q object and calls _add_q. The bug seems to happen during this processing, where set_empty() is called, marking the query as empty.\n\nSo, the function in question would be the one that handles adding the Q object and determines that the condition makes the query empty. The add_q function is directly involved, but maybe the actual fault is in _add_q. However, the candidate list includes add_q. Let me check the functions again.\n\nThe user says that add_q is on the causal path and that during _add_q execution, set_empty is called. The fault is likely in the function that processes the Q object and decides to set the query as empty when it shouldn't. Since the problem arises when the Exists subquery is empty, and the negation (~) should turn it into a condition that's always true (because NOT EXISTS (empty) is true), but Django is treating it as an empty queryset, leading to the entire WHERE being removed.\n\nIn Django's query construction, when a condition is deemed to result in an empty queryset, it might clear the WHERE clause. The function that decides to call set_empty() would be the culprit. The add_q function calls _add_q, which might be where this decision is made. If during processing the ~Exists(EmptyQuerySet), the system incorrectly determines that this leads to an empty result, then set_empty() is called, which would clear the WHERE clause.\n\nLooking at the candidate functions, the add_q function is listed. The description says that add_q receives the Q object and calls _add_q. The bug is that during this process, set_empty() is called. Therefore, the fault is in the add_q function because it's the one that initiates this processing and leads to the incorrect setting of the query as empty.\n\nAlternatively, maybe _add_q is the actual function where the decision is made, but since the user's localization notes mention add_q is on the causal path and that during _add_q execution, set_empty is called, the fault is in the function that's responsible for adding the Q object, which is add_q. But perhaps the actual issue is in _add_q, which isn't listed as a candidate. Wait, the candidate functions are listed, and add_q is present. The user's notes say that add_q is directly on the causal path. So the answer should be add_q.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1487,
+ "response_tokens": 623,
+ "elapsed_s": 5.72,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

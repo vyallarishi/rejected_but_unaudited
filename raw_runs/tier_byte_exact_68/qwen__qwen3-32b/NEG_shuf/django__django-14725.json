@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5690,
+ "raw": "<think>\nOkay, let's see. The issue is about model formsets not having a way to disallow new object creation. Users try using extra=0, but that's not reliable because someone can add more forms via JavaScript or POST data. The problem is that even if you set extra=0, the formset can still have new forms added, which would create new objects when saved.\n\nLooking at the functions provided, the key part is probably in the BaseModelFormSet class. The save_new_objects method is mentioned in the localization notes. That function is responsible for saving new objects. So, if we can prevent save_new_objects from being called, or make it not create new objects, that would solve the problem.\n\nThe question is, which function in the list is the one that needs to be modified to prevent new object creation. The save_new_objects function is part of BaseModelFormSet. If we override this method to do nothing or raise an error, then new objects can't be created. Alternatively, maybe there's a flag that can be set to prevent this.\n\nBut the user wants a way to make the formset \"edit only\". So perhaps adding a parameter to BaseModelFormSet that, when set, disables the creation of new objects. That would involve modifying save_new_objects to check that flag and not proceed if it's set.\n\nLooking at the list, the function that's part of BaseModelFormSet is save_new_objects. So the fault is in that function because it's the one that actually creates new objects. To disallow new object creation, we need to adjust this function's behavior based on some parameter. Therefore, the correct function to modify is save_new_objects.\n</think>\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1341,
+ "response_tokens": 349,
+ "elapsed_s": 1.08,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

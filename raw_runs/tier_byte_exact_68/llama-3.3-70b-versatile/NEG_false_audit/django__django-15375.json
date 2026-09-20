@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 6111,
+ "raw": "FAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1547,
+ "response_tokens": 6,
+ "elapsed_s": 0.61,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 16053,
+ "raw": "FAULT: format_signature",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3750,
+ "response_tokens": 5,
+ "elapsed_s": 0.53,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

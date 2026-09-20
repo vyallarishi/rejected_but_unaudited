@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1533,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "We need to answer with the function that contains the fault. The issue: Password reset token generation does not include email, so when email changes token still valid. The function that creates the hash value is _make_hash_value. That's where email should be added. So answer: FAULT: _make_hash_value.",
+ "finish_reason": "stop",
+ "prompt_tokens": 400,
+ "response_tokens": 79,
+ "elapsed_s": 0.81,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

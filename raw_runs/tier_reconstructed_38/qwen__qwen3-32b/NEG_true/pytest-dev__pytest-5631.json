@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4585,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The user is getting a ValueError when using pytest 3.6.0 with a patch that has a numpy array as the 'new' argument. The error occurs during test collection and is related to checking if p.new is in sentinels.\n\nLooking at the traceback, the error is in the num_mock_patch_args function. The specific line is in a list comprehension where they check if p.new is in sentinels. The problem is that when p.new is a numpy array, the 'in' operation returns a boolean array instead of a single boolean, leading to the ValueError because numpy arrays can't be converted to a single truth value.\n\nThe user mentioned that the issue was introduced by a commit that modified how pytest handles mock patch arguments. The function num_mock_patch_args is iterating over patchings and checking if p.new is in sentinels. The sentinels are probably some predefined objects, like the _SentinelObject instances used in pytest for special values. When p.new is a numpy array, the 'in' check is done element-wise, which isn't intended here.\n\nSo the faulty function is num_mock_patch_args. The check p.new in sentinels is supposed to determine if the 'new' argument is one of the sentinel values. However, when p.new is a numpy array, this check fails because numpy's __contains__ method behaves differently. The correct approach would be to ensure that the check is done in a way that doesn't trigger numpy's vectorized operations. Maybe converting p.new to a Python object first or using a different method to check for sentinels.\n\nTherefore, the function that contains the fault is num_mock_patch_args.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1190,
+ "response_tokens": 364,
+ "elapsed_s": 9.09,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

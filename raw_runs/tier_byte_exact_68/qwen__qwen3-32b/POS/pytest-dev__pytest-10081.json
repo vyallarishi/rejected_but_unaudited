@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4810,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that when they run pytest with --pdb, the tearDown method of a unittest.TestCase class that's marked with unittest.skip is being executed, even though the test is skipped. Normally, without --pdb, it's skipped correctly. \n\nSo, looking at the code flow, when a test is skipped at the class level with unittest.skip, the test collection should ignore all the test methods in that class. But in this case, when --pdb is used, the tearDown is called. \n\nThe user mentioned that the issue is similar to a previous one (#7215) but with class-level skip. In that case, the problem was with function-level skips. The candidate functions listed include several in the unittest plugin. \n\nThe key part of the localization notes says that when using --pdb, the unittest plugin's pytest_runtest_protocol hands over to the default pytest runner. The default runner calls item.setup(), which for unittest is handled by TestCaseFunction.setup. This setup doesn't check for class-level skips and proceeds to run setUp, setting _explicit_tearDown. Then, during the call phase, runtest raises a skip exception. But since teardown is called after, because _explicit_tearDown is set, the tearDown is executed.\n\nSo the problem is that the setup phase (which includes setUp) is being run even when the test is skipped at the class level. The setup method in TestCaseFunction isn't checking if the test is skipped before proceeding. \n\nLooking at the functions listed, the setup method in TestCaseFunction is responsible for setting up the test, including calling setUp. If the test is skipped at the class level, setup shouldn't run. But in this case, because the skip is handled in a different way (class-level vs method-level), maybe the check for whether to skip isn't happening in setup. \n\nThe function that's at fault here would be TestCaseFunction.setup, because it's the one that's triggering the setUp and thus setting the flag for tearDown. If setup didn't run when the test is skipped, then tearDown wouldn't be called. So the setup function isn't properly handling class-level skips, leading to the tearDown being called even when it shouldn't be.\n</think>\n\nFAULT: TestCaseFunction.setup",
+ "finish_reason": "stop",
+ "prompt_tokens": 1205,
+ "response_tokens": 469,
+ "elapsed_s": 1.54,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "setup",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

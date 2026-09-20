@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5788,
+ "raw": "To solve this issue, we need to understand the problem and the code involved. The problem is that when running `pytest --pdb` on a test class marked with `@unittest.skip`, the `tearDown` method of the test class is executed. This is unexpected behavior because the test is skipped, and therefore, the `tearDown` method should not be called.\n\nThe code involved is in the `src/_pytest/unittest.py` file, specifically in the `TestCaseFunction` class. This class is responsible for handling the setup and teardown of test cases.\n\nThe issue arises from the fact that when `pytest --pdb` is used, the default pytest runner is used, which calls `item.setup()` and then `item.teardown()` even if the test is skipped.\n\nThe fault is in the `setup` method of the `TestCaseFunction` class. This method does not check if the test class is marked with `@unittest.skip` before calling the `setUp` method of the test class.\n\nTo fix this issue, we need to modify the `setup` method to check if the test class is marked with `@unittest.skip` before calling the `setUp` method.\n\nHere is the debugged code:\n\n```python\ndiff --git a/src/_pytest/unittest.py b/src/_pytest/unittest.py\n--- a/src/_pytest/unittest.py\n+++ b/src/_pytest/unittest.py\n@@ -322,7 +322,7 @@\ndef setup(self) -> None:\n         if not hasattr(self, \"_explicit_setup\"):\n             self._explicit_setup = True\n             test_case = self._getobj()\n-            test_case.setUp()\n+            if not _is_skipped(test_case): \n+                test_case.setUp()\n```\n\nThe function that contains the fault is:\n\n```\nFAULT: _make_xunit_fixture\n``` \nHowever, based on further analysis, a more specific function can be identified.\n\n```\nFAULT: setup\n``` \n\nThis function is part of the `TestCaseFunction` class in `src/_pytest/unittest.py`. \n\nThe fix is to add a check for `_is_skipped` before calling `setUp`. \n\nWith this change, the `tearDown` method will not be called when a test class is marked with `@unittest.skip` and `pytest --pdb` is used.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1427,
+ "response_tokens": 484,
+ "elapsed_s": 1.45,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_make_xunit_fixture",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

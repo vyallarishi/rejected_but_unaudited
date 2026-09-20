@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2630,
+ "raw": "To solve this issue, we need to identify where the `non_form_errors` are being processed in the FormSet. The key lies in understanding how Django handles form and formset errors, specifically how it differentiates between field errors and non-field errors.\n\nThe `non_form_errors` method in `BaseFormSet` seems like a good starting point because it explicitly deals with errors that are not associated with any specific form field. However, the actual issue seems to stem from how `ErrorList` instances are created and used within FormSets, particularly in the context of `full_clean` and the rendering of non-form errors.\n\nUpon closer inspection, the critical part is in how `ErrorList` is instantiated for non-form errors in FormSets. The documentation and Django's implementation detail that for forms, non-field errors are given a CSS class of `nonfield`. For FormSets, a similar distinction is needed for non-form errors.\n\nThe fault lies in the `non_form_errors` method of `BaseFormSet` because that's where the `ErrorList` for non-form errors is created and used. Specifically, when `self.error_class` is instantiated without providing a specific `css_class`, it does not automatically add a CSS class like `nonform` for non-form errors in FormSets, unlike how `nonfield` is used for forms.\n\nHowever, based on the provided information and focusing on where the error class for non-form errors in FormSets should ideally be defined or modified:\n\nFAULT: non_form_errors",
+ "finish_reason": "stop",
+ "prompt_tokens": 620,
+ "response_tokens": 306,
+ "elapsed_s": 1.13,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "non_form_errors",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

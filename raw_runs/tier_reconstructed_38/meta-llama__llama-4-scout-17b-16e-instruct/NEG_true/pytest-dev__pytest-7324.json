@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3425,
+ "raw": "## Step 1: Understanding the Issue\nThe issue at hand involves Pytest crashing the interpreter on a debug build for Python 3.8+ when compiling a specific expression, in this case, \"False\". This crash occurs due to an assertion failure in the `compiler_nameop` function within Python's `compile.c` file. The assertion failure is related to the handling of certain keywords like \"None\", \"True\", and \"False\" as names in an Abstract Syntax Tree (AST) node.\n\n## 2: Analyzing the Reproducer\nThe provided reproducer shows that calling `Expression.compile(\"False\")` leads to the crash. This suggests that the issue lies in how Pytest constructs and handles expressions, specifically when these expressions are later compiled by the Python interpreter.\n\n## 3: Examining the Code Path\nThe code path involves:\n1. `Expression.compile` being called with the input \"False\".\n2. It calls a custom parser (`expression(Scanner(input))`) which returns an AST node (`ast.Name(id='False', ...)`)\n3. This AST node is then passed to the Python built-in `compile()` function.\n4. In Python 3.8+ debug builds, `compile()` calls `compiler_nameop` for the `ast.Name` node, leading to the assertion failure.\n\n## 4: Identifying the Faulty Function\nGiven the information and the code path, the faulty function seems to be related to how the expression is compiled and then handed over to the Python `compile()` function. The key here is the construction of the AST node that represents the name 'False', which is a keyword in Python.\n\n## 5: Eliminating Ruled-Out Functions\nSeveral functions have been ruled out:\n- `_assert_expr_to_lineno`: Not on the execution path for this bug.\n- `visit_Name`: Part of assertion rewriting, not involved in marker expression compilation.\n- `builtin`: Part of assertion rewriting, not on the execution path.\n- `accept`: A generic utility for token types, not directly involved in creating AST nodes that lead to the crash.\n\n## 6: Conclusion\nThe function that contains the fault is likely involved in the compilation or parsing of expressions in a way that leads to the creation of an AST node for a keyword ('False' in this case), which then causes an issue when compiled. Given the steps and the elimination process, the focus should be on where the expression is compiled and how it's prepared for compilation.\n\nThe final answer is: \nFAULT: expression",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 815,
+ "response_tokens": 511,
+ "elapsed_s": 1.57,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "expression",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13195",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5455,
+ "raw": "To solve this task, I will analyze the provided information and follow a step-by-step approach.\n\n1. **Understanding the Issue**: The problem arises from the `HttpResponse.delete_cookie()` method not preserving the cookie's `SameSite` attribute when deleting a cookie. This results in warnings from Firefox and potential issues with Chrome, as they will start ignoring cookies deleted without the `Secure` attribute and `SameSite=None`.\n\n2. **Analyzing the Code**: The `delete_cookie` method in `HttpResponseBase` does not set the `SameSite` attribute when deleting a cookie. It only sets `Secure` if the cookie's key starts with `__Secure-` or `__Host-`.\n\n3. **Identifying the Faulty Function**: The function responsible for this behavior is `delete_cookie` within the `HttpResponseBase` class. This method needs to be adjusted to preserve the `SameSite` attribute of the cookie being deleted.\n\n4. **Solution Approach**: To fix this, the `delete_cookie` method should be modified to accept and pass through the `samesite` parameter, similar to how the `set_cookie` method does. This would allow developers to specify the `SameSite` attribute when deleting cookies, ensuring compliance with modern browser security policies.\n\nGiven the analysis, the function that contains the fault is:\n\nFAULT: delete_cookie",
+ "finish_reason": "stop",
+ "prompt_tokens": 1277,
+ "response_tokens": 275,
+ "elapsed_s": 1.0,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "delete_cookie",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

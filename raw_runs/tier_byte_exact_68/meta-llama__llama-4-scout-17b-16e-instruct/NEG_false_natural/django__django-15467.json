@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5558,
+ "raw": "## Step 1: Analyze the Problem Description\nThe problem involves a `ModelAdmin` class where the `radio_fields` attribute is set. When a custom `empty_label` is defined in the `formfield_for_foreignkey` method, it gets overridden by the default empty label.\n\n## Step 2: Understand the Code Flow\nThe custom `empty_label` is set in the `formfield_for_foreignkey` method of the `MyModelAdmin` class. However, when `super().formfield_for_foreignkey` is called, it invokes `BaseModelAdmin.formfield_for_foreignkey`, which contains the line that overrides the custom `empty_label` with the default value if the field is blank and it's a radio field.\n\n## 3: Identify the Faulty Function\nThe faulty function is located in `django/contrib/admin/options.py`. The issue arises because when `db_field.name in self.radio_fields` is true, the code sets `kwargs['empty_label']` to `_('None')` if the field is blank, without considering if an `empty_label` has already been provided in `kwargs`.\n\n## 4: Determine the Correct Function Name\nThe function that contains the fault is `formfield_for_foreignkey` because it's where the `kwargs['empty_label']` is being overwritten when the field is in `radio_fields`, disregarding any custom `empty_label` that might have been set.\n\n## 5: Specify the Fault\nGiven the analysis, the function name that contains the fault is `formfield_for_foreignkey`.\n\nThe final answer is:\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1350,
+ "response_tokens": 337,
+ "elapsed_s": 1.13,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

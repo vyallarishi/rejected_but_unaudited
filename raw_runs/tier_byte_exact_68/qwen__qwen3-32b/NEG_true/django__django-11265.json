@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11265",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 9165,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when they use exclude on a queryset that has an annotated FilteredRelation, they get a FieldError. The error message says that 'book_alice' isn't a valid field. \n\nLooking at the traceback, the error occurs when trying to resolve the keyword 'book_alice' into a field. The relevant part of the code seems to be in the split_exclude function. The user mentioned that split_exclude creates a new query without the annotations from the original query. \n\nSo, when they call exclude, split_exclude is called, which creates a new Query instance. This new query doesn't have the annotations (like book_alice) that were added in the original query. Therefore, when it tries to add the filter on 'book_alice', it can't find that field, leading to the FieldError.\n\nThe key here is that the new query created in split_exclude doesn't inherit the annotations from the original query. The function split_exclude is responsible for handling the exclusion, and it's here where the new query is created without the necessary annotations. Therefore, the fault lies in the split_exclude function not properly copying over the annotations when creating the new query.\n</think>\n\nFAULT: split_exclude",
+ "finish_reason": "stop",
+ "prompt_tokens": 2322,
+ "response_tokens": 264,
+ "elapsed_s": 0.86,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "split_exclude",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 19554,
+ "raw": "FAULT: unique_variable",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 5153,
+ "response_tokens": 5,
+ "elapsed_s": 0.95,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "unique_variable",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

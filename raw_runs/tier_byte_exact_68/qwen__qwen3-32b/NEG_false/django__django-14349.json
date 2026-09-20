@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5031,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that Django's URLValidator tests are failing on Python versions that have the bpo-43882 patch. The tests expect a ValidationError to be raised when a URL has a newline character, but because of the Python fix, the newline is stripped before splitting, so the validation passes instead of failing.\n\nLooking at the Django code, the URLValidator is a subclass of RegexValidator. The __call__ method in URLValidator probably handles the validation logic. The issue arises because when the URL has a newline, the initial regex check fails, but then the code catches that error and uses urlsplit. With the Python fix, urlsplit now strips the newline, so the URL is parsed correctly on the second attempt.\n\nWait, the localization notes mention that in __call__, the validator first does a regex check. If that fails (because of the newline), it catches the error, splits the URL with urlsplit, reconstructs it without the newline, and then tries again. The second attempt passes. But the test expects a ValidationError because the original URL had a newline, which Django might consider invalid.\n\nSo the problem is that the current __call__ method in URLValidator isn't checking for invalid characters like newlines before proceeding. The Python fix strips them, so Django's validation isn't catching them. Therefore, the __call__ method needs to check for these characters early and raise an error if they're present.\n\nThe candidate functions listed include URLValidator's __call__ method. So the fault is in that function because it's not checking for forbidden characters (like newlines, tabs, etc.) before allowing the URL to be split and validated again. The fix would involve adding a check in __call__ to reject URLs containing these characters upfront, rather than letting the Python split function handle them silently.\n</think>\n\nFAULT: __call__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1239,
+ "response_tokens": 392,
+ "elapsed_s": 1.18,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__call__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

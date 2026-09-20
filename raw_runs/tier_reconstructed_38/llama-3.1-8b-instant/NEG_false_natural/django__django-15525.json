@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15525",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 5706,
+ "raw": "FAULT: Deserializer",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1453,
+ "response_tokens": 5,
+ "elapsed_s": 0.31,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "Deserializer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

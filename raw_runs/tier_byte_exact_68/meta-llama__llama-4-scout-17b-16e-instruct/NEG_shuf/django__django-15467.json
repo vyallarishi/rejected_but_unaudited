@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7141,
+ "raw": "To solve this issue, we need to identify the function where the `empty_label` is being overwritten. The problem arises when `ModelAdmin` has a defined `radio_fields` attribute. In this case, the `formfield_for_foreignkey` method in `BaseModelAdmin` (which is the parent class of `ModelAdmin`) is responsible for setting the `empty_label`.\n\nThe issue is that when `db_field.name in self.radio_fields` is `True`, the code sets `kwargs['empty_label']` to `_('None')` if `db_field.blank` is `True`, without considering any existing `empty_label` value that might have been provided.\n\nThe function that contains the fault is `formfield_for_foreignkey` in `BaseModelAdmin`, which is defined in `django/contrib/admin/options.py`.\n\nHere is the function name:\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1675,
+ "response_tokens": 186,
+ "elapsed_s": 0.91,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

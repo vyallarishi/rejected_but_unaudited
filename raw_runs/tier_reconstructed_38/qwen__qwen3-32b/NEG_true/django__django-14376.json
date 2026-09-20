@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3518,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "\nOkay, let's try to figure out which function in the Django MySQL backend is causing the use of deprecated \"db\" and \"passwd\" keyword arguments.\n\nThe problem is that mysqlclient has marked these kwargs as deprecated, and Django is using them. The user provided some localization notes. Let me check those first. \n\nIn the localization notes, it says that get_connection_params has a direct path. The description explains that this function populates a dictionary called `kwargs` with 'db' and 'passwd' based on the settings. Then, this dictionary is used by get_new_connection to establish the connection. So, the deprecated parameters are being set here. \n\nLooking at the candidate functions, the DatabaseWrapper class has a method called get_connection_params. The description says that in this function, the 'db' and 'passwd' are taken from the settings and added to the kwargs. Since those kwargs are then passed to the mysqlclient, which now deprecates those names in favor of 'database' and 'password', this is where the issue lies. \n\nOther functions like get_new_connection might use the parameters, but the actual problem is that the wrong parameter names are being generated in get_connection_params. The other functions ruled out don't deal with the connection parameters directly. For example, functions like mysql_version or _set_autocommit are unrelated to establishing the connection. \n\nSo the fault is in get_connection_params because it's the one that's putting the deprecated keys into the connection parameters. The fix would involve changing 'db' to 'database' and 'passwd' to 'password' in the kwargs dictionary that's created here.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 873,
+ "response_tokens": 340,
+ "elapsed_s": 7.95,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

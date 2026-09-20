@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 7551,
+ "raw": "FAULT: _replace_with_new_dims",
+ "finish_reason": "stop",
+ "prompt_tokens": 2233,
+ "response_tokens": 421,
+ "elapsed_s": 16.58,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_replace_with_new_dims",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

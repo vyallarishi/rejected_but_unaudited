@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11276",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2355,
+ "raw": "To solve this task, I will analyze the given information and proceed step by step.\n\n1. **Understanding the Issue**: The problem statement mentions that `django.utils.html.escape()` partially duplicates the Python stdlib function `html.escape()`. The goal is to replace the duplication with the wider community-developed version, which is `html.escape()`, as it is available since Python 3.2 and is also faster.\n\n2. **Analyzing the Candidate Functions**: The candidate functions listed in `django/utils/html.py` are:\n   - `escape(text)`\n   - `escapejs(value)`\n   - `json_script(value, element_id)`\n   - `conditional_escape(text)`\n   - `format_html(format_string, *args, **kwargs)`\n   - `format_html_join(sep, format_string, args_generator)`\n   - `linebreaks(value, autoescape=False)`\n   - `MLStripper(HTMLParser)`\n   - `_strip_once(value)`\n   - `strip_tags(value)`\n   - `strip_spaces_between_tags(value)`\n   - `smart_urlquote(url)`\n   - `urlize(text, trim_url_limit=None, nofollow=False, autoescape=False)`\n   - `avoid_wrapping(value)`\n   - `html_safe(klass)`\n\n3. **Identifying the Fault**: The issue specifically mentions that `django.utils.html.escape()` duplicates the functionality of `html.escape()` and that using `html.escape()` can improve performance. The concern is that `html.escape()` converts \"'\" to \"&#x27;\" rather than \"&#39;\", but they are functionally equivalent in HTML.\n\n4. **Conclusion**: Given that the task is to identify which function contains the fault (duplication and performance issue), and based on the information provided, the function in question is `escape(text)`.\n\nThe final answer is:\n\nFAULT: escape",
+ "finish_reason": "stop",
+ "prompt_tokens": 531,
+ "response_tokens": 370,
+ "elapsed_s": 1.92,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "escape",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

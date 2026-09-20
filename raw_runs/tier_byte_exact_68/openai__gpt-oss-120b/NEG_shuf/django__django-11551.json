@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11551",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 10542,
+ "raw": "FAULT: _check_list_display_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 2554,
+ "response_tokens": 90,
+ "elapsed_s": 0.84,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_check_list_display_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5286,
+ "raw": "FAULT: EmailMessage.message",
+ "reasoning": "We need to identify which function contains the fault. The issue: Message-ID header includes domain with non-ASCII characters. The code uses make_msgid(domain=DNS_NAME). The domain is non-ASCII. The header is set via SafeMIMEMessage.__setitem__ which calls forbid_multi_line_headers(name, val, self.encoding). That function attempts to encode header value using given encoding (iso-8859-1) and fails. The root cause is that domain should be punycode before being used in Message-ID. The function that should handle conversion is likely make_msgid or the code that sets the Message-ID header. But make_msgid is from email.utils, not in this file. In this file, the assignment is in EmailMessage.message: `msg['Message-ID'] = make_msgid(domain=DNS_NAME)`. So the fault is that EmailMessage.message does not convert domain to punycode. However the function that actually attempts to encode is forbid_multi_line_headers, but the bug is upstream: passing non-ASCII domain to make_msgid. The question: \"Which function contains the fault?\" They gave list of candidate functions in django/core/mail/message.py. Among them, the function that directly uses DNS_NAME is EmailMessage.message. So likely the fault is in EmailMessage.message. So answer: EmailMessage.message.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1362,
+ "response_tokens": 287,
+ "elapsed_s": 1.08,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

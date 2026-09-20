@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4472,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when you set a header in a session to None, it sends \"None\" as the value instead of omitting the header. The user expects that setting it to None would remove it, but instead, it's being sent with the value 'None'.\n\nLooking at the code provided, the relevant part is in the PreparedRequest's prepare_headers method. The localization notes mention that prepare_headers receives a headers dictionary with {'Accept-Encoding': None}, and then it iterates through the items to build a CaseInsensitiveDict. The issue is that it doesn't filter out None values here. So when the headers are serialized, the None is converted to the string 'None', which is sent in the request.\n\nThe key here is that the prepare_headers function is responsible for processing the headers and not checking for None values. The other functions listed, like those related to Django's querysets, are ruled out. So the fault lies in the prepare_headers method of the PreparedRequest class. The function prepare_headers is the one that's supposed to handle the headers before they are sent, and since it doesn't remove entries with None values, they end up being included with 'None' as the string.\n</think>\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 1015,
+ "response_tokens": 267,
+ "elapsed_s": 0.94,
+ "key_suffix": "vsRRmV",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

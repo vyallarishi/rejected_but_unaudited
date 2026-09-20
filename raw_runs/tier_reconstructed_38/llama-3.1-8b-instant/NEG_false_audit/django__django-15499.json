@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6871,
+ "raw": "FAULT: CreateModel",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1555,
+ "response_tokens": 5,
+ "elapsed_s": 0.39,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "CreateModel",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

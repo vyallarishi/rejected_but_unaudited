@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13315",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5637,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the duplicate options in the formfield when using limit_choices_to with a Q object involving a join. \n\nThe problem description says that when a Q object is used in limit_choices_to on a ForeignKey, the form ends up with duplicate options. The localization notes mention that apply_limit_choices_to_to_formfield is called, which applies the complex_filter to the queryset. This results in a SQL query with a JOIN, which might return duplicate rows for the primary model. Because of that, the queryset has duplicate instances, leading to duplicate <option> tags.\n\nSo the key here is that after applying the complex_filter, the queryset isn't being de-duplicated. Normally, when you have joins in a query that could cause duplicates, you need to use distinct() to ensure unique results. The function apply_limit_choices_to_to_formfield is responsible for applying the limit_choices_to to the formfield's queryset. But it seems like it's not adding a distinct() when necessary, leading to duplicates.\n\nLooking at the functions listed, the apply_limit_choices_to_to_formfield is the one that modifies the queryset by using complex_filter. If the complex_filter introduces a join that could cause duplicates, then the queryset should be distincted. However, the current implementation doesn't do that, leading to the problem. Therefore, the fault is in this function because it's the one that's applying the filter without handling the duplicates.\n</think>\n\nFAULT: apply_limit_choices_to_to_formfield",
+ "finish_reason": "stop",
+ "prompt_tokens": 1286,
+ "response_tokens": 308,
+ "elapsed_s": 0.97,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "apply_limit_choices_to_to_formfield",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

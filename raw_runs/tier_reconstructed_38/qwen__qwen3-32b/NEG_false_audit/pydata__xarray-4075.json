@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5996,
+ "raw": "FAULT: dot",
+ "reasoning": "\nOkay, let's try to figure out which function in the given list is responsible for the bug described. The problem is when using boolean weights with xarray's weighted mean, the result is incorrect because the sum of weights is treated as a boolean instead of a numeric value.\n\nThe user provided an example where the weights are a boolean DataArray. The issue arises because xr.dot is used to compute the sum_of_weights, which in this case is the dot product of two boolean arrays. The dot function returns True (which is 1 in a numeric context) instead of summing the weights properly. However, when the weights are converted to integers, the sum is correct (2).\n\nLooking at the candidate functions, the xr.dot function is mentioned as part of the problem. The dot function is used to calculate the sum_of_weights, and when given boolean inputs, it's not converting them to numeric values before performing the dot product. The xr.dot function is likely the one that's not handling the boolean weights correctly, leading to the incorrect normalization in the weighted mean calculation.\n\nThe xr.dot function's job is to compute the dot product along specified dimensions. However, if it doesn't convert boolean values to integers (like 0 and 1) before summing, then the result will be incorrect. The xr.dot function should ensure that the weights are treated as numeric values. The problem here is that when the weights are boolean, the dot product is being computed as a boolean operation, which isn't correct for the weighted mean's normalization step.\n\nSo the fault lies in the xr.dot function because it's responsible for calculating the sum of weights, but it's not handling boolean arrays by converting them to numeric values before performing the dot product. This leads to an incorrect sum_of_weights, which affects the final result of the weighted mean.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1717,
+ "response_tokens": 375,
+ "elapsed_s": 4.61,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

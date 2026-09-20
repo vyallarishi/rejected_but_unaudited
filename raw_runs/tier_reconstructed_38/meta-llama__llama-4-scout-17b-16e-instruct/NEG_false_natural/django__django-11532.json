@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5286,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem arises when the computer hostname is set to a non-ASCII value (e.g., \"\u6b63\u5b97\") and the email encoding is set to a non-unicode encoding (e.g., \"iso-8859-1\"). This causes an error when generating the Message-ID header in the email message.\n\n2. **Identifying the source of the issue**: The error occurs in the `message.py` file, specifically when generating the Message-ID header using `make_msgid(domain=DNS_NAME)`. The `DNS_NAME` variable contains the non-ASCII hostname.\n\n3. **Analyzing the code**: The `make_msgid()` function is not shown in the provided code snippet, but it is likely that it uses the `DNS_NAME` variable directly without proper encoding.\n\n4. **Finding the solution**: To fix the issue, we need to ensure that the domain name is properly encoded before using it in the Message-ID header. This can be achieved by converting the domain name to punycode, which is a standard way to represent internationalized domain names.\n\n5. **Identifying the faulty function**: Based on the provided code snippets and the analysis above, the faulty function is likely `make_msgid()` or the code that calls it, specifically in `django/core/mail/message.py`. However, the exact function name is not provided. Given the context, the function that contains the fault is likely related to generating the Message-ID header.\n\n# Fixed solution:\nThe solution involves modifying the `django/core/mail/message.py` file to convert the domain name to punycode before using it. We can achieve this by using the `idna` library, which provides functions for converting between Unicode and IDNA (Internationalized Domain Names in Applications) representations.\n\n```python\nimport idna\n\ndef make_msgid(domain=DNS_NAME):\n    # Convert domain name to punycode\n    try:\n        domain = idna.encode(domain).decode('ascii')\n    except idna.IDNAError:\n        # Handle IDNA encoding error\n        pass\n    # Generate Message-ID header\n    # ...\n```\n\n# Explanation of changes:\n*   We import the `idna` library to handle IDNA encoding and decoding.\n*   In the `make_msgid()` function, we convert the domain name to punycode using `idna.encode()`. This ensures that the domain name is properly encoded, even if it contains non-ASCII characters.\n*   We decode the result of `idna.encode()` to ASCII, as required by the `make_msgid()` function.\n\n# Tests and example uses:\nTo test the fix, you can use the following example:\n```python\nfrom django.core.mail import EmailMessage\nwith patch(\"django.core.mail.message.DNS_NAME\", \"\u6f22\u5b57\"):\n    email = EmailMessage('subject', '', 'from@example.com', ['to@example.com'])\n    email.encoding = 'iso-8859-1'\n    message = email.message()\n    self.assertIn('xn--p8s937b', message['Message-ID'])\n```\nThis test case checks that the Message-ID header is generated correctly with a non-ASCII domain name and a non-unicode encoding.",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1299,
+ "response_tokens": 661,
+ "elapsed_s": 9.05,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "pass",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

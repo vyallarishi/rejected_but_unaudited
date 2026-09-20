@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5896,
+ "raw": "### Thought Process and Reasoning\n\nThe bug report describes an issue with `ax.clear()` adding extra ticks and un-hiding shared-axis tick labels when using shared axes in matplotlib. The problem arises when calling `ax.clear()` on subplots with shared axes, causing ticks and tick labels to appear on interior axes.\n\nTo solve this issue, we need to identify the function responsible for the faulty behavior. The provided code for reproduction and the expected outcome suggest that the problem lies in the way `ax.clear()` handles shared axes.\n\nUpon reviewing the code and the issue description, it appears that the `Axis.clear()` method is the culprit. This method resets axis properties to their defaults, including formatters and ticks. For shared axes, this reset removes the NullFormatter that was hiding tick labels on interior axes, causing the tick labels to become visible again.\n\n### Solution\n\nThe fault lies in the `Axis.clear()` method. This method should be modified to preserve the NullFormatter for shared axes.\n\n```python\n# The fix involves modifying the Axis.clear() method to not reset the formatter\n# for shared axes. However, the actual fix is in the matplotlib library, \n# and we can only report the faulty function.\n\nFAULT: Axis.clear\n```\n\nIn a real-world scenario, you would submit a bug report or contribute to the matplotlib library to fix the issue. The fix might involve adding a check for shared axes in the `Axis.clear()` method and preserving the NullFormatter for interior axes.\n\nHere's a simple workaround for users:\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nfig, axes = plt.subplots(2, 2, sharex=True, sharey=True)\n\nx = np.arange(0.0, 2*np.pi, 0.01)\ny = np.sin(x)\n\nfor ax in axes.flatten():\n    ax.cla()  # Use cla() instead of clear()\n    ax.tick_params(axis='x', labelbottom=ax == axes[-1])  # Hide tick labels for interior axes\n    ax.tick_params(axis='y', labelleft=ax == axes[:, 0])  # Hide tick labels for interior axes\n    ax.plot(x, y)\nplt.show()\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1537,
+ "response_tokens": 448,
+ "elapsed_s": 1.42,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

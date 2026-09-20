@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 17637,
+ "raw": "FAULT: _unstack_once",
+ "reasoning": "We need to identify which function contains the fault causing to_unstacked_dataset broken for single-dim variables. The description says to_unstacked_dataset broken for single-dim variables. The stack/unstack functions: to_stacked_array creates a DataArray with a MultiIndex coordinate 'y'. Then to_unstacked_dataset slices along this dimension and merges variables. The error is MergeError: conflicting values for variable 'y' on objects to be combined. That suggests that when unstacking, each variable's slice along y yields a DataArray with coordinate y as scalar coordinate (maybe coordinate variable) and merging them leads to conflict because each variable has its own y coordinate variable with same name but different values (maybe scalar). The bug likely in to_unstacked_dataset implementation where it doesn't drop the coordinate y before merging, causing conflict. But the question: \"Which function contains the fault? Answer with one function name from the list\". The list includes many functions. The fault is likely in Dataset._unstack_once or to_unstacked_dataset? Actually to_unstacked_dataset is a method on DataArray? Let's recall: DataArray has method to_unstacked_dataset? I think DataArray has method to_unstacked_dataset (maybe defined in DataArray class). But the list provided is functions in dataset.py, not dataarray. However to_unstacked_dataset likely uses Dataset._unstack_once? Wait there is a method Dataset.unstack, but to_unstacked_dataset is on DataArray. It probably calls Dataset._unstack_once internally. The conflict arises when merging multiple DataArrays into a Dataset. The merging is done via Dataset.merge. The conflict is about variable 'y' coordinate. The bug may be that to_unstacked_dataset does not drop the coordinate y from each variable before merging, causing duplicate coordinate variables with same name but different values. The function that creates the coordinate y is to_stacked_array, but the conflict arises later. The question says \"Which function contains the fault? Answer with one function name from the list\". The list includes _stack_once, _unstack_once, etc. The fault likely in Dataset._unstack_once because it creates the coordinate variable y incorrectly for each variable. So answer: _unstack_once.",
+ "finish_reason": "stop",
+ "prompt_tokens": 4766,
+ "response_tokens": 475,
+ "elapsed_s": 2.68,
+ "key_suffix": "w3to9u",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_unstack_once",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

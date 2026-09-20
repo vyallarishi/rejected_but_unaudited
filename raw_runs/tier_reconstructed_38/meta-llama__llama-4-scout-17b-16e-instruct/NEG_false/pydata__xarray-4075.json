@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5839,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identify the issue**: The issue arises when passing boolean weights to the weighted mean function in xarray, which results in an incorrect output.\n2. **Understand the MCVE code sample**: The provided MCVE code sample demonstrates the issue. It creates a DataArray `dta` with values [1., 1., 1.] and a DataArray `wgt` with boolean weights [True, True, False].\n3. **Analyze the expected output**: The expected output of the weighted mean is a DataArray with the value 1., but the actual output is 2..\n4. **Identify the problematic function**: The issue seems to stem from the `dot` function used in the weighted mean calculation, specifically in the `_sum_of_weights` calculation.\n\n# Fixed solution:\nThe fault lies in the `dot` function. When boolean weights are passed, the `dot` function should implicitly convert the boolean array to integers (True -> 1, False -> 0) before performing the dot product.\n\n```python\nimport numpy as np\nimport xarray as xr\n\ndef weighted_mean(data, weights):\n    # Ensure weights are numeric\n    weights = weights * 1  # Convert boolean to int (True -> 1, False -> 0)\n    \n    # Calculate weighted sum\n    weighted_sum = xr.dot(data, weights)\n    \n    # Calculate sum of weights\n    sum_of_weights = xr.dot(weights, weights)\n    \n    # Return weighted mean\n    return weighted_sum / sum_of_weights\n\ndta = xr.DataArray([1., 1., 1.])\nwgt = xr.DataArray(np.array([True, True, False], dtype=np.bool))\n\nprint(weighted_mean(dta, wgt))\n```\n\nHowever, the more accurate and direct fix would be to adjust the `dot` function itself to handle boolean inputs correctly.\n\n# Explanation of changes:\n*   **Conversion of boolean weights to numeric**: The fix involves converting boolean weights to numeric values (True -> 1, False -> 0) before performing the dot product.\n\n# Tests and example uses:\n*   Test with boolean weights:\n\n    ```python\ndta = xr.DataArray([1., 1., 1.])\nwgt = xr.DataArray(np.array([True, True, False], dtype=np.bool))\n\nprint(weighted_mean(dta, wgt))  # Expected output: 1.0\n```\n\n*   Test with numeric weights:\n\n    ```python\ndta = xr.DataArray([1., 1., 1.])\nwgt = xr.DataArray([1, 1, 0])\n\nprint(weighted_mean(dta, wgt))  # Expected output: 1.0\n```\n\n# FAULT:\nThe function containing the fault is:\n```\ndot\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1646,
+ "response_tokens": 583,
+ "elapsed_s": 2.53,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "The",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,77 @@
+=== recon driver started Sun Aug  2 12:21:46 IST 2026 ===
+--- 12:21:46 openai/gpt-oss-120b POS ---
+[openai/gpt-oss-120b/POS] done=10 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=20 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=30 skip=0 err=0
+DONE [openai/gpt-oss-120b/POS]: done=38 skipped=0 errored=0
+--- 12:23:39 openai/gpt-oss-120b NEG_true ---
+[openai/gpt-oss-120b/NEG_true] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=30 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_true]: done=38 skipped=0 errored=0
+--- 12:26:00 openai/gpt-oss-120b NEG_false ---
+[openai/gpt-oss-120b/NEG_false] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=30 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false]: done=38 skipped=0 errored=0
+--- 12:27:18 openai/gpt-oss-120b NEG_shuf ---
+[openai/gpt-oss-120b/NEG_shuf] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=30 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_shuf]: done=38 skipped=0 errored=0
+--- 12:28:16 openai/gpt-oss-120b NEG_false_audit ---
+[openai/gpt-oss-120b/NEG_false_audit] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=30 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false_audit]: done=38 skipped=0 errored=0
+--- 12:29:03 openai/gpt-oss-120b NEG_false_natural ---
+[openai/gpt-oss-120b/NEG_false_natural] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=30 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false_natural]: done=38 skipped=0 errored=0
+--- 12:29:54 qwen/qwen3-32b POS ---
+[qwen/qwen3-32b/POS] done=0 skip=0 err=10
+[qwen/qwen3-32b/POS] done=0 skip=0 err=20
+[qwen/qwen3-32b/POS] done=0 skip=0 err=30
+DONE [qwen/qwen3-32b/POS]: done=0 skipped=0 errored=38
+--- 12:30:00 qwen/qwen3-32b NEG_true ---
+[qwen/qwen3-32b/NEG_true] done=0 skip=0 err=10
+[qwen/qwen3-32b/NEG_true] done=0 skip=0 err=20
+[qwen/qwen3-32b/NEG_true] done=0 skip=0 err=30
+DONE [qwen/qwen3-32b/NEG_true]: done=0 skipped=0 errored=38
+--- 12:30:07 qwen/qwen3-32b NEG_false ---
+[qwen/qwen3-32b/NEG_false] done=0 skip=0 err=10
+[qwen/qwen3-32b/NEG_false] done=0 skip=0 err=20
+[qwen/qwen3-32b/NEG_false] done=0 skip=0 err=30
+DONE [qwen/qwen3-32b/NEG_false]: done=0 skipped=0 errored=38
+--- 12:30:13 qwen/qwen3-32b NEG_shuf ---
+[qwen/qwen3-32b/NEG_shuf] done=0 skip=0 err=10
+[qwen/qwen3-32b/NEG_shuf] done=0 skip=0 err=20
+[qwen/qwen3-32b/NEG_shuf] done=0 skip=0 err=30
+DONE [qwen/qwen3-32b/NEG_shuf]: done=0 skipped=0 errored=38
+--- 12:30:19 qwen/qwen3-32b NEG_false_audit ---
+[qwen/qwen3-32b/NEG_false_audit] done=0 skip=0 err=10
+[qwen/qwen3-32b/NEG_false_audit] done=0 skip=0 err=20
+[qwen/qwen3-32b/NEG_false_audit] done=0 skip=0 err=30
+DONE [qwen/qwen3-32b/NEG_false_audit]: done=0 skipped=0 errored=38
+--- 12:30:26 qwen/qwen3-32b NEG_false_natural ---
+[qwen/qwen3-32b/NEG_false_natural] done=0 skip=0 err=10
+[qwen/qwen3-32b/NEG_false_natural] done=0 skip=0 err=20
+[qwen/qwen3-32b/NEG_false_natural] done=0 skip=0 err=30
+DONE [qwen/qwen3-32b/NEG_false_natural]: done=0 skipped=0 errored=38
+--- 12:30:33 meta-llama/llama-4-scout-17b-16e-instruct POS ---
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=0 skip=0 err=10
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=0 skip=0 err=20
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=0 skip=0 err=30
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/POS]: done=0 skipped=0 errored=38
+--- 12:30:39 meta-llama/llama-4-scout-17b-16e-instruct NEG_true ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=0 skip=0 err=10
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=0 skip=0 err=20
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=0 skip=0 err=30
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_true]: done=0 skipped=0 errored=38
+--- 12:30:45 meta-llama/llama-4-scout-17b-16e-instruct NEG_false ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=0 skip=0 err=10
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=0 skip=0 err=20
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=0 skip=0 err=30
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_false]: done=0 skipped=0 errored=38
+--- 12:30:51 meta-llama/llama-4-scout-17b-16e-instruct NEG_shuf ---

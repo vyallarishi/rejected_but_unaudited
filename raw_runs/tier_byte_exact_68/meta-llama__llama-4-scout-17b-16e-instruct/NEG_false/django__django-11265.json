@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11265",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8091,
+ "raw": "To solve this issue, we need to understand the problem and where it's occurring. The error happens when using `exclude` on a queryset with an annotated `FilteredRelation`. The error message indicates that Django cannot resolve the keyword 'book_alice' into a field.\n\nThe issue seems to be related to how Django handles annotations and filtering. When we use `exclude`, Django creates a new query object without the annotations from the original query. This new query object does not have the 'book_alice' annotation, which is why we're getting the error.\n\nLet's analyze the code and find the function that's causing the issue.\n\nThe problem seems to be in the `split_exclude` function, but as the notes say, it's not the direct cause. The real issue is that when creating a new query object in `split_exclude`, it doesn't copy the annotations from the original query.\n\nThe function that actually contains the fault is `clone`. When `split_exclude` creates a new query object using `Query(self.model)`, it doesn't have the annotations. However, the `clone` method is used to create a new query object that is a copy of the original query. \n\nIf we look at the `clone` method, we see that it creates a new query object, but it doesn't copy the `annotation` dictionary. \n\nSo, the function that contains the fault is `clone`.\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 2104,
+ "response_tokens": 283,
+ "elapsed_s": 1.06,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

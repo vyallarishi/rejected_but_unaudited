@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8194,
+ "raw": "# To solve this task, let's analyze the provided information.\n\n## Step 1: Understand the issue\nThe problem arises when using `HistGradientBoostingClassifier` with a string target variable and early stopping enabled. The error occurs because the scorer used during early stopping receives `y_true` as integers but `y_pred` as strings.\n\n## Step 2: Identify the source of the error\nThe error is caused by the `accuracy_score` function, which is used as the default scorer. This function calls `_check_targets`, and then `np.union1d`, which attempts to sort the concatenated array of integers and strings, resulting in a `TypeError`.\n\n## Step 3: Locate the relevant code\nThe issue is related to the `HistGradientBoostingClassifier` and its handling of the target variable `y` during early stopping. Specifically, the `_check_early_stopping_scorer` method is involved.\n\n## 4: Analyze the provided code and potential resolution\nThe potential resolution involves encoding `y_true` each time the score is computed. This can be achieved by modifying the `_check_early_stopping_scorer` method or related methods to ensure that `y_true` is encoded consistently with `y_pred`.\n\n## 5: Determine the faulty function\nBased on the analysis, the faulty function appears to be related to how `y_true` and `y_pred` are handled during scoring in the context of early stopping. The function `_encode_y` seems relevant as it deals with encoding the target variable.\n\n## 6: Conclusion\nGiven the information and analysis, the function that contains the fault seems to be `_encode_y`, as it is related to how the target variable `y` is encoded, which is crucial for the scoring process during early stopping.\n\nFAULT: _encode_y",
+ "finish_reason": "stop",
+ "prompt_tokens": 2080,
+ "response_tokens": 369,
+ "elapsed_s": 1.15,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_encode_y",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

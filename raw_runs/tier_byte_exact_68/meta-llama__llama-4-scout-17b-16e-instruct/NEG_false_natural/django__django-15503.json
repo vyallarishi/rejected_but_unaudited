@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5897,
+ "raw": "## Step 1: Analyzing the issue description\nThe issue at hand involves the `has_key`, `has_keys`, and `has_any_keys` lookups for `JSONField` in Django, specifically when using numeric keys on SQLite, MySQL, and Oracle databases. The problem arises because these lookups fail to correctly handle numeric keys.\n\n## 2: Understanding the provided example and code\nThe example given demonstrates a model `JsonFieldHasKeyTest` with a `JSONField` named `data`. Two instances of this model are created, one with a string key ('foo') and another with a numeric key ('1111'). A test case attempts to filter instances based on the presence of these keys using `data__has_key`. The test fails for the numeric key on SQLite.\n\n## 3: Identifying the relevant code sections\nThe relevant code sections are in `django/db/models/fields/json.py`, specifically in the classes `HasKeyLookup`, `HasKey`, `HasKeys`, and `HasAnyKeys`, and their respective methods for different database backends (e.g., `as_sqlite`, `as_mysql`, `as_oracle`).\n\n## 4: Locating the fault\nThe fault lies in how the `HasKeyLookup` and its subclasses handle numeric keys on SQLite, MySQL, and Oracle. Specifically, the `as_sqlite` method in `HasKeyLookup` generates an incorrect SQL template that does not properly prefix the key with `$` to denote a JSON path.\n\n## 5: Determining the specific function containing the fault\nGiven the information, the fault seems to be in the `as_sqlite` method of the `HasKeyLookup` class or its subclasses, specifically how it constructs the SQL query for checking the presence of a key in a JSON field on SQLite.\n\n## 6: Conclusion\nThe function that contains the fault is `as_sqlite` within the `HasKeyLookup` class or more specifically in the classes that directly inherit from it like `HasKey`. However, based on the structure and the need to pinpoint to a single function name as requested:\n\nFAULT: as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1453,
+ "response_tokens": 436,
+ "elapsed_s": 1.28,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

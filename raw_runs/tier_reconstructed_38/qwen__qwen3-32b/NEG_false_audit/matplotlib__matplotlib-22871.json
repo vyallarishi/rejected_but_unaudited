@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6154,
+ "raw": "FAULT: ConciseDateFormatter.format_ticks",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the bug where the year doesn't show up when plotting less than a year's data and January isn't included. \n\nThe user provided a code example where they're plotting data from February 14, 2021, for 199 days. The x-axis labels are using ConciseDateFormatter. The issue is that the year 2021 isn't displayed as an offset when the time range is less than a year and doesn't include January.\n\nLooking at the ConciseDateFormatter's code, the key part is probably in the format_ticks method. The problem might be related to how the offset is determined. The ConciseDateFormatter tries to determine the most significant time unit that changes across the ticks. If all the ticks are within the same year, but the range is less than a year, maybe it's not showing the year as an offset.\n\nIn the code, the format_ticks function checks the level (which represents the granularity of the date, like year, month, day, etc.). If the level is less than 2 (which would be months), then it sets show_offset to False. Wait, but in this case, even though the data is within a year, the formatter might not show the year because it's considering the level. For example, if the ticks are all in the same year but spanning multiple months, the level would be 1 (months). Then, in the code, if level < 2 (which it is), show_offset is set to False. That would prevent the year from being shown as an offset, even if all dates are in the same year. \n\nSo the condition in format_ticks where if level < 2, show_offset is False, might be incorrect. Because even if the level is months (level 1), if all dates are in the same year, the offset should show the year. But the current logic is not doing that. \n\nLooking at the ConciseDateFormatter's format_ticks method, the line in question is probably where it decides whether to show the offset. The function format_ticks has a part where if the level is less than 2 (i.e., months or day), it disables the offset. But when the data spans multiple months but not crossing into a new year, the level is 1 (month), and the offset (year) isn't shown. However, since all dates are in the same year, the offset should still display the year. \n\nSo the fault is in the format_ticks method of ConciseDateFormatter. The condition that hides the offset when level is less than 2 is incorrect. The offset should be shown when the entire range is within a single year, regardless of the level. \n\nTherefore, the function that contains the fault is ConciseDateFormatter.format_ticks.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1671,
+ "response_tokens": 593,
+ "elapsed_s": 11.36,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

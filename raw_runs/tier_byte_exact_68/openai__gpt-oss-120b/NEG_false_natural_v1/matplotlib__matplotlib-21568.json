@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-21568",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5216,
+ "raw": "FAULT: ConciseDateFormatter.format_ticks",
+ "finish_reason": "stop",
+ "prompt_tokens": 1502,
+ "response_tokens": 338,
+ "elapsed_s": 1.25,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

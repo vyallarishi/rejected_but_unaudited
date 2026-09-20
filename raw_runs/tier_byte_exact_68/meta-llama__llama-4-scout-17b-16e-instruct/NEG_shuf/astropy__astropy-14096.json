@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14096",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5671,
+ "raw": "To solve this issue, we need to understand the flow of how Python handles attribute access and how the `SkyCoord` class is implemented.\n\nThe problem arises when trying to access a custom property (`prop`) in a subclass of `SkyCoord` that in turn tries to access a non-existent attribute (`random_attr`). The error message misleadingly suggests that `prop` does not exist, rather than indicating that `random_attr` is the missing attribute.\n\nThe key to resolving this lies in understanding how Python's attribute access works, particularly with properties and the `__getattr__` method. When a property's getter method attempts to access an attribute that does not exist, Python will catch the `AttributeError` exception. However, in the context of `SkyCoord`'s implementation, this leads to a misleading error message because `__getattr__` is involved.\n\nThe `__getattr__` method in the `SkyCoord` class is where the issue originates. This method is a special method in Python classes that is called when an attribute access fails. \n\nGiven this understanding, the function that contains the fault is `__getattr__`.\n\n FAULT: __getattr__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1389,
+ "response_tokens": 240,
+ "elapsed_s": 1.0,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__getattr__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

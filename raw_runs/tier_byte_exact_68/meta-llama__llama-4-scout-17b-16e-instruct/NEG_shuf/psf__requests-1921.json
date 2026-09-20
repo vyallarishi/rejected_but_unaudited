@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4472,
+ "raw": "## Step 1: Understanding the Issue\nThe problem arises when trying to remove a default header from a session object in the `requests` library. Specifically, setting a header value to `None` results in the string 'None' being sent as the header value instead of removing the header.\n\n## 2: Identifying the Relevant Code\nThe issue is related to how headers are prepared and sent in the `requests` library. The `PreparedRequest` class, particularly its `prepare_headers` method, seems relevant as it is responsible for preparing the headers for a request.\n\n## 3: Analyzing the `prepare_headers` Method\nThe `prepare_headers` method in `PreparedRequest` takes a `headers` dictionary and converts it into a `CaseInsensitiveDict`. However, it does not explicitly handle or filter out `None` values from the input dictionary.\n\n## 4: Understanding the Expected Behavior\nThe expected behavior, as discussed, is that setting a header to `None` should remove the header, similar to how it works with the `requests` method arguments.\n\n## 5: Identifying the Fault\nThe fault lies in how the `prepare_headers` method handles `None` values. It does not check for `None` and thus includes them in the prepared headers, leading to the incorrect header value being sent.\n\n## 6: Conclusion\nGiven the analysis, the function that contains the fault is `prepare_headers`, as it does not properly handle `None` values when preparing the headers for a request.\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 1012,
+ "response_tokens": 311,
+ "elapsed_s": 1.18,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

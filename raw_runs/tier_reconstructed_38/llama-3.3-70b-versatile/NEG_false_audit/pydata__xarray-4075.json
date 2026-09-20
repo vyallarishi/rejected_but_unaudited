@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 5996,
+ "raw": "FAULT: dot",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1713,
+ "response_tokens": 4,
+ "elapsed_s": 0.32,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

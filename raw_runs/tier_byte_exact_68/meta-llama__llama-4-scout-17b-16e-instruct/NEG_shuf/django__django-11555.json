@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5232,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identify the source of the issue**: The problem occurs when `order_by()` is called on a parent model in a multi-table inheritance scenario, and `Meta.ordering` contains expressions. This results in a crash due to an `AttributeError` when trying to process an `OrderBy` object as a string.\n\n2. **Understand the code path**: The error happens in the `get_order_by` method of the `SQLCompiler` class. Specifically, when the `ordering` list contains an `OrderBy` object instead of a string, the code incorrectly assumes it's a string and tries to process it as such, leading to the error.\n\n3. **Locate the fault**: The fault lies in how the `get_order_by` method handles the `ordering` list. It does not correctly check if an item in the `ordering` list is an `OrderBy` object before trying to process it.\n\n4. **Pinpoint the function**: Based on the analysis, the function that contains the fault is `get_order_by`. However, given the constraint to choose from a list and focusing on the direct handling of ordering and potential misinterpretation of object types, we should consider the method directly implicated in the stacktrace and analysis.\n\n# Conclusion:\nThe function directly implicated and containing the fault, based on the standard Django codebase and the issue described, seems to be related to how ordering is compiled and processed. Given the options and focusing on direct relevance:\n\nFAULT: get_order_by",
+ "finish_reason": "stop",
+ "prompt_tokens": 1186,
+ "response_tokens": 311,
+ "elapsed_s": 1.0,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

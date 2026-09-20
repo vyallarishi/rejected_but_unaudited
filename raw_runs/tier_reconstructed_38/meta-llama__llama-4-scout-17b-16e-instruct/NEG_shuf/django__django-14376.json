@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4218,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem is related to the MySQL backend in Django, which uses deprecated \"db\" and \"passwd\" kwargs. These kwargs are being replaced by \"database\" and \"password\" respectively.\n\n2. **Identifying the affected code**: The issue is located in the `django/db/backends/mysql/base.py` file, specifically in the `DatabaseWrapper` class.\n\n3. **Locating the relevant function**: The function that populates the connection parameters is `get_connection_params`. This function is responsible for setting up the connection parameters, including the database name and password.\n\n4. **Analyzing the function**: In the `get_connection_params` function, the code uses `kwargs['db'] = settings_dict['NAME']` and `kwargs['passwd'] = settings_dict['PASSWORD']`. These lines are using the deprecated kwargs.\n\n5. **Conclusion**: The function that contains the fault is `get_connection_params`.\n\n# Fixed solution:\n```python\ndef get_connection_params(self):\n    # ...\n    kwargs['database'] = settings_dict['NAME']\n    kwargs['password'] = settings_dict['PASSWORD']\n    # ...\n```\n\n# Explanation of changes:\n*   Replaced `kwargs['db']` with `kwargs['database']` to use the new \"database\" kwarg.\n*   Replaced `kwargs['passwd']` with `kwargs['password']` to use the new \"password\" kwarg.\n\n# Tests and example uses:\nTo test the changes, you can create a test case that checks the connection parameters:\n```python\nfrom django.test import TestCase\nfrom django.db.backends.mysql.base import DatabaseWrapper\n\nclass TestDatabaseWrapper(TestCase):\n    def test_get_connection_params(self):\n        db_wrapper = DatabaseWrapper({})\n        connection_params = db_wrapper.get_connection_params()\n        self.assertIn('database', connection_params)\n        self.assertIn('password', connection_params)\n```\nFAULT: get_connection_params",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 968,
+ "response_tokens": 403,
+ "elapsed_s": 8.04,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

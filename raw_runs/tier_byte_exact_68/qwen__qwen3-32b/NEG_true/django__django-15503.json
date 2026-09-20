@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8394,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when using the has_key lookup on a JSONField with a numeric key in SQLite, it doesn't work. The test case shows that using 'foo' works but '1111' doesn't. \n\nLooking at the additional info, the localization notes mention that the issue is in the as_sqlite method of the HasKeyLookup class. The problem is that the generated SQL uses JSON_TYPE with just the key name as the second argument, but it should be a JSON path like '$.1111'. \n\nSo the HasKeyLookup class has an as_sqlite method. Let me check the code for that. The HasKeyLookup is the parent class for HasKey, HasKeys, and HasAnyKeys. The as_sqlite method in HasKeyLookup is probably generating the wrong SQL template. \n\nIn the Django source code, the HasKeyLookup's as_sqlite method might be using a template that doesn't properly format the key as a JSON path. For example, maybe it's using the key directly without adding the $.[key] syntax that SQLite's JSON functions require. \n\nThe correct JSON path in SQLite would need to have the key prefixed with $., like $.1111. If the method is just passing the key as is, then JSON_TYPE isn't getting a valid path. So the as_sqlite method in HasKeyLookup is likely the culprit because it's responsible for generating the correct SQL for SQLite, and it's not handling numeric keys properly by not formatting them into a valid JSON path.\n\nTherefore, the function that contains the fault is HasKeyLookup's as_sqlite method.\n</think>\n\nFAULT: HasKeyLookup.as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1978,
+ "response_tokens": 363,
+ "elapsed_s": 1.1,
+ "key_suffix": "3U6wj9",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-4604",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 4805,
+ "raw": "FAULT: _check_all",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1232,
+ "response_tokens": 6,
+ "elapsed_s": 0.3,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_check_all",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

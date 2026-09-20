@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6898,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when using modelform_factory with a custom form that has a formfield_callback specified in both the form class and the Meta class, the callback isn't being respected. The problem is that modelform_factory is overwriting the formfield_callback with None instead of using the one from the Meta.\n\nFirst, I need to recall how modelform_factory works. From what I remember, modelform_factory creates a ModelForm by taking a model and possibly a base form class. It uses the ModelFormMetaclass and constructs the form's Meta options. The formfield_callback is a parameter that can be passed to modelform_factory, but in this case, the user is trying to set it via the Meta class of their custom form.\n\nLooking at the code structure provided, the relevant functions might be in the ModelFormOptions or the modelform_factory function. The ModelFormOptions is part of the options handling for ModelForm. The modelform_factory function is responsible for creating the form class.\n\nIn the example, when the user defines MyForm with a formfield_callback and a Meta that also includes formfield_callback, but when modelform_factory is called with form=MyForm, the formfield_callback in the Meta isn't being used. The issue is that modelform_factory is setting the formfield_callback to None, overriding the Meta's value.\n\nSo, the problem likely lies in how modelform_factory constructs the Meta options for the new form. Let me think about how modelform_factory processes the Meta. It probably creates a new Meta class for the generated form, and if the user's form's Meta has formfield_callback, it should be included. But if modelform_factory is explicitly setting formfield_callback to None when constructing the new Meta, that would overwrite it.\n\nLooking at the code for modelform_factory, it might be using the ModelFormOptions to handle the Meta. The ModelFormOptions' __init__ method might be where the options are copied. If during this process, the formfield_callback is not being copied correctly, or if modelform_factory is passing formfield_callback=None when creating the new Meta, that would cause the issue.\n\nWait, the user's localization notes mention that modelform_factory constructs attributes for a new Meta, including formfield_callback=None if it was passed. So when the user passes form=MyForm, modelform_factory might be creating a new Meta for the form, and if the formfield_callback argument is not provided, it defaults to None, which overrides the Meta from the base form.\n\nSo the key function here is modelform_factory. When it creates the new form class, it's not respecting the formfield_callback defined in the Meta of the provided form class. Instead, it's setting it to None unless explicitly passed as an argument. Therefore, the fault is in modelform_factory because it's not correctly handling the Meta's formfield_callback when constructing the new form.\n</think>\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1550,
+ "response_tokens": 636,
+ "elapsed_s": 39.87,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

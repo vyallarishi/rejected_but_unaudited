@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6084,
+ "raw": "FAULT: ConciseDateFormatter.format_ticks",
+ "reasoning": "We need to identify which function contains the fault causing ConciseDateFormatter not showing year offset when plotting less than 12 months and January not included. The description mentions that in format_ticks, there is condition `if level < 2: show_offset = False`. That seems suspicious: level 1 (months) leads to hide offset, which includes year. So the bug is likely in ConciseDateFormatter.format_ticks. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: format_ticks? But need full name: ConciseDateFormatter.format_ticks. The list includes \"def format_ticks(self, values):\" under ConciseDateFormatter. So answer that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1697,
+ "response_tokens": 177,
+ "elapsed_s": 1.0,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

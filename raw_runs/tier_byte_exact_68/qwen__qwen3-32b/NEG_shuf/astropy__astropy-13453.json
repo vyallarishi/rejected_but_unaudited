@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8923,
+ "raw": "<think>\nOkay, let's try to figure out why the HTML format isn't respecting the formats argument. The user provided a code example where they set the format for column 'a' to display in scientific notation with two decimal places. When writing to HTML, the output shows the full precision, but for CSV or RST, it works. \n\nLooking at the candidate functions in the HTML module, the key part is probably in the write method of the HTML class. The user's localization notes mention that the HTML.write method doesn't call self.data.format_columns(cols), which is supposed to handle the formatting. \n\nIn other formats, the process would involve converting the data to strings using the provided formats. But for HTML, maybe the data isn't being processed through that step. The HTMLOutputter's __call__ method might be responsible for generating the table rows. If the data is still in raw form (like the original numbers) and not converted to strings with the specified formats, that would explain the issue.\n\nWait, the HTML class's write method is supposed to handle the formatting. If it's not calling format_columns, then the data isn't being processed through the formatting functions. The fill_values method might be where the data is converted to strings. Let me check the HTML.write function. If it's not passing the formatted values, then that's the problem. \n\nThe fault is likely in the HTML.write function because it's not applying the formats before generating the HTML. The other formats do apply the formats, so the issue is specific to the HTML outputter. The correct function to look at would be the one responsible for writing the data, which is probably the HTML.write method.\n</think>\n\nFAULT: HTML.write",
+ "finish_reason": "stop",
+ "prompt_tokens": 2319,
+ "response_tokens": 351,
+ "elapsed_s": 1.71,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "write",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1999,
+ "raw": "FAULT: expr",
+ "reasoning": "We need to identify which function contains the fault causing the assertion failure. The bug occurs when Expression.compile receives \"False\". It parses to an AST Name node with id 'False'. Then compile() asserts that name is not \"None\", \"True\", or \"False\". In Python's AST, constants like False should be ast.Constant, not ast.Name. So the parser incorrectly creates a Name node for boolean literals. The fault is in the parser function that creates AST nodes. Likely in expression(s: Scanner) or related functions that handle literals. Let's think: The parser likely handles identifiers and maybe boolean literals. The bug is that it treats \"False\" as a name, not a constant. So the function that returns the AST node for a name token is probably `expr` or `not_expr`? Let's inspect typical grammar: expression -> or_expr; and_expr -> not_expr ('and' not_expr)*; not_expr -> 'not' not_expr | primary; primary could be identifier or parentheses. The code likely has a function that parses identifiers and returns ast.Name. That function might be `expr` or maybe a generic `primary`. But from list we have: expression, expr, and_expr, not_expr. Probably `expr` handles identifiers. So the fault is in `expr`. The function that creates ast.Name for token type NAME. It should treat \"True\"/\"False\"/\"None\" specially. So answer: expr.",
+ "finish_reason": "stop",
+ "prompt_tokens": 595,
+ "response_tokens": 305,
+ "elapsed_s": 1.19,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "expr",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

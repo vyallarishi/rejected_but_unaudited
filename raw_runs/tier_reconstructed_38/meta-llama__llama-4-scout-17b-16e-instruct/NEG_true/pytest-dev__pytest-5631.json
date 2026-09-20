@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4585,
+ "raw": "## Thought Process and Reasoning\n\nThe error occurs when collecting tests that use the `@patch` decorator with a numpy array as the `new` argument. The stacktrace points to the `num_mock_patch_args` function in `src/_pytest/compat.py`. This function is responsible for determining the number of mock patch arguments in a test function.\n\nThe issue arises when `p.new` is a numpy array, and the condition `p.new in sentinels` is evaluated. The `in` operator returns an array of booleans instead of a single boolean value, causing the `ValueError`.\n\nTo solve this issue, we need to modify the `num_mock_patch_args` function to handle numpy arrays correctly. We can do this by adding a check for numpy arrays and handling them separately.\n\n## Solution\n\nThe faulty function is `num_mock_patch_args`. To fix the issue, we can modify this function to handle numpy arrays correctly.\n\n```\ndef num_mock_patch_args(function):\n    # ...\n    patchings = [p for p in patchings if not p.attribute_name and not isinstance(p.new, np.ndarray) and p.new in sentinels]\n    # ...\n```\n\nAlternatively, we can also use a try-except block to catch the `ValueError` exception and handle it accordingly.\n\n```\ndef num_mock_patch_args(function):\n    # ...\n    try:\n        patchings = [p for p in patchings if not p.attribute_name and p.new in sentinels]\n    except ValueError:\n        # Handle the exception\n        pass\n    # ...\n```\n\nHowever, the most straightforward solution would be to use the following:\n\nFAULT: num_mock_patch_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1161,
+ "response_tokens": 337,
+ "elapsed_s": 1.52,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

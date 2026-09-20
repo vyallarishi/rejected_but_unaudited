@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5460,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "We need to answer: Which function contains the fault? The description says line where 'UTC' is forced disregarding the database setting, link to operations.py line 49. The function likely _convert_field_to_tz. Indeed that function generates CONVERT_TZ(field, 'UTC', tzname). So the fault is in _convert_field_to_tz. So answer: FAULT: _convert_field_to_tz.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1490,
+ "response_tokens": 104,
+ "elapsed_s": 0.83,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

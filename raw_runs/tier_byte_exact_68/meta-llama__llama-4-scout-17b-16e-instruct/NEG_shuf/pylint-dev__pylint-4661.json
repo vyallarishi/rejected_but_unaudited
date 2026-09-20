@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2986,
+ "raw": "### Analysis of the Issue and Candidate Functions\n\nThe issue at hand involves making pylint compliant with the XDG Base Directory Specification. This specification designates specific folders for storing data, configuration files, and cache files, aiming to keep user home directories clean and organized.\n\nThe problem is specifically with the `.pylint.d` directory being stored in the home folder, which is used for data storage. According to the XDG Base Directory Specification, data files should be stored in the `$HOME/.local/share/<PROGRAM_NAME>` folder.\n\n### Candidate Functions and Their Roles\n\nThe candidate functions provided are from `pylint/config/__init__.py`:\n\n- `_get_pdata_path(base_name, recurs)`\n- `load_results(base)`\n- `save_results(results, base)`\n- `find_pylintrc()`\n\n### Localization Notes\n\n- `_get_pdata_path`: This function generates a file path for storing data. It reads the `PYLINT_HOME` constant, which is currently set to `~/.pylint.d`, and returns a path like `~/.pylint.d/some_file.stats`.\n\n### Identifying the Fault\n\nThe fault lies in the function that directly handles the path for data storage, which is `_get_pdata_path`. This function is responsible for generating the path where pylint stores its data, currently set to `~/.pylint.d`. To make pylint XDG Base Directory Specification compliant, this path needs to be adjusted to use `$HOME/.local/share/pylint` for data storage.\n\n### Solution\n\nThe solution involves modifying the `_get_pdata_path` function to use the XDG Base Directory Specification compliant path. This can be achieved by checking the `XDG_DATA_HOME` environment variable and using it if available, or falling back to `$HOME/.local/share/pylint` if not.\n\n### Conclusion\n\nThe function that contains the fault and needs modification is:\n\nFAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 676,
+ "response_tokens": 394,
+ "elapsed_s": 1.73,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

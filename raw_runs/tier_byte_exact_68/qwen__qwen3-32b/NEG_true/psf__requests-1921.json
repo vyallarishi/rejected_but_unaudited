@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4165,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when a user sets a header in the session's headers to None, like session.headers['Accept-Encoding'] = None, the resulting HTTP request sends that header with the value 'None' instead of omitting it. The user expects that setting it to None would remove the header.\n\nLooking at the provided code structure, the relevant part is in the PreparedRequest's prepare_headers method. The localization notes mention that prepare_headers receives a headers dictionary with {'Accept-Encoding': None}, and it iterates through the items to build a CaseInsensitiveDict. The issue is that it doesn't filter out the None values, so the header ends up being stored with None, which later gets converted to the string 'None' when serialized.\n\nSo the fault lies in the prepare_headers function because it doesn't check for None values and exclude them from the headers. The other functions like head or delete are ruled out because they just pass along the arguments. The actual processing happens in prepare_headers where the headers are prepared, so that's where the fix would be needed.\n</think>\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 923,
+ "response_tokens": 238,
+ "elapsed_s": 3.89,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

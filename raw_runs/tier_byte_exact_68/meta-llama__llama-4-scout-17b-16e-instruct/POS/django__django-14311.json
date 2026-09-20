@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14311",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2499,
+ "raw": "To solve the issue of allowing autoreloading of `python -m custom_module runserver`, we need to identify the function responsible for detecting and handling modules started with `python -m`.\n\nThe problem lies in the fact that the original fix only dealt with cases where the module specified after `-m` is a package with a `__main__.py` file. However, when a dotted name for a module is specified (e.g., `foo.bar.baz`), the resulting arguments end up being `-m foo.bar`, which is incorrect.\n\nUpon examining the provided functions in `django/utils/autoreload.py`, we need to find the one that handles the detection of Django modules and the construction of arguments for autoreloading.\n\nThe function `get_child_arguments()` seems relevant as it might be involved in handling the arguments passed to the module when it's started with `python -m`. This function could potentially be responsible for incorrectly handling dotted module names.\n\nGiven the description of the issue and the goal of fixing the autoreloading for modules started with `python -m`, the fault likely lies in how arguments are processed and handled for autoreloading.\n\nFAULT: get_child_arguments",
+ "finish_reason": "stop",
+ "prompt_tokens": 612,
+ "response_tokens": 236,
+ "elapsed_s": 0.75,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_child_arguments",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

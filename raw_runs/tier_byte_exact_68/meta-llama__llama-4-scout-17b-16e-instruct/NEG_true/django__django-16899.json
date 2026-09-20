@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 11622,
+ "raw": "FAULT: _check_readonly_fields_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 2482,
+ "response_tokens": 9,
+ "elapsed_s": 0.49,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

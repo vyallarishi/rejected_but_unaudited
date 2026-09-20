@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6781,
+ "raw": "FAULT: _add_q",
+ "reasoning": "We need to identify which function contains the fault causing filter on Exists-subquery with empty queryset to remove whole WHERE block. The description says add_q receives Q object containing ~Exists(EmptyQuerySet). It then calls _add_q to process it. The bug is that this condition, which should evaluate to TRUE, is instead causing self.set_empty() to be called somewhere during the _add_q execution. So the faulty function likely is _add_q, which decides to set query empty when encountering an Exists subquery that is empty? Let's think: In Django's query building, when you have filter(~Exists(empty_qs)), the Exists subquery is empty, so ~Exists(empty) is always True, so the filter should be a no-op (i.e., not affect WHERE). But currently, the code probably treats Exists(empty) as always False, and then ~ makes it True, but maybe the logic incorrectly sets query empty because it thinks the condition is always False? Actually, the bug: condition should evaluate to TRUE, but instead self.set_empty() is called, marking entire query empty. That likely occurs in Query._add_q or maybe in Query.build_filter or Query.build_where. The description says add_q receives Q object containing ~Exists(EmptyQuerySet). It then calls _add_q to process it. The bug is that this condition, which should evaluate to TRUE, is instead causing self.set_empty() to be called somewhere during the _add_q execution. So the function containing the fault is _add_q.\n\nThus answer: _add_q.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1647,
+ "response_tokens": 330,
+ "elapsed_s": 1.2,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

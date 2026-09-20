@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6799,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. The problem arises when the `radio_fields` attribute is defined in the `ModelAdmin` class, causing the `empty_label` to be overridden with the default value `_('None')`. \n\nThe function that contains the fault is `formfield_for_foreignkey` in `django/contrib/admin/options.py`. This function is responsible for creating the form field for a foreign key. When the field is in `radio_fields`, it sets `kwargs['empty_label']` to `_('None')` if the field is blank, which overrides any custom `empty_label` set by the user.\n\nThe fix involves modifying the line in `formfield_for_foreignkey` to respect the custom `empty_label` set by the user. The corrected line should be:\n```python\nkwargs['empty_label'] = (kwargs.get('empty_label') or _('None')) if db_field.blank else None\n```\nThis change ensures that if a custom `empty_label` is provided, it will be used; otherwise, it defaults to `_('None')`.\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1622,
+ "response_tokens": 237,
+ "elapsed_s": 1.02,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

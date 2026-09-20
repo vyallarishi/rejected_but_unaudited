@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13195",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 13835,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is talking about a problem with the delete_cookie method in Django's HttpResponse. The main issue is that when they use delete_cookie, it's not preserving the SameSite attribute of the cookie, leading to warnings in Firefox about the cookie being rejected because it doesn't have the Secure attribute when SameSite is set to None or an invalid value.\n\nLooking at the code provided, the user modified the delete_cookie method to include the SameSite and Secure attributes by calling set_cookie with those parameters. They noticed that the original delete_cookie method didn't set these attributes, which is causing the problem. \n\nThe candidate functions listed include the delete_cookie method in the HttpResponseBase class. The user's modified version of delete_cookie uses set_cookie with parameters like secure, httponly, and samesite. The original delete_cookie probably doesn't include these parameters, leading to the missing attributes in the Set-Cookie header when the cookie is deleted.\n\nSo, the fault is in the delete_cookie function because it's not properly setting the necessary attributes (like SameSite and Secure) when deleting the cookie. The original implementation might be missing these parameters when calling set_cookie, which results in the browser warnings.\n</think>\n\nFAULT: delete_cookie",
+ "finish_reason": "stop",
+ "prompt_tokens": 3025,
+ "response_tokens": 264,
+ "elapsed_s": 0.92,
+ "key_suffix": "15GW3E",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "delete_cookie",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

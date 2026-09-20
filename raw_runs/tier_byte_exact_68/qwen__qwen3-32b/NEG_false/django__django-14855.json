@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3503,
+ "raw": "<think>\nOkay, let's try to figure out where the issue is. The user says that when using a custom Admin Site, the get_admin_url function is generating URLs with the default /admin/ prefix instead of the custom one, like /custom-admin/. They traced it to the get_admin_url function in django.contrib.admin.helpers, specifically the line where reverse is called without the current_app parameter.\n\nThe problem seems to be that when reversing URLs in Django, if you're within a namespace, you need to specify the current_app so that it uses the correct namespace. The custom admin site probably has its own namespace, but without passing current_app, reverse falls back to the default 'admin' namespace.\n\nLooking at the functions listed, the user mentioned that the issue is in the get_admin_url method of the AdminReadonlyField class. Wait, the list of functions includes a class AdminReadonlyField with a method get_admin_url. So the function in question is AdminReadonlyField.get_admin_url.\n\nIn that method, when they call reverse, they need to include the current_app parameter, which should be the name of the admin site. The user's fix was to add current_app=self.model_admin.admin_site.name, which makes sense because that would use the custom admin site's namespace.\n\nSo the faulty function is get_admin_url in AdminReadonlyField. The other functions listed are part of the helpers module but the actual method in question is within AdminReadonlyField. The user's test replacing that line fixed the issue, so that's where the problem is.\n</think>\n\nFAULT: AdminReadonlyField.get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 819,
+ "response_tokens": 328,
+ "elapsed_s": 11.33,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

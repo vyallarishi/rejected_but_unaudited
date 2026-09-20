@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6905,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when they decorate the __init__ method with functools.wraps, the docstring isn't showing up in Sphinx documentation. They mentioned that the problem is related to a specific commit in Sphinx, and they've traced it to a line where cls is retrieved from obj.__globals__[cls_path]. The issue is that when the __init__ is decorated, obj's __globals__ doesn't contain the class anymore, leading Sphinx to think it's not a method.\n\nLooking at the provided list of candidate functions, the key part is in the Documenter class's import_object method. The import_object method is responsible for importing the object to be documented. If the object is a decorated __init__, then during the import process, the obj might not be correctly resolved, leading to the __globals__ not having the class.\n\nWait, but the user mentioned that the problem is in the line where cls is fetched from obj.__globals__[cls_path]. That line is part of the code in the commit they linked. Looking at the functions listed, the Documenter class's import_object method is involved in importing the object. However, the specific line they mentioned is in the code that's part of the can_document_member function? Or maybe in the get_documenter function?\n\nWait, the user says that can_document_member is called with the decorated __init__, and inspect.isroutine returns False. The can_document_member function is part of the Documenter class. Let me check the list again. The candidate functions include Documenter.can_document_member. That's one of the functions listed. \n\nThe can_document_member function checks whether a member can be documented. If the member is a decorated function, and inspect.isroutine returns False, then can_document_member returns False, which would prevent the member from being documented. So the problem is that the decorated __init__ is not being recognized as a routine (i.e., a function or method), so Sphinx skips it.\n\nBut why is inspect.isroutine returning False? Because the decorator wraps the function into something else. Even with functools.wraps, maybe the decorated function isn't considered a routine by inspect. So the can_document_member function in the Documenter class is the one that's making this check. Therefore, the fault lies in Documenter.can_document_member because it's not correctly identifying the decorated __init__ as a member that can be documented.\n\nSo the answer should be Documenter.can_document_member.\n</think>\n\nFAULT: Documenter.can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1831,
+ "response_tokens": 521,
+ "elapsed_s": 3.59,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

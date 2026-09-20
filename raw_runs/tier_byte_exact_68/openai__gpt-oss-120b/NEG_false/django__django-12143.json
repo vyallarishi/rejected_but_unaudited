@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 6320,
+ "raw": "FAULT: get_formset",
+ "finish_reason": "stop",
+ "prompt_tokens": 1554,
+ "response_tokens": 1443,
+ "elapsed_s": 3.5,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_formset",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

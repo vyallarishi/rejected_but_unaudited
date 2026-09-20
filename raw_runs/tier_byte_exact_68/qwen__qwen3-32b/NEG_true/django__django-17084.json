@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-17084",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6731,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is using Django 4.2 and\u9047\u5230\u4e86 an error when trying to use an aggregate over a window function. The error is a PostgreSQL GroupingError saying that aggregate functions can't contain window functions. \n\nThe example code shows that they're annotating with a Window function (a Sum over a window ordered by date), and then trying to aggregate that annotated field. The issue is that when they do Sum(\"cumul_DJR\"), Django is generating SQL that tries to do SUM(SUM(...) OVER (...)), which PostgreSQL doesn't allow.\n\nLooking at the localization notes, the problem is in the get_aggregation function. The notes say that get_aggregation receives Sum(\"cumul_DJR\"), resolves it to the Window expression, constructs an invalid expression tree (Sum(Window(...))), and adds it to the query. This leads to invalid SQL.\n\nSo the fault lies in the get_aggregation method because it's not handling the case where an annotated field is a window function. It's trying to apply an aggregate directly on the window function without wrapping it in a subquery or handling it properly. The other functions like window_frame_start or resolve_expression aren't involved here because they deal with lower-level SQL parts or different types of expressions.\n\nTherefore, the function that needs to be fixed is get_aggregation. It should detect when an aggregate is being applied to a window function and generate the appropriate subquery to make it valid SQL.\n</think>\n\nFAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1555,
+ "response_tokens": 314,
+ "elapsed_s": 1.01,
+ "key_suffix": "A11SkB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

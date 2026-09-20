@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7960,
+ "raw": "FAULT: _is_relevant_relation",
+ "reasoning": "We need to identify which function in django/db/backends/base/schema.py contains the fault causing db_collation not propagated to foreign key columns during alter field. The description: When altering primary key field to have db_collation, the migration generates ALTER TABLE for pk column with COLLATE, but not for foreign key columns. The code likely responsible for generating column alteration for related fields. The function that decides whether to alter column collation for related fields is probably _alter_column_type_sql or _alter_column_collation_sql. However the issue is that when altering a primary key field, the schema editor should also alter related foreign key columns. The function that determines related fields is _related_non_m2m_objects or _is_relevant_relation. The fault likely is that _alter_field does not propagate collation changes to related fields. The function that loops through related fields is _alter_field maybe calling _alter_field for each related field? Let's recall Django's schema editor: In BaseDatabaseSchemaEditor.alter_field, it checks if field type changed, etc. It also handles related fields: It calls self._alter_field for the main field, then for each related field (FK) it may call self._alter_field again. The function that decides if a relation is relevant is _is_relevant_relation. The bug is that collation changes are not considered relevant, so they are not altered. So the function containing the fault is _is_relevant_relation, which likely returns False for collation changes. So answer: _is_relevant_relation.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1957,
+ "response_tokens": 328,
+ "elapsed_s": 16.46,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_is_relevant_relation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

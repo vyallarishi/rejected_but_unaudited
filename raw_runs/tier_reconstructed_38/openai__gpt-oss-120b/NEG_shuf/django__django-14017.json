@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4716,
+ "raw": "_fault: _combine",
+ "reasoning": "We need to identify which function contains the fault causing TypeError when Q() & Exists(...). The issue is that Q.__and__ calls _combine which expects other to be Q, but Exists is not Q. The fix is to implement __rand__ or allow combination with Exists. The function containing the fault is Q._combine, because it raises TypeError for non-Q. So answer: _combine. The list includes def _combine(self, other, conn): in class Q. So function name: _combine.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1209,
+ "response_tokens": 119,
+ "elapsed_s": 0.74,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

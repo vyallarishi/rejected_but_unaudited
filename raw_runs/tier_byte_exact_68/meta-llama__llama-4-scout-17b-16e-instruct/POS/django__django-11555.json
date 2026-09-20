@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3591,
+ "raw": "## Step 1: Analyzing the Issue\nThe issue arises when using `order_by()` on a parent model that crashes when `Meta.ordering` contains expressions, specifically in the context of multi-table inheritance. The problem seems to stem from how Django handles ordering when it involves expressions rather than simple field names.\n\n## 2: Identifying the Candidate Functions\nThe candidate functions provided are from `django/db/models/sql/compiler.py`, which includes various classes and functions related to compiling SQL queries. The key function to focus on seems to be `get_order_by`, as it directly deals with ordering.\n\n## 3: Understanding the Fault\nThe fault occurs because `get_order_by` encounters an `OrderBy` object in `self.query.get_meta().ordering` instead of a string. When it tries to process this object, it incorrectly assumes it's a field name (string) and attempts operations that are not applicable, leading to an `AttributeError`.\n\n## 4: Locating the Faulty Function\nGiven the description, the function that contains the fault appears to be `get_order_by`. This function is responsible for handling the ordering of query results and seems to mishandle `OrderBy` objects when they are present in the meta's ordering.\n\n## 5: Conclusion\nThe function `get_order_by` is where the issue originates because it does not properly handle `OrderBy` objects that are used in `Meta.ordering`. This function needs to be adjusted to correctly process such objects.\n\nFAULT: get_order_by",
+ "finish_reason": "stop",
+ "prompt_tokens": 830,
+ "response_tokens": 305,
+ "elapsed_s": 0.93,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

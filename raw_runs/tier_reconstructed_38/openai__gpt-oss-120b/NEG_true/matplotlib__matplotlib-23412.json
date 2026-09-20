@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 12612,
+ "raw": "FAULT: draw",
+ "reasoning": "We need to answer with the function name that contains the fault. The analysis says there is a comment in draw: \"Patch has traditionally ignored the dashoffset.\" and a context manager that overwrites dash offset with 0. So the faulty function is draw in class Patch. So answer: draw.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3306,
+ "response_tokens": 73,
+ "elapsed_s": 0.81,
+ "key_suffix": "w3to9u",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

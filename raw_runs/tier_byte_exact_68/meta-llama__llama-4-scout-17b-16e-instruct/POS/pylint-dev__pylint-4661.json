@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 1707,
+ "raw": "To solve this issue, let's analyze the provided information step by step.\n\nThe problem is that pylint is storing its data in `~/.pylint.d`, which does not comply with the XDG Base Directory Specification. According to this specification, data files should be stored in `$HOME/.local/share/<PROGRAM_NAME>`.\n\nThe candidate functions in `pylint/config/__init__.py` are:\n- `_get_pdata_path`\n- `load_results`\n- `save_results`\n- `find_pylintrc`\n\nThe localization notes indicate that `_get_pdata_path` is responsible for generating a file path for storing data. This function reads the `PYLINT_HOME` constant, which is set to `~/.pylint.d`, and returns a path like `~/.pylint.d/some_file.stats`.\n\nThe fault lies in the function that generates the path for storing pylint data. Based on the provided information, this function is `_get_pdata_path`.\n\nThe reason is that this function uses the `PYLINT_HOME` constant, which is set to `~/.pylint.d`. To make pylint XDG Base Directory Specification compliant, this constant should be changed to use `$HOME/.local/share/pylint` instead.\n\nFAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 404,
+ "response_tokens": 263,
+ "elapsed_s": 1.07,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5457,
+ "raw": "<think>\nOkay, let's try to figure out where the issue is. The user says that when they set a custom empty_label in formfield_for_foreignkey for a ForeignKey field that's also specified in radio_fields, their custom label gets overridden by Django's default 'None' label. \n\nLooking at the code they provided, the problem seems to be in the BaseModelAdmin's formfield_for_foreignkey method. Specifically, the line where they set kwargs['empty_label'] unconditionally to _('None') if the field is blank. The user's suggestion is to change that line to check if there's already an empty_label in kwargs and use that instead.\n\nSo the function in question is formfield_for_foreignkey. The line in Django's code that's causing the override is in this method. The user's fix involves modifying how empty_label is assigned here. Therefore, the faulty function is formfield_for_foreignkey.\n</think>\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1311,
+ "response_tokens": 195,
+ "elapsed_s": 0.7,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

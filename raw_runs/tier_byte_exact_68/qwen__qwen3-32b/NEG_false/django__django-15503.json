@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5801,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that when using the has_key lookup on a JSONField with a numeric key in SQLite, it doesn't work. The test case shows that 'foo' works but '1111' doesn't. They mentioned that PostgreSQL works, but SQLite doesn't. \n\nLooking at the code provided, the relevant part is probably in the HasKeyLookup class, specifically the as_sqlite method. The localization notes mention that the issue is with the SQL template being incorrect, using JSON_TYPE with just the key instead of a proper JSON path. \n\nIn SQLite's JSON functions, to check for a key, you need to use a path like '$.key'. The problem here is that numeric keys might not be handled correctly. If the code is passing the key as-is without quoting or formatting it properly, SQLite's JSON_TYPE might not recognize it. For example, if the key is a number like 1111, maybe it's not being treated as a string in the JSON path.\n\nLooking at the HasKeyLookup's as_sqlite method, maybe it's generating a JSON path incorrectly. The correct path for a key named \"1111\" should be \"$.1111\", but if the code is just putting the key directly into the JSON_TYPE function without the $., it would fail. \n\nThe candidate functions listed include HasKeyLookup, which has an as_sqlite method. The notes say that the generated SQL uses JSON_TYPE(column, key) instead of JSON_TYPE(column, path). The JSON path should start with $., so maybe the as_sqlite method isn't constructing the path correctly. \n\nIn Django's JSONField lookups for SQLite, they might be using the JSON_TYPE function, which requires the correct path syntax. If the key is a number, maybe it's not being quoted properly. For example, if the key is a string in JSON, like \"1111\", the path should be $.\"1111\" if it's a string key. But if the key is numeric, maybe it's just $.1111. However, JSON keys are strings, so even if they are numeric, they are stored as strings in the JSON object. \n\nWait, but in the test case, the key is '1111' (a string) in the JSON data. So the correct path would be $.\"1111\". But if the code is passing the key as just 1111 without quotes, SQLite's JSON functions might not parse it correctly. \n\nLooking at the HasKeyLookup.as_sqlite method, perhaps it's not properly escaping the key. The method might be generating JSON_TYPE(data, '1111') instead of JSON_TYPE(data, '$.\"1111\"'). The correct path expression for a key named \"1111\" is $.\"1111\", but if the code is just passing the key as a string, it's not forming the correct path. \n\nSo the fault is likely in the as_sqlite method of the HasKeyLookup class. The method should construct the JSON path correctly by prefixing with $ and quoting the key if necessary. The current implementation might be using a template that doesn't include the $., leading to an invalid path when the key is numeric or needs quoting. \n\nTherefore, the function that contains the fault is HasKeyLookup.as_sqlite.\n</think>\n\nFAULT: HasKeyLookup.as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1438,
+ "response_tokens": 724,
+ "elapsed_s": 1.92,
+ "key_suffix": "15GW3E",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

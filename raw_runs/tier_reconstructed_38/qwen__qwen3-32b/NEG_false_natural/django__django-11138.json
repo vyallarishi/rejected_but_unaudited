@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5624,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when using a date lookup with Django and a database like MySQL that doesn't support time zones natively, the TIME_ZONE setting for the database isn't being respected. Instead, Django is converting from UTC to the app's time zone, but it should be converting from the database's time zone (tz2) to the app's time zone (tz1).\n\nLooking at the problem, the key part is in the SQL generated for the date lookup. The user provided an example where the SQL uses CONVERT_TZ with 'UTC' as the source timezone, but it should be using the database's timezone (tz2) instead. The user also pointed to a specific line in the Django code (operations.py line 49) where 'UTC' is hardcoded.\n\nIn the Django MySQL backend's DatabaseOperations class, there's a method called _convert_field_to_tz. The description mentions that this function generates the incorrect SQL by hardcoding 'UTC' as the source timezone. The function is supposed to convert the field from the database's timezone to the target timezone (the app's timezone). But if the database's timezone is set (tz2), then the source should be tz2, not UTC. \n\nThe user's example shows that when using the __date lookup, Django ends up using CONVERT_TZ with UTC as the source. The _convert_field_to_tz method is likely the one generating this SQL. If that method is hardcoding the source timezone as UTC instead of using the database's timezone setting, that would explain the problem. \n\nOther functions like date_trunc_sql are ruled out because their changes wouldn't affect this particular issue. The key is in the conversion between timezones during the date lookup. Since _convert_field_to_tz is directly responsible for generating the CONVERT_TZ SQL and it's using UTC instead of the database's timezone, that's the faulty function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1497,
+ "response_tokens": 414,
+ "elapsed_s": 11.17,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

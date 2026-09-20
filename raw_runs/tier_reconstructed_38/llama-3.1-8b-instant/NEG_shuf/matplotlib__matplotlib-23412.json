@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 11830,
+ "raw": "draw",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3060,
+ "response_tokens": 2,
+ "elapsed_s": 0.44,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "draw",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6154,
+ "raw": "FAULT: Model.__init__",
+ "reasoning": "We need to identify which function contains the fault causing the enum value not being converted to its primitive when creating instance. The description says that when creating instance via objects.create, the value stored is enum member, not string. The conversion likely occurs in Model.__init__ or in field's to_python or get_prep_value. But the issue is that __init__ assigns raw value without conversion. The list includes Model.__init__ method. So fault is in Model.__init__. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: Model.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1493,
+ "response_tokens": 153,
+ "elapsed_s": 0.96,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10323",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6085,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using the `:prepend:` option with `literalinclude`, the indentation isn't correct because the dedent filter is affecting the prepended lines. \n\nThe user explained that the `dedent_filter` is applied after the `prepend_filter`, which means that any lines added via `:prepend:` have their whitespace stripped, leading to incorrect indentation. They also mentioned that applying `:dedent:` with a number causes warnings if non-whitespace is stripped.\n\nLooking at the code structure, the `LiteralIncludeReader` class handles the reading and processing of the file. The `prepend_filter` adds lines to the beginning, and then `dedent_filter` is applied to the entire content, including those prepended lines. The issue is that the dedent is being applied to the prepended lines, which shouldn't happen because the user expects the prepended lines to maintain their intended indentation.\n\nThe key here is the order of filters. The `prepend_filter` is called before the `dedent_filter`, so after prepending, the dedent is stripping whitespace from all lines, including the prepended ones. The dedent is supposed to adjust the indentation of the included code, but when applied to the prepended lines, it messes up their formatting.\n\nSo the function responsible for this is the `dedent_filter` in the `LiteralIncludeReader` class. Because it's applied after the prepend, it's affecting the prepended lines, which is not desired. The dedent should only be applied to the original content, not the prepended or appended lines. Therefore, the fault lies in how the dedent_filter is being applied in the processing order.\n</think>\n\nFAULT: dedent_filter",
+ "finish_reason": "stop",
+ "prompt_tokens": 1538,
+ "response_tokens": 365,
+ "elapsed_s": 1.05,
+ "key_suffix": "AG0xGb",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "dedent_filter",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

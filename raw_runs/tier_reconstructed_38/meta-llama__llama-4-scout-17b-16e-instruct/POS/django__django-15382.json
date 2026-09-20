@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6071,
+ "raw": "## Step 1: Understand the issue\nThe problem arises when using `filter` with an `Exists` subquery that is empty. This results in the entire `WHERE` block being removed, leading to an `EmptyResultSet` being returned instead of the expected query with a `WHERE` clause that always evaluates to `TRUE` or `FALSE` based on the existence check.\n\n## 2: Identify the code path\nThe issue seems to be related to how Django handles `Q` objects, specifically when they contain `Exists` queries that are negated and the queryset is empty. The code path involves `add_q` and `_add_q` methods in `django/db/models/sql/query.py`, as these are responsible for processing `Q` objects.\n\n## 3: Analyze the `add_q` and `_add_q` methods\nThe `add_q` method is a part of the `Query` class and is used to add a `Q` object to the query. It then calls `_add_q` to process the `Q` object. The `_add_q` method is where the actual processing of the `Q` object happens, including handling negations and existence checks.\n\n## 4: Locate the fault\nThe fault seems to be in how an empty `Exists` subquery is handled when it's negated. The negation of an empty `Exists` query should always be `TRUE`, but instead, it causes the query to be marked as empty.\n\n## 5: Determine the function name\nGiven the description and the code path, the function that contains the fault appears to be `_add_q`, as it's directly involved in processing `Q` objects and handling negations and existence checks.\n\nThe final answer is: \nFAULT: _add_q",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1454,
+ "response_tokens": 359,
+ "elapsed_s": 4.86,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

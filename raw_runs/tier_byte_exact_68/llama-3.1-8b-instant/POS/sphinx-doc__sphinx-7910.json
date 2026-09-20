@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 6682,
+ "raw": "FAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1800,
+ "response_tokens": 6,
+ "elapsed_s": 0.41,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

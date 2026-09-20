@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5685,
+ "raw": "## Step 1: Identify the function responsible for creating a ModelForm class\nThe function responsible for creating a ModelForm class is `modelform_factory`. This function generates a form class based on a given model and a base form class.\n\n## Step 2: Analyze the behavior of modelform_factory\nThe `modelform_factory` function takes a model, a form, and optionally a `formfield_callback` as arguments. If `formfield_callback` is not provided, it defaults to `None`. The function then creates a new form class that inherits from the provided form class.\n\n## Step 3: Determine how modelform_factory handles Meta options\nWhen creating the new form class, `modelform_factory` constructs a new `Meta` class for the form. It does this by taking options from the base form's `Meta` class and the provided model. However, when specifying the `formfield_callback`, it does not check if the base form's `Meta` class has a `formfield_callback` defined.\n\n## 4: Identify the fault\nThe fault lies in how `modelform_factory` handles the `formfield_callback`. Currently, if no `formfield_callback` is provided to `modelform_factory`, it uses `None` instead of checking the base form's `Meta` class for a defined `formfield_callback`.\n\n## 5: Specify the function containing the fault\nBased on the analysis, the function containing the fault is `modelform_factory`. This function needs to be modified to respect the `formfield_callback` defined in the base form's `Meta` class if no `formfield_callback` is explicitly provided.\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1310,
+ "response_tokens": 341,
+ "elapsed_s": 1.01,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

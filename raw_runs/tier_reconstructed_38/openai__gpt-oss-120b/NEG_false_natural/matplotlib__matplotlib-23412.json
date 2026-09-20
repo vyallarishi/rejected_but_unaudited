@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 11162,
+ "raw": "FAULT: draw",
+ "reasoning": "We need to identify which function contains the fault causing offset dash linestyle ignored for patch objects. The note says there is a comment `# Patch has traditionally ignored the dashoffset.` and a context manager `with cbook._setattr_cm(self, _dash_pattern=(0, self._dash_pattern[1]))`. That is likely in the `draw` method of Patch class. So function name is `draw`. The list includes `def draw(self, renderer):` in class Patch. So answer: FAULT: draw.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2977,
+ "response_tokens": 119,
+ "elapsed_s": 1.08,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 17563,
+ "raw": "## Step 1: Understand the issue\nThe problem arises when attempting to convert a stacked dataset back to its unstacked form using `to_unstacked_dataset` after it has been stacked with `to_stacked_array`. This issue specifically occurs when the original variables have only one dimension.\n\n## 2: Identify the root cause\nThe root cause of the issue seems to be related to how `to_unstacked_dataset` handles variables that have been stacked from single-dimensional arrays. When these single-dimensional arrays are stacked, they form a MultiIndex coordinate, which then causes issues when trying to unstack them back.\n\n## 3: Analyze the provided code and error\nThe provided code sample demonstrates the issue:\n```python\narr = xr.DataArray(\n    np.arange(3),\n    coords=[(\"x\", [0, 1, 2])],\n)\ndata = xr.Dataset({\"a\": arr, \"b\": arr})\nstacked = data.to_stacked_array('y', sample_dims=['x'])\nunstacked = stacked.to_unstacked_dataset('y')\n```\nThis results in a `MergeError` due to conflicting values for the variable `y` on objects to be combined.\n\n## 4: Determine the faulty function\nGiven the error and the process, the faulty function appears to be `to_unstacked_dataset`. This function is responsible for converting the stacked dataset back to its original form. The error message suggests that there's a conflict in how it's handling the dimensions or coordinates during the unstacking process.\n\n## 5: Conclusion\nThe function that contains the fault is `to_unstacked_dataset`.\n\nFAULT: to_unstacked_dataset",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 4670,
+ "response_tokens": 339,
+ "elapsed_s": 4.59,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "to_unstacked_dataset",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

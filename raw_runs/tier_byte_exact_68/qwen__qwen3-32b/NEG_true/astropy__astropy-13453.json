@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 9131,
+ "raw": "<think>\nOkay, let's try to figure out why the HTML output isn't respecting the formats. The user provided a code example where they set the formats for column 'a' using a lambda function to format it in scientific notation with two decimal places. When writing to HTML, the output shows the full precision, but for CSV or RST, it works as expected.\n\nLooking at the candidate functions in the HTML module, the key part is probably in the HTML class's write method. The user's localization notes mention that the HTML.write method is called, but it doesn't call self.data.format_columns, which is where the formatting is applied in other formats. \n\nIn the astropy.io.ascii framework, when you write a table, the BaseWriter (or its subclasses) usually handle formatting. The formats argument is processed by the format_columns method. If the HTML writer isn't calling this method, then the formatting wouldn't be applied. \n\nLooking at the HTML class's write method, maybe it's not using the standard formatting steps. The other formats like RST or CSV probably use the BaseWriter's format_columns, but HTML might be handling the data conversion to strings directly without going through that step. \n\nSo the fault is likely in the HTML.write method because it's not applying the formats. The write method should be using the provided formats to format the columns before writing them out. If it's just converting the data to strings directly without using the format functions provided, then the formats would be ignored.\n\nTherefore, the function responsible is the write method in the HTML class. The correct answer should be the write function in the HTML class.\n</think>\n\nFAULT: write",
+ "finish_reason": "stop",
+ "prompt_tokens": 2369,
+ "response_tokens": 337,
+ "elapsed_s": 1.68,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "write",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

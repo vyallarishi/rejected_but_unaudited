@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14096",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 3999,
+ "raw": "FAULT: __getattr__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1067,
+ "response_tokens": 391,
+ "elapsed_s": 1.42,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__getattr__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

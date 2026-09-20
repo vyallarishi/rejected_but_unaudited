@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-13135",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6220,
+ "raw": "### Thought Process and Reasoning\n\nThe issue arises when using `KBinsDiscretizer` with the `strategy='kmeans'` parameter. The problem occurs because the cluster centers obtained from `KMeans.fit` are not guaranteed to be sorted. These centers are then used to calculate the `bin_edges` by taking the midpoints of adjacent centers. If the centers are not sorted, the resulting `bin_edges` will also be unsorted, which causes an error when using `np.digitize` in the `transform` method.\n\nTo fix this issue, we need to ensure that the `bin_edges` are sorted before using them in `np.digitize`. This can be achieved by sorting the `centers` before calculating the `bin_edges`.\n\n### Solution\n\nThe fault is in the `fit` method of the `KBinsDiscretizer` class. Specifically, the issue arises when calculating the `bin_edges` for the `kmeans` strategy.\n\n```python\ndef fit(self, X, y=None):\n    # ...\n    if self.strategy == 'kmeans':\n        km = KMeans(n_clusters=self.n_bins_, n_init=10)\n        km.fit(X)\n        centers = km.cluster_centers_\n        # Sort the centers before calculating bin_edges\n        centers.sort(axis=0)\n        bin_edges = (centers[1:] + centers[:-1]) * 0.5\n    # ...\n```\n\nBy adding the line `centers.sort(axis=0)`, we ensure that the `centers` are sorted before calculating the `bin_edges`, which will then be sorted as well. This should fix the issue with `KBinsDiscretizer` when using the `kmeans` strategy.\n\n### Answer\n\nFAULT: fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1793,
+ "response_tokens": 357,
+ "elapsed_s": 1.16,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

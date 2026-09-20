@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3243,
+ "raw": "FAULT: clone",
+ "reasoning": "\nOkay, let's try to figure out where the fault is here. The user is saying that when they try to clone a StandardScaler where one of the parameters is the StandardScaler class itself, it throws an error. The error message mentions that get_params is missing a required positional argument 'self'. \n\nLooking at the code in sklearn/base.py's clone function, when it tries to clone a parameter that's a class (like StandardScaler), it calls clone(param, safe=False). In this case, param is the class, not an instance. The clone function checks if the estimator has get_params. But classes can have methods, so hasattr(StandardScaler, 'get_params') would be True because the class has the method. However, when you call get_params on the class, you need a self argument, which isn't there. So the code is trying to call get_params on the class instead of an instance, leading to the error.\n\nThe user's proposed fix is to check if the estimator is a class type. If it's a class, then maybe we shouldn't try to clone it recursively. The current code in clone checks if the estimator has get_params and is not a class. Wait, the original code might not check if it's a class. Let me look at the code.\n\nIn the clone function, the code checks if the estimator has get_params. But if the estimator is a class, then when you call estimator.get_params(), it's a method that requires an instance. So the problem is that the code is allowing classes to pass through because they have get_params, but they aren't instances. The fix would be to check if the estimator is a class (i.e., isinstance(estimator, type)), and handle it differently. \n\nThe user's suggested change is to modify line 51 (probably in the clone function) to: elif not hasattr(estimator, 'get_params') or isinstance(estimator, type):. Wait, the original code might have a condition that if the estimator has get_params, then proceed. But if the estimator is a class, then even though it has get_params, we shouldn't call it. So adding a check for isinstance(estimator, type) would catch that. \n\nThe fault is in the clone function because it doesn't account for parameters that are classes (not instances) which have the get_params method but can't be called without an instance. The clone function's logic for checking whether to recursively clone is flawed when the parameter is a class. Therefore, the function containing the fault is clone.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 787,
+ "response_tokens": 526,
+ "elapsed_s": 5.24,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

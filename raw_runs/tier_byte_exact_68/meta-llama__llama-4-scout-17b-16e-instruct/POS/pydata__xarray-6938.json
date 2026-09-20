@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7331,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves the `.swap_dims()` method in xarray, which appears to modify the original object under certain conditions. Specifically, when a data variable is swapped into being a dimension coordinate variable, its `.dims` attribute is modified in the original object. This behavior is unexpected because xarray aims to ensure immutability.\n\nTo solve this issue, we need to identify where in the code the modification occurs and why the immutability contract is violated. The provided code snippets and the MVCE (Minimal Complete Verifiable Example) suggest that the problem lies in how variables are handled during the dimension swap operation.\n\nThe key part of the code to examine is the `.swap_dims()` method within `xarray/core/dataset.py`. This method is responsible for swapping dimensions and, in the process, may transform data variables into dimension coordinate variables.\n\nUpon closer inspection, the issue seems to stem from how a variable is copied when it is being promoted to a dimension coordinate. If the copy operation does not create a new, independent object but instead returns the original object, subsequent modifications will affect the original variable.\n\n### Solution\n\nThe fault lies in the `Dataset.swap_dims` method, specifically in how it handles the creation of a new variable when promoting a data variable to a dimension coordinate. The line `v = v.copy(deep=False)` is intended to create a shallow copy of the variable. However, if this operation fails to create a new object and instead returns the original variable object, modifying `var.dims` will modify the original variable.\n\nTo fix this, we need to ensure that a new variable object is always created during the swap operation. The provided conversations and code changes hint at the necessity of creating a new variable object explicitly, especially when dealing with the promotion of a data variable to a dimension coordinate.\n\n### FAULT\n\n```python\n# The function name that contains the fault\nFAULT: Dataset.swap_dims\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2106,
+ "response_tokens": 394,
+ "elapsed_s": 1.42,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "swap_dims",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

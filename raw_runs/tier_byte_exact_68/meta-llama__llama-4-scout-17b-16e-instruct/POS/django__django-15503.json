@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5741,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Problem Identification**: The issue lies in the `has_key`, `has_keys`, and `has_any_keys` lookups for `JSONField` in Django, specifically when using numeric keys on SQLite, MySQL, and Oracle databases.\n\n2. **Understanding the Lookup Process**: When a filter operation like `JsonFieldHasKeyTest.objects.filter(data__has_key='1111')` is initiated, Django's ORM identifies `has_key` on a `JSONField` and dispatches to the `HasKeyLookup` class.\n\n3. **Database-specific SQL Compilation**: The SQL compiler for the specific database backend (in this case, SQLite) calls a database-specific method on the `HasKeyLookup` instance, which is `as_sqlite` for SQLite.\n\n4. **Fault Identification**: The fault lies in how the `as_sqlite` method of the `HasKeyLookup` class constructs the SQL query. Specifically, it incorrectly uses `JSON_TYPE(column, key)` instead of `JSON_TYPE(column, path)`, failing to prefix the key with `$.` to form a valid JSON path.\n\n5. **Relevant Function**: The function that contains the fault is the one responsible for generating the SQL for the `has_key` lookup on SQLite, which is `as_sqlite` within the `HasKeyLookup` class.\n\n# Fixed solution:\nTo fix the issue, we need to adjust the `as_sqlite` method in the `HasKeyLookup` class to correctly construct the JSON path. The corrected method should ensure that the key is properly prefixed with `$.` to form a valid JSON path.\n\n```python\nclass HasKeyLookup(PostgresOperatorLookup):\n    # ... existing methods ...\n\n    def as_sqlite(self, compiler, connection):\n        # Corrected method to properly construct the JSON path for SQLite\n        key = self.rhs\n        lhs_sql, lhs_params = self.process_lhs(compiler, connection)\n        rhs_sql = f\"JSON_TYPE({lhs_sql}, '$.{key}')\"\n        return f\"{rhs_sql} = 1\", lhs_params\n```\n\nHowever, based on the hint and standard practices in Django for handling JSONField lookups, a more appropriate and comprehensive fix involves ensuring that all backends correctly handle key transformations, potentially through adjustments in `KeyTransform` and its database-specific methods.\n\n# Explanation of changes:\n- **Corrected JSON Path Construction**: The key is now correctly prefixed with `$.` to form a valid JSON path for SQLite.\n- **Database-specific Handling**: Ensures proper handling for SQLite, aligning with how other backends might handle similar operations.\n\n# Tests and example uses:\nTesting with the provided example should now pass:\n```python\nclass JsonFieldHasKeyTestCase(TestCase):\n    def setUp(self) -> None:\n        test = JsonFieldHasKeyTest(data={'foo': 'bar'})\n        test2 = JsonFieldHasKeyTest(data={'1111': 'bar'})\n        test.save()\n        test2.save()\n\n    def test_json_field_has_key(self):\n        c1 = JsonFieldHasKeyTest.objects.filter(data__has_key='foo').count()\n        c2 = JsonFieldHasKeyTest.objects.filter(data__has_key='1111').count()\n        self.assertEqual(c1, 1, \"Should have found 1 entry with key 'foo'\")\n        self.assertEqual(c2, 1, \"Should have found 1 entry with key '1111'\")\n```\nFAULT: as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1422,
+ "response_tokens": 722,
+ "elapsed_s": 2.07,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

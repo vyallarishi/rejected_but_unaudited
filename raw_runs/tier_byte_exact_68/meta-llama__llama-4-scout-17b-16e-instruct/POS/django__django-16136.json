@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16136",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3996,
+ "raw": "To solve this issue, we need to understand the flow of how Django handles requests and responses, especially when it comes to asynchronous views and the `HttpResponseNotAllowed` object.\n\nThe error occurs because `HttpResponseNotAllowed` is not an awaitable object, but it's being used in an asynchronous context. This happens when a GET request is made to a view that only supports POST requests, and the view is defined with an asynchronous `post` method.\n\nThe key to solving this issue lies in understanding how Django's `dispatch` method handles HTTP method checks and how it interacts with asynchronous views. When a request is made to a view, Django's `dispatch` method checks if the request method is allowed for that view. If not, it calls the `http_method_not_allowed` method.\n\nThe `http_method_not_allowed` method returns an `HttpResponseNotAllowed` object, which is a synchronous response object. However, when the view is asynchronous, Django wraps its execution in `async_to_sync`, expecting an awaitable return value.\n\nThe problem arises because `http_method_not_allowed` returns a non-awaitable `HttpResponseNotAllowed` object directly when called from within an asynchronous context. This non-awaitable object is then attempted to be awaited by the `async_to_sync` machinery, resulting in a `TypeError`.\n\nGiven this understanding, the fault lies in how the `dispatch` method handles the return value of `http_method_not_allowed` when the view is asynchronous. Specifically, the issue is with the `dispatch` method itself, which needs to ensure that it returns an awaitable value when the view is asynchronous.\n\nThe function that contains the fault is:\nFAULT: dispatch",
+ "finish_reason": "stop",
+ "prompt_tokens": 1038,
+ "response_tokens": 344,
+ "elapsed_s": 1.17,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "dispatch",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

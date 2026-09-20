@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5978,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identifying the issue:** The problem arises from the incorrect handling of foreign key fields as primary keys in the `lookup_allowed` method of the `ModelAdmin` class.\n2. **Understanding the flow:** When processing the lookup 'restaurant__place__country', the method checks each part of the lookup path. For 'place', it checks if 'place' is in the target fields of the previous field 'restaurant'. Since 'place' is the primary key of the `Restaurant` model, it's considered a target field, and thus 'place' is not appended to `relation_parts`.\n3. **The issue:** The method incorrectly assumes that having a foreign key field as a primary key is the same as concrete inheritance, leading to incorrect lookup handling.\n\n# Fixed solution:\nThe fix involves adjusting the `lookup_allowed` method to properly handle foreign key fields that are primary keys.\n\n```python\ndef lookup_allowed(self, lookup, value):\n    # ... (rest of the method remains the same)\n    relation_parts = []\n    for i, field_name in enumerate(lookup.split('__')):\n        field = self.model._meta.get_field(field_name)\n        # Check if the field is a relation and the previous field is a foreign key\n        if i > 0:\n            prev_field = self.model._meta.get_field(lookup.split('__')[i-1])\n            if prev_field.remote_field and field in prev_field.remote_field.target_fields:\n                relation_parts.append(field_name)\n            else:\n                relation_parts.append(field_name)\n        else:\n            relation_parts.append(field_name)\n    # ... (rest of the method remains the same)\n```\n\nHowever, instead of directly editing the original method, let's analyze and propose a simpler candidate function solution directly.\n\n# Explanation of changes:\n*   **Identify the faulty function:** The function containing the fault is `lookup_allowed(self, lookup, value)` in the `ModelAdmin` class.\n\n# Tests and example uses:\nYou can test the corrected function using the test case provided:\n\n```python\n@isolate_apps('modeladmin')\ndef test_lookup_allowed_foreign_primary(self):\n    class Country(models.Model):\n        name = models.CharField(max_length=256)\n    class Place(models.Model):\n        country = models.ForeignKey(Country, models.CASCADE)\n    class Restaurant(models.Model):\n        place = models.OneToOneField(Place, models.CASCADE, primary_key=True)\n    class Waiter(models.Model):\n        restaurant = models.ForeignKey(Restaurant, models.CASCADE)\n    class WaiterAdmin(ModelAdmin):\n        list_filter = [\n            'restaurant__place__country',\n        ]\n    ma = WaiterAdmin(Waiter, self.site)\n    self.assertIs(ma.lookup_allowed('restaurant__place__country', 'test_value'), True)\n```\n\n# FAULT:\n```\nlookup_allowed\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1394,
+ "response_tokens": 585,
+ "elapsed_s": 1.62,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

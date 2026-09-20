@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5335,
+ "raw": "FAULT: EmailMessage.message",
+ "reasoning": "We need to identify which function contains the fault. The issue: When hostname is non-ASCII, make_msgid returns a Message-ID containing that domain. Then assigning to header triggers encoding error because header encoding is set to iso-8859-1 (latin-1). The code that attempts to encode the header is in forbid_multi_line_headers, which is called from SafeMIMEMessage.__setitem__ (or SafeMIMEText etc). The error occurs in forbid_multi_line_headers: it tries to encode val using Header(val, encoding).encode(). The encoding is the message's encoding (iso-8859-1). The fault is that the domain should be punycode before being used in Message-ID. That conversion should happen before calling make_msgid or before setting header. The function that should handle this is likely make_msgid in django.core.mail.message? Actually make_msgid is imported from email.utils? In Django they have a wrapper? Let's check: In django.core.mail.message, they import make_msgid from email.utils. The function that sets the Message-ID is in EmailMessage.message: msg['Message-ID'] = make_msgid(domain=DNS_NAME). So the fault is that DNS_NAME (non-ASCII) is passed directly. The fix is to convert DNS_NAME to punycode before passing to make_msgid. That conversion could be done in django.core.mail.utils or message. The function that currently uses DNS_NAME is EmailMessage.message. So the fault is in EmailMessage.message (the function that sets the header). The question: \"Which function contains the fault?\" The list includes many functions. The fault is in EmailMessage.message, because it uses DNS_NAME directly without punycode conversion. So answer: EmailMessage.message.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1371,
+ "response_tokens": 371,
+ "elapsed_s": 1.27,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

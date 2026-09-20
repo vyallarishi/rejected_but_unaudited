@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5957,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves a bug in matplotlib where calling `ax.clear()` on subplots with shared axes causes extra ticks and tick labels to appear. The goal is to identify the function responsible for this fault.\n\nThe provided code snippet and bug report indicate that the problem arises when using `plt.subplots()` with shared axes and then calling `ax.clear()` on each subplot. This results in the appearance of ticks and tick labels on interior axes that should be hidden.\n\nThe key to solving this issue lies in understanding how `ax.clear()` interacts with shared axes and tick labels. When `ax.clear()` is called, it resets the axis properties to their defaults, which includes formatters and ticks. For shared axes, this reset removes the NullFormatter that was hiding tick labels on interior axes, causing them to become visible again.\n\nGiven the information provided and the process of elimination, we need to identify the specific function that handles the clearing of axis properties and the resetting of tick formatters.\n\n### Solution\n\nFAULT: Axis.clear\n\nThe `Axis.clear` method is responsible for resetting axis properties to their defaults, including formatters and ticks. This method is called by `ax.clear()` and is the root cause of the issue with shared axes and tick labels. The removal of the NullFormatter when `Axis.clear` is called leads to the appearance of tick labels on interior axes that should be hidden. \n\nTo fix this bug, we need to modify the `Axis.clear` method to preserve the NullFormatter for shared axes or to handle the clearing of axis properties in a way that does not interfere with the hiding of tick labels on interior axes. \n\nHowever, based on the given task and following the specific format required for the answer:\n\n```python\nFAULT: Axis.clear\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1551,
+ "response_tokens": 360,
+ "elapsed_s": 1.36,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

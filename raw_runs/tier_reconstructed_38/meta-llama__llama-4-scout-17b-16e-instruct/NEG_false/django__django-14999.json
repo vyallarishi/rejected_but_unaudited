@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6623,
+ "raw": "To solve this issue, we need to identify the function that causes a `RenameModel` operation with an explicit `db_table` to not be a no-op. \n\nThe issue arises when a `RenameModel` operation is performed on a model that already has an explicit `db_table` defined. In such cases, the operation should not alter the database table.\n\nLooking at the provided code, the `RenameModel` class in `django/db/migrations/operations/models.py` seems to be the relevant part. Specifically, the `database_forwards` method of this class appears to be where the actual renaming operation is performed.\n\nThe fault lies in the fact that this method does not check if the model has an explicit `db_table` defined before attempting to rename the table. \n\nThe function that contains the fault is:\nFAULT: database_forwards",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1505,
+ "response_tokens": 171,
+ "elapsed_s": 0.83,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_forwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

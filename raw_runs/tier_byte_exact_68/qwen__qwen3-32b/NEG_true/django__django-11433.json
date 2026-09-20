@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11433",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 10903,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when a field isn't in the submitted data but has a default on the model, even if the form's clean() method adds a value to cleaned_data for that field, the model instance doesn't get that value when saved. The user says that construct_instance is only considering fields present in the original submission, not all in cleaned_data.\n\nLooking at the localization notes, the key part is that during _post_clean, construct_instance is called, which only uses fields from the original submission. The issue is that construct_instance isn't using the cleaned_data properly. \n\nThe candidate functions include construct_instance. The description mentions that construct_instance is supposed to populate the model instance but ignores fields not in the original data. So maybe construct_instance is the faulty function because it's not taking into account the cleaned_data's values for fields not in the submitted data. \n\nLet me think about how construct_instance works. It probably loops through the form's fields and sets attributes on the instance based on the form's data. But if a field wasn't in the submitted data, maybe it's skipped unless it's in cleaned_data. Wait, but cleaned_data should have the default values. So perhaps construct_instance is checking if the field was in the submitted data (self.data) instead of looking at cleaned_data. \n\nIn the notes, it says that during _post_clean, construct_instance is called, and it only considers fields present in the original submission. That suggests that construct_instance is using self.data to determine which fields to apply, rather than using cleaned_data. So even if the cleaned_data has a value for a field not in the original data, construct_instance isn't using it. \n\nTherefore, the fault is in construct_instance because it's not properly using the cleaned_data to set all necessary fields on the model instance. Instead, it's relying on the presence of the field in the original submission data. That would explain why the default value from the model isn't overwritten by the value added to cleaned_data in the form's clean method.\n</think>\n\nFAULT: construct_instance",
+ "finish_reason": "stop",
+ "prompt_tokens": 2437,
+ "response_tokens": 436,
+ "elapsed_s": 1.36,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "construct_instance",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

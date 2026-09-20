@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14373",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 1774,
+ "raw": "## Step 1: Understanding the issue\nThe issue states that the `Y` specifier in `django.utils.dateformat.DateFormat` does not return a four-digit year padded with zeros for years less than 1000.\n\n## 2: Identifying the relevant function\nThe `Y` specifier is processed by the `DateFormat.Y` method. This method is supposed to return a four-digit year.\n\n## 3: Analyzing the problem\nThe problem arises because the `DateFormat.Y` method returns the integer year directly. When the year is less than 1000, converting this integer to a string results in a string that is not padded with leading zeros.\n\n## 4: Locating the fault\nGiven that the issue is with the `Y` method not padding years less than 1000 with zeros, the fault is in the `Y` method of the `DateFormat` class.\n\n## 5: Conclusion\nThe function that contains the fault is `Y`.\n\nFAULT: Y",
+ "finish_reason": "stop",
+ "prompt_tokens": 475,
+ "response_tokens": 204,
+ "elapsed_s": 0.68,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "Y",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

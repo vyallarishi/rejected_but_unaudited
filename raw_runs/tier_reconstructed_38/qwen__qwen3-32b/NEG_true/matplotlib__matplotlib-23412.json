@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 12612,
+ "raw": "FAULT: draw",
+ "reasoning": "\nOkay, let's try to figure out where the bug is. The user says that when they set the linestyle with an offset on a patch object, like a Rectangle, the offset doesn't have any effect. They provided some code that shows two red rectangles with different offsets but they overlap, which shouldn't happen. The same code works with Line2D objects, so the issue is specific to patches.\n\nLooking at the code, the problem is in the Patch class's draw method. The user mentioned that in the draw method, there's a comment saying that patches have traditionally ignored the dashoffset. Then there's a context manager that temporarily sets the dash pattern's offset to 0. That seems like the culprit. \n\nThe key here is that when the Patch is drawn, it's overriding the dash offset to 0, regardless of what the user set. The set_linestyle and get_linestyle functions are correctly parsing the linestyle tuple, but during rendering, the offset is being reset. The draw method is where the actual rendering happens, and if it's forcing the offset to 0, that would explain why the user's specified offset is ignored.\n\nSo the function that contains the fault is the draw method in the Patch class. The comment in the code directly points to this issue, and the context manager in the draw method is what's causing the dash offset to be overwritten. Therefore, the correct answer should be the draw function of the Patch class.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 3310,
+ "response_tokens": 300,
+ "elapsed_s": 4.8,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

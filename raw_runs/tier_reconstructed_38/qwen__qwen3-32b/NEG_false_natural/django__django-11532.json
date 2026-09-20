@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5286,
+ "raw": "FAULT: message",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The issue is that when the hostname is a non-ASCII value like \"\u6b63\u5b97\", the test fails because the Message-ID header can't be encoded with iso-8859-1. The error happens when Django tries to create the Message-ID using the DNS_NAME, which is the hostname.\n\nLooking at the code, the Message-ID is generated in the EmailMessage's message() method, specifically here: msg['Message-ID'] = make_msgid(domain=DNS_NAME). The DNS_NAME is a patched value in the test, set to \"\u6f22\u5b57\". The problem is that this domain name isn't converted to punycode, which is necessary for proper encoding in email headers.\n\nThe functions involved here are in the EmailMessage class, particularly the message() method. The make_msgid function is called with the domain, which is the DNS_NAME. Since DNS_NAME is non-ASCII, and the email's encoding is set to iso-8859-1, which can't handle those characters, it throws an error. The forbid_multi_line_headers function is called when setting the header, but the root issue is that the domain isn't encoded properly before being used in make_msgid.\n\nSo the fault lies in the message() method of the EmailMessage class because it directly uses the DNS_NAME without converting it to punycode. The function where the Message-ID is set is part of the message() method in the EmailMessage class. But looking at the list of functions provided, the message() method is part of the EmailMessage class. However, the specific line where the Message-ID is generated is in the message() method. Since the candidate functions include the EmailMessage's message() method, that's where the fix is needed. But the question is which function contains the fault. The function that's directly responsible is the one that sets the Message-ID without encoding the domain. In the list provided, the function is part of the EmailMessage class's message() method. However, the options given in the candidate functions include the message() method. But the user is asking for the function name from the list. The list includes the message() method as part of the EmailMessage class. So the answer is the message() method. Wait, but the actual code that's problematic is in the message() method where it calls make_msgid with the DNS_NAME. The function that needs to be fixed is the one that generates the Message-ID, which is in the message() method. Therefore, the function with the fault is the message() method of the EmailMessage class. But in the candidate functions, the message() is listed under the EmailMessage class. So the answer is message() in the EmailMessage class. But the exact function name in the list is 'message' as part of the EmailMessage class. So the FAULT is in the message() function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1320,
+ "response_tokens": 604,
+ "elapsed_s": 7.26,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "message",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

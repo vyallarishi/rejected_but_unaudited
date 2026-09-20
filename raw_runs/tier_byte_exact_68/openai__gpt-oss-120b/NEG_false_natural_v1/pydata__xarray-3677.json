@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-3677",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5764,
+ "raw": "FAULT: as_dataset",
+ "finish_reason": "stop",
+ "prompt_tokens": 1643,
+ "response_tokens": 938,
+ "elapsed_s": 2.33,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "as_dataset",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

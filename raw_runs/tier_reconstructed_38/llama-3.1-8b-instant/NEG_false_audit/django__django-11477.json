@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 1407,
+ "raw": "resolve",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 350,
+ "response_tokens": 2,
+ "elapsed_s": 0.25,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "resolve",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

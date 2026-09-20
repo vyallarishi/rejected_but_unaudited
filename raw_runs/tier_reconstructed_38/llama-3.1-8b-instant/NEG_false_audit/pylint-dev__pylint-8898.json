@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-8898",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 7305,
+ "raw": "FAULT: _csv_transformer",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1910,
+ "response_tokens": 7,
+ "elapsed_s": 1.65,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_csv_transformer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

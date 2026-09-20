@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7500,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when they decorate the __init__ method with a decorator that uses functools.wraps, the __init__ doesn't show up in the Sphinx documentation. They mentioned that they have napoleon_include_init_with_doc set to True, which should allow __init__ to be documented. But the problem arises because the decorator changes how Sphinx detects the __init__ method.\n\nLooking at the environment info, they're using Sphinx 1.6.5. The user traced the problem to a specific commit in Sphinx where the code checks obj.__globals__[cls_path] to determine the class. If the __init__ is decorated, the obj's __globals__ might not have the class anymore, leading Sphinx to think it's not a method of the class. \n\nThe key part here is the can_document_member function. The user explained that when the __init__ is decorated, inspect.isroutine(member) returns False because the decorator wraps the original function. This causes can_document_member to return False, so the MethodDocumenter isn't selected, and instead, a fallback like InstanceAttributeDocumenter is used, which doesn't handle __init__ properly.\n\nLooking at the list of functions provided, the can_document_member is a method in the Documenter class. The candidate functions include Documenter.can_document_member. Since the issue is that the decorated __init__ is not being recognized as a member that can be documented (because inspect.isroutine returns False), the fault lies in how can_document_member checks the member. \n\nThe function can_document_member is responsible for determining whether a member can be documented. If the decorator changes the type of the member such that it's no longer considered a routine by inspect, then this function would incorrectly return False. Therefore, the problem is in the can_document_member method of the Documenter class.\n</think>\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1967,
+ "response_tokens": 395,
+ "elapsed_s": 1.22,
+ "key_suffix": "mT2ohy",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5614,
+ "raw": "## Step 1: Identify the issue\nThe problem arises when using a `ModelAdmin` with `radio_fields` defined, where the `empty_label` set in the `formfield_for_foreignkey` method is overridden.\n\n## Step 2: Analyze the code\nThe `formfield_for_foreignkey` method in `BaseModelAdmin` (which `ModelAdmin` inherits from) contains the line that overrides the `empty_label`. This line is: `kwargs['empty_label'] = _('None') if db_field.blank else None`.\n\n## 3: Understand the requirement\nThe requirement is to allow the `empty_label` set by the user in the `formfield_for_foreignkey` method to take precedence over the default value when `radio_fields` is defined.\n\n## 4: Identify the fix\nThe fix involves modifying the line in `BaseModelAdmin`'s `formfield_for_foreignkey` method to check if `kwargs['empty_label']` already has a value before setting it to the default.\n\n## 5: Locate the function with the fault\nThe function with the fault is `formfield_for_foreignkey` in `BaseModelAdmin`, which is defined in `django/contrib/admin/options.py`.\n\n## 6: Verify the solution\nThe solution involves changing the line `kwargs['empty_label'] = _('None') if db_field.blank else None` to `kwargs['empty_label'] = (kwargs.get('empty_label') or _('None')) if db_field.blank else None`. This ensures that if `empty_label` is already set in `kwargs`, it will be used instead of the default.\n\n## 7: Provide the function name\nThe function that contains the fault is `formfield_for_foreignkey`.\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1359,
+ "response_tokens": 370,
+ "elapsed_s": 1.41,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

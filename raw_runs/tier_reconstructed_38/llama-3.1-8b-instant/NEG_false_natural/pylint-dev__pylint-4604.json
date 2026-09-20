@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-4604",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 4747,
+ "raw": "FAULT: visit_assign",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1222,
+ "response_tokens": 5,
+ "elapsed_s": 0.35,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "visit_assign",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

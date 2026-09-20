@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 4188,
+ "raw": "FAULT: _check_readonly_fields",
+ "finish_reason": "stop",
+ "prompt_tokens": 1056,
+ "response_tokens": 8,
+ "elapsed_s": 0.7,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_check_readonly_fields",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

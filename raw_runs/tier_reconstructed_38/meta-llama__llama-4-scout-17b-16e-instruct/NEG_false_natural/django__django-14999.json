@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6731,
+ "raw": "## Step 1: Understand the issue\nThe issue is about a `RenameModel` operation in Django that should be a no-op when the model already has a `db_table` defined. However, it currently drops and recreates foreign key constraints in Postgres and recreates the table in SQLite.\n\n## 2: Identify the relevant code\nThe relevant code is in `django/db/migrations/operations/models.py`, specifically in the `RenameModel` class.\n\n## 3: Analyze the `RenameModel` class\nThe `RenameModel` class has a `database_forwards` method that is responsible for applying the rename operation to the database. This method calls `schema_editor.alter_db_table`, which is where the issue occurs.\n\n## 4: Determine the fault\nThe fault is in the `database_forwards` method of the `RenameModel` class. This method does not check if the model already has a `db_table` defined before attempting to rename it.\n\n## 5: Identify the function name\nThe function name that contains the fault is `database_forwards`.\n\nFAULT: database_forwards",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1525,
+ "response_tokens": 226,
+ "elapsed_s": 3.17,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_forwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

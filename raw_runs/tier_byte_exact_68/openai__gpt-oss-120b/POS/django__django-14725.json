@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4276,
+ "raw": "FAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1088,
+ "response_tokens": 253,
+ "elapsed_s": 1.06,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

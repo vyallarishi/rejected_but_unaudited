@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 5931,
+ "raw": "FAULT: format_ticks",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1610,
+ "response_tokens": 5,
+ "elapsed_s": 0.41,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

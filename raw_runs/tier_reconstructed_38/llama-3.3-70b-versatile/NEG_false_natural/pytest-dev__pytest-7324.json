@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 1999,
+ "raw": "FAULT: compile",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 554,
+ "response_tokens": 4,
+ "elapsed_s": 0.25,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "compile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

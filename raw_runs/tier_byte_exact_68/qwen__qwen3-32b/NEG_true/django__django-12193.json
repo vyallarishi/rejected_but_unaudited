@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5073,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that when using a SplitArrayField with BooleanField, after the first True value in the initial data, all subsequent checkboxes are rendered as checked, even if their data is False. \n\nThe description says that the SplitArrayWidget's get_context method is called to render the checkboxes. It creates a single final_attrs dictionary and uses it for all subwidgets. Then, in a loop, it calls self.widget.get_context (which is CheckboxInput's get_context) for each item, passing the same final_attrs each time. When CheckboxInput.get_context gets a True value, it adds 'checked': True to the attrs. Then, for the next iterations, even if the value is False, the final_attrs already has 'checked' set, so they all show as checked.\n\nSo the key here is that the same attrs dictionary is being mutated across iterations. The CheckboxInput's get_context is modifying the attrs passed to it. The SplitArrayWidget's get_context is reusing the same attrs object for each widget, leading to this mutation leaking between widgets.\n\nLooking at the candidate functions, the SplitArrayWidget's get_context is part of the path but not the cause. The cause is that CheckboxInput's get_context is modifying the attrs. However, the question is which function in the listed candidates is at fault. The candidate functions include SplitArrayWidget and SplitArrayField. \n\nWait, the candidate functions listed are from django/contrib/postgres/forms/array.py. The SplitArrayWidget's get_context is creating the final_attrs once and reusing it. So in SplitArrayWidget.get_context, when they loop through the data and for each item call self.widget.get_context with the same final_attrs, that's the problem. Because each call to get_context modifies that same dictionary. \n\nSo the fault lies in SplitArrayWidget.get_context because it's reusing the same attrs dictionary for all subwidgets. Instead, each subwidget should get a fresh copy of the attributes to prevent mutations from affecting subsequent widgets. \n\nTherefore, the function that contains the fault is SplitArrayWidget.get_context.\n</think>\n\nFAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 1098,
+ "response_tokens": 448,
+ "elapsed_s": 1.26,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

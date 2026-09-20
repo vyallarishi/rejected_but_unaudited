@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3518,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "We need to identify which function contains the fault causing usage of deprecated \"db\" and \"passwd\" kwargs. The description says get_connection_params populates kwargs with 'db' and 'passwd'. So the fault is in get_connection_params. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: get_connection_params.",
+ "finish_reason": "stop",
+ "prompt_tokens": 898,
+ "response_tokens": 104,
+ "elapsed_s": 33.98,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

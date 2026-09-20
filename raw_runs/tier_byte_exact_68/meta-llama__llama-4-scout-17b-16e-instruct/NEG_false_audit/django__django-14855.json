@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3660,
+ "raw": "To solve this issue, we need to identify the function that is responsible for generating the wrong URL for a readonly ForeignKey field in a custom Admin Site.\n\nThe issue description points to the `get_admin_url` method in `django.contrib.admin.helpers`. This method is used to generate a URL for a related object. \n\nUpon reviewing the code, we can see that the `get_admin_url` method is defined in the `AdminReadonlyField` class. \n\nThe problem lies in the line where the URL is generated using `reverse`. The `reverse` function is called without the `current_app` argument, which is necessary to correctly resolve the URL in a custom Admin Site.\n\nThe correct function to modify is `get_admin_url` in the `AdminReadonlyField` class.\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 848,
+ "response_tokens": 164,
+ "elapsed_s": 0.81,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

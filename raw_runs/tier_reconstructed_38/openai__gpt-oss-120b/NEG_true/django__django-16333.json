@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4417,
+ "raw": "FAULT: UserCreationForm.save",
+ "reasoning": "We need to identify which function contains the fault. The description says UserCreationForm.save(commit=True) omits to call self.save_m2m(). So the fault is in UserCreationForm.save method. So answer: UserCreationForm.save.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1058,
+ "response_tokens": 65,
+ "elapsed_s": 0.7,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

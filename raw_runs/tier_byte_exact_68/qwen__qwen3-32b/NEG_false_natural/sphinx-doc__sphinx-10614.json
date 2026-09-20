@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5377,
+ "raw": "<think>\nOkay, let's try to figure out which function in the Sphinx code is causing this issue with the SVG inheritance diagram links. The user provided a detailed explanation, so I need to parse that carefully.\n\nThe problem is that when using SVG output for inheritance diagrams in Sphinx, the links generated in the SVG files are incorrect when the documentation is in a subdirectory. The links are using a relative path that's one level up, leading to 404 errors. The user mentioned that this doesn't happen with the default PNG mode, so the issue is specific to SVG generation.\n\nLooking at the candidate functions listed, the key one seems to be `html_visit_inheritance_diagram`. The user's analysis points out that in this function, when generating SVG, the `refuri` is being prepended with `../`, which is incorrect. The `html_visit_inheritance_diagram` function is responsible for handling the inheritance diagram node during HTML builds. \n\nThe user's localization notes mention that this function checks the `graphviz_output_format`, and when it's SVG, it processes the `refuri` incorrectly. The issue arises because the `refuri` is already relative to the current document's directory (like `my_package/`), but adding `../` makes it point to the parent directory, leading to incorrect paths when the SVG is in a subdirectory.\n\nThe function `html_visit_inheritance_diagram` is part of the process that generates the HTML output, including embedding the SVG. Since the SVG's links are generated with incorrect relative paths here, this function is likely where the mistake occurs. The other functions, like those in `InheritanceGraph` or `generate_dot`, might be involved in creating the diagram data but not directly in the URL path construction for HTML output.\n\nTherefore, the fault lies in the `html_visit_inheritance_diagram` function because it's responsible for constructing the URLs in the HTML context, including for SVG elements. The incorrect prepending of `../` to the `refuri` is the direct cause of the broken links.\n</think>\n\nFAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1415,
+ "response_tokens": 431,
+ "elapsed_s": 1.34,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

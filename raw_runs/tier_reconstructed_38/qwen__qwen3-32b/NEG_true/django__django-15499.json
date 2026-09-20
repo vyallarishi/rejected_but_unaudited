@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7364,
+ "raw": "FAULT: CreateModel.reduce",
+ "reasoning": "\nOkay, let's see. The problem is about optimizing migrations in Django. Specifically, when there's a CreateModel followed by an AlterModelManagers, they should be combined into a single CreateModel operation. The user is pointing out that the reduce method in the CreateModel class isn't handling the AlterModelManagers case.\n\nLooking at the candidate functions, the key one here is the reduce method of CreateModel. The description mentions that during optimization, CreateModel + AlterModelManagers can become just CreateModel. The Localization notes say that the reduce function is missing a check for AlterModelManagers. \n\nIn the CreateModel's reduce method, there are existing elif blocks for DeleteModel, RenameModel, and AlterModelOptions. But there's no block for AlterModelManagers. So when the optimizer tries to combine these operations, it doesn't recognize the AlterModelManagers and thus doesn't merge them. \n\nThe correct approach would be to add a condition in the reduce method of CreateModel to check if the next operation is an instance of AlterModelManagers. If so, it should absorb the managers into the initial CreateModel operation. Therefore, the fault lies in the reduce function of CreateModel not handling this case.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1625,
+ "response_tokens": 258,
+ "elapsed_s": 2.96,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

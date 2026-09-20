@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5690,
+ "raw": "To solve this issue, let's analyze the problem and the provided code.\n\nThe problem is that model formsets in Django do not provide a way to create an \"edit only\" view of objects. Users have tried to use `extra=0` to accomplish this, but it's not reliable because `extra` is meant for the extra number of forms to display.\n\nThe goal is to prevent new object creation through a model formset.\n\nLooking at the provided code, we can see that the `BaseModelFormSet` class has a method called `save_new_objects`. This method is responsible for saving new objects in the formset.\n\nThe issue arises because `save_new_objects` is called as part of the formset saving process, and it iterates over `self.extra_forms`, calling `self.save_new(form, commit=commit)` inside the loop. This call creates and saves a new model instance.\n\nTo fix this issue, we need to modify the `save_new_objects` method to check if the formset is allowed to save new objects.\n\nHere's the solution:\n\nFAULT: save_new_objects\n\nThis function contains the fault because it's responsible for saving new objects in the formset, and it's called as part of the formset saving process.\n\nTo prevent new object creation, we can override the `save_new_objects` method in a custom formset class and raise an exception or return without saving new objects.\n\nFor example:\n```python\nclass EditOnlyModelFormSet(BaseModelFormSet):\n    def save_new_objects(self, commit=True):\n        # Raise an exception or return without saving new objects\n        raise Exception(\"New object creation is not allowed\")\n```\nAlternatively, we can add a `can_create` attribute to the formset class and check it in the `save_new_objects` method:\n```python\nclass BaseModelFormSet(BaseFormSet):\n    can_create = True\n\n    def save_new_objects(self, commit=True):\n        if not self.can_create:\n            return\n        # Save new objects as usual\n```\nThen, we can create a custom formset class that sets `can_create` to `False`:\n```python\nclass EditOnlyModelFormSet(BaseModelFormSet):\n    can_create = False\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1345,
+ "response_tokens": 451,
+ "elapsed_s": 1.43,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

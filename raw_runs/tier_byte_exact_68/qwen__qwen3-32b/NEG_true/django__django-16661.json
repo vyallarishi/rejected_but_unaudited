@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7735,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that ModelAdmin.lookup_allowed() is incorrectly raising a DisallowedModelAdminLookup when there's a foreign key that's also a primary key. The test case provided uses a Restaurant model where the 'place' field is a OneToOneField set as the primary key. Then, in the WaiterAdmin, they're trying to filter by 'restaurant__place__country', which should be allowed but isn't.\n\nLooking at the localization notes, the issue happens in the lookup_allowed function. The lookup 'restaurant__place__country' is being processed. The path parts are 'restaurant', 'place', 'country'. When processing 'place', the previous field is the foreign key 'restaurant' and the current field is the OneToOneField 'place'. Since 'place' is the primary key of Restaurant, it's part of the target_fields for the incoming 'restaurant' relation. The condition in lookup_allowed checks if the field is not in the target_fields. If it's in there, then it skips adding 'place' to the relation_parts. So the relation_parts becomes ['restaurant', 'country'], leading to a check for 'restaurant__country' in list_filter, which isn't present, hence the disallowed lookup.\n\nSo the problem is in how lookup_allowed handles the path when a field is both a primary key and a foreign key. The logic in lookup_allowed that checks if the field is in the target_fields of the previous relation is causing it to skip a valid part of the lookup path. The function needs to correctly traverse the relations even when a field is a primary key. Therefore, the faulty function is lookup_allowed.\n</think>\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1742,
+ "response_tokens": 355,
+ "elapsed_s": 1.03,
+ "key_suffix": "sruaC4",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

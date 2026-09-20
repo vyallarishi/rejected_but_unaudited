@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6959,
+ "raw": "changelist_view",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1636,
+ "response_tokens": 5,
+ "elapsed_s": 0.58,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "changelist_view",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

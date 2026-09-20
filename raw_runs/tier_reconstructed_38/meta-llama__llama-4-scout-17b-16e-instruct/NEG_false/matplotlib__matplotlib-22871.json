@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5997,
+ "raw": "### Thought Process and Reasoning\n\nThe bug reported is related to the `ConciseDateFormatter` in `matplotlib.dates`. When plotting data for less than 12 months and January is not included in the x-axis, the year does not show up anywhere. \n\nThe provided code for reproduction creates a time array and a data array, then plots the data using `matplotlib`. The `ConciseDateFormatter` is used to format the x-axis dates.\n\nThe actual outcome shows that the year \"2021\" is missing from the x-axis offset. The expected outcome is to have the year \"2021\" displayed in the offset to the right of the x-axis.\n\nTo solve this bug, we need to identify the function responsible for determining the offset and year display in `ConciseDateFormatter`.\n\n### Analysis of the Code\n\nThe `ConciseDateFormatter` class has several methods, including `__call__`, `format_ticks`, `get_offset`, and `format_data_short`. \n\nThe `format_ticks` method is responsible for formatting the tick values. It determines the formatting 'level' by finding the most significant time unit that changes across ticks.\n\nThe condition `if level < 2: show_offset = False` seems to be the cause of the issue. When the level is less than 2 (i.e., the most significant time unit is months), it sets `show_offset` to `False`, which means the offset (including the year) is not displayed.\n\n### Solution\n\nThe fault is in the `format_ticks` method of the `ConciseDateFormatter` class.\n\nHowever, according to the conversations and actions provided, the fix involves modifying the `get_offset` method of the `ConciseDateFormatter` class.\n\n### FAULT\n\n```python\ndef get_offset(self)\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1626,
+ "response_tokens": 365,
+ "elapsed_s": 1.68,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

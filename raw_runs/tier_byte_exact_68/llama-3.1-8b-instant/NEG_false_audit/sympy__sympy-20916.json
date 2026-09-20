@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-20916",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 1135,
+ "raw": "FAULT: _print_Symbol",
+ "finish_reason": "stop",
+ "prompt_tokens": 338,
+ "response_tokens": 7,
+ "elapsed_s": 0.25,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_print_Symbol",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

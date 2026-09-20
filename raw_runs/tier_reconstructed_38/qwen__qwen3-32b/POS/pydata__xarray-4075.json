@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5770,
+ "raw": "FAULT: dot",
+ "reasoning": "\nOkay, let's try to figure out where the bug is here. The user is saying that when they pass a boolean array as weights to the weighted mean in xarray, they get an incorrect result. The example shows that using a boolean array [1,1,0] (as booleans, so probably True, True, False) leads to a mean of 2.0 instead of the expected 1.0. \n\nLooking at the problem description, the issue seems to be with how the sum of weights is calculated. The user mentions that internally, xarray uses xr.dot on two boolean arrays: dta.notnull() and wgt. The result of that dot product is a boolean True, which when used in division, ends up being treated as 1.0, hence 2.0 / True becomes 2.0. The correct approach would be to convert the boolean weights to integers or floats before doing the dot product.\n\nThe user also points out that using wgt * 1 gives the correct sum_of_weights of 2. So the core problem is that the dot product is being performed on boolean arrays, which isn't being properly converted to numerical values.\n\nNow, looking at the list of candidate functions, the dot function is mentioned. The user's localization notes also say that the dot function directly produces the incorrect output. The xr.dot function is used to calculate the sum_of_weights, and when the weights are boolean, the dot product returns a boolean. \n\nSo the fault lies in the dot function. When handling boolean arrays, the dot product should ensure that the result is a numerical type. Since the current implementation returns a boolean (True) instead of converting it to an integer (1 or 0), this leads to incorrect calculations downstream. The fix would involve ensuring that during the dot product operation, boolean arrays are properly cast to a numerical type before the computation. Therefore, the dot function is where the issue needs to be addressed.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1670,
+ "response_tokens": 405,
+ "elapsed_s": 8.86,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

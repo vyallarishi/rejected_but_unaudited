@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 16523,
+ "raw": "FAULT: ClassDocumenter.format_signature",
+ "reasoning": "We need to identify which function contains the fault causing autodoc_typehints = \"description\" to cause autoclass to include return type for __init__.\n\nThe description says: format_signature builds signature string, and a regex extracts return annotation and reconstructs signature, appending return type maybe. The bug likely in format_signature or _call_format_args. In autodoc, the return type for __init__ should be omitted. The function that adds return annotation is format_signature in Documenter? Let's recall Sphinx code: In Documenter.format_signature, they call self._get_signature() and then maybe self._format_signature? Actually there is a function format_signature in Documenter class that builds signature string. In autodoc_typehints = \"description\", they move type hints to description, but they still include return annotation for functions. For __init__, they should suppress return annotation. The bug is that ClassDocumenter uses the __init__ signature but doesn't suppress return annotation. The function that decides to suppress is maybe ClassDocumenter.format_signature or ClassDocumenter._get_signature. In code, ClassDocumenter.format_signature likely calls super().format_signature and then maybe strips return annotation for __init__? The bug is that it doesn't.\n\nThus the faulty function is ClassDocumenter.format_signature. Let's answer that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3933,
+ "response_tokens": 282,
+ "elapsed_s": 1.39,
+ "key_suffix": "04ZFOa",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

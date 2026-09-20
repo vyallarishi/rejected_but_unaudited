@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-4604",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5583,
+ "raw": "To solve this issue, we need to understand how Pylint handles type comments and imports. The problem arises when Pylint incorrectly identifies an import as unused, even though it's used in a type comment.\n\nThe `visit_assign` function in `pylint/checkers/variables.py` seems to be a good starting point for this issue. This function is called when Pylint encounters an assignment node in the code. The current implementation does not handle type comments.\n\nWe need to modify the `visit_assign` function to inspect the type comment associated with the assignment node and mark the imported module as used if it's present in the type comment.\n\nHere's the corrected code:\n\n```python\ndef visit_assign(self, node):\n    # ... existing code ...\n\n    if node.annotation:\n        self._store_type_annotation_names(node.annotation)\n\n    # ... existing code ...\n```\n\nAnd we also need to modify the `_store_type_annotation_names` function to handle the `astroid.Name` node:\n\n```python\ndef _store_type_annotation_names(self, node):\n    if isinstance(node, astroid.Name):\n        self._used_names.add(node.name)\n    elif isinstance(node, astroid.Attribute):\n        self._used_names.add(node.attrname)\n    # ... existing code ...\n```\n\nWith these changes, Pylint should now correctly handle type comments and avoid false positives for unused imports.\n\nFAULT: visit_assign",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1372,
+ "response_tokens": 280,
+ "elapsed_s": 5.81,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "visit_assign",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

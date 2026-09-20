@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 18539,
+ "raw": "FAULT: to_stacked_array",
+ "reasoning": "We need to identify which function contains the fault causing to_unstacked_dataset broken for single-dim variables. The issue arises when using Dataset.to_stacked_array then .to_unstacked_dataset. The error: MergeError: conflicting values for variable 'y' on objects to be combined. Means that during unstacking, the coordinate 'y' is being treated as a variable and merging fails because each variable's slice has its own 'y' coordinate values (maybe scalar). The bug likely in to_unstacked_dataset implementation, which probably uses Dataset.unstack or something. Let's search in xarray code: to_unstacked_dataset is a method of DataArray? Actually DataArray has method to_unstacked_dataset? I think DataArray has method to_unstacked_dataset (maybe in DataArray class). The function likely in core/dataarray.py: to_unstacked_dataset. But list provided includes functions in dataset.py only. However to_unstacked_dataset may be defined in DataArray class, not listed. But the question asks \"Which function contains the fault? Answer with one function name from the list\". So among listed functions, which is responsible for merging coordinates incorrectly? Possibly _replace or merge? The error occurs in Dataset.merge when merging multiple datasets each containing variable 'y' coordinate. The to_unstacked_dataset likely creates a dataset per variable and merges them. The conflict arises because each dataset has a coordinate 'y' with different values (maybe scalar). The merge check sees conflict. The bug is that to_unstacked_dataset should drop the coordinate 'y' from each slice before merging, or treat it as dimension coordinate not variable. The function that merges is Dataset.merge (not listed). But there is function _replace? Not. There's function _replace_vars_and_dims. However the conflict arises earlier: maybe in Dataset._replace? Not.\n\nBut the question likely expects the function that is faulty: to_unstacked_dataset itself. However not in list. But maybe to_unstacked_dataset is implemented as Dataset.unstack? Actually there is method unstack in Dataset, but to_unstacked_dataset is a DataArray method that returns a Dataset. The list includes unstack (Dataset.unstack). But the bug is in to_unstacked_dataset, not unstack. However maybe to_unstacked_dataset uses Dataset.unstack internally. The conflict arises when merging multiple DataArrays into a Dataset; that merging is done by Dataset.merge (not listed). But maybe the bug is in Dataset._replace? Not.\n\nGiven the list, the most plausible is `to_unstacked_dataset` but not listed. However there is `to_stacked_array` listed. The bug may be in `to_stacked_array` creating coordinate 'y' incorrectly for single-dim variables. That leads to later failure. So the fault is in `to_stacked_array`. The question: \"Which function contains the fault?\" The answer likely `to_stacked_array`. It's in the list. So output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 4956,
+ "response_tokens": 627,
+ "elapsed_s": 2.11,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "to_stacked_array",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

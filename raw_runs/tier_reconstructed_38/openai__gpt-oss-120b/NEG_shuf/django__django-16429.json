@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4002,
+ "raw": "FAULT: timesince",
+ "reasoning": "The user gave a description of a bug in Django timesince with USE_TZ=True. Then they gave a list of candidate functions and some notes about each. They ask: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\"\n\nWe need to pick the function that contains the fault. The bug is in django/utils/timesince.py, specifically the pivot datetime creation not handling tzinfo. The function that contains the bug is timesince (or maybe timeuntil). The description says the pivot instantiated here: https... lines 93-100. That is inside timesince function. So the fault is in timesince. The list includes timesince, timeuntil, etc. So answer: FAULT: timesince.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1015,
+ "response_tokens": 176,
+ "elapsed_s": 0.94,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

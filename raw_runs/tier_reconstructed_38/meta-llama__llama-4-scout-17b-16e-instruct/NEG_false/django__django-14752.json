@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3746,
+ "raw": "## Step 1: Understand the issue\nThe issue is with the `AutocompleteJsonView` in Django's admin interface. Currently, it does not support adding extra fields to the autocomplete response without overriding the entire `get` method. This makes it difficult to customize the autocomplete results.\n\n## Step 2: Identify the problematic code\nThe problematic code is in the `get` method of `AutocompleteJsonView`, specifically the list comprehension that constructs the `results` list.\n\n## Step 3: Determine the solution\nThe solution is to add a new method, `serialize_result`, that can be overridden to customize the result items. This method would take an object and the `to_field_name` as arguments and return a dictionary representing the object.\n\n## Step 4: Locate the function to modify\nThe function that contains the fault is `get`, as it directly produces the symptom by hardcoding the structure of each result item.\n\n## Step 5: Provide the function name\nThe function name that contains the fault is `get`.\n\nFAULT: get",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 844,
+ "response_tokens": 212,
+ "elapsed_s": 2.93,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

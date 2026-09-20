@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5028,
+ "raw": "To solve this issue, we need to understand the flow of how tests are collected and executed in pytest, especially when using the unittest framework within pytest. The problem arises when using `@unittest.skip` on a class level and running tests with `--pdb`. The teardown method of the unittest.TestCase is executed even though the test is skipped.\n\nThe issue seems to stem from how pytest interacts with unittest.TestCase, particularly in the setup and teardown phases when a test is skipped. \n\nLet's analyze the provided code and information:\n\n1. The test is skipped when run normally with pytest.\n2. When run with `--pdb`, the teardown method is executed.\n\nThe minimal test case provided shows that the `tearDown` method is called when running with `--pdb`, even though the test class is decorated with `@unittest.skip`.\n\nUpon reviewing the code and the issue description, it seems that the problem lies in how the `TestCaseFunction` class handles setup and teardown when a test is skipped. Specifically, when `pytest --pdb` is used, the default pytest runner takes over, which leads to the execution of `setUp` and `tearDown` methods even for skipped tests.\n\nThe candidate functions provided point towards the `pytest_runtest_protocol` and the handling of `TestCaseFunction`. However, the key seems to be in how the skipped test is handled during the execution phase.\n\nThe fault lies in the `_make_xunit_fixture` and `pytest_runtest_protocol` functions in `src/_pytest/unittest.py`, but more specifically, it seems that the issue is related to how `TestCaseFunction` handles its setup and teardown.\n\nHowever, based on the information provided and the analysis of the issue, the function that seems to be at fault is:\n\n```\nFAULT: pytest_runtest_protocol\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1257,
+ "response_tokens": 372,
+ "elapsed_s": 1.19,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "pytest_runtest_protocol",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

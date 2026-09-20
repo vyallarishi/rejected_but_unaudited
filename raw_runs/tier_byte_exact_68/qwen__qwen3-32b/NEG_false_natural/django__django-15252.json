@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2810,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that the MigrationRecorder isn't respecting the db_router's allow_migrate rules. Their setup has multiple databases, and they only want migrations to run on the 'default' database. But when they run tests, the migrate command is being called on all databases, leading to the django_migrations table being created on non-default databases, which violates their router's rules.\n\nThe issue seems to be in the MigrationRecorder's ensure_schema function. Let me look at the flow again. When the test runner sets up databases, it calls migrate on each database. The MigrationRecorder's record_applied is called during this process. Before applying migrations, it checks if the django_migrations table exists. If not, it creates it. But here's the catch: when creating that table, the code doesn't check the router's allow_migrate setting. So even though the router says only 'default' should be allowed, the ensure_schema function just goes ahead and creates the table on other databases because it's part of the migration process for that database connection.\n\nLooking at the candidate functions, the ensure_schema function is the one that's responsible for creating the table if it doesn't exist. The problem is that when this function is called, it doesn't use the router to determine if creating the table is allowed. The user's router correctly blocks migrations for non-default databases, but the MigrationRecorder bypasses this check when setting up its own table. So the fault lies in the ensure_schema function because it doesn't respect the router's allow_migrate setting when creating the django_migrations table. The other functions like record_applied or applied_migrations might use ensure_schema, but the actual issue is in how ensure_schema handles the schema creation without router checks.\n</think>\n\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 624,
+ "response_tokens": 376,
+ "elapsed_s": 1.12,
+ "key_suffix": "mT2ohy",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

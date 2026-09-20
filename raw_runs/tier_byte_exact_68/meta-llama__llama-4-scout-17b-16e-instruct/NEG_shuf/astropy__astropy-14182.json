@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3632,
+ "raw": "To solve this issue, let's analyze the provided information and understand what's being asked. The problem revolves around supporting header rows in RestructuredText (RST) output for a table written using Astropy's `QTable`. \n\nThe error occurs when trying to write a table in RST format with header rows, which currently is not supported. The goal is to enable this functionality.\n\n### Understanding the Code Structure\n\nThe Astropy library uses a modular approach for reading and writing tables in various formats. For ASCII tables, including RST, the relevant code is located in `astropy/io/ascii/`. Specifically, for RST format, we look into `astropy/io/ascii/rst.py`.\n\n### Identifying the Fault\n\nThe fault lies in the `RST` class's `__init__` method, which does not accept the `header_rows` keyword argument. This argument is used to specify additional header rows beyond the standard column names.\n\n### Solution Approach\n\nTo fix this, we need to modify the `RST` class to handle `header_rows`. This involves updating the `__init__` method to accept `header_rows` and then adjusting the `write` method to include these additional headers.\n\nHowever, based on the provided code and error message, the direct fix involves recognizing that the `RST` writer needs to be updated to support `header_rows` similar to other writers.\n\n### Conclusion\n\nGiven the information and the goal to support header rows in RST output, the function that contains the fault and needs modification is `RST.__init__`. However, for the purpose of this task, which seems to focus on identifying a specific function name related to the issue at hand:\n\nFAULT: RST.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 926,
+ "response_tokens": 348,
+ "elapsed_s": 1.12,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

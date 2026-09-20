@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3116,
+ "raw": "<think>\nOkay, let's try to figure out which function has the issue. The problem is about the two-digit year check in django.utils.http.parse_http_date. The description says that the current logic is hardcoded to use 0-69 as 2000-2069 and 70-99 as 1970-1999. But according to RFC 7231, the correct approach is to check if the timestamp is more than 50 years in the future and adjust accordingly based on the current year, not a fixed threshold.\n\nLooking at the candidate functions, the one mentioned in the localization notes is parse_http_date. The notes explain that in this function, the year is extracted and converted, then there's an if statement that checks if the year is less than 70 to add 2000 else add 1900. That's the hardcoded part. The problem is that this logic doesn't consider the current year, so it might not handle dates correctly depending on when the code is run. For example, if the current year is 2023, a two-digit year of 69 would be 2069, which is more than 50 years in the future (2023 +50 = 2073, 2069 is less than that?), wait, maybe I need to think again. Wait, the RFC says that if the date is more than 50 years in the future, it should be adjusted to the past. So if the current year is 2023, then any two-digit year that would place it beyond 2023 +50 (i.e., 2073) should be adjusted. But the current code uses a fixed cutoff at 70. So for example, if the current year is 2040, then a two-digit year of 30 would be 2030 (which is in the past), but according to the code, since 30 is less than 70, it would add 2000, making 2030. But if the current year is 2010, then 2069 is 59 years in the future, which is more than 50, so according to RFC, it should be adjusted to 1969. But the code would still add 2000. So the problem is that the code uses a fixed 70 cutoff instead of a sliding window based on current time.\n\nSo the function that has the faulty logic is parse_http_date. The other functions like http_date are for formatting, not parsing. The parse_http_date_safe might also be involved, but the description points to parse_http_date. The localization notes also mention parse_http_date specifically. So the answer should be parse_http_date.\n</think>\n\nFAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 763,
+ "response_tokens": 611,
+ "elapsed_s": 1.43,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

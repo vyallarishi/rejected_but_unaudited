@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7200,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is describing an issue with Django's QuerySet union and ordering. When they create a union of two querysets and apply an order_by, then later try to evaluate the original queryset, it breaks with a ProgrammingError about ORDER BY position not in select list.\n\nLooking at the trace, the error occurs when the original queryset is evaluated again. The problem seems to be that modifying the cloned queryset (via order_by) affects the original. The localization notes mention that when clone is called, the combined_queries are shared between the original and clone. Then, modifying the clone (like adding order_by) changes the sub-queries in-place, which corrupts the original.\n\nSo the key here is the clone method in the Query class. When you call order_by on the cloned queryset, it's modifying the original's combined_queries because they are shared. The clone method isn't making a deep copy of the combined_queries, leading to unintended side effects.\n\nThe function in question would be the clone method in the Query class. When the clone is made, if the combined_queries are not properly deep-copied, changes to the clone's order_by would affect the original. Therefore, the fault is in the clone method's handling of the combined_queries attribute.\n</think>\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 1887,
+ "response_tokens": 274,
+ "elapsed_s": 0.93,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

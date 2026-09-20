@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 16053,
+ "raw": "FAULT: format_signature",
+ "reasoning": "We need to identify which function contains the fault causing autodoc_typehints = \"description\" to cause autoclass to include return type for __init__.\n\nThe description says: format_signature builds signature string, includes return annotation. The bug is that for class docs, autodoc should not show return type (None) for __init__ when typehints in description. The function that adds return annotation is format_signature or _call_format_args. In autodoc, format_signature uses self._call_format_args to get signature string. The return annotation is included via retann. The bug likely in format_signature where it doesn't strip return annotation for class __init__ when autodoc_typehints = \"description\". So function is format_signature.\n\nThus answer: format_signature.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3805,
+ "response_tokens": 169,
+ "elapsed_s": 0.98,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

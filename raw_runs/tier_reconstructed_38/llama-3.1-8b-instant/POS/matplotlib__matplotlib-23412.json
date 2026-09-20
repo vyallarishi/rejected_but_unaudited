@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 11003,
+ "raw": "FAULT: draw",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2883,
+ "response_tokens": 4,
+ "elapsed_s": 0.39,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3689,
+ "raw": "FAULT: get",
+ "reasoning": "We need to answer which function contains the fault. The description says the fault is in AutocompleteJsonView.get, which constructs the results list directly. So answer: get.",
+ "finish_reason": "stop",
+ "prompt_tokens": 882,
+ "response_tokens": 48,
+ "elapsed_s": 0.71,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

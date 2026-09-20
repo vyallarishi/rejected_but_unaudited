@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7322,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when they decorate the __init__ method with functools.wraps, the docstring doesn't show up in the Sphinx documentation. They mentioned that the problem is related to a specific commit in Sphinx and that the issue arises because the decorated __init__ method's __globals__ doesn't contain the class anymore, leading Sphinx to think it's not a method.\n\nLooking at the problem, the key part is that the documenter isn't correctly identifying the decorated __init__ as a method. The user's analysis points to the line where cls is retrieved from obj.__globals__[cls_path]. If the decorated function's __globals__ doesn't have the class, then cls_is_owner becomes False, and the documenter doesn't process it as a method.\n\nNow, looking at the list of candidate functions provided, we need to find which one is responsible for checking if the member can be documented as a method. The user mentioned that can_document_member is involved here. Let me check the functions listed.\n\nThe can_document_member function is part of the Documenter class. Its purpose is to determine if a member can be documented by the current documenter. For methods, this function should return True if the member is a method. However, when the __init__ is decorated, inspect.isroutine(member) returns False because the decorator wraps the original function, making it not a routine anymore. Therefore, can_document_member returns False, leading Sphinx to not use the MethodDocumenter and instead fall back to something else, like InstanceAttributeDocumenter, which doesn't handle __init__ properly.\n\nSo the fault lies in the can_document_member function. It's not correctly identifying the decorated __init__ as a method because the decorator changes the type of the object. The check using inspect.isroutine is failing here. Therefore, the can_document_member function in the Documenter class is the one that's causing the issue because it's not handling decorated methods correctly.\n</think>\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1920,
+ "response_tokens": 420,
+ "elapsed_s": 1.14,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7776,
+ "raw": "FAULT: __init__",
+ "reasoning": "We need to identify which function contains the fault causing the enum value not being converted to its primitive type on model instance creation. The description: When creating MyObject with my_str_value=MyChoice.FIRST_CHOICE, the attribute is stored as enum member, not its value. The test shows that my_object.my_str_value is MyChoice.FIRST_CHOICE (enum) not string. The issue likely lies in Model.__init__ or the field's to_python conversion. In Django, when assigning to a field, the descriptor's __set__ triggers field's get_prep_value? Actually, model attribute assignment goes through the field's descriptor: Field contributes to class with a descriptor that handles get and set. For CharField with choices, the descriptor's __set__ probably just sets the value without conversion. The conversion from enum to value occurs in get_prep_value or to_python when reading from DB. But on assignment, the enum should be accepted because it's subclass of str? For TextChoices, the enum members are subclass of str, so MyChoice.FIRST_CHOICE is a str subclass, but its __str__ returns \"MyChoice.FIRST_CHOICE\". Actually, enum members have __str__ returning \"MyChoice.FIRST_CHOICE\". But they are also subclass of str, so isinstance(MyChoice.FIRST_CHOICE, str) is True. In the test, assertIsInstance(my_object.my_str_value, str) passes? It didn't fail, so it's considered a str subclass. But they compare str(my_object.my_str_value) which calls __str__ of enum, returning \"MyChoice.FIRST_CHOICE\". The expected is \"first\". The proper value is my_object.my_str_value.value or my_object.my_str_value.label. The issue: The field's value remains the enum, not the raw value. The conversion should happen in from_db or in the descriptor's __get__? Actually, when retrieving from DB, the value is raw string, then to_python returns the enum? In Django 3.2+, choices with TextChoices returns the enum member when accessing the field. I think the intended behavior is that the field returns the enum member (so you can compare to MyChoice.FIRST_CHOICE). But the test expects raw string. The question: \"Which function contains the fault? Answer with one function name from the list.\" The list includes many functions. The fault is in Model.__init__? The description: \"When we create an instance ... the value returned by the getter of the field will be of the same type as the one created by enum.Enum (enum value).\" Actually, the bug is that __str__ returns enum name, not value. The conversion to string is wrong. The function responsible for __str__ of the enum is not in Django but in enum.Enum. But maybe the issue is in Model.__init__ not converting the enum to its value before assignment. The list includes Model.__init__, Model.from_db, etc. The candidate likely is Model.__init__ because that's where the raw assignment occurs. So answer: __init__.\n\nThus: FAULT: __init__.\n\nBut the function name as listed: \"def __init__(self, *args, **kwargs):\". So output: __init__.\n\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1843,
+ "response_tokens": 679,
+ "elapsed_s": 1.98,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

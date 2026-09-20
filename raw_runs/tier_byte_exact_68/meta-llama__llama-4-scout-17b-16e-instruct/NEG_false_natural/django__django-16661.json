@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6145,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Problem Description**: The issue arises from the `ModelAdmin.lookup_allowed()` function incorrectly raising a `DisallowedModelAdminLookup` exception when a foreign key is used as a primary key.\n2. **Test Case**: A test case was provided in `tests/modeladmin/tests.py` to demonstrate the issue. The test passes in Django 1.8 but fails in later versions.\n3. **Code Analysis**: The `lookup_allowed()` function in `django/contrib/admin/options.py` checks if a lookup is allowed based on the model's `list_filter` and the lookup path.\n4. **Faulty Logic**: The issue seems to stem from the logic in `lookup_allowed()` that determines if a field is a target field for a relation. Specifically, when a field is a primary key and a foreign key, it incorrectly identifies it as a concrete parent.\n\n# Fixed solution:\nThe actual fix involves changing the condition in the `lookup_allowed` function. However, to directly answer the question:\n\nThe fault is in the `lookup_allowed` function.\n\n# Explanation of changes:\n* No code changes are provided here, but the explanation involves understanding that the `lookup_allowed` function needs to correctly handle cases where a foreign key is used as a primary key.\n\n# Tests and example uses:\nThe test case provided in `tests/modeladmin/tests.py` can be used to verify the fix.\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1428,
+ "response_tokens": 295,
+ "elapsed_s": 1.12,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

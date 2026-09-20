@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7658,
+ "raw": "<think>\nOkay, let's try to figure out why the HTML format isn't respecting the formats argument. The user provided a code example where they set formats for column 'a' to format it in scientific notation with two decimal places. When writing to HTML, the output isn't formatted, but when using CSV or RST, it works.\n\nLooking at the candidate functions in the HTML module, the key part is probably in the write method of the HTML class. The localization notes mention that the HTML.write method doesn't call self.data.format_columns(cols), which is where the formatting is applied. Other formats probably do call this method, hence why they work.\n\nSo the fault lies in the HTML.write function not applying the formats correctly. The write method for HTML isn't using the standard formatting step that other formats use. Therefore, the correct function to look at is the write method in the HTML class. The answer should be HTML.write.\n</think>\n\nFAULT: HTML.write",
+ "finish_reason": "stop",
+ "prompt_tokens": 2040,
+ "response_tokens": 195,
+ "elapsed_s": 0.73,
+ "key_suffix": "04ZFOa",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "write",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

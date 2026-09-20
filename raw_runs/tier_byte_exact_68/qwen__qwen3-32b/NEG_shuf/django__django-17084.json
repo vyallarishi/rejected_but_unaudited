@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-17084",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7197,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is using Django 4.2 and encountering an error when using aggregates over window functions. The error is a PostgreSQL GroupingError because it doesn't allow aggregate functions to contain window functions directly.\n\nLooking at the example code, they annotate a queryset with a cumulative sum using a Window function, then try to aggregate that annotated field. The problem arises because when they do Sum(\"cumul_DJR\"), Django's ORM is generating an invalid SQL expression that nests the SUM and the window function, which PostgreSQL rejects.\n\nThe localization notes mention that the get_aggregation function is involved. It says that get_aggregation is called with Sum(\"cumul_DJR\"), which resolves to the Window expression. The function then constructs an invalid expression tree of Sum(Window(...)), which the SQL compiler turns into SUM(SUM(...) OVER (...)), leading to the error.\n\nSo the key here is that get_aggregation isn't handling the Window expression correctly. It should recognize that aggregating over a window function requires a subquery or some other approach to avoid the nesting. But since it's directly allowing the Sum of a Window expression, it's generating invalid SQL.\n\nLooking at the list of candidate functions provided, the one that's directly involved in handling aggregation expressions is get_aggregation. The other functions like add_annotation or resolve_expression might be part of the process, but the immediate issue is in how get_aggregation constructs the aggregation expressions. It's not properly validating or transforming the expression to avoid the invalid nesting.\n\nTherefore, the fault lies in the get_aggregation function because it's the one that's building the aggregation expression tree without recognizing the need for a subquery when dealing with window functions.\n</think>\n\nFAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1664,
+ "response_tokens": 363,
+ "elapsed_s": 1.12,
+ "key_suffix": "w3to9u",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

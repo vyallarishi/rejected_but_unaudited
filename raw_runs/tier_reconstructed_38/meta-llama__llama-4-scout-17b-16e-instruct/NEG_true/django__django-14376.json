@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3518,
+ "raw": "## Step 1: Understand the issue\nThe issue is about the MySQL backend in Django using deprecated \"db\" and \"passwd\" kwargs, which have been replaced by \"database\" and \"password\" respectively.\n\n## Step2: Identify the source of the issue\nThe problem arises from the way Django establishes connections to the MySQL database. Specifically, it involves how the connection parameters are passed to the MySQL database.\n\n##3: Locate the relevant code\nThe relevant code for establishing a connection and passing parameters is in the `django/db/backends/mysql/base.py` file, within the `DatabaseWrapper` class.\n\n##4: Analyze the `get_connection_params` function\nThis function is responsible for populating a dictionary with connection parameters. It uses the keys 'db' and 'passwd' based on the 'NAME' and 'PASSWORD' settings.\n\n##5: Analyze the `get_new_connection` function\nThis function uses the dictionary returned by `get_connection_params` to connect to the database. It is here that the deprecated kwargs are used.\n\n##6: Determine the function that contains the fault\nGiven that `get_connection_params` is where the 'db' and 'passwd' keys are set, and this directly leads to the use of deprecated kwargs in `get_new_connection`, the fault lies in how `get_connection_params` populates the connection parameters.\n\n##7: Conclusion\nThe function that contains the fault is `get_connection_params`, as it is responsible for setting the 'db' and 'passwd' keys, which are deprecated.\n\nFAULT: get_connection_params",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 829,
+ "response_tokens": 321,
+ "elapsed_s": 3.68,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

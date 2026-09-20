@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7268,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "Okay, let's try to figure out which function is causing the issue here. The user is saying that when using a date lookup with Django and a database like MySQL, the TIME_ZONE setting from the DATABASES configuration isn't being used. Instead, it's hardcoding 'UTC' as the source timezone in the CONVERT_TZ function. \n\nLooking at the problem description, the key part is the SQL query generated for the date lookup. The user provided an example where the SQL uses CONVERT_TZ with 'UTC' as the source timezone and 'Europe/Paris' as the target. But according to their setup, both the Django app's TIME_ZONE and the database's TIME_ZONE are set to 'Europe/Paris', so the conversion shouldn't be happening, or at least the source timezone should match the database's setting.\n\nThe user mentioned that the issue is in the _convert_field_to_tz function. They pointed to a line in the Django code where 'UTC' is hardcoded. That function is part of the MySQL backend operations. The problem is that when converting the datetime field, it's assuming the source timezone is UTC, but in reality, the database might be using a different timezone (like the one specified in DATABASES). \n\nSo, the _convert_field_to_tz function is responsible for generating the CONVERT_TZ SQL fragment. If it's hardcoding 'UTC' as the source timezone instead of using the database's configured timezone, that would explain why the date lookup isn't working as expected. The function should be using the database's timezone setting (tz2) as the source instead of UTC. \n\nOther functions listed, like date_extract_sql or datetime_cast_date_sql, don't seem to be directly involved here. The user specifically mentioned that _convert_field_to_tz is where the 'UTC' is forced. Therefore, the fault lies in this function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1855,
+ "response_tokens": 392,
+ "elapsed_s": 1.27,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

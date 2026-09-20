@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6920,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "We need to answer which function contains the fault. The description points to _convert_field_to_tz in mysql operations. It hardcodes 'UTC' as source timezone. So answer: _convert_field_to_tz.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1775,
+ "response_tokens": 62,
+ "elapsed_s": 0.75,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-23314",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8024,
+ "raw": "## Step 1: Analyze the problem\nThe problem is that the `set_visible()` function does not work for 3D projections in matplotlib. This function is used to set the visibility of an axes instance. When `set_visible(False)` is called on an axes instance with a 3D projection, the axes instance remains visible.\n\n## 2: Identify the relevant code\nThe relevant code for this issue can be found in the `lib/mpl_toolkits/mplot3d/axes3d.py` file, specifically in the `Axes3D` class. This class inherits from `Axes` and overrides some of its methods to provide 3D plotting functionality.\n\n## 3: Locate the fault\nThe fault lies in the `draw` method of the `Axes3D` class. This method is responsible for drawing the axes instance on the canvas. However, it does not check if the axes instance is visible before drawing it.\n\n## 4: Identify the function that contains the fault\nBased on the analysis, the function that contains the fault is the `draw` method of the `Axes3D` class.\n\nThe final answer is: \nFAULT: draw",
+ "finish_reason": "stop",
+ "prompt_tokens": 2061,
+ "response_tokens": 241,
+ "elapsed_s": 1.22,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

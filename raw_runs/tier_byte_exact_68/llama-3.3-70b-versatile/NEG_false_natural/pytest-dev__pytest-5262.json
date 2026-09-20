@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 8275,
+ "raw": "FAULT: EncodedFile",
+ "finish_reason": "stop",
+ "prompt_tokens": 2059,
+ "response_tokens": 6,
+ "elapsed_s": 0.49,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "EncodedFile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

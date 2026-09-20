@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3324,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that when they pass a byte string method like b'GET' to requests, it gets converted into a string that looks like \"b'GET'\", which is incorrect. This leads to a 404 because the HTTP method becomes \"B'GET'\" after uppercasing.\n\nLooking at the code flow: The client (python-neutronclient) uses safe_encode_list which converts method to a byte string. Then requests' prepare_method is called with that byte string. Inside prepare_method, they do self.method = builtin_str(self.method).upper(). The issue is that in Python 3, converting a bytes object to a str using str() would give something like \"b'GET'\", which isn't what's intended. The intended method is just \"GET\".\n\nSo the problem is that prepare_method is receiving a bytes object, but it's supposed to handle it correctly. The function in question is prepare_method in the PreparedRequest class. The line where they convert using builtin_str is causing the issue. The function should ensure that the method is a string, but when given bytes, it's not decoding them properly. Instead, converting bytes to a string in Python 3 using str() on bytes gives a string representation of the bytes object, not the actual decoded string. So the correct approach would be to decode the bytes to a string, perhaps using .decode('ascii') or similar. However, the current code just uses builtin_str, which for Python 3 is str(), and str(b'GET') is \"b'GET'\" as a string.\n\nTherefore, the faulty function is prepare_method because it's not correctly handling the case where the method is a bytes object. Instead of converting it properly, it's letting the bytes object be turned into a string representation, which is incorrect.\n</think>\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 811,
+ "response_tokens": 388,
+ "elapsed_s": 1.17,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

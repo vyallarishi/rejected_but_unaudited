@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6167,
+ "raw": "FAULT: _make_xunit_fixture",
+ "finish_reason": "stop",
+ "prompt_tokens": 1507,
+ "response_tokens": 9,
+ "elapsed_s": 0.43,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_make_xunit_fixture",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

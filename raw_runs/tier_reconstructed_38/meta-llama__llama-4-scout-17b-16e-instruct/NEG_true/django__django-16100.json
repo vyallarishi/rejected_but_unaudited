@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8489,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem is about adding transaction handling to the `changelist_view` in Django admin. This view handles the processing of `list_editable` fields, which involves saving multiple model instances. If an error occurs during this process without a transaction, the database can be left in an inconsistent state.\n\n2. **Identifying the relevant code path**: The code path involves handling POST requests for `list_editable` fields in the `changelist_view`. This view is responsible for processing the formset and saving the data to the database.\n\n3. **Analyzing the candidate functions**: The candidate functions are from `django/contrib/admin/options.py`. We need to find the function that actually handles the saving of `list_editable` forms.\n\n4. **Eliminating irrelevant functions**: \n   - `get_content_type_for_model`: Not related to the issue.\n   - `get_ul_class`: Not related to the issue.\n   - `IncorrectLookupParameters`: An exception class, not related to the issue.\n   - `BaseModelAdmin`: A base class, not directly related to the issue.\n   - `ModelAdmin`: A subclass of `BaseModelAdmin`, contains the `changelist_view` method.\n\n5. **Identifying the correct function**: \n   - The `changelist_view` method in `ModelAdmin` is the function that handles the `list_editable` processing. This method is responsible for saving multiple model instances when the `list_editable` formset is submitted.\n\n# Fixed solution:\nThe fault is in the `changelist_view` method of the `ModelAdmin` class. To fix the issue, we need to wrap the code that saves the `list_editable` forms in a transaction.\n\n```python\nfrom django.db import transaction\n\nclass ModelAdmin(BaseModelAdmin):\n    # ...\n\n    def changelist_view(self, request, extra_context=None):\n        # ...\n\n        if request.method == 'POST':\n            with transaction.atomic():\n                # Code to save list_editable forms\n                formset = self.get_changelist_formset(request, changelist_form)\n                formset = self.get_changelist_formset(request, changelist_form, formset)\n                if formset.is_valid():\n                    formset.save()\n                # ...\n```\n\n# Explanation of changes:\n*   We import the `transaction` module from `django.db`.\n*   We wrap the code that saves the `list_editable` forms in a `transaction.atomic()` block. This ensures that either all changes are committed to the database or none are, in case of an error.\n\n# Tests and example uses:\nYou can test the fix by making changes to the `list_editable` fields and checking if the changes are saved correctly. You can also simulate an error during the save process to verify that the database remains in a consistent state.\n\nFAULT: changelist_view",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1948,
+ "response_tokens": 600,
+ "elapsed_s": 6.29,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

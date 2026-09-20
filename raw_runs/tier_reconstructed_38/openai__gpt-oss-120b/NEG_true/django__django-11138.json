@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7268,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "We need to answer which function contains the fault. The description says the issue is that _convert_field_to_tz generates SQL with hardcoded 'UTC' as source timezone, ignoring database TIME_ZONE. So the faulty function is `_convert_field_to_tz`. The list includes that function. So answer: _convert_field_to_tz.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1889,
+ "response_tokens": 86,
+ "elapsed_s": 0.55,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

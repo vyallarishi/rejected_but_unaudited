@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7093,
+ "raw": " this issue, we need to identify the function in `pylint/lint/pylinter.py responsible for discovering files whenint is run with `--recursive=y` and determine why it does not respect the `--ignore`, `--ignore-paths`, or `--ignore-patterns` settings.\n\nThe function `_discover_files` seems like a direct path to investigate because it is used to find files when Pylint is run with `--recursive=y`. This function utilizes `os.walk` to find all `.py` files but lacks logic to filter results based on the ignore settings.\n\nUpon closer inspection, the issue seems from the fact that_files` does not apply the ignore filters files it discovers. The ignore settings (`--ignore`, `--s`, `--ignore-paths`) are meant to filter out files that should not be checked.\n\nGiven the provided information and the expected behavior in how files are discovered and filtered. The function that contains the fault is `_discover_files`",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1824,
+ "response_tokens": 229,
+ "elapsed_s": 3.68,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

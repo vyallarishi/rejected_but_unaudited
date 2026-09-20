@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7761,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to the `weighted` method in xarray, specifically when passing a boolean array as weights to calculate the weighted mean. The problem arises because the `sum_of_weights` is calculated as the dot product of two boolean arrays, which results in a boolean value (`True` or `False`) instead of an integer or float.\n\nTo solve this issue, we need to identify where in the code the `sum_of_weights` is calculated and modify it to handle boolean weights correctly. The relevant code snippet provided is:\n```python\nxr.dot(dta.notnull(), wgt)\n```\nThis line of code calculates the dot product of `dta.notnull()` and `wgt`, which are both DataArrays. When `wgt` is a boolean array, `xr.dot(dta.notnull(), wgt)` returns a boolean value.\n\nThe expected output for the weighted mean is incorrect because the `sum_of_weights` is not properly normalized when weights are boolean.\n\n### Solution\n\nThe fault lies in the `_sum_of_weights` function, which is not explicitly listed but can be inferred to be related to the `dot` function in `xarray/core/computation.py`. \n\nTo fix the issue, we need to ensure that the weights are properly converted to a numeric type (e.g., integer or float) before calculating the `sum_of_weights`. \n\n```python\nimport numpy as np\nimport xarray as xr\n\ndef _sum_of_weights(da, weights):\n    # Ensure weights are numeric\n    weights = weights * 1\n    return xr.dot(da.notnull(), weights)\n\ndta = xr.DataArray([1., 1., 1.])\nwgt = xr.DataArray(np.array([1, 1, 0], dtype=np.bool))\n\nprint(_sum_of_weights(dta, wgt))\n```\n\nHowever, based on the provided information, the function that contains the fault is:\n\nFAULT: dot",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2078,
+ "response_tokens": 402,
+ "elapsed_s": 6.65,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

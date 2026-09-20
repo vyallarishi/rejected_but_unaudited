@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4107,
+ "raw": "<think>\nOkay, let's try to figure out which function is responsible for the issue with the readonly_fields error message not including the field name.\n\nThe user mentioned that when there's an error in readonly_fields, the message says something like \"the value of 'readonly_fields[0]' is not a callable...\" but doesn't include the actual field name. They want the error message to include the field name, similar to other fields like list_editable.\n\nLooking at the candidate functions, the relevant one is probably in the BaseModelAdminChecks or ModelAdminChecks classes. The description points to the check for readonly_fields. The functions listed include _check_readonly_fields and _check_readonly_fields_item. \n\nThe error message is generated when checking each item in readonly_fields. The _check_readonly_fields_item function is likely where the check for each individual field happens. If the error message doesn't include the field name, then that function might be the one where the message is constructed. \n\nIn Django's admin checks, functions like _check_field_spec_item or others might be used to check individual fields. But since the user specifically mentions readonly_fields, the function _check_readonly_fields_item is the most relevant. \n\nSo the fault is probably in _check_readonly_fields_item because that's where each field in readonly_fields is validated. The error message there probably references the index (like [0]) instead of the actual field name. The other checks, like for list_editable, include the field name, so comparing those might show that _check_readonly_fields_item is missing the field name in the error message.\n</think>\n\nThe error message for `readonly_fields` not including the field name stems from the `_check_readonly_fields_item` function. This function is responsible for validating individual entries in `readonly_fields`, and it constructs the error message that references the index (e.g., `readonly_fields[0]`) instead of the actual field name. Other checks, like those for `list_editable`, include the field name by explicitly referencing it in their error messages. The absence of the field name in `_check_readonly_fields_item` is the root cause of the discrepancy.\n\n**Answer:**  \nFAULT: `_check_readonly_fields_item`",
+ "finish_reason": "stop",
+ "prompt_tokens": 1008,
+ "response_tokens": 453,
+ "elapsed_s": 13.43,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false,
+ "predicted_function_original": null,
+ "parse_method_original": "none"
+}

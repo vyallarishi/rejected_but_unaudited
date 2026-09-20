@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3436,
+ "raw": "<think>\nOkay, let's try to figure out where the issue is here. The user is saying that when they have a custom admin site and a readonly ForeignKey field, the generated URL uses the default admin path instead of their custom one. They traced it to the get_admin_url function in helpers.py.\n\nSo, the problem seems to be that when reversing the URL, the current_app parameter isn't being passed. In Django, when you have multiple admin sites (like a custom one), each has its own URL namespace. The reverse function needs to know which namespace to use, which is typically provided via the current_app argument. \n\nLooking at the user's code, they modified the line to include current_app=self.model_admin.admin_site.name. That makes sense because the custom admin site's name would be part of the URL namespace. The original code didn't include this, so reverse defaults to the standard 'admin' namespace.\n\nThe question is whether the get_admin_url function is the correct place for this fix. The user's test shows that adding current_app there fixes the issue. But are there other places where similar issues might occur? Well, the user mentions that other parts of the admin use current_app, like ModelAdmin.response_add. So maybe this is an oversight in the get_admin_url function.\n\nThe function in question is get_admin_url within the AdminReadonlyField class. That method is responsible for generating the URL for the readonly field. Since it's part of the helpers module, it's used in various admin templates to create links. By not passing current_app, it doesn't respect the custom admin site's namespace.\n\nSo the fault lies in the get_admin_url method because it doesn't account for the custom admin site's namespace when reversing the URL. The fix provided by the user adds the current_app parameter, which should correctly resolve the URL under the custom admin's namespace. I don't see any obvious side effects here, as long as self.model_admin.admin_site.name correctly returns the namespace of the custom admin site. Other parts of the admin probably handle current_app correctly, so this should be the right place to apply the fix.\n</think>\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 802,
+ "response_tokens": 440,
+ "elapsed_s": 1.29,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

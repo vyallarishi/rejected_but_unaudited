@@ -1,0 +1,19 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4070,
+ "raw": "FAULT: prepare_url",
+ "reasoning": "We need to identify which function in requests/models.py contains the fault that leads to UnicodeError being raised instead of InvalidUrl. The issue: requests.get(\"http://.example.com\") raises UnicodeError from idna encoding. The expected is InvalidUrl. The code likely in PreparedRequest._get_idna_encoded_host or prepare_url. The description: candidate functions list includes _get_idna_encoded_host(host) and prepare_url. The fault likely is that _get_idna_encoded_host does not catch UnicodeError and raise InvalidUrl. Let's recall code: In requests/models.py, there is function _get_idna_encoded_host which does something like:\n\ndef _get_idna_encoded_host(host):\n    # IDNA encoding for host\n    try:\n        host = host.encode('idna').decode('utf-8')\n    except UnicodeError:\n        raise InvalidUrl('URL has an invalid label.')\n    return host\n\nBut maybe they didn't catch UnicodeError for empty label? Actually the issue is that UnicodeError propagates from idna encoding before being caught. The code may have a try/except around encode but maybe the exception is raised earlier in urllib3's parsing? However the description says \"prepare_url: Yes, a path exists... The host is ASCII, so the if not unicode_is_ascii(host): block, which contains the try...except UnicodeError for IDNA encoding, is skipped.\" Wait that suggests that the code only encodes if non-ASCII. For ASCII host, it doesn't catch. But the UnicodeError occurs for empty label, which is still ASCII but invalid. So the code path that should catch UnicodeError for ASCII hosts is missing. The function that does the IDNA encoding is _get_idna_encoded_host, but it's only called for non-ASCII hosts. So the fault is that prepare_url doesn't handle UnicodeError for ASCII hosts. The function containing the fault is prepare_url. Because it doesn't catch UnicodeError for ASCII host. So answer: prepare_url.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1140,
+ "response_tokens": 415,
+ "elapsed_s": 1.38,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

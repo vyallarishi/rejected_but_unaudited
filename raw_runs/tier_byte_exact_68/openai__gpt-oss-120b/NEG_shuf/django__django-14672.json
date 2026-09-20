@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14672",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 10610,
+ "raw": "FAULT: ManyToManyRel.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 2696,
+ "response_tokens": 285,
+ "elapsed_s": 1.17,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

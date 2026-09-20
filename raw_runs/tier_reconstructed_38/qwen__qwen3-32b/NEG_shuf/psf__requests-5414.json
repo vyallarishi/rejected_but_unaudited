@@ -1,0 +1,20 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4834,
+ "raw": "FAULT: prepare_url",
+ "reasoning": "\nOkay, let's try to figure out which function in the Requests library is causing the UnicodeError when handling the URL \"http://.example.com\". \n\nFirst, the user mentioned that when they try to make a request to that URL, a UnicodeError is raised instead of the expected InvalidUrl exception. The problem seems to be related to how the host is being processed. \n\nLooking at the reproduction steps, the URL in question has a leading dot in the host part: .example.com. According to DNS rules, a hostname can't start with a dot, but the issue here is about how Requests validates this.\n\nThe user provided some localization notes. They mentioned that prepare_url is called with the URL. In that function, the host is extracted as \".example.com\". The code checks if the host is ASCII. Since the host is already in ASCII (even though it's invalid), the code skips the block that would handle Unicode errors. Therefore, the invalid host isn't caught here, and it proceeds to be used later.\n\nThe error occurs later when urllib3 tries to process the host. The IDNA encoding is attempted, but since the host starts with a dot, which might be causing an empty label (like in the case of a leading or trailing dot), the IDNA encoding fails, leading to the UnicodeError.\n\nSo the fault is that the prepare_url function isn't properly validating the host's structure beyond checking if it's ASCII. The code in prepare_url is supposed to handle encoding the host with IDNA, but in this case, since the host is considered ASCII, it skips that step. However, even though the host is ASCII, it's structurally invalid (starting with a dot), and that's not being checked here.\n\nThe function responsible for preparing the URL is prepare_url in the PreparedRequest class. The code in prepare_url uses parse_url to get the host, then checks if it's Unicode and ASCII. But it doesn't validate the actual structure of the hostname (like checking for empty labels or labels that are too long). Therefore, the invalid host is passed along, and when urllib3 tries to use it, the error occurs.\n\nThe correct place to catch this would be in the prepare_url function, where the host is processed. The code should check for valid domain name structure, not just ASCII. The current code skips the IDNA encoding for ASCII hosts, but even if the host is ASCII, it might still be invalid (like .example.com). Therefore, the prepare_url function isn't properly validating the host, leading to the UnicodeError later on.\n\nSo the function that contains the fault is prepare_url.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1280,
+ "response_tokens": 541,
+ "elapsed_s": 10.67,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

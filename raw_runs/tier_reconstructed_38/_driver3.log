@@ -1,0 +1,74 @@
+=== recon-3 driver started Sun Aug  2 12:46:56 IST 2026 ===
+--- 12:46:56 openai/gpt-oss-120b POS ---
+DONE [openai/gpt-oss-120b/POS]: done=0 skipped=38 errored=0
+--- 12:47:08 openai/gpt-oss-120b NEG_true ---
+DONE [openai/gpt-oss-120b/NEG_true]: done=0 skipped=38 errored=0
+--- 12:47:09 openai/gpt-oss-120b NEG_false ---
+DONE [openai/gpt-oss-120b/NEG_false]: done=0 skipped=38 errored=0
+--- 12:47:11 openai/gpt-oss-120b NEG_shuf ---
+DONE [openai/gpt-oss-120b/NEG_shuf]: done=0 skipped=38 errored=0
+--- 12:47:12 openai/gpt-oss-120b NEG_false_audit ---
+DONE [openai/gpt-oss-120b/NEG_false_audit]: done=0 skipped=38 errored=0
+--- 12:47:13 openai/gpt-oss-120b NEG_false_natural ---
+DONE [openai/gpt-oss-120b/NEG_false_natural]: done=0 skipped=38 errored=0
+--- 12:47:14 llama-3.1-8b-instant POS ---
+[llama-3.1-8b-instant/POS] done=10 skip=2 err=0
+[llama-3.1-8b-instant/POS] done=20 skip=2 err=0
+[llama-3.1-8b-instant/POS] done=30 skip=2 err=0
+DONE [llama-3.1-8b-instant/POS]: done=36 skipped=2 errored=0
+--- 12:47:58 llama-3.1-8b-instant NEG_true ---
+[llama-3.1-8b-instant/NEG_true] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=30 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_true]: done=38 skipped=0 errored=0
+--- 12:49:11 llama-3.1-8b-instant NEG_false ---
+[llama-3.1-8b-instant/NEG_false] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=30 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_false]: done=38 skipped=0 errored=0
+--- 12:50:03 llama-3.1-8b-instant NEG_shuf ---
+[llama-3.1-8b-instant/NEG_shuf] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=30 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_shuf]: done=38 skipped=0 errored=0
+--- 12:51:14 llama-3.1-8b-instant NEG_false_audit ---
+[llama-3.1-8b-instant/NEG_false_audit] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=30 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_false_audit]: done=38 skipped=0 errored=0
+--- 12:52:09 llama-3.1-8b-instant NEG_false_natural ---
+[llama-3.1-8b-instant/NEG_false_natural] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=30 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_false_natural]: done=38 skipped=0 errored=0
+--- 12:53:03 llama-3.3-70b-versatile POS ---
+[llama-3.3-70b-versatile/POS] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=30 skip=0 err=0
+DONE [llama-3.3-70b-versatile/POS]: done=38 skipped=0 errored=0
+--- 12:53:19 llama-3.3-70b-versatile NEG_true ---
+[llama-3.3-70b-versatile/NEG_true] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=30 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_true]: done=38 skipped=0 errored=0
+--- 12:53:54 llama-3.3-70b-versatile NEG_false ---
+[llama-3.3-70b-versatile/NEG_false] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=30 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_false]: done=38 skipped=0 errored=0
+--- 12:54:20 llama-3.3-70b-versatile NEG_shuf ---
+[llama-3.3-70b-versatile/NEG_shuf] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=30 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_shuf]: done=38 skipped=0 errored=0
+--- 12:54:58 llama-3.3-70b-versatile NEG_false_audit ---
+[llama-3.3-70b-versatile/NEG_false_audit] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=30 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_false_audit]: done=38 skipped=0 errored=0
+--- 12:55:28 llama-3.3-70b-versatile NEG_false_natural ---
+[llama-3.3-70b-versatile/NEG_false_natural] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=30 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_false_natural]: done=38 skipped=0 errored=0
+=== recon-3 driver finished Sun Aug  2 12:56:01 IST 2026 ===

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5882,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that when they use aggregate() with a default parameter after annotate(), it crashes. The error is a syntax error in SQL because the generated query has \"SELECT FROM...\" which is invalid. The issue seems to be related to how Django constructs the SQL query when combining annotate and aggregate with a default.\n\nLooking at the provided code and the error message, the key part is that when using Sum(\"id\", default=0), Django's ORM is generating a subquery where the outer query's SELECT clause is empty. The user also mentions that using Coalesce directly works, so the problem is specific to how the default parameter is handled in aggregate.\n\nThe localization notes point to get_aggregation as the function involved. Let me think about what get_aggregation does. When you call aggregate on a queryset that has been annotated, Django might create a subquery to ensure the annotations are correctly handled. The default parameter in the aggregate is probably wrapped into a Coalesce (or similar) expression. However, if the code that adds the aggregate's alias to the outer query's columns fails when the aggregate is wrapped, then the outer query doesn't have any columns selected, leading to the broken SQL.\n\nIn the error example, the generated SQL is \"SELECT FROM (subquery)...\", which is missing the columns after SELECT. The problem is that when using the default parameter, the aggregate is wrapped in a Coalesce, and the code in get_aggregation might not correctly add the alias for this wrapped expression. So, when building the outer query (the AggregateQuery), it's not including the necessary columns because the alias isn't being tracked properly.\n\nThe get_aggregation function is responsible for setting up the aggregation, possibly creating a subquery when there are existing annotations. If the code that adds the aggregate's alias to the outer query's selected columns doesn't account for the Coalesce wrapper introduced by the default parameter, then the outer query's SELECT list remains empty. Therefore, the fault likely lies in get_aggregation's handling of aggregates that have defaults, where it fails to properly register the alias for the outer query's columns.\n\nSo the function in question is get_aggregation. It's supposed to manage the aggregation and the subquery, but when a default is provided (which wraps the aggregate in a Coalesce), it doesn't add the alias to the outer query's selected columns, leading to the broken SQL.\n</think>\n\nThe issue arises because the `get_aggregation` method fails to correctly handle the alias registration for aggregates wrapped in a `Coalesce` expression when a `default` is specified. This results in an empty `SELECT` clause in the generated SQL. \n\n**FAULT: get_aggregation**",
+ "finish_reason": "stop",
+ "prompt_tokens": 1506,
+ "response_tokens": 563,
+ "elapsed_s": 22.77,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

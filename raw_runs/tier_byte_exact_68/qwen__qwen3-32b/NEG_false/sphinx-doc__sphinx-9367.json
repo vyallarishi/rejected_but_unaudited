@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-9367",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2457,
+ "raw": "<think>\nOkay, let's see. The problem is about a 1-element tuple being rendered without the trailing comma. The user says that (1,) is rendered as (1) instead of keeping the comma. The issue was previously addressed in #8265 but the single-element case is still broken.\n\nLooking at the code, the relevant function would be the one that handles tuples. The candidate functions listed include visit_Tuple. Let me check the localization notes. The visit_Tuple function is called for an ast.Tuple node. For a single element, node.elts has one element. The code does if node.elts: then joins with commas. But when there's only one element, joining with commas would result in no comma. For example, joining ['1'] gives '1', so the output is (1), which is incorrect. The correct output should have a trailing comma, like (1,).\n\nSo the problem is in the visit_Tuple function. The current code doesn't handle the single-element case by adding a trailing comma. The fix would need to check if there's only one element and add a comma after it. But the question here is which function contains the fault. The answer is visit_Tuple, as that's where the joining happens without considering the single-element case.\n</think>\n\nFAULT: visit_Tuple",
+ "finish_reason": "stop",
+ "prompt_tokens": 724,
+ "response_tokens": 273,
+ "elapsed_s": 0.84,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "visit_Tuple",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

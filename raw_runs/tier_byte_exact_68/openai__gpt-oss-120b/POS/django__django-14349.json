@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4969,
+ "raw": "FAULT: URLValidator",
+ "finish_reason": "stop",
+ "prompt_tokens": 1260,
+ "response_tokens": 309,
+ "elapsed_s": 3.21,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "URLValidator",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

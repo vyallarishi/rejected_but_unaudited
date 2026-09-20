@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4334,
+ "raw": "## Step 1: Identify the issue and the goal\nThe issue is that model formsets in Django do not provide a straightforward way to disallow new object creation, making it difficult to create an \"edit only\" view of objects. The goal is to find the function responsible for this behavior and potentially modify it to allow for disabling new object creation.\n\n## Step 2: Understand the current behavior\nCurrently, users try to use `extra=0` to prevent new object creation, but this is not reliable because `extra` only controls the number of extra forms displayed and does not prevent the creation of new objects through other means, such as adding more forms with JavaScript or sending additional POST data.\n\n## 3: Analyze the provided code and functions\nThe provided code snippet includes various functions from `django/forms/models.py`, including those related to model forms and formsets. The key functions to consider are those within the `BaseModelFormSet` and `BaseInlineFormSet` classes, as they directly handle the creation and saving of model instances.\n\n## 4: Identify the function responsible for saving new objects\nThe function `save_new_objects` within `BaseModelFormSet` is crucial. It is responsible for saving new objects when a formset is submitted. This function iterates over `self.extra_forms` and calls `self.save_new(form, commit=commit)` for each, which creates and saves a new model instance.\n\n## 5: Determine the root cause\nThe root cause of the issue is that `save_new_objects` does not check if the formset is configured to allow new object creation before saving new objects. This method is called as part of the formset saving process and is responsible for creating new instances.\n\n## 6: Conclusion on the faulty function\nGiven the analysis, the function that contains the fault, or at least is closely related to the symptom of new object creation, is `save_new_objects`. This function is directly involved in creating and saving new model instances when a formset is submitted.\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1044,
+ "response_tokens": 418,
+ "elapsed_s": 1.58,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14631",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3581,
+ "raw": "## Step 1: Identify the functions of interest\nThe issue mentions two main areas of concern in the Django form system: `BaseForm._clean_fields()` and `BaseForm.changed_data`. These functions are supposed to access their values through a `BoundField` object for consistency and to reduce code paths.\n\n## Step 2: Understand the current implementation\nCurrently, `BaseForm._clean_fields()` and `BaseForm.changed_data` do not access values through a `BoundField` object consistently. This leads to potential inconsistencies, such as `form._clean_fields()` returning a different value from `form[name].initial` when they should be the same.\n\n## 3: Analyze the proposed solution\nThe proposed solution involves moving the per-field logic of `changed_data()` into a method of the `BoundField` class, potentially named `did_change()` or `_did_change()`. This would simplify the code and make it more consistent by delegating the logic to the `BoundField` level.\n\n## 4: Determine the faulty function\nGiven the description, the fault lies in how `BaseForm.changed_data` and `_clean_fields` access and handle field data. Between these, `changed_data` is explicitly mentioned as having complex, multi-path logic that could be simplified by delegating to a `BoundField` method.\n\n## 5: Choose the function name\nThe function that contains the fault, based on the provided information and the need for a single function name, is `changed_data`. This is because it is explicitly mentioned as having inconsistent and complex data gathering logic that could be improved by delegating to a `BoundField` method.\n\nThe final answer is:\nFAULT: changed_data",
+ "finish_reason": "stop",
+ "prompt_tokens": 821,
+ "response_tokens": 344,
+ "elapsed_s": 1.39,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "changed_data",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

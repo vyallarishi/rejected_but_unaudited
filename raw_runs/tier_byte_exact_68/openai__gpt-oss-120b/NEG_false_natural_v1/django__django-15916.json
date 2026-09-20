@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5673,
+ "raw": "FAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1370,
+ "response_tokens": 156,
+ "elapsed_s": 0.7,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

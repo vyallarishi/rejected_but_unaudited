@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5996,
+ "raw": "FAULT: dot",
+ "reasoning": "We need to identify which function contains the fault. The description says weighted mean uses sum_of_weights calculated as xr.dot(dta.notnull(), wgt). The dot function likely computes sum of weights incorrectly for boolean weights. So the bug is in dot function. The list includes def dot(*arrays, dims=None, **kwargs): So answer: dot.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1757,
+ "response_tokens": 84,
+ "elapsed_s": 0.8,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

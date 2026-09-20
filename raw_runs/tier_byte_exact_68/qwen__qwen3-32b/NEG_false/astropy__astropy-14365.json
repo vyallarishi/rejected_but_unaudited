@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2713,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that the ascii.qdp reader in Astropy expects QDP commands to be in uppercase, but QDP files can have commands in lowercase. The example given is that \"read serr 1 2\" is not recognized because the code looks for \"READ SERR...\".\n\nLooking at the candidate functions, the key one seems to be _line_type. The user's analysis points out that _line_type uses a regex (_command_re) that's case-sensitive. So when the line is in lowercase, the regex doesn't match, leading to an error.\n\nBut wait, maybe the regex is compiled with case-insensitive flag? Let me check. The code for _command_re is r\"READ [TS]ERR(\\s+[0-9])+\", which doesn't include any flags. So by default, regex in Python is case-sensitive. So if the line is \"read serr...\", the regex for READ won't match because it's lowercase.\n\nSo the problem is that the regex in _line_type is case-sensitive. The function _line_type is responsible for determining the type of line (command, data, etc.), and if it can't recognize the command because of case, it throws an error.\n\nBut the user mentioned that the _line_type function is called with the line 'read serr 1 2', and the regex expects uppercase. So the fault lies in the regex definition in _line_type. However, the user also listed other functions. Let me check if any other functions could be involved.\n\nThe _get_type_from_list_of_lines function calls _line_type, but the main issue is in the regex pattern. The _command_re is defined in the module, probably as a case-sensitive regex. So modifying that regex to be case-insensitive would fix the problem.\n\nSo the function where the regex is defined is _line_type. Therefore, the fault is in the _line_type function because it uses a case-sensitive regex. The answer should be FAULT: _line_type.\n</think>\n\nFAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 837,
+ "response_tokens": 430,
+ "elapsed_s": 1.25,
+ "key_suffix": "mT2ohy",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

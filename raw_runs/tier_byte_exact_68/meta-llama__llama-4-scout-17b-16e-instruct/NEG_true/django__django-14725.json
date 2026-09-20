@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5211,
+ "raw": "To solve this issue, let's analyze the problem step by step:\n\n1. **Understanding the Problem**: The problem is about preventing new object creation in model formsets. Currently, model formsets in Django provide a way to edit existing objects but also allow the creation of new objects if extra forms are provided.\n\n2. **Identifying the Goal**: The goal is to find a way to disallow new object creation, essentially making the formset \"edit-only.\"\n\n3. **Analyzing Candidate Functions**: The provided list includes several functions from `django/forms/models.py`. We need to identify which function is responsible for creating new objects when saving a formset.\n\n4. **Understanding Formset Behavior**: In Django, formsets are used to handle multiple forms. For model formsets, when a user submits the formset, Django checks for existing objects (based on the primary key) and creates new ones if no primary key is provided or if the form data corresponds to a new object.\n\n5. **Locating the Fault**: The key to solving this issue lies in understanding how Django distinguishes between saving existing objects and creating new ones. The `save_new_objects` method in `BaseModelFormSet` is directly involved in saving new objects.\n\n6. **Analyzing `save_new_objects`**: This method iterates over extra forms (forms that are not bound to existing instances) and calls `save_new` on each, which creates and saves a new model instance.\n\n7. **Preventing New Object Creation**: To prevent new object creation, we can override or modify the behavior of the method responsible for saving new objects.\n\nBased on this analysis, the function that contains the fault, or more accurately, the function whose behavior needs to be modified to prevent new object creation, is:\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1218,
+ "response_tokens": 361,
+ "elapsed_s": 1.57,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

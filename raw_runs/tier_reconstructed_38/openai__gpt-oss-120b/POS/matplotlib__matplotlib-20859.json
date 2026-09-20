@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6662,
+ "raw": "Legend.__init__",
+ "reasoning": "We need to answer: Which function contains the fault? The description says the check is in Legend.__init__ where it raises TypeError if parent not Axes or Figure. So function name is __init__? But they ask from list of candidate functions. The list includes \"Legend.__init__\". So answer: Legend.__init__.\n\nThus output single line: Legend.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1691,
+ "response_tokens": 92,
+ "elapsed_s": 0.73,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

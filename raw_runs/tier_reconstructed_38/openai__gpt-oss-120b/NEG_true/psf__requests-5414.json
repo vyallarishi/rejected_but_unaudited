@@ -1,0 +1,19 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4675,
+ "raw": "FAULT: _get_idna_encoded_host",
+ "reasoning": "We need to identify which function contains the fault causing UnicodeError for http://.example.com. The description says: In prepare_url, host is \".example.com\". The code likely attempts IDNA encoding of host. Actually host is ASCII, but contains a leading dot, which is invalid label. The IDNA encoding may raise UnicodeError: label empty or too long. The code path: In PreparedRequest.prepare_url, they call self._get_idna_encoded_host(host). That function probably does the IDNA encoding and catches UnicodeError? Let's check typical requests code. In requests/models.py, there is a method _get_idna_encoded_host(host) that does:\n\n```\ndef _get_idna_encoded_host(self, host):\n    # IDNA encoding for Unicode hostnames\n    try:\n        host = host.encode('idna').decode('utf-8')\n    except UnicodeError:\n        raise InvalidURL(\"URL has an invalid label.\")\n    return host\n```\n\nBut maybe they didn't catch UnicodeError for empty label? Actually they do. But the bug says UnicodeError propagates, not caught. So maybe the fault is in prepare_url where they call urllib3's parse_url? Or maybe the fault is in urllib3's connection handling. However the description says the intention is to raise InvalidUrl in requests/models.py line 401. The function that should raise is prepare_url? Or _get_idna_encoded_host? The fault is that UnicodeError is not caught, so the function that fails to catch is _get_idna_encoded_host. The bug is that it doesn't catch UnicodeError for empty label. So answer: _get_idna_encoded_host.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1273,
+ "response_tokens": 355,
+ "elapsed_s": 1.34,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_get_idna_encoded_host",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

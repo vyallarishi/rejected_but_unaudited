@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 12591,
+ "raw": "FAULT: filter_members",
+ "reasoning": "We need to answer: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\"\n\nThe user gave a long description about autodoc private-members option. Then they gave a list of functions and asked which function contains the fault. The list includes many functions from sphinx/autodoc. The fault is that private-members option is treated as boolean, not allowing specifying particular members. The logic is in filter_members function, which checks options.private_members. So the fault is likely in filter_members method of Documenter class. The function name is \"filter_members\". So answer: FAULT: filter_members.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2986,
+ "response_tokens": 151,
+ "elapsed_s": 0.99,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

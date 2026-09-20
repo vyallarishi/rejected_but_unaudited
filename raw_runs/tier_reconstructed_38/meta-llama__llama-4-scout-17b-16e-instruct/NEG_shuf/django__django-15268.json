@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4942,
+ "raw": "To solve this issue, we need to understand the problem and the code involved. The problem is that multiple `AlterFooTogether` operations are not being optimized into one. This results in unnecessary operations being performed during migrations.\n\nThe `AlterFooTogether` operations, such as `AlterUniqueTogether` and `AlterIndexTogether`, are not overriding the `reduce` method in their respective classes. The `reduce` method is used by the migration optimizer to determine if two operations can be combined.\n\nThe base implementation of the `reduce` method in the `Operation` class returns `False` for operations that are not 'elidable'. This means that the optimizer does not try to combine these operations.\n\nTo fix this issue, we need to modify the `reduce` method for `AlterFooTogether` operations so that they can be combined.\n\nThe function that contains the fault is `reduce`. \n\nFAULT: reduce",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1116,
+ "response_tokens": 182,
+ "elapsed_s": 2.1,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

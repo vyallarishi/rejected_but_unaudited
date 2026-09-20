@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16595",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 4606,
+ "raw": "FAULT: reduce",
+ "finish_reason": "stop",
+ "prompt_tokens": 1075,
+ "response_tokens": 4,
+ "elapsed_s": 0.38,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

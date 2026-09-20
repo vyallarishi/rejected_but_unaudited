@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15987",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3520,
+ "raw": "To solve this issue, we need to identify the function that contains the fault, which is related to the handling of fixture directories and the detection of duplicates when these directories are provided as `pathlib.Path` instances.\n\nThe problem arises because when `settings.FIXTURE_DIRS` contains a mix of `str` and `pathlib.Path` objects for the same path, the duplicate check fails to detect duplicates. This happens in the `fixture_dirs` method of the `Command` class in `django/core/management/commands/loaddata.py`.\n\nThe fault lies in how the `fixture_dirs` method handles the `settings.FIXTURE_DIRS` without properly converting all directory paths to a consistent type (either all `str` or all `Path` instances) before checking for duplicates.\n\nGiven this understanding, the function that contains the fault is:\n\nFAULT: fixture_dirs",
+ "finish_reason": "stop",
+ "prompt_tokens": 867,
+ "response_tokens": 177,
+ "elapsed_s": 0.92,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "fixture_dirs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

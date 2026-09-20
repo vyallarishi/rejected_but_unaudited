@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6856,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when the __init__ method is decorated, Sphinx doesn't document it even though napoleon_include_init_with_doc is set to True. The user mentioned that the issue started with a specific commit in Sphinx. \n\nLooking at the root cause, the problem seems to be in the line `cls = obj.__globals__[cls_path]`. The decorated __init__ method's __globals__ doesn't contain the class anymore, leading Sphinx to think it's not a method. \n\nThe key here is that the can_document_member function is responsible for determining whether a member can be documented. The user's analysis says that inspect.isroutine(member) returns False because the decorator changes the nature of the function. The can_document_member function is part of the Documenter class, and it's called by get_documenter to check if a member can be documented by a certain documenter, like MethodDocumenter.\n\nIn the case of a decorated __init__, since the decorator wraps the original method, the inspect.isroutine check fails because the decorated object isn't a routine anymore (it's a wrapper). Therefore, can_document_member returns False, and Sphinx doesn't document it. \n\nThe candidate functions listed include can_document_member from the Documenter class. Since the issue is that the check in can_document_member is failing due to the decorated function not being recognized as a routine, this function is likely the one containing the fault. The function needs to correctly identify decorated methods as documentable members, but it's not doing so because the decorator changes the object's type or attributes.\n</think>\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1822,
+ "response_tokens": 342,
+ "elapsed_s": 1.04,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

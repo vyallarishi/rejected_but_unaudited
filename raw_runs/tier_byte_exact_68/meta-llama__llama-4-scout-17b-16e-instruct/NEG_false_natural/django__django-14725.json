@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4430,
+ "raw": "To solve this issue, let's analyze the provided information. The goal is to prevent new object creation in a model formset. The issue description mentions that using `extra=0` is not reliable because it only controls the number of extra forms displayed and does not prevent users from adding more forms through JavaScript or by sending additional POST data.\n\nThe key to solving this problem lies in understanding how model formsets handle the saving of new objects. The localization notes point out that the `save_new_objects` method is responsible for saving new objects when a formset is submitted. This method iterates over the extra forms and calls `self.save_new(form, commit=commit)` to create and save new model instances.\n\nGiven this information, the function that contains the fault, or more precisely, the function that needs to be modified to prevent new object creation, is `save_new_objects`. This method is directly involved in the creation and saving of new model instances when a formset is submitted.\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1058,
+ "response_tokens": 202,
+ "elapsed_s": 3.11,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

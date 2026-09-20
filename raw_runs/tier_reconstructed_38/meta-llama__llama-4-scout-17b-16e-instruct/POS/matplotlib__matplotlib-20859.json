@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6662,
+ "raw": " and Reasoning\n\nThe issue presented is related to adding a legend to a `SubFigure` in Matplotlib, which currently does not work as expected. The error message indicates that the `Legend` needs either an `Axes` or a `Figure` as its parent, but a `SubFigure` is provided instead.\n\nTo solve this issue, we need to identify the part of the code that checks the parent of the `Legend` and modify it to also accept a `SubFigure`. \n\nThe relevant code snippet is provided in the bug report, which points to the `__init__` method of the `Legend` class in `lib/matplotlib/legend.py`. Specifically, the check is performed at line 437 of the mentioned file.\n\n### Solution\n\nThe function that contains the fault is `__init__` in the `Legend` class.\n\nTo fix the issue, we need to modify the `__init__` method of the `Legend` class to accept a `SubFigure` as its parent. This can be achieved by changing the check to verify if the parent is an instance of `FigureBase` instead of specifically checking for `Axes` or `Figure`.\n\nHere is how you can modify the `__init__` method:\n\n```python\ndef __init__(\n    self, parent, handles, labels,\n    loc=None,\n    numpoints=None,      # number of points in the legend line\n    markerscale=None,    # relative size of legend markers vs. original\n    markerfirst=True,    # left/right ordering of legend marker and label\n    scatterpoints=None,  # number of scatter points\n    scatteryoffsets=None,\n    prop=None,           # properties for the legend texts\n    fontsize=None,       # keyword to set font size directly\n    labelcolor=None,     # keyword to set the text color\n\n    # spacing & pad defined as a fraction of the font-size\n    borderpad=None,      # whitespace inside the legend border\n    labelspacing=None,   # vertical space between the legend entries\n    handlelength=None,   # length of the legend handles\n    handleheight=None,   # height of the legend handles\n    handletextpad=None,  # pad between the legend handle and text\n    borderaxespad=None,  # pad between the axes and legend border\n    columnspacing=None,  # spacing between columns\n\n    ncol=1,     # number of columns\n    mode=None,  # horizontal distribution of columns: None or \"expand\"\n\n    fancybox=None,  # True: fancy box, False: rounded box, None: rcParam\n    shadow=None,\n    title=None,           # legend title\n    title_fontsize=None,  # legend title font size\n    framealpha=None,      # set frame alpha\n    edgecolor=None,       # frame patch edgecolor\n    facecolor=None,       # frame patch facecolor\n\n    bbox_to_anchor=None,  # bbox to which the legend will be anchored\n    bbox_transform=None,  # transform for the bbox\n    frameon=None,         # draw frame\n    handler_map=None,\n    title_fontproperties=None,  # properties for the legend title\n):\n    if not isinstance(parent, (Figure, Axes, SubFigure)):\n        raise TypeError(\"Legend needs either Axes, SubFigure or Figure as parent\")\n    # rest of your code...\n```\n\nHowever, `SubFigure` is not imported in `legend.py`. You might need to import it:\n\n```python\nfrom matplotlib.figure import Figure, SubFigure\n```\n\nAnd then use `SubFigure` in the `isinstance` check.\n\nFAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1703,
+ "response_tokens": 807,
+ "elapsed_s": 6.9,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

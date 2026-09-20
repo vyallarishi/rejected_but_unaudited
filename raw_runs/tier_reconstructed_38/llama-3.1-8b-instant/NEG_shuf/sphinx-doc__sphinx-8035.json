@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 12591,
+ "raw": "filter_members",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2951,
+ "response_tokens": 3,
+ "elapsed_s": 0.51,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "filter_members",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13158",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6910,
+ "raw": "FAULT: set_empty",
+ "reasoning": "We need to identify which function contains the fault causing QuerySet.none() on combined queries returns all results. The description: Using ModelMultipleChoiceField with a queryset that is a union of two querysets. When form submitted empty, all objects matching the queryset are added (i.e., the form's clean method probably uses queryset.none() to get empty set for validation?). Actually ModelMultipleChoiceField.clean() does something: if required and empty, returns empty list; else it validates that selected values are in queryset. It uses self.queryset.filter(pk__in=value_list) etc. If empty, it may call self.queryset.none() to get empty queryset for validation? Let's recall: In ModelMultipleChoiceField.clean, it does:\n\nif self.required and not value:\n    raise ValidationError...\nif not value:\n    return self.queryset.none()\nelse:\n    # ensure each pk is in queryset\n    qs = self.queryset.filter(pk__in=value)\n    # etc.\n\nThus when empty, it returns self.queryset.none(). For a union queryset, .none() should return empty queryset, but due to bug, it returns all results (i.e., the union's underlying query is not correctly set to empty). The .none() method is defined on QuerySet: returns self._clone().filter(pk__in=[]) maybe? Actually QuerySet.none() returns a clone with ._result_cache = [] and .query.where = EmptyWhere? Let's check: In Django, QuerySet.none() returns self._clone(klass=EmptyQuerySet) maybe? Actually there is a class EmptyQuerySet subclass of QuerySet that overrides iterator to return empty. But for combined queries (union), .none() may not work because .query is a CombinedQuery (maybe subclass of Query?). The .none() method likely calls self._clone().filter(pk__in=[]) which for CombinedQuery may not propagate correctly. The issue likely lies in Query.set_empty() which adds a NothingNode to where clause. For CombinedQuery, maybe set_empty doesn't propagate to combined query's subqueries. So the function containing the fault is set_empty.\n\nThus answer: set_empty.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1678,
+ "response_tokens": 452,
+ "elapsed_s": 1.57,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "set_empty",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

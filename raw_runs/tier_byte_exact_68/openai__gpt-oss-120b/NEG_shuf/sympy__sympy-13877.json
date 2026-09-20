@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-13877",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 10256,
+ "raw": "FAULT: _eval_det_bareiss",
+ "finish_reason": "stop",
+ "prompt_tokens": 2929,
+ "response_tokens": 246,
+ "elapsed_s": 1.13,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_eval_det_bareiss",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

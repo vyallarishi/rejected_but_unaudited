@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15561",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4933,
+ "raw": "To solve this issue, we need to understand the problem and then identify the function that contains the fault.\n\nThe issue states that the `AlterField` operation should be a no-op when adding/changing choices on SQLite. However, even a seemingly db-transparent change like adding choices still generates SQL (new table + insert + drop + rename) on SQLite, whereas on Postgres, the same migration generates no SQL.\n\nThe problem seems to be related to how Django handles changes to a field's choices. When the choices of a field are changed, Django should not generate any SQL if the change does not affect the database schema.\n\nAfter analyzing the provided code and the issue description, we can see that the function `_field_should_be_altered` is not the cause of the problem because it is not on the execution path for the reported symptom.\n\nThe fault is likely in the `alter_field` method or one of its called functions. Specifically, the function that checks if a field's properties have changed and if an `AlterField` operation is needed.\n\nUpon closer inspection, we can see that the function `skip_default_on_alter` is relevant to this issue. This function determines whether a field's default value should be skipped when altering the field.\n\nThe fault is in the `skip_default_on_alter` method. This method should return `True` for fields with `choices` or `null` set and no default value.\n\nFAULT: `skip_default_on_alter`",
+ "finish_reason": "stop",
+ "prompt_tokens": 1180,
+ "response_tokens": 293,
+ "elapsed_s": 1.21,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "skip_default_on_alter",
+ "parse_method": "fault_line",
+ "hit_output_cap": false,
+ "predicted_function_original": null,
+ "parse_method_original": "none"
+}

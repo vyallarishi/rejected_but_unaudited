@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 3503,
+ "raw": "FAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 846,
+ "response_tokens": 6,
+ "elapsed_s": 0.29,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

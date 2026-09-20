@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3027,
+ "raw": "clone",
+ "reasoning": "We need to identify which function contains the fault. The error occurs in sklearn.base.clone where it calls estimator.get_params(deep=False) but estimator is a class, not an instance, so get_params expects self. So the fault is in clone function, not handling class types. So answer: clone.",
+ "finish_reason": "stop",
+ "prompt_tokens": 797,
+ "response_tokens": 72,
+ "elapsed_s": 0.74,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

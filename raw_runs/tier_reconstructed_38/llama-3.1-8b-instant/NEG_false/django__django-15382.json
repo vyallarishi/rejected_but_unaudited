@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6133,
+ "raw": "FAULT: _add_q",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1482,
+ "response_tokens": 6,
+ "elapsed_s": 0.3,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

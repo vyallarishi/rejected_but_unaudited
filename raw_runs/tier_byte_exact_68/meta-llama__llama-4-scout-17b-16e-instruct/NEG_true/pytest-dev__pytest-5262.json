@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 9766,
+ "raw": "To solve this issue, we need to understand the problem and the code involved. The issue arises when `youtube-dl` logs to pytest's captured output. `youtube-dl` checks the `mode` attribute of the output stream to decide whether to write `bytes` or `str`. However, the `EncodedFile` class in `_pytest.capture` incorrectly advertises a mode that includes `b` (binary), which leads to `youtube-dl` writing `bytes` to the stream. This causes a `TypeError` because the `write` method of `EncodedFile` expects a string.\n\nThe key to solving this issue lies in the `EncodedFile` class, specifically in how it handles the `mode` attribute and the `write` method. \n\nThe `EncodedFile` class should not advertise a mode that includes `b` because it expects to write text, not bytes. \n\nHere is the solution:\n\n```\nFAULT: EncodedFile\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2357,
+ "response_tokens": 197,
+ "elapsed_s": 0.76,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "EncodedFile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

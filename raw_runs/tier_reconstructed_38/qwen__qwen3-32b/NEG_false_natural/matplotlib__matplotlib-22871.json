@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6084,
+ "raw": "FAULT: ConciseDateFormatter.format_ticks",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the bug where the year isn't shown when plotting less than 12 months and January isn't included. \n\nThe user provided a code example where they're plotting data from February 14, 2021, for 199 days. The x-axis labels are using ConciseDateFormatter, but the year isn't displayed in the offset when the time range is less than a year and doesn't include January.\n\nLooking at the code, the formatter is set up with ConciseDateFormatter, which is supposed to handle formatting dates concisely. The issue arises when the plotted data doesn't include January, so the formatter might not show the year because it's assuming the year is already known. But the user expects the year to be shown as an offset.\n\nThe key part here is the ConciseDateFormatter's behavior. The ConciseDateFormatter determines the level of detail based on the range of dates. If all the dates are within the same year, it might not display the year, assuming it's redundant. However, if the date range doesn't include the start of the year (like January), maybe the formatter isn't adding the offset.\n\nLooking at the functions listed, the ConciseDateFormatter's format_ticks method is mentioned in the localization notes. The notes say that in format_ticks, when the level is less than 2 (which would be months), it sets show_offset to False. That would prevent the offset (the year) from being displayed. \n\nSo, the problem is that when the date range is within a single year (level=1 for months), the show_offset is set to False, hence the year isn't shown. The ConciseDateFormatter's format_ticks function is responsible for determining whether to show the offset. Therefore, the fault lies in the ConciseDateFormatter's format_ticks method, specifically the condition that disables the offset when the level is less than 2.\n\nThe correct function to point out here is ConciseDateFormatter.format_ticks.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1658,
+ "response_tokens": 429,
+ "elapsed_s": 8.57,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

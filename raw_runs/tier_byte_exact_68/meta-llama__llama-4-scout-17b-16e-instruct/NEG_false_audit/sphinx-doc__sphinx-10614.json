@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5435,
+ "raw": "To solve this issue, we need to understand how the links in the SVG inheritance diagrams are generated and why they become incorrect when the diagram is created in a file that is not in the root directory.\n\nThe problem lies in how the `refuri` is handled in the `html_visit_inheritance_diagram` function. Specifically, the issue arises when constructing the link to be embedded in the SVG file. The current implementation prepends a static `../` to the `refuri`, which does not account for the actual directory structure of the documentation.\n\nGiven the description and analyzing the provided information, the fault seems to be in the `html_visit_inheritance_diagram` function. This function is responsible for handling the `inheritance_diagram` node during HTML builds. It checks if the `graphviz_output_format` is 'SVG' and then attempts to construct the links for the SVG diagram. The issue here is that it does not correctly handle the path for the links when the diagram is embedded in a non-root document.\n\nHere is the function that contains the fault:\n\n```\nFAULT: html_visit_inheritance_diagram\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1370,
+ "response_tokens": 227,
+ "elapsed_s": 0.91,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15572",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 3667,
+ "raw": "FAULT: template_changed",
+ "finish_reason": "stop",
+ "prompt_tokens": 881,
+ "response_tokens": 5,
+ "elapsed_s": 5.54,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "template_changed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 7761,
+ "raw": "dot",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2117,
+ "response_tokens": 2,
+ "elapsed_s": 0.51,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "dot",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

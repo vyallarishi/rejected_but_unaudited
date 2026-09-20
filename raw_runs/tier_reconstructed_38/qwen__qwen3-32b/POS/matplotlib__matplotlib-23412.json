@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 11003,
+ "raw": "FAULT: draw",
+ "reasoning": "\nOkay, let's try to figure out where the bug is. The user says that when they set a dashed linestyle with an offset on a patch object, the offset doesn't take effect. They provided example code using Rectangle patches where the offset is specified in the linestyle tuple, but the resulting lines overlap, implying the offset isn't applied. However, when using Line2D objects, the same code works as expected.\n\nFirst, I need to recall how Matplotlib handles linestyles and dashes. For Line2D, the linestyle can be a tuple (offset, (on_off_seq)), which controls the dash pattern. The problem seems to be specific to Patch objects like Rectangle.\n\nLooking at the code in patches.py, the user mentioned a comment in the draw method of the Patch class: \"# Patch has traditionally ignored the dashoffset.\" followed by code that sets the dash pattern's offset to 0. That seems like the key. \n\nThe Patch class's draw method is responsible for rendering the patch. If there's a line in there that's overriding the dash offset to 0, that would explain why the user's specified offset is ignored. The comment suggests that this is a long-standing behavior, but perhaps it's a bug that needs fixing.\n\nSo the faulty function is the draw method in the Patch class. The code in the draw method is modifying the dash pattern, setting the offset to 0 regardless of what the user specifies. That's why in the example, both rectangles with different offsets end up with the same dash pattern. The draw function is the one applying this override, so that's where the bug lies.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2931,
+ "response_tokens": 335,
+ "elapsed_s": 7.53,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

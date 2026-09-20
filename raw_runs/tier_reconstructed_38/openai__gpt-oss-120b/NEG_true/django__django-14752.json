@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5645,
+ "raw": "FAULT: get",
+ "reasoning": "We need to answer which function contains the fault. The issue is that AutocompleteJsonView.get hardcodes result serialization. So the function containing the fault is get. So output: FAULT: get.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1264,
+ "response_tokens": 54,
+ "elapsed_s": 0.83,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

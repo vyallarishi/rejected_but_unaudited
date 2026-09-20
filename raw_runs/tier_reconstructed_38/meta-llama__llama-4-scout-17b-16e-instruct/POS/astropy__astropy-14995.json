@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4210,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves a problem with mask propagation in the `NDDataRef` class when performing arithmetic operations. Specifically, when one of the operands does not have a mask, the mask propagation fails when using `handle_mask=np.bitwise_or`. This issue is not present in version 5.2 of the Astropy library but appears in version 5.3.\n\nTo solve this, let's analyze the provided code and the expected behavior. The expected behavior is that when one of the operands does not have a mask, the existing mask should be copied over to the output. \n\nLooking at the candidate functions provided, the `_arithmetic_mask` function seems relevant as it likely handles the mask propagation during arithmetic operations.\n\n### Solution\n\nThe fault lies in the `_arithmetic_mask` function. \n\nThe issue arises because when one operand does not have a mask (i.e., its mask is `None`), the `_arithmetic_mask` function does not handle this case properly when using `np.bitwise_or`. \n\nIn the case where one operand has a mask and the other does not, the function should return the mask of the operand that has a mask. However, the current implementation tries to perform the bitwise OR operation with `None`, which causes the error.\n\nTo fix this, the `_arithmetic_mask` function needs to be modified to handle the case where one of the operands does not have a mask.\n\nFAULT: _arithmetic_mask",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1176,
+ "response_tokens": 291,
+ "elapsed_s": 1.16,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

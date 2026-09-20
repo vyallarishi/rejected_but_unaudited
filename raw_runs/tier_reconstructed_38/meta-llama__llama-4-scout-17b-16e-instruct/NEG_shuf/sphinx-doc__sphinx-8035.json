@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 12591,
+ "raw": "FAULT: filter_members",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2908,
+ "response_tokens": 5,
+ "elapsed_s": 0.68,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

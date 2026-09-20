@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3820,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identify the source of the issue**: The problem arises from using a query expression for ordering during multi-table inheritance. Specifically, when `Meta.ordering` contains expressions, the `order_by()` function crashes.\n2. **Understand the stacktrace and error location**: The error occurs in the `get_order_by` function within `django/db/models/sql/compiler.py`. The issue arises because the `field` variable becomes an `OrderBy` object instead of a string, leading to an `AttributeError` when `get_order_dir` is called.\n3. **Analyze candidate functions**: The candidate functions are within the `SQLCompiler` class in `django/db/models/sql/compiler.py`. We need to identify which function is responsible for handling ordering and expressions.\n\n# Analysis of the SQLCompiler class:\n- The `get_order_by` function seems directly related to handling ordering. It populates the `ordering` list from `self.query.get_meta().ordering`, which can contain `OrderBy` objects.\n\n# Conclusion on the faulty function:\nGiven that `get_order_by` is where the `ordering` list is processed and where the `OrderBy` object causes an issue, and considering the description of how the error occurs, **the fault lies in how `get_order_by` handles `OrderBy` objects**.\n\nThe final answer is:\n```\nFAULT: get_order_by\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 877,
+ "response_tokens": 288,
+ "elapsed_s": 1.57,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

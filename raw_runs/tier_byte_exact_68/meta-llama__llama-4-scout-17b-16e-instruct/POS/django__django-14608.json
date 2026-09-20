@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2470,
+ "raw": "## Step 1: Analyze the problem description\nThe problem involves adding a `nonform` CSS class for non-form errors in FormSets. This is similar to how forms add the `nonfield` CSS class for non-field errors.\n\n## 2: Identify the relevant code\nThe issue seems to be related to how errors are handled in FormSets, specifically in the `BaseFormSet` class in `django/forms/formsets.py`.\n\n## 3: Locate the error handling code\nThe `full_clean` method in `BaseFormSet` is responsible for validating the formset. It calls `self._non_form_errors = self.error_class()`, which instantiates an `ErrorList` without specifying an `error_class` argument that includes the `nonform` CSS class.\n\n## 4: Determine the faulty function\nThe faulty function appears to be `full_clean` in `BaseFormSet`, but since we need to identify a specific function from the provided list that contains the fault, we should look for the function that directly relates to initializing or handling non-form errors.\n\n## 5: Identify the specific faulty function\nGiven that `self.error_class()` is used to instantiate `ErrorList` for non-form errors, and considering the list of functions provided, the function that directly deals with non-form errors and their error class is `non_form_errors`. However, the actual instantiation of `ErrorList` for non-form errors happens in `full_clean`, but the method that directly returns non-form errors and could potentially set the error class is `non_form_errors`. Yet, the key is where the `ErrorList` for non-form errors is created and used.\n\n## 6: Conclusion\nThe function `non_form_errors` is closely related but does not directly instantiate the `ErrorList`. The direct cause mentioned involves `full_clean`, but based on the task to select from the given list and understanding that the error class for non-form errors should be specified similarly to how `nonfield` is used in forms, we focus on where the error handling and classification occur.\n\nThe final answer is: \nFAULT: full_clean",
+ "finish_reason": "stop",
+ "prompt_tokens": 589,
+ "response_tokens": 431,
+ "elapsed_s": 1.5,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "full_clean",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

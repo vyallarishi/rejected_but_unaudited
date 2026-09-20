@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4966",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6234,
+ "raw": "FAULT: UnsignedIntegerCoder.decode",
+ "reasoning": "We need to identify which function contains the fault. The issue is handling of signed bytes from OPeNDAP via pydap. The code that checks _Unsigned attribute is in xarray's decode_cf_variable, which uses UnsignedIntegerCoder.decode. The function that checks attribute and dtype is likely UnsignedIntegerCoder.decode. The warning is from conventions.py line 492: \"variable 'test' has _Unsigned attribute but is not of integer type. Ignoring attribute.\" That warning likely comes from UnsignedIntegerCoder.decode. So the fault is in UnsignedIntegerCoder.decode. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: UnsignedIntegerCoder.decode.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1785,
+ "response_tokens": 175,
+ "elapsed_s": 0.93,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "decode",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 2986,
+ "raw": "FAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 692,
+ "response_tokens": 7,
+ "elapsed_s": 0.47,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

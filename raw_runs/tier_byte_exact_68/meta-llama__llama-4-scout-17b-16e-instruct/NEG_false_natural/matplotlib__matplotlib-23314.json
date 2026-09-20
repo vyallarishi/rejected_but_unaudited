@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-23314",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5134,
+ "raw": "## Step 1: Understanding the Issue\nThe issue reported is that the `set_visible()` function does not work as expected for 3D projections in matplotlib. Specifically, when `set_visible(False)` is called on a subplot with a 3D projection, the subplot remains visible.\n\n## Step2: Analyzing the Provided Code\nThe code provided for reproduction creates two subplots, both with 3D projections, and then sets the visibility of the first subplot to `False` using `ax1.set_visible(False)`. However, when the plot is displayed, both subplots are still visible.\n\n## Step3: Identifying the Relevant Functionality\nThe functionality of setting visibility for axes is typically handled by the `set_visible()` method. For 2D plots, this method works as expected. The issue seems to be specific to 3D plots.\n\n##4: Examining the Candidate Functions\nThe candidate functions are from `lib/mpl_toolkits/mplot3d/axes3d.py`, which defines the `Axes3D` class. This class inherits from `Axes` and overrides several methods to handle 3D plotting.\n\n##5: Localizing the Fault\nThe fault seems to be related to the drawing process of the 3D axes. The `draw` method in `Axes3D` is responsible for rendering the axes. Unlike the 2D axes, the 3D axes' `draw` method does not check for visibility before drawing.\n\n##6: Identifying the Faulty Function\nGiven that the `draw` method in `Axes3D` does not check `self.get_visible()` before proceeding to draw the axes, this method is the likely cause of the issue. The `draw` method should ideally check if the axes are visible before drawing them.\n\n##7: Conclusion\nBased on the analysis, the faulty function is `draw`.\n\nThe final answer is:\nFAULT: draw",
+ "finish_reason": "stop",
+ "prompt_tokens": 1434,
+ "response_tokens": 390,
+ "elapsed_s": 1.37,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

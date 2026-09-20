@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6148,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1506,
+ "response_tokens": 6,
+ "elapsed_s": 0.33,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

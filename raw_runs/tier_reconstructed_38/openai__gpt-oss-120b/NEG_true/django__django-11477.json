@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2651,
+ "raw": "FAULT: translate_url",
+ "reasoning": "We need to identify which function contains the fault causing translate_url() to create incorrect URL when optional named groups are missing. The description says translate_url receives a URL, calls resolve() to get ResolverMatch, then calls reverse() with kwargs that include optional groups with None values. The bug likely is that reverse() should drop kwargs with None values, but currently passes them, causing URL generation to include \"None\" or missing parts incorrectly. So the faulty function is reverse() (the core reverse function) because it doesn't filter out None values for optional named groups. However the description says candidate functions include reverse, resolve, translate_url, etc. The bug is in translate_url? It calls reverse with kwargs containing None; maybe translate_url should filter out None before calling reverse. But typical Django behavior: reverse should ignore kwargs that are None for optional groups. I'm not sure. Let's think: In Django's URL resolver, optional named groups are defined with regex like (?P<slug>[-\\w]+)? . When reverse is called with slug=None, it should omit that part. Does Django's reverse handle None? I think reverse will raise NoReverseMatch if required args missing, but for optional groups, passing None may cause it to treat as empty string? Not sure. The bug described: translate_url creates incorrect URL when optional named groups are missing. The cause: match.kwargs contains key with None, reverse uses that None and includes it as string \"None\" or fails. So the fix could be in translate_url to filter out None values before reverse. The description says \"translate_url: Yes, this function directly orchestrates the process that fails. 1. It receives a URL to translate. 2. It calls resolve() on the path, which returns a ResolverMatch object (match). 3. For a URL with a missing optional named group, match.kwargs will contain that group's name as a key with a None value. 4. The function then calls reverse() with these kwargs (reverse(..., kwargs=match\". The description cuts off but implies that reverse receives None values. So the fault is likely in translate_url not handling None values. The question: \"Which function contains the fault?\" The answer likely is translate_url. Because that's where the bug occurs: it passes None kwargs to reverse. So the function containing the fault is translate_url.",
+ "finish_reason": "stop",
+ "prompt_tokens": 627,
+ "response_tokens": 491,
+ "elapsed_s": 1.46,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "translate_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

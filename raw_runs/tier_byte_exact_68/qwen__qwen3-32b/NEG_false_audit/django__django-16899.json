@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4345,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue with the error message for readonly_fields not including the field name.\n\nThe user says that when subclassing ModelAdmin, the error message for readonly_fields mentions the index (like 'readonly_fields[0]') but not the actual field name. They want the error message to include the field name, similar to other fields like list_editable.\n\nLooking at the candidate functions, the relevant ones are probably in the BaseModelAdminChecks or ModelAdminChecks classes. The specific check for readonly_fields is likely in _check_readonly_fields or _check_readonly_fields_item.\n\nThe description mentions that other fields use functions like _check_field_spec_item, which might include the field name in the error. For example, _check_list_editable_item would reference the field name. \n\nThe problem is that for readonly_fields, the error doesn't include the field name. The function _check_readonly_fields_item is probably where the check happens. Let me check the structure. The _check_readonly_fields method might loop through the readonly_fields and call _check_readonly_fields_item for each. If in that item check, the error message is constructed using the index instead of the field name, that's the issue.\n\nWait, the user mentioned that the error message says \"the value of 'readonly_fields[0]' is not a callable...\" which includes the index. The desired change is to include the field name. So the function responsible for generating this message is probably _check_readonly_fields_item. If in that function, when an error is raised, it's using the index (like 0) instead of the actual field name, then that's where the fix is needed.\n\nLooking at the candidate functions, the _check_readonly_fields_item is part of BaseModelAdminChecks. The function must be generating an error without the field name. Comparing to other checks, like _check_list_editable_item, which would include the field name in the error message, the _check_readonly_fields_item might be missing that part.\n\nTherefore, the fault is in the _check_readonly_fields_item function. It should be generating an error message that includes the field name, but currently, it's using the index. So the correct function to modify is _check_readonly_fields_item to include the field name in the error message.\n</think>\n\nFAULT: _check_readonly_fields_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 1057,
+ "response_tokens": 491,
+ "elapsed_s": 1.27,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

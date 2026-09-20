@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3463,
+ "raw": "FAULT: UserCreationForm.save",
+ "reasoning": "We need to identify which function contains the fault: the issue is that UserCreationForm.save(commit=True) does not call self.save_m2m(), causing ManyToMany fields not saved. So the faulty function is UserCreationForm.save. The description says that save method omits calling self.save_m2m(). So answer: UserCreationForm.save.",
+ "finish_reason": "stop",
+ "prompt_tokens": 855,
+ "response_tokens": 87,
+ "elapsed_s": 0.65,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

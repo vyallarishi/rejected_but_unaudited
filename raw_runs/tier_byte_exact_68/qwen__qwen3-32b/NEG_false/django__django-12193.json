@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2838,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The issue is about SplitArrayField with BooleanField where checkboxes stay checked after the first True. The user provided a detailed description.\n\nSo, the SplitArrayField uses a SplitArrayWidget, which in turn uses CheckboxInput widgets for BooleanFields. The problem occurs when the initial data has a True value. Once the first True is processed, all subsequent checkboxes are checked even if their data is False. \n\nLooking at the localization notes, the key part is in SplitArrayWidget's get_context method. It creates a single final_attrs dictionary for all subwidgets. Then, in a loop, it calls self.widget.get_context (which is CheckboxInput's get_context) for each item, passing the same final_attrs each time. When CheckboxInput gets a True value, it adds 'checked': True to the attrs. But since all subsequent checkboxes use the same final_attrs, they inherit the checked attribute even if their value is False.\n\nSo the fault lies in how SplitArrayWidget's get_context is handling the attrs. It's reusing the same attrs dictionary for each widget, and since CheckboxInput modifies it in place, all subsequent widgets have that checked attribute. The correct approach would be to create a copy of the attrs for each widget to prevent modifications from affecting others.\n\nThe candidate functions listed include SplitArrayWidget's get_context. The other functions like SplitArrayField's methods or SimpleArrayField don't seem directly involved in rendering the widgets' context. Therefore, the fault is in SplitArrayWidget.get_context.\n</think>\n\nFAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 646,
+ "response_tokens": 328,
+ "elapsed_s": 1.01,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

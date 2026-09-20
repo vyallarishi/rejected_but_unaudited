@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6154,
+ "raw": "FAULT: format_ticks",
+ "reasoning": "We need to identify which function contains the fault causing ConciseDateFormatter not showing year offset when plotting <12 months and January not included. The description suggests bug in ConciseDateFormatter's logic for offset display. Likely in get_offset or format_ticks. The offset is shown when year changes across ticks. In this case year is same across all ticks, but offset should show year because it's not included in tick labels (since month/day only). The code likely decides to hide offset when level < 2 (i.e., less than month?). The description in the prompt includes a note: \"Localization notes: - format_ticks: Yes, a direct path exists. 1. The function receives tick values that span several months but are all within the same year. 2. It determines the formatting 'level' by finding the most significant time unit that changes across ticks, which in this case is 'months' (level=1). 3. It then encounters the condition `if level < 2: show_offset = False`. 4. Since `level` is 1, this condition evaluates to tr\". That suggests the bug is in format_ticks where show_offset is incorrectly set to False for level 1, causing year offset not shown. So the faulty function is ConciseDateFormatter.format_ticks. The list includes \"def format_ticks(self, values):\" under ConciseDateFormatter. So answer: format_ticks.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1710,
+ "response_tokens": 303,
+ "elapsed_s": 1.13,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

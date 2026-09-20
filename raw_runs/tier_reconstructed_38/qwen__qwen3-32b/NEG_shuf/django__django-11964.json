@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7776,
+ "raw": "FAULT: __init__",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is using Django's TextChoices with a CharField, but when they create an instance and access the field, it's returning the enum member instead of the string value. The test is failing because when they call str() on my_str_value, it's giving 'MyChoice.FIRST_CHOICE' instead of 'first'.\n\nSo, the issue is that when the model instance is created with MyChoice.FIRST_CHOICE, the field isn't converting it to the underlying string value. Instead, it's keeping the enum object. The problem must be in how Django handles the assignment of the enum value to the model field.\n\nLooking at the candidate functions, the localization notes mention that __init__ is involved. The note says that when creating the object, Model.__init__ is called, which does a raw assignment of the enum object to the attribute. It doesn't convert it to the primitive value. So, the __init__ method of the Model class is directly setting the enum instance as the attribute value, instead of extracting the actual string.\n\nIn Django, when you use choices with a field, you typically pass the actual value (like the string or integer), not the enum member. But when you pass the enum member (like MyChoice.FIRST_CHOICE), Django's model might not be converting it to the underlying value. The __init__ method is responsible for initializing the model's attributes. If it's just assigning the value directly without processing it, then the enum object remains, leading to the issue where str() returns the enum's name instead of the value.\n\nSo the fault is in the __init__ method of the Model class. It doesn't handle the conversion from the enum member to the actual string or integer value when the field is a CharField or IntegerField with choices. Therefore, the correct function is Model.__init__.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1765,
+ "response_tokens": 398,
+ "elapsed_s": 8.04,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

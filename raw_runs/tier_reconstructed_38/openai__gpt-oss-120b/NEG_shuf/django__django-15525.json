@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15525",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7271,
+ "raw": "FAULT: Deserializer",
+ "reasoning": "We need to identify which function contains the fault causing loaddata failure on non-default database when natural keys use foreign keys. The error occurs during deserialization: in base.build_instance, they call Model(**data).natural_key() which accesses self.author.natural_key() but author is not yet saved, causing a query to default DB? Actually using other DB, the Author does not exist yet, so natural_key call triggers a DB query to fetch author via FK, but author not saved yet. The issue is that natural_key method should not access related objects before they are saved. The bug is that build_instance uses Model(**data).natural_key() to compute natural key for dependencies, but for non-default DB, the related manager uses default DB? Actually the problem is that when constructing Model(**data) for Book, the foreign key field is set to a natural key list, not an actual Author instance, so accessing self.author triggers a DB lookup using default database (since no using parameter). The function that fails is in django/db/models/fields/related_descriptors.py __get__ which uses default manager (which uses default DB). But the question asks: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" The list includes functions in serializers/python.py, Serializer methods, Deserializer, _get_model. The fault likely is in base.build_instance (in django/core/serializers/base.py) but not listed. The list includes Deserializer, _get_model, and methods of Serializer. The issue is that build_instance uses Model(**data).natural_key() which triggers DB access before the object is saved. The bug is that natural_key method should not be called on unsaved instance. The function that contains the fault is base.build_instance, but not listed. However among listed, maybe Deserializer is where the error occurs. The error arises during deserialization, so the faulty function is Deserializer. So answer: FAULT: Deserializer.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1825,
+ "response_tokens": 424,
+ "elapsed_s": 1.45,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "Deserializer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

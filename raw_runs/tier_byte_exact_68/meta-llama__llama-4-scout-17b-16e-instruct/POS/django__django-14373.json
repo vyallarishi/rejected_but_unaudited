@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14373",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 1719,
+ "raw": "To solve this issue, we need to identify the function responsible for formatting the year with the 'Y' specifier in the `DateFormat` class. The problem statement points towards the `DateFormat.Y` method, suggesting that it does not zero-pad years less than 1000.\n\nUpon reviewing the provided information, the `DateFormat` class is mentioned with several methods, including `Y(self):`, which implies that this method is responsible for handling the 'Y' format specifier. The description of the issue indicates that the `Y` specifier is supposed to return a four-digit year padded with zeros, but it fails to do so for years less than 1000.\n\nGiven this information, the fault lies in the `Y(self)` method of the `DateFormat` class. This method should be modified to ensure that it returns a four-digit year, padding with zeros if necessary.\n\nFAULT: Y",
+ "finish_reason": "stop",
+ "prompt_tokens": 459,
+ "response_tokens": 185,
+ "elapsed_s": 0.63,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "Y",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

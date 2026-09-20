@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 9131,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves the `astropy` library, specifically the `Table.write` method when outputting to HTML format. The problem is that the `formats` argument, which is used to specify custom formatting for table columns, seems to be ignored when writing to HTML.\n\nTo approach this issue, let's analyze the provided information:\n\n1. **Expected Behavior**: The user expects the HTML table output to respect the formatting given by the `formats` argument.\n2. **Actual Behavior**: The `formats` argument seems to be ignored, and the output is not formatted as required.\n3. **Reproduction Steps**: The user provides code examples that demonstrate the issue. They show that writing to HTML format does not apply the specified formats, while writing to other formats like CSV or RST does.\n\nGiven this context, the task is to identify the function responsible for the fault. The hint provided includes a list of functions from `astropy/io/ascii/html.py` and some localization notes that point towards the `write` method in the `HTML` class.\n\n### Solution\n\nBased on the information provided and the process of elimination:\n\n- The `write` method in the `HTML` class seems to be the key point of interest because it's directly involved in writing the table to HTML format.\n- The localization notes specifically mention that the `HTML.write` method fails to call `self.data.format_columns(cols)`, which is crucial for applying the `formats` and creating string representations of the data.\n\nTherefore, the function that contains the fault is likely the `write` method within the `HTML` class in `astropy/io/ascii/html.py`.\n\n### FAULT\n\n```\nwrite\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2306,
+ "response_tokens": 345,
+ "elapsed_s": 1.55,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "write",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

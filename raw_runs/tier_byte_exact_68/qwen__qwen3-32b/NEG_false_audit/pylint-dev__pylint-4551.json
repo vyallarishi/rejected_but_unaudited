@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4551",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2177,
+ "raw": "<think>\nOkay, let's try to figure out which function in the provided list is responsible for the issue where pyreverse isn't reading Python type hints. The user provided a code example where a class has an __init__ method with a type hint for parameter 'a' as a string. However, when using pyreverse, the generated UML doesn't show the type information, and they want to see something like 'a: String'.\n\nFirst, I need to recall how pyreverse works. Pyreverse parses Python code and generates UML diagrams. It uses the astroid library to analyze the code structure. The problem here is that the type hints aren't being picked up, especially in the case where a default value is None, which might be confusing the parser.\n\nLooking at the candidate functions listed, they are all part of the pyreverse/diadefslib.py module. The key functions here are probably related to visiting and processing class definitions and their methods. The DefaultDiadefGenerator has a visit_classdef method, which would handle class definitions. That seems like a good candidate because that's where the class structure is processed, including method parameters.\n\nAnother possibility is the visit_project or visit_module methods, but those are higher-level and might not deal with individual method parameters. The show_node or add_class functions might be involved in rendering the nodes, but if the data isn't collected correctly during the visit_classdef, then those functions wouldn't have the type information to display.\n\nThe visit_classdef method is responsible for traversing the class nodes and extracting information. If it's not extracting the type hints from the parameters, then the generated diagram wouldn't show them. The issue might be that when processing the __init__ method's parameters, the code isn't looking at the type annotations. For example, in the code example, the parameter 'a' has a type hint of 'str', but if visit_classdef isn't collecting that, it wouldn't be included in the output.\n\nAdditionally, the problem with 'None' as a default value might be a red herring, but perhaps the code is having trouble distinguishing between the default value and the type hint. However, the core issue is that the type hints aren't being read at all. So the function responsible would be the one that processes the class and its attributes/methods, which is likely visit_classdef in DefaultDiadefGenerator.\n\nTherefore, the FAULT is probably in the visit_classdef function of the DefaultDiadefGenerator class.\n</think>\n\nFAULT: visit_classdef",
+ "finish_reason": "stop",
+ "prompt_tokens": 620,
+ "response_tokens": 516,
+ "elapsed_s": 1.45,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "visit_classdef",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

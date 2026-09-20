@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 1533,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when a user changes their email, the password reset token generated before the change is still valid. The description says that the fix is to include the user's email in the _make_hash_value method of the PasswordResetTokenGenerator class.\n\nSo, the main issue is that the hash value used to generate the token doesn't include the email address. When the email changes, the hash should change, but since the email isn't part of it, the old token's hash still matches. \n\nLooking at the functions listed, the _make_hash_value is responsible for creating the data that's hashed. If the email isn't included there, then changing the email won't affect the hash. Therefore, the fault lies in this function because it's not including the email in the hash value. The other functions like make_token or check_token might use this helper method. So the correct function to modify is _make_hash_value to add the email into the data being hashed. That way, when the email changes, the hash generated later will be different, invalidating old tokens.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 343,
+ "response_tokens": 244,
+ "elapsed_s": 5.46,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

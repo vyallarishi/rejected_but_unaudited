@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8084,
+ "raw": "FAULT: RenameModel.reduce",
+ "reasoning": "We need to identify which function contains the fault causing RenameModel with db_table defined to be a noop, but currently optimizer doesn't treat it as noop, leading to unnecessary operations (dropping/recreating constraints). The description says: \"RenameModel operation that already has db_table defined must be a noop. In Postgres, it drops and recreates foreign key constraints. In sqlite it recreates the table (as expected for a table renaming).\" The issue is about optimization: RenameModel should be a noop when db_table is defined (i.e., the model's table name is explicitly set, so renaming model doesn't affect DB table). The optimizer likely checks in Reduce method of RenameModel? The function that decides whether operation is a noop is probably RenameModel.reduce. In migrations, reduce merges operations; for RenameModel, if db_table is set, it should be a noop. So the fault is in RenameModel.reduce. The list includes rename model functions: __init__, old_name_lower, new_name_lower, deconstruct, state_forwards, database_forwards, database_backwards, references_model, describe, migration_name_fragment, reduce. The bug is about optimization, which is in reduce method. So answer: RenameModel.reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1848,
+ "response_tokens": 264,
+ "elapsed_s": 1.2,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

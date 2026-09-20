@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-9367",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 2556,
+ "raw": "FAULT: visit_Tuple",
+ "finish_reason": "stop",
+ "prompt_tokens": 790,
+ "response_tokens": 76,
+ "elapsed_s": 0.64,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "visit_Tuple",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7189,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The problem is that `TemplateView.get_context_data()`'s `kwargs` returns `SimpleLazyObjects` that cause a crash when filtering. This issue arises because the `SimpleLazyObject` is not resolved when used as a parameter in `get_object_or_404`.\n\nThe error occurs in the `get_object_or_404` function when it tries to query the database using the `slug` parameter. The `slug` parameter is a `SimpleLazyObject` which is not directly usable in the database query.\n\nUpon analyzing the code, we can see that the issue lies in the `process_rhs` method of the `Exact` class in `django/db/models/lookups.py`. This method is called when an `Exact` lookup is performed, and it is responsible for processing the right-hand side of the lookup.\n\nThe `process_rhs` method in `Exact` class does not resolve the `SimpleLazyObject` before passing it to the database query. This causes the error when the database query is executed.\n\nTo fix this issue, we need to resolve the `SimpleLazyObject` before passing it to the database query. We can do this by converting the `SimpleLazyObject` to a string using the `str()` function.\n\nThe function that contains the fault is:\n```\nFAULT: process_rhs\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1674,
+ "response_tokens": 283,
+ "elapsed_s": 3.86,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "process_rhs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

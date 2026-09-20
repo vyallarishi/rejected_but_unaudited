@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4417,
+ "raw": "FAULT: save",
+ "reasoning": "\nOkay, let's see. The problem is that when using UserCreationForm with a custom User model that has ManyToManyFields, the data from those fields isn't being saved. The user mentioned that the save method in UserCreationForm doesn't call self.save_m2m(), unlike ModelForm. \n\nSo, I need to look at the UserCreationForm's save method. In Django's ModelForm, when you call save(), it handles the m2m fields by calling save_m2m(). But in UserCreationForm, maybe they overridden the save method and forgot to include that part.\n\nLooking at the code structure provided, the UserCreationForm has a save method. The description says that in the current implementation, after saving the user instance, they don't call save_m2m. So the fault is in the save method of UserCreationForm. The candidate functions list includes the save method of UserCreationForm. \n\nThe localization notes also mention that the save method is where the problem occurs. The steps outline that after saving the user with commit=True, the save_m2m isn't called. Therefore, the correct function to fix is the save method in UserCreationForm. The answer should be the save function of UserCreationForm.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 985,
+ "response_tokens": 258,
+ "elapsed_s": 5.55,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

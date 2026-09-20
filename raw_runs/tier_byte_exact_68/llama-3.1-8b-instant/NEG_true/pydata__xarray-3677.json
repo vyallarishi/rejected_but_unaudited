@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-3677",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 6251,
+ "raw": "FAULT: coerce_pandas_values",
+ "finish_reason": "stop",
+ "prompt_tokens": 1704,
+ "response_tokens": 7,
+ "elapsed_s": 10.54,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "coerce_pandas_values",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

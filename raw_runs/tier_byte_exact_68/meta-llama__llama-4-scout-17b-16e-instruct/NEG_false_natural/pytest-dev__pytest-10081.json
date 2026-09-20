@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4979,
+ "raw": "To solve this issue, we need to identify the function responsible for the faulty behavior when running `pytest --pdb` with a `unittest.TestCase` class marked with `@unittest.skip`. \n\nThe problem arises because when `pytest --pdb` is used, the test is run with the default pytest runner, which calls `item.setup()`. This setup method is `TestCaseFunction.setup`, which fails to check for class-level skips and incorrectly runs `setUp` and sets `self._explicit_tearDown`. \n\nAs a result, when the test is skipped, the `tearDown` method is still executed. To fix this, we need to modify the `setup` method in `TestCaseFunction` to check for class-level skips.\n\nThe function that contains the fault is:\nFAULT: _make_xunit_fixture \n\nMore specifically, the issue lies in the `setup` method of the `TestCaseFunction` class, which is created by the `_make_xunit_fixture` function.\n\nHere is the corrected code:\n\n```python\nclass TestCaseFunction(Function):\n    # ...\n\n    def setup(self) -> None:\n        if hasattr(self, \"_explicit_setup\"):\n            self._explicit_setup()\n        # Check if the test class or method is skipped\n        if _is_skipped(self):\n            pytest.skip(self._get_skip_reason())\n\n    # ...\n```\n\nHowever, a more accurate fix involves modifying the `_make_xunit_fixture` function to handle class-level skips:\n\n```python\ndef _make_xunit_fixture(cls, fixture_name):\n    # ...\n\n    class TestCaseFunction(Function):\n        # ...\n\n        def setup(self) -> None:\n            if hasattr(self, \"_explicit_setup\"):\n                self._explicit_setup()\n            test_func = self.runtest\n            if test_func is None:\n                # unittest.TestCase methods can be marked with @unittest.skip\n                skip_reason = _get_skip_reason(self)\n                if skip_reason is not None:\n                    pytest.skip(skip_reason)\n\n        # ...\n```\n\nWith this modification, the `setup` method checks if the test class or method is skipped and skips the test if necessary, preventing the `tearDown` method from being executed. \n\nTherefore, the corrected function name is `_make_xunit_fixture`. \n\nHowever in this specific case, based on provided information:\nFAULT: _make_xunit_fixture",
+ "finish_reason": "stop",
+ "prompt_tokens": 1249,
+ "response_tokens": 489,
+ "elapsed_s": 1.53,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_make_xunit_fixture",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

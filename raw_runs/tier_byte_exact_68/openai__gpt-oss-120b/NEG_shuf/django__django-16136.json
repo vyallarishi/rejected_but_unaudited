@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16136",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5219,
+ "raw": "FAULT: dispatch",
+ "finish_reason": "stop",
+ "prompt_tokens": 1375,
+ "response_tokens": 765,
+ "elapsed_s": 2.1,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dispatch",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

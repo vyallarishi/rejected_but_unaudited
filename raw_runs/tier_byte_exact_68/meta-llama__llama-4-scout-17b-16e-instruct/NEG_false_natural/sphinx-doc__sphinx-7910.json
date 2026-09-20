@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6856,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identify the root cause**: The issue arises when the `__init__` method of a class is decorated. Even though the decorator preserves the docstring, Sphinx fails to recognize it as a method and does not document it properly.\n2. **Understand the role of `can_document_member`**: This function determines whether a member (in this case, the decorated `__init__` method) can be documented. It checks if the member is a routine using `inspect.isroutine`.\n3. **Locate the fault**: The problem occurs because `inspect.isroutine` returns `False` for the decorated `__init__` method. This causes `can_document_member` to return `False`, and Sphinx chooses a fallback documenter (`InstanceAttributeDocumenter`) that does not handle documenting `__init__` methods correctly.\n\n# Fixed solution:\nThe actual fix involves changing the `can_document_member` function to correctly identify decorated methods. However, based on the given information and without direct access to modify the Sphinx source code, we can point to the function that needs adjustment.\n\n# Explanation of changes:\n- The adjustment involves modifying the `can_document_member` function to properly handle decorated methods, ensuring that `inspect.isroutine` or similar checks correctly identify such methods.\n\n# Tests and example uses:\nTesting this fix would involve verifying that decorated `__init__` methods are correctly documented in Sphinx-generated documentation.\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1800,
+ "response_tokens": 303,
+ "elapsed_s": 1.22,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

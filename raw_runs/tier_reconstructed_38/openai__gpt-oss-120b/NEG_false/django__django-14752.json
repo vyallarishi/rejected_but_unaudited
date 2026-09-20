@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3746,
+ "raw": "FAULT: get",
+ "reasoning": "We need to answer which function contains the fault. The issue is that AutocompleteJsonView.get constructs the results list directly, lacking extension point. So the fault is in get method. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: get.",
+ "finish_reason": "stop",
+ "prompt_tokens": 898,
+ "response_tokens": 89,
+ "elapsed_s": 0.75,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

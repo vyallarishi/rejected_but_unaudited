@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 4218,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 998,
+ "response_tokens": 6,
+ "elapsed_s": 1.39,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

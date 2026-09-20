@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6700,
+ "raw": "### Thought Process and Reasoning\n\nThe bug report describes an issue where calling `ax.clear()` on subplots with shared axes causes ticks and tick labels to appear that should be hidden. The expected behavior is that the ticks and tick labels should remain hidden.\n\nThe code provided in the bug report uses `plt.subplots(2, 2, sharex=True, sharey=True)` to create subplots with shared axes. It then iterates over each subplot, calls `ax.clear()`, and plots a function.\n\nThe bug is introduced in matplotlib 3.4.2, where `ax.clear()` causes the ticks and tick labels to appear on the interior subplots.\n\n### Analysis of the Code\n\nThe `ax.clear()` function calls `ax.cla()`, which in turn calls `self.xaxis.clear()` and `self.yaxis.clear()`. The `Axis.clear()` function resets the axis properties to their defaults, including formatters and ticks.\n\nFor shared axes, this reset removes the `NullFormatter` that was hiding tick labels on interior axes. The removal of the formatter causes the tick labels to become visible again.\n\n### Solution\n\nTo fix this bug, we need to modify the `Axis.clear()` function to check if the axis is a shared axis and if so, reset the formatter to `NullFormatter` if it is an interior axis.\n\nThe fault is in the `Axis.clear()` function.\n\n### FAULT\n\n```\nclear\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1710,
+ "response_tokens": 291,
+ "elapsed_s": 1.36,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clear",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

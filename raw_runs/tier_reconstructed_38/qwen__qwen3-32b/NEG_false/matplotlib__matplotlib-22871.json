@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5997,
+ "raw": "FAULT: ConciseDateFormatter.format_ticks",
+ "reasoning": "\nOkay, let's try to figure out where the bug is. The user is saying that when they plot data over less than a year and January isn't included, the year doesn't show up in the offset. The example code uses ConciseDateFormatter, and the issue is different from a previous bug fixed in #21785.\n\nFirst, I need to understand how ConciseDateFormatter works. From the code provided, the formatter is supposed to show the year in the offset if needed. The problem arises when the time range is less than 12 months and doesn't include January. The expected outcome is to have the year displayed as an offset, but it's missing.\n\nLooking at the code in the ConciseDateFormatter class, specifically the format_ticks method. The user mentioned that in their localization notes, the format_ticks function has a condition where if the level is less than 2, show_offset is set to False. The level is determined based on the most significant time unit that changes across the ticks. For example, if the ticks are varying by months (level=1), then level < 2 would be true, so show_offset becomes False. That would prevent the offset (the year) from being displayed.\n\nBut why is the offset not shown when the time range is under a year? The ConciseDateFormatter is supposed to show the offset when there's a common prefix or suffix. For example, if all dates are in 2021, it should show \"2021\" as an offset. However, if the level is determined as 1 (months), then the code in format_ticks sets show_offset to False. That seems incorrect because even if the ticks are monthly, if they all fall within the same year, the offset should still show the year.\n\nSo the problem is in how the level is calculated and how it affects the show_offset flag. The level is determined by checking which unit (year, month, day, etc.) changes across the ticks. If the ticks are all in the same year but different months, the level would be 1 (months). The current code in format_ticks checks if level < 2 (so if it's months or lower), then disables the offset. But the offset should still show the year in this case.\n\nTherefore, the fault lies in the format_ticks method of the ConciseDateFormatter. The condition that sets show_offset to False when level < 2 is incorrect. The offset should be shown when all dates share a common year, regardless of the level being months. The logic here is flawed because it's preventing the year offset from appearing when the time range is within a single year but spans multiple months.\n\nSo the function that contains the fault is ConciseDateFormatter.format_ticks.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1643,
+ "response_tokens": 576,
+ "elapsed_s": 11.96,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

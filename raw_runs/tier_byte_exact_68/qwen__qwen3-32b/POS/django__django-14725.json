@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4276,
+ "raw": "<think>\nOkay, let's try to figure out which function is responsible for the issue where model formsets allow new object creation even when extra=0 is set. The problem is that users want an \"edit only\" view, but using extra=0 isn't reliable because JavaScript can add more forms or POST data can include extra ones.\n\nLooking at the candidate functions, the key part is about preventing new objects. The description mentions that when a user submits a formset with extra forms intended to be new, save_new_objects is called. That function loops through extra_forms and saves new instances. So if the formset is supposed to be edit-only, this function should not be allowing new objects.\n\nThe question is, which function should be modified to prevent this? The save_new_objects function is the one that actually creates new objects. So if we can override or modify this function to not save new objects when certain conditions are met (like when the formset is in edit-only mode), that would fix the issue. But how do we determine when to do that?\n\nAlternatively, maybe the problem is that the formset allows extra forms. The BaseModelFormSet has an extra attribute. If we could set a flag to disallow any extra forms, even if they are submitted, then save_new_objects wouldn't process them. But how is that enforced?\n\nWait, the issue is that even with extra=0, users can add more forms via JavaScript. So the formset's extra parameter controls how many empty forms are displayed, but doesn't restrict the number of forms that can be submitted. Therefore, to truly prevent new objects, the formset needs to not save any new objects, regardless of how many forms are submitted.\n\nIn that case, the function responsible for saving new objects is save_new_objects. If we can make sure that this function doesn't save any new objects, that would solve the problem. So the fault lies in save_new_objects because it's the one that creates new instances. The solution would involve overriding this method in a custom formset to prevent new object creation.\n\nTherefore, the answer should be save_new_objects.\n</think>\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1024,
+ "response_tokens": 437,
+ "elapsed_s": 1.34,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6371,
+ "raw": "FAULT: Exact.process_rhs",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that in Django 3.1, the `offer_slug` from `kwargs` is a `SimpleLazyObject`, which causes a crash when used in `get_object_or_404`. The user has to convert it to a string explicitly to make it work. The error is about an unsupported type when binding parameters.\n\nLooking at the candidate functions, the key is to find where the RHS (right-hand side) of a lookup is processed. The `SimpleLazyObject` isn't being resolved, so the function responsible for processing the RHS value should handle converting it to the correct type.\n\nIn the list, the `Exact` class's `process_rhs` method stands out. The `Exact` lookup is used in `get_object_or_404` when filtering with `slug=offer_slug`. The `process_rhs` method in `Exact` is supposed to prepare the RHS value for the database. If it doesn't resolve the lazy object, that could cause the error.\n\nThe `process_rhs` method in `Exact` inherits from `FieldGetDbPrepValueMixin`, which has methods like `get_db_prep_lookup`. If the `process_rhs` doesn't force evaluation of the lazy object, the database backend would receive it and fail. The `process_rhs` in `Exact` calls `super().process_rhs()`, which might be from `FieldGetDbPrepValueMixin`. If that doesn't handle lazy objects, then the problem is there. But looking at the candidate functions, the `process_rhs` in `Exact` is a candidate because it's directly involved in processing the RHS value for an exact match lookup.\n\nAnother possibility is the `process_rhs` in `FieldGetDbPrepValueMixin`, but since the user's code is using `Exact`, which is a specific lookup, the `Exact.process_rhs` is more directly involved here. So the fault is likely in `Exact.process_rhs` not handling the lazy object.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1527,
+ "response_tokens": 426,
+ "elapsed_s": 5.01,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "process_rhs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

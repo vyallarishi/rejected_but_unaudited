@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 4855,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1223,
+ "response_tokens": 6,
+ "elapsed_s": 10.46,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

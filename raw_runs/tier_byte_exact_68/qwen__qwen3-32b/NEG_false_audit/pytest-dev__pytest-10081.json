@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5028,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that when they run pytest with --pdb, the tearDown method of a unittest.TestCase class that's marked with unittest.skip is being executed, even though the test is skipped. Normally, without --pdb, it's skipped correctly. \n\nSo, the key here is understanding the difference between running with and without --pdb. When using --pdb, pytest enters the debugger on errors. But in this case, the error is happening because tearDown is being called even when the test is skipped.\n\nLooking at the minimal example, the test class is decorated with @unittest.skip, which should skip all test methods in that class. The setup and teardown methods are part of the unittest.TestCase, so normally, if the test is skipped, setUp and tearDown shouldn't run. But with --pdb, they do.\n\nThe user mentioned that this is similar to a previous issue (#7215) but with class-level skip instead of function-level. In that case, the problem was in the setup method of the TestCaseFunction. Let's check the functions listed in the candidate list.\n\nThe candidate functions include TestCaseFunction's setup and teardown methods. The user's analysis suggests that the setup method is not checking for class-level skips, leading to the setup (and thus the later teardown) being called. \n\nIn the unittest plugin's code, the TestCaseFunction.setup method is responsible for setting up the test, which includes calling the setUp method. If the test is skipped at the class level, this setup should not be done. However, if the setup is being called, then the teardown will also be triggered because the _explicit_tearDown flag is set.\n\nLooking at the candidate functions, the setup method in TestCaseFunction is a likely candidate. If setup is called without checking if the test is skipped, then it would run setUp, and then the teardown would be called later. \n\nThe user's localization notes indicate that the setup method in TestCaseFunction is the problem. The setup method doesn't check for class-level skips, leading to the setup (and thus the teardown) being executed. Therefore, the fault is in the setup method of the TestCaseFunction class.\n\nSo the answer should be the setup function in the TestCaseFunction class.\n</think>\n\nFAULT: setup",
+ "finish_reason": "stop",
+ "prompt_tokens": 1250,
+ "response_tokens": 467,
+ "elapsed_s": 1.35,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "setup",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

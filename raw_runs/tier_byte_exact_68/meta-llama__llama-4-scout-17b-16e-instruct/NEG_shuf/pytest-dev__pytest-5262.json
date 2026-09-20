@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 9372,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The error occurs when `youtube-dl` logs to pytest's captured output. The issue arises because `_pytest.capture.EncodedFile` mode includes `b` (binary), which `youtube-dl` uses to decide whether to write `bytes` or `str`.\n\nThe problem lies in the `EncodedFile` class in `src/_pytest/capture.py`. This class is used to capture output and encode it. However, its `mode` attribute is not properly set, causing `youtube-dl` to incorrectly assume it's dealing with a binary stream.\n\nThe solution involves setting the `mode` attribute of the `EncodedFile` instance to a string that does not contain `b`, indicating it's a text stream. This can be achieved by adding a `mode` attribute to the `EncodedFile` class's `__init__` method.\n\nHere's the corrected code:\n\n```python\nclass EncodedFile(object):\n    def __init__(self, buffer, encoding):\n        self.buffer = buffer\n        self.encoding = encoding\n        self.mode = 'w'  # Set mode to 'w' (text mode)\n\n    # Rest of the class remains the same\n```\n\nBy setting `self.mode` to `'w'`, we ensure that `youtube-dl` writes `str` instead of `bytes`, preventing the `TypeError` exception.\n\nThe faulty function is `EncodedFile.__init__`, which does not set the `mode` attribute correctly.\n\nFAULT: EncodedFile.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 2263,
+ "response_tokens": 321,
+ "elapsed_s": 1.13,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

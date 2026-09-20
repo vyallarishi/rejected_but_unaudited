@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6274,
+ "raw": "### Thought Process and Reasoning\n\nThe issue described is related to the generation of SVG inheritance diagrams using the `sphinx.ext.inheritance_diagram` plugin. The problem arises when the diagram is created in a file that is not in the root directory, resulting in links that lead to a 404 page. This issue does not occur when the diagram is generated in the default PNG mode.\n\nTo identify the faulty function, we need to analyze the provided information and the code structure of the `sphinx.ext.inheritance_diagram` plugin. The key to solving this issue lies in understanding how the links in the SVG file are generated and why they become relative to the wrong directory.\n\nThe `html_visit_inheritance_diagram` function is a crucial point of investigation because it is involved in the HTML build process and handles the generation of SVG files. This function is responsible for visiting an `inheritance_diagram` node during an HTML build, confirming the `graphviz_output_format` is 'SVG', and generating the links for the SVG file.\n\nGiven the description of the issue, it seems that the problem lies in how the `refuri` (a reference URI) is handled within the `html_visit_inheritance_diagram` function. Specifically, the function incorrectly prepends a static `../` to the `refuri`, which results in a broken path when the SVG file is embedded in a non-root directory.\n\n### Solution\n\nBased on the analysis, the faulty function is:\n\n```\nFAULT: html_visit_inheritance_diagram\n```\n\nThis function contains the fault because it incorrectly handles the generation of links for SVG inheritance diagrams when they are not in the root directory. The fix involves adjusting how the `refuri` is processed to ensure that the links in the SVG file are correctly relative to the SVG file's location, not the location of the HTML document that embeds the SVG. \n\nThe adjustment would likely involve using the correct path to the SVG file or adjusting the base URI used for resolving the links within the SVG, ensuring that the links are correctly generated regardless of the directory in which the SVG is embedded. \n\nHere's a conceptual example of how the fix might look, assuming `node` represents the current node, `refuri` is the reference URI to be adjusted, and `builder` provides context for the build process:\n\n```python\ndef html_visit_inheritance_diagram(self: HTML5Translator, node: inheritance_diagram) -> None:\n    # ... existing code ...\n\n    # Adjust refuri to be relative to the current document's directory\n    # or the SVG file's location, whichever is appropriate.\n    refuri = node['refuri']\n    if refuri:\n        # Calculate the correct path based on the builder and node\n        correct_path = self.builder.get_relative_uri(node['filename'], refuri)\n        # Update the link in the SVG file\n        node['refuri'] = correct_path\n\n    # ... existing code ...\n```\n\nThis example is simplified and based on the understanding of the issue; the actual implementation may vary depending on the specifics of the Sphinx plugin and its internals.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1553,
+ "response_tokens": 628,
+ "elapsed_s": 1.98,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

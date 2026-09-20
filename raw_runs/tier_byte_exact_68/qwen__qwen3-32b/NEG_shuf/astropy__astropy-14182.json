@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3632,
+ "raw": "<think>\nOkay, let's try to figure out where the issue is here. The user is asking about supporting header rows in the RestructuredText (RST) output when using Astropy's QTable. The problem arises when they try to use the 'header_rows' parameter with the 'ascii.rst' format, which results in a TypeError because the RST writer doesn't accept that argument.\n\nLooking at the traceback, the error occurs in the __init__ method of the RST class in astropy/io/ascii/rst.py. The error message says that RST.__init__() got an unexpected keyword argument 'header_rows'. This suggests that when the writer is initialized, it's being passed 'header_rows', but the __init__ method doesn't have a parameter for that.\n\nIn Astropy's ASCII IO module, different writers handle headers. The 'header_rows' parameter is supported by some writers like 'fixed_width', but not by 'rst'. The RST class probably doesn't have the logic to handle additional header rows beyond the default ones. The __init__ method of the RST writer is where the parameters for writing are set up. If 'header_rows' isn't a parameter there, then the writer can't process it, leading to the TypeError.\n\nThe candidate functions mentioned include the RST class's __init__ method. Since the error is about an unexpected keyword argument, the __init__ method of the RST class is likely missing the 'header_rows' parameter. Therefore, the fault lies in the RST class's __init__ method not being designed to accept 'header_rows', which is required to support the user's request for additional header rows in RST output.\n</think>\n\nFAULT: RST.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 949,
+ "response_tokens": 357,
+ "elapsed_s": 1.05,
+ "key_suffix": "A11SkB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

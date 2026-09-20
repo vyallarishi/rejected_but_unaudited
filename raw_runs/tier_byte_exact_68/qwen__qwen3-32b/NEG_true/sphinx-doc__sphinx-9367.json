@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-9367",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3433,
+ "raw": "<think>\nOkay, let's see. The problem is about a 1-element tuple being rendered without the trailing comma. The user says that (1,) is rendered as (1) instead of keeping the comma. \n\nLooking at the code, the relevant function would be the one that handles tuples. In the list of functions provided, there's a visit_Tuple function. The localization notes mention that visit_Tuple is where the issue is. \n\nSo, the visit_Tuple method in the _UnparseVisitor class is responsible for converting an AST Tuple node into a string. The problem arises when there's only one element. The code checks if node.elts is not empty, then joins them with commas. But when there's only one element, the join results in just that element without a comma. For example, ['1'] becomes '1', so the output is (1) instead of (1,).\n\nThe fix would need to ensure that even with a single element, the trailing comma is present. That probably means checking if there's exactly one element and adding a comma after it. So the fault is in the visit_Tuple function.\n</think>\n\nFAULT: visit_Tuple",
+ "finish_reason": "stop",
+ "prompt_tokens": 940,
+ "response_tokens": 240,
+ "elapsed_s": 0.8,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "visit_Tuple",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

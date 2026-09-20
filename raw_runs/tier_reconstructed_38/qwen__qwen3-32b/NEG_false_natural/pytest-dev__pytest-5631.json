@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3742,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The user mentioned that the error occurs when using pytest 3.6.0 with a patch that has a numpy array as the 'new' argument. The traceback points to the line in _pytest/compat.py where they check if p.new is in sentinels. The problem is that numpy arrays don't play well with the 'in' operator here because it returns a boolean array instead of a single boolean, leading to a ValueError.\n\nLooking at the candidate functions listed, the one directly involved is num_mock_patch_args. The error happens in the list comprehension within this function. The code is trying to count the number of mock patch arguments by checking if p.new is in sentinels. But when p.new is a numpy array, the 'in' check causes an ambiguity because the array has multiple elements. So the condition 'p.new in sentinels' is problematic here. The function num_mock_patch_args is iterating over patchings and applying this check, which triggers the error.\n\nThe user also mentioned that the issue was introduced by a specific commit related to mock patches. The code in num_mock_patch_args is trying to determine if the patch's new value is a sentinel. However, with numpy arrays, the 'in' operation isn't working as intended. Therefore, the fault lies in how num_mock_patch_args handles the check for sentinels when the new value is a numpy array. The function doesn't account for the fact that numpy arrays can't be used in a boolean context like that. So the correct answer is num_mock_patch_args.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1014,
+ "response_tokens": 341,
+ "elapsed_s": 5.32,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

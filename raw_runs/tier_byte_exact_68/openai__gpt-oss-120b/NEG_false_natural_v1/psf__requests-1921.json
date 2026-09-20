@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 3010,
+ "raw": "FAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 762,
+ "response_tokens": 81,
+ "elapsed_s": 0.64,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

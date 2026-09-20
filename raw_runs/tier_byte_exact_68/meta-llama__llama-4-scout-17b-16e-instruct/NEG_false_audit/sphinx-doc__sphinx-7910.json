@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6905,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. The problem lies in the fact that a decorated `__init__` method is not being documented correctly. \n\nThe issue arises because the `can_document_member` function returns `False` for a decorated method, causing the `MethodDocumenter` to not be selected. As a result, the `InstanceAttributeDocumenter` is chosen, which does not handle documenting `__init__` methods correctly.\n\nThe `can_document_member` function checks if a member can be documented. It uses `inspect.isroutine(member)` to check if the member is a routine. However, when the method is decorated, `inspect.isroutine(member)` returns `False`, causing the function to return `False`.\n\nThe fault lies in the `can_document_member` function, which is defined in the `Documenter` class.\n\nFAULT: can_document_member",
+ "finish_reason": "stop",
+ "prompt_tokens": 1808,
+ "response_tokens": 184,
+ "elapsed_s": 0.94,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "can_document_member",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

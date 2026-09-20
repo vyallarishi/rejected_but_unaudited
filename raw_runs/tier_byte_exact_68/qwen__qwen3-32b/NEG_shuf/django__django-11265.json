@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11265",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 9538,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when they use exclude on a queryset that has an annotated FilteredRelation, they get a FieldError because the annotation name 'book_alice' isn't recognized. \n\nFrom the description, the issue seems to be in the split_exclude function. The localization notes mention that split_exclude creates a new query object without the original annotations. So when it tries to add a filter on 'book_alice', which was an annotation in the original query, the new query doesn't have that annotation anymore. That's why the FieldError occurs\u2014it can't find 'book_alice' as a field.\n\nLooking at the split_exclude function's role: when you call exclude(), Django might split the query into a subquery. The split_exclude function is responsible for creating this subquery. But in doing so, it's not carrying over the annotations from the original query. The new Query object created in split_exclude doesn't include the 'book_alice' annotation, so when it tries to reference it, it fails.\n\nThe key part here is that the split_exclude function is supposed to handle the exclusion, but it's not preserving the necessary annotations. The function creates a new query without the annotations, leading to the FieldError when trying to access the annotated field.\n\nSo the fault lies in the split_exclude function because it's not properly handling the annotations when creating the new query for the exclusion.\n</think>\n\nFAULT: split_exclude",
+ "finish_reason": "stop",
+ "prompt_tokens": 2421,
+ "response_tokens": 307,
+ "elapsed_s": 0.97,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "split_exclude",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

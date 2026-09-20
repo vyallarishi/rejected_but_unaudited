@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6654,
+ "raw": "FAULT: CreateModel.reduce",
+ "reasoning": "We need to identify which function contains the fault. The description: \"During migration optimization, CreateModel + AlterModelOptions is reduced to just CreateModel, with the model options. Similarly, CreateModel + AlterModelManagers can become just CreateModel.\"\n\nCandidate functions: likely the reduce method of CreateModel class. In that method, there are elif blocks for DeleteModel, RenameModel, AlterModelOptions, but missing AlterModelManagers. So the fault is in CreateModel.reduce.\n\nThus answer: CreateModel.reduce. Provide as \"CreateModel.reduce\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 1542,
+ "response_tokens": 125,
+ "elapsed_s": 0.9,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

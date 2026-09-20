@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3660,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using a custom admin site and a readonly ForeignKey field, the generated URL uses the default admin path instead of the custom one. The user mentioned that the issue is in the get_admin_url method of the AdminReadonlyField class.\n\nFrom the description, the get_admin_url function is called to create a link to the related object. The problem arises because when reversing the URL, the current_app parameter isn't provided. The current_app is necessary to tell Django which admin site's namespace to use. In a custom admin site, the namespace isn't 'admin' but whatever the custom site is named. Without current_app, reverse() defaults to the default admin namespace, leading to the wrong URL.\n\nThe user fixed this by adding current_app=self.model_admin.admin_site.name to the reverse call. That makes sense because it specifies the correct namespace for the custom admin site. The question is whether this change has any side effects. Since other parts of the admin use current_app, like ModelAdmin's response_add method, it's likely that including it here is the correct approach.\n\nLooking at the candidate functions, the get_admin_url method is part of AdminReadonlyField. The other functions listed are part of various admin helper classes, but the specific method in question is get_admin_url. The user's fix targets this method directly. Therefore, the fault lies in the get_admin_url function not passing the current_app parameter, which is necessary for custom admin sites.\n</think>\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 847,
+ "response_tokens": 322,
+ "elapsed_s": 0.93,
+ "key_suffix": "AG0xGb",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

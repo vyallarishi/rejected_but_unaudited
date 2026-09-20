@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 2314,
+ "raw": "FAULT: RST",
+ "finish_reason": "stop",
+ "prompt_tokens": 659,
+ "response_tokens": 5,
+ "elapsed_s": 0.28,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "RST",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-20438",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5604,
+ "raw": "FAULT: _eval_simplify",
+ "finish_reason": "stop",
+ "prompt_tokens": 1611,
+ "response_tokens": 429,
+ "elapsed_s": 1.4,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_eval_simplify",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

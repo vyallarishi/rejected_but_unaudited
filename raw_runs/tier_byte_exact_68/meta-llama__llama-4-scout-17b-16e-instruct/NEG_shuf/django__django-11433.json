@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11433",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6175,
+ "raw": "To solve this issue, we need to understand the problem and the code involved. The problem is that when submitting a form, if a field isn't in the data payload (e.g., it wasn't included in the form), and that field has a default value on the model, it cannot be overwritten with `self.cleaned_data`. This is because the logic of `construct_instance` only considers fields present in the original submission, not all fields in `cleaned_data`.\n\nThe function `construct_instance` is defined in `django/forms/models.py`. This function is used to construct a model instance from a form's data. The issue arises because it does not consider fields that are present in `cleaned_data` but not in the original form data.\n\nHere's how we can approach this:\n\n1. **Understanding `construct_instance`:** This function takes a form and an instance, and it updates the instance with data from the form. It iterates over the form's fields and sets the corresponding attributes on the instance.\n\n2. **Identifying the issue:** The problem is that `construct_instance` ignores fields that are not present in the form's initial data but are present in `cleaned_data`. This means if a field has a default value on the model and is not included in the form data, it cannot be overridden by a value added to `cleaned_data` in the form's `clean` method.\n\n3. **Proposed solution:** The solution involves modifying `construct_instance` to consider all fields in `cleaned_data`, not just those present in the form's initial data.\n\nGiven the analysis, the function that contains the fault is:\n\nFAULT: construct_instance",
+ "finish_reason": "stop",
+ "prompt_tokens": 1461,
+ "response_tokens": 334,
+ "elapsed_s": 1.29,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "construct_instance",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

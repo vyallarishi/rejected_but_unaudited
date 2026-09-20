@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 9004,
+ "raw": "FAULT: _convert_data_to_col",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2211,
+ "response_tokens": 8,
+ "elapsed_s": 2.32,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_convert_data_to_col",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

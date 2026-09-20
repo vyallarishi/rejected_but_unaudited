@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 1769,
+ "raw": "FAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 484,
+ "response_tokens": 119,
+ "elapsed_s": 0.74,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

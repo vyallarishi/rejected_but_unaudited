@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 11622,
+ "raw": "<think>\nOkay, let's try to figure out which function is responsible for the issue described. The problem is that when there's an error in the readonly_fields of a ModelAdmin subclass, the error message doesn't include the field name. The user wants the error message to include the field name, similar to how other fields like list_editable do.\n\nLooking at the provided list of functions, the relevant ones are probably in the checks for ModelAdmin. The candidate functions include various check functions in django/contrib/admin/checks.py. The user mentioned that the error message for readonly_fields refers to the index (like 'readonly_fields[0]') but not the field name. They want to include the field name in the error message.\n\nThe functions related to readonly_fields checks would be _check_readonly_fields and _check_readonly_fields_item. The BaseModelAdminChecks class has these methods. The _check_readonly_fields_item is likely the one that checks each individual field in readonly_fields. \n\nIn the example given for list_editable, the error message includes the field name because functions like _check_list_editable_item use a format that includes the field's value. So, if _check_readonly_fields_item is not including the field name in its error message, that's the problem. \n\nThe user's localization notes mention that _check_readonly_fields_item is part of the path. So, the fault is probably in this function. The function probably constructs the error message without including the field name, whereas other checks like _check_list_editable_item include it. Therefore, the _check_readonly_fields_item function is the one that needs to be modified to include the field name in the error message.\n</think>\n\nFAULT: _check_readonly_fields_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 2476,
+ "response_tokens": 355,
+ "elapsed_s": 1.05,
+ "key_suffix": "15GW3E",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

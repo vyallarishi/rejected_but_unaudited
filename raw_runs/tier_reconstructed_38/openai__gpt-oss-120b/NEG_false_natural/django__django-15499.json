@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6815,
+ "raw": "FAULT: CreateModel.reduce",
+ "reasoning": "We need to identify which function contains the fault. The description: \"During migration optimization, CreateModel + AlterModelOptions is reduced to just CreateModel, with the model options. Similarly, CreateModel + AlterModelManagers can become just CreateModel.\"\n\nCandidate functions list includes many. The localization notes say: \"reduce: Yes, a path exists. The migration optimizer calls this method with a `CreateModel` operation and a subsequent `AlterModelManagers` operation. The code contains `elif` blocks to handle combining with `DeleteModel`, `RenameModel`, and `AlterModelOptions`. However, it is missing a corresponding `elif isinstance(operation, AlterModelManagers)` block. Because no condition matches, the function returns,\"\n\nThus the fault is in the `reduce` method of `CreateModel` class (or maybe ModelOperation?). The description says \"the migration optimizer calls this method with a CreateModel operation and a subsequent AlterModelManagers operation.\" The code contains `elif` blocks to handle combining with DeleteModel, RenameModel, and AlterModelOptions. Missing block for AlterModelManagers. So the function containing the fault is `CreateModel.reduce`. The list includes `def reduce(self, operation, app_label):` under class CreateModel. So answer: CreateModel.reduce.\n\nThus output: FAULT: CreateModel.reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1577,
+ "response_tokens": 283,
+ "elapsed_s": 1.2,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

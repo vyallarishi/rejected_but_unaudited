@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 15148,
+ "raw": "FAULT: format_signature",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3553,
+ "response_tokens": 5,
+ "elapsed_s": 0.63,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-8898",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7244,
+ "raw": "FAULT: _regexp_csv_transfomer",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is saying that when they use a regex with a comma in the bad-name-rgxs configuration option, Pylint crashes. The issue seems to be that Pylint is splitting the regex on commas, which isn't correct because commas can be part of a valid regex, like in {1,3} for repetition.\n\nLooking at the configuration example, they have bad-name-rgxs = \"(foo{1,3})\". The problem is that the comma inside the regex is causing it to split incorrectly. The traceback shows that the _regexp_csv_transfomer is trying to compile each part after splitting, but since it's split into invalid regex parts, it fails.\n\nThe user mentioned that _regexp_csv_transfomer calls _csv_transformer, which splits the string on commas. That makes sense because CSV transformers usually split on commas. But in this case, the regex contains a comma that's part of a quantifier, so splitting on it is wrong. \n\nSo the fault is in the _regexp_csv_transfomer function because it's using a CSV transformer which splits the input on commas, thereby breaking regex patterns that contain commas. The function should not split on commas if they are part of the regex syntax. Instead, it should treat the entire string as a single regex pattern. The splitting logic is incorrect here, leading to invalid regex parts being compiled.\n\nTherefore, the function responsible for the fault is _regexp_csv_transfomer.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1931,
+ "response_tokens": 321,
+ "elapsed_s": 6.74,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_regexp_csv_transfomer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

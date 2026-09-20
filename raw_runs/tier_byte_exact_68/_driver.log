@@ -1,0 +1,262 @@
+=== Step 4 driver started Sun Jul 12 23:20:33 IST 2026 ===
+--- 23:20:33 model=openai/gpt-oss-120b arm=POS ---
+[openai/gpt-oss-120b/POS] done=10 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=20 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=30 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=40 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=50 skip=0 err=0
+[openai/gpt-oss-120b/POS] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/POS]: done=68 skipped=0 errored=0
+--- 23:23:38 model=openai/gpt-oss-120b arm=NEG_true ---
+[openai/gpt-oss-120b/NEG_true] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=30 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=40 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=50 skip=0 err=0
+[openai/gpt-oss-120b/NEG_true] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_true]: done=68 skipped=0 errored=0
+--- 09:20:20 model=openai/gpt-oss-120b arm=NEG_false ---
+[openai/gpt-oss-120b/NEG_false] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=30 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=40 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=50 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false]: done=68 skipped=0 errored=0
+--- 09:23:24 model=openai/gpt-oss-120b arm=NEG_shuf ---
+[openai/gpt-oss-120b/NEG_shuf] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=30 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=40 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=50 skip=0 err=0
+[openai/gpt-oss-120b/NEG_shuf] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_shuf]: done=68 skipped=0 errored=0
+--- 09:25:33 model=openai/gpt-oss-120b arm=NEG_false_audit ---
+[openai/gpt-oss-120b/NEG_false_audit] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=30 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=40 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=50 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_audit] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false_audit]: done=68 skipped=0 errored=0
+--- 09:27:23 model=openai/gpt-oss-120b arm=NEG_false_natural ---
+[openai/gpt-oss-120b/NEG_false_natural] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=30 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=40 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=50 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false_natural]: done=68 skipped=0 errored=0
+--- 09:29:10 model=qwen/qwen3-32b arm=POS ---
+[qwen/qwen3-32b/POS] done=10 skip=0 err=0
+[qwen/qwen3-32b/POS] done=20 skip=0 err=0
+[qwen/qwen3-32b/POS] done=30 skip=0 err=0
+[qwen/qwen3-32b/POS] done=40 skip=0 err=0
+[qwen/qwen3-32b/POS] done=50 skip=0 err=0
+[qwen/qwen3-32b/POS] done=60 skip=0 err=0
+DONE [qwen/qwen3-32b/POS]: done=68 skipped=0 errored=0
+--- 09:33:52 model=qwen/qwen3-32b arm=NEG_true ---
+[qwen/qwen3-32b/NEG_true] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=30 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=40 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=50 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=60 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_true]: done=68 skipped=0 errored=0
+--- 09:39:40 model=qwen/qwen3-32b arm=NEG_false ---
+[qwen/qwen3-32b/NEG_false] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=30 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=40 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=50 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=60 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_false]: done=68 skipped=0 errored=0
+--- 09:44:27 model=qwen/qwen3-32b arm=NEG_shuf ---
+=== Step 4 driver started Mon Jul 13 09:52:16 IST 2026 ===
+--- 09:52:16 model=openai/gpt-oss-120b arm=POS ---
+DONE [openai/gpt-oss-120b/POS]: done=0 skipped=68 errored=0
+--- 09:52:18 model=openai/gpt-oss-120b arm=NEG_true ---
+DONE [openai/gpt-oss-120b/NEG_true]: done=0 skipped=68 errored=0
+--- 09:52:19 model=openai/gpt-oss-120b arm=NEG_false ---
+DONE [openai/gpt-oss-120b/NEG_false]: done=0 skipped=68 errored=0
+--- 09:52:20 model=openai/gpt-oss-120b arm=NEG_shuf ---
+DONE [openai/gpt-oss-120b/NEG_shuf]: done=0 skipped=68 errored=0
+--- 09:52:22 model=openai/gpt-oss-120b arm=NEG_false_audit ---
+DONE [openai/gpt-oss-120b/NEG_false_audit]: done=0 skipped=68 errored=0
+--- 09:52:23 model=openai/gpt-oss-120b arm=NEG_false_natural ---
+[openai/gpt-oss-120b/NEG_false_natural] done=10 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=20 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=30 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=40 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=50 skip=0 err=0
+[openai/gpt-oss-120b/NEG_false_natural] done=60 skip=0 err=0
+DONE [openai/gpt-oss-120b/NEG_false_natural]: done=68 skipped=0 errored=0
+--- 09:55:31 model=qwen/qwen3-32b arm=POS ---
+DONE [qwen/qwen3-32b/POS]: done=0 skipped=68 errored=0
+--- 09:55:32 model=qwen/qwen3-32b arm=NEG_true ---
+DONE [qwen/qwen3-32b/NEG_true]: done=0 skipped=68 errored=0
+--- 09:55:33 model=qwen/qwen3-32b arm=NEG_false ---
+DONE [qwen/qwen3-32b/NEG_false]: done=0 skipped=68 errored=0
+--- 09:55:35 model=qwen/qwen3-32b arm=NEG_shuf ---
+DONE [qwen/qwen3-32b/NEG_shuf]: done=7 skipped=61 errored=0
+--- 09:55:57 model=qwen/qwen3-32b arm=NEG_false_audit ---
+[qwen/qwen3-32b/NEG_false_audit] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=30 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=40 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=50 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=60 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_false_audit]: done=68 skipped=0 errored=0
+--- 10:01:16 model=qwen/qwen3-32b arm=NEG_false_natural ---
+[qwen/qwen3-32b/NEG_false_natural] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=30 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=40 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=50 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=60 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_false_natural]: done=68 skipped=0 errored=0
+--- 10:06:43 model=meta-llama/llama-4-scout-17b-16e-instruct arm=POS ---
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=10 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=20 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=30 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=40 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=50 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/POS] done=60 skip=0 err=0
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/POS]: done=68 skipped=0 errored=0
+--- 10:08:05 model=meta-llama/llama-4-scout-17b-16e-instruct arm=NEG_true ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=10 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=20 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=30 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=40 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=50 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_true] done=60 skip=0 err=0
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_true]: done=68 skipped=0 errored=0
+--- 10:09:21 model=meta-llama/llama-4-scout-17b-16e-instruct arm=NEG_false ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=10 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=20 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=30 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=40 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=50 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false] done=60 skip=0 err=0
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_false]: done=68 skipped=0 errored=0
+--- 10:10:46 model=meta-llama/llama-4-scout-17b-16e-instruct arm=NEG_shuf ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf] done=10 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf] done=20 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf] done=30 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf] done=40 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf] done=50 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf] done=60 skip=0 err=0
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_shuf]: done=68 skipped=0 errored=0
+--- 10:12:10 model=meta-llama/llama-4-scout-17b-16e-instruct arm=NEG_false_audit ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit] done=10 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit] done=20 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit] done=30 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit] done=40 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit] done=50 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit] done=60 skip=0 err=0
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_audit]: done=68 skipped=0 errored=0
+--- 10:13:42 model=meta-llama/llama-4-scout-17b-16e-instruct arm=NEG_false_natural ---
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural] done=10 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural] done=20 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural] done=30 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural] done=40 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural] done=50 skip=0 err=0
+[meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural] done=60 skip=0 err=0
+DONE [meta-llama/llama-4-scout-17b-16e-instruct/NEG_false_natural]: done=68 skipped=0 errored=0
+--- 10:15:16 model=llama-3.1-8b-instant arm=POS ---
+[llama-3.1-8b-instant/POS] done=10 skip=0 err=0
+[llama-3.1-8b-instant/POS] done=20 skip=0 err=0
+[llama-3.1-8b-instant/POS] done=30 skip=0 err=0
+[llama-3.1-8b-instant/POS] done=40 skip=0 err=0
+[llama-3.1-8b-instant/POS] done=50 skip=0 err=0
+[llama-3.1-8b-instant/POS] done=60 skip=0 err=0
+DONE [llama-3.1-8b-instant/POS]: done=68 skipped=0 errored=0
+--- 10:16:42 model=llama-3.1-8b-instant arm=NEG_true ---
+[llama-3.1-8b-instant/NEG_true] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=30 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=40 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=50 skip=0 err=0
+[llama-3.1-8b-instant/NEG_true] done=60 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_true]: done=68 skipped=0 errored=0
+--- 10:19:04 model=llama-3.1-8b-instant arm=NEG_false ---
+[llama-3.1-8b-instant/NEG_false] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=30 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=40 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=50 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false] done=60 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_false]: done=68 skipped=0 errored=0
+--- 10:20:48 model=llama-3.1-8b-instant arm=NEG_shuf ---
+[llama-3.1-8b-instant/NEG_shuf] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=30 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=40 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=50 skip=0 err=0
+[llama-3.1-8b-instant/NEG_shuf] done=60 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_shuf]: done=68 skipped=0 errored=0
+--- 10:22:54 model=llama-3.1-8b-instant arm=NEG_false_audit ---
+[llama-3.1-8b-instant/NEG_false_audit] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=30 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=40 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=50 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_audit] done=60 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_false_audit]: done=68 skipped=0 errored=0
+--- 10:24:40 model=llama-3.1-8b-instant arm=NEG_false_natural ---
+[llama-3.1-8b-instant/NEG_false_natural] done=10 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=20 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=30 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=40 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=50 skip=0 err=0
+[llama-3.1-8b-instant/NEG_false_natural] done=60 skip=0 err=0
+DONE [llama-3.1-8b-instant/NEG_false_natural]: done=68 skipped=0 errored=0
+--- 10:26:26 model=llama-3.3-70b-versatile arm=POS ---
+[llama-3.3-70b-versatile/POS] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=30 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=40 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=50 skip=0 err=0
+[llama-3.3-70b-versatile/POS] done=60 skip=0 err=0
+DONE [llama-3.3-70b-versatile/POS]: done=68 skipped=0 errored=0
+--- 10:27:09 model=llama-3.3-70b-versatile arm=NEG_true ---
+[llama-3.3-70b-versatile/NEG_true] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=30 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=40 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=50 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_true] done=60 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_true]: done=68 skipped=0 errored=0
+--- 10:28:20 model=llama-3.3-70b-versatile arm=NEG_false ---
+[llama-3.3-70b-versatile/NEG_false] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=30 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=40 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=50 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false] done=60 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_false]: done=68 skipped=0 errored=0
+--- 10:29:12 model=llama-3.3-70b-versatile arm=NEG_shuf ---
+[llama-3.3-70b-versatile/NEG_shuf] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=30 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=40 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=50 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_shuf] done=60 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_shuf]: done=68 skipped=0 errored=0
+--- 10:30:19 model=llama-3.3-70b-versatile arm=NEG_false_audit ---
+[llama-3.3-70b-versatile/NEG_false_audit] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=30 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=40 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=50 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_audit] done=60 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_false_audit]: done=68 skipped=0 errored=0
+--- 10:31:11 model=llama-3.3-70b-versatile arm=NEG_false_natural ---
+[llama-3.3-70b-versatile/NEG_false_natural] done=10 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=20 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=30 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=40 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=50 skip=0 err=0
+[llama-3.3-70b-versatile/NEG_false_natural] done=60 skip=0 err=0
+DONE [llama-3.3-70b-versatile/NEG_false_natural]: done=68 skipped=0 errored=0
+=== Step 4 driver finished Mon Jul 13 10:32:02 IST 2026 ===

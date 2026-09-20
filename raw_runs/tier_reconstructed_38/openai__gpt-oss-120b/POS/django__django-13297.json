@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6119,
+ "raw": "FAULT: get_db_prep_lookup",
+ "reasoning": "We need to identify which function contains the fault causing SimpleLazyObject not being resolved. The issue occurs when get_object_or_404 uses slug=offer_slug where offer_slug is SimpleLazyObject. The lookup chain: Exact.lookup's process_rhs likely uses get_db_prep_lookup etc. The SimpleLazyObject should be resolved by get_db_prep_lookup? Actually SimpleLazyObject is a proxy that resolves when used as string, but maybe the lookup's get_prep_lookup doesn't call force_text. The function that fails is in django/db/models/lookups.py: class Exact(FieldGetDbPrepValueMixin, BuiltinLookup): def process_rhs(self, compiler, connection): ... It probably passes the SimpleLazyObject unchanged. So the fault is in Exact.process_rhs. So answer: Exact.process_rhs. The function name from list: process_rhs (but need specific class?). The list includes many functions; we need one function name. Probably \"process_rhs\". But they ask: Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>. So we output \"process_rhs\". Could also be \"FieldGetDbPrepValueMixin.get_db_prep_lookup\". But the issue is that SimpleLazyObject not resolved before DB prep. The Exact.lookup's process_rhs calls super().process_rhs which goes to BuiltinLookup.process_rhs which may call get_db_prep_lookup. Actually BuiltinLookup.process_rhs does: return self.lhs.process_lhs... Not sure. I think the bug is in FieldGetDbPrepValueMixin.get_db_prep_lookup which doesn't resolve lazy objects. But the description says SimpleLazyObject is passed as RHS and not resolved. The get_db_prep_lookup is called by FieldGetDbPrepValueMixin.get_db_prep_lookup. That method likely expects a value and calls get_prep_lookup. It may not resolve lazy. So the fault is in get_db_prep_lookup. The list includes \"FieldGetDbPrepValueMixin.get_db_prep_lookup\". That seems plausible. The error occurs when quoting parameters for SQLite; the param is SimpleLazyObject, causing unsupported type. The conversion to string resolves it earlier. So the function that should resolve but doesn't is get_db_prep_lookup. So answer that.\n\nThus: FAULT: get_db_prep_lookup.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1527,
+ "response_tokens": 490,
+ "elapsed_s": 1.53,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_db_prep_lookup",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

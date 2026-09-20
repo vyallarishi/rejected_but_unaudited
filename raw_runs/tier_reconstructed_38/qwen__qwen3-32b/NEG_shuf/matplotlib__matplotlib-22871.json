@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7540,
+ "raw": "FAULT: ConciseDateFormatter.format_ticks",
+ "reasoning": "Okay, let's try to figure out which function is causing this bug. The problem is that when plotting less than a year's data and January isn't included, the year doesn't show up in the offset. The user provided a code example where the x-axis dates start in February 2021 and go for about 6 months. The ConciseDateFormatter isn't showing the year in the offset, which is expected.\n\nLooking at the code, the formatter is set up with ConciseDateFormatter. The issue seems to be related to how the formatter determines when to show the offset (the year in this case). \n\nIn the additional information, there's a mention of the format_ticks function. The notes say that format_ticks receives values spanning several months but all within the same year. It determines the formatting level, which in this case is 'months' (level=1). Then there's a condition: if level < 2, show_offset is set to False. Since level is 1, this condition is true, so show_offset becomes False. That would prevent the offset (year) from being displayed.\n\nSo the problem is in the format_ticks method of the ConciseDateFormatter. The logic here decides whether to show the offset based on the level. If the level is less than 2 (which includes months and maybe days?), it disables the offset. But when all the ticks are within the same year, even if they don't include January, the offset (year) should still be shown. The current logic is suppressing it because the level is 1 (months), which is considered less significant than level 2 (years). \n\nTherefore, the fault lies in the format_ticks function's condition that disables the offset when the level is less than 2. This function is part of the ConciseDateFormatter class. So the answer should be ConciseDateFormatter.format_ticks.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2004,
+ "response_tokens": 398,
+ "elapsed_s": 1.29,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

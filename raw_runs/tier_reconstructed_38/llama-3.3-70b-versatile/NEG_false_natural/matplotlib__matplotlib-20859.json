@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 6823,
+ "raw": "FAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1672,
+ "response_tokens": 6,
+ "elapsed_s": 0.31,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

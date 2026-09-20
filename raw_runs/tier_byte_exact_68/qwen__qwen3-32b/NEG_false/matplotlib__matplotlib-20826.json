@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5800,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that when using ax.clear() on shared axes in matplotlib 3.4.2, it adds extra ticks and un-hides tick labels that should be hidden. The user mentioned that this is a regression between 3.4.1 and 3.4.2.\n\nFirst, I need to understand what ax.clear() does. From what I remember, ax.clear() is equivalent to calling ax.cla(), which stands for \"clear axis\". The cla() method is responsible for resetting the axis properties. Looking at the code provided, the Axis class has a clear() method. The user's localization notes say that ax.clear() calls ax.cla(), which in turn calls self.xaxis.clear() and self.yaxis.clear(). The Axis.clear() method is resetting properties to defaults, including formatters and ticks. \n\nIn shared axes setups, some axes have their formatters set to NullFormatter to hide the tick labels (like the ones in the middle). When clear() is called, it seems to reset the formatter back to the default, which is not NullFormatter, hence the tick labels become visible again. The key here is that the clear() method of the Axis is causing the formatter to be reset, which breaks the shared axis formatting.\n\nLooking at the code for the Axis class's clear() method, it probably resets the major and minor formatters. In the case of shared axes, after the first plot, the non-bottom and non-left axes have their formatters set to NullFormatter. But when clear() is called, it's overwriting those formatters, removing the NullFormatter, so the labels are shown again.\n\nThe candidate function here is the clear() method in the Axis class. The problem arises because when you call ax.clear(), it triggers the Axis.clear() which resets the formatters. The fix would involve ensuring that the Axis.clear() doesn't reset the formatters if they were previously set (like NullFormatter in shared axes cases). \n\nSo the fault lies in the clear() method of the Axis class because it's resetting the formatters and tick parameters, which breaks the shared axis configuration.\n</think>\n\nFAULT: Axis.clear",
+ "finish_reason": "stop",
+ "prompt_tokens": 1572,
+ "response_tokens": 454,
+ "elapsed_s": 1.37,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

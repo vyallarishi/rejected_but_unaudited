@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3373,
+ "raw": "To solve this issue, we need to understand the problem and then identify the function that contains the fault.\n\nThe problem arises when the `python-neutronclient` passes a byte string `method=b'GET'` to `requests`. In `requests`, the `Session.request` calls `prepare_request`, which calls `PreparedRequest.prepare`, and then `prepare_method(b'GET')`. The issue is in the `prepare_method` function where it executes the line `self.method = builtin_str(self.method).upper()`.\n\nIn Python 3, `builtin_str` is an alias for `str`, and `str(b'GET')` evaluates to the literal string `\"b'GET'\"`. This string is then uppercased to `\"B'GET'\"` and stored as the request's method. The subsequent HTTP request is sent with the malformed method `\"B'GET'\"`, resulting in a 404 Not Found response.\n\nThe fault lies in the `prepare_method` function in `requests/models.py`. This function is responsible for preparing the method for the request. The line `self.method = builtin_str(self.method).upper()` is the source of the problem.\n\nThe function that contains the fault is `prepare_method`.\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 818,
+ "response_tokens": 252,
+ "elapsed_s": 0.87,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

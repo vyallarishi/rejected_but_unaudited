@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 14158,
+ "raw": "## Step 1: Analyze the given issue\nThe issue described is related to a potential data loss in the admin changeform view when using regex special characters in the formset prefix. This occurs because the prefix is used to generate a regex pattern without being properly escaped.\n\n## 2: Understand the problematic code\nThe problematic line of code is in `django/contrib/admin/options.py`, specifically in the `_changeform_view` method or related functions. The line generates a regex pattern using `re.compile` with a string format that includes the prefix and the primary key name of the model.\n\n## 3: Identify the function responsible for the fault\nThe fault is in how the `prefix` is used in generating a regex pattern. This happens when the admin tries to process inline forms. The function `get_formsets_with_inlines` is called during the processing of the change form view and is responsible for getting the formsets for the current model. Within this process, the `prefix` of a formset is used to create a regex pattern.\n\n## 4: Locate the exact function causing the issue\nThe exact function causing the issue is related to how the formsets are processed and how their prefixes are used. Given the description, the function that directly participates in this process and can lead to the faulty regex compilation is `get_formsets_with_inlines`. However, the actual compilation of the regex and the direct cause of the issue is within the `_changeform_view` method or closely related functions where the formset prefix is directly used in a regex.\n\n## 5: Consider the role of each function in the causal chain\n- `get_formsets_with_inlines` yields formsets that are used later in `_changeform_view`.\n- The `_changeform_view` method calls functions that process these formsets and their prefixes.\n\n## 6: Conclusion\nThe function that contains the fault, based on the causal chain and the direct use of the formset prefix in a regex pattern, is `_changeform_view` or closely related functions like those handling formset creation and processing. However, the question seems to point towards functions directly listed.\n\nFAULT: get_formsets_with_inlines",
+ "finish_reason": "stop",
+ "prompt_tokens": 3157,
+ "response_tokens": 444,
+ "elapsed_s": 1.42,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_formsets_with_inlines",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

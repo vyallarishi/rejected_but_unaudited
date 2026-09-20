@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 7129,
+ "raw": "FAULT: changelist_view",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1673,
+ "response_tokens": 6,
+ "elapsed_s": 0.42,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

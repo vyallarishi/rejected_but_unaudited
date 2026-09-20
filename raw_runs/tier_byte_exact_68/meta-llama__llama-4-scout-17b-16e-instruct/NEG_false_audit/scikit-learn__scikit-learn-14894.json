@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14894",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4233,
+ "raw": "To solve this task, I will analyze the provided information and the code to identify the function that contains the fault.\n\nThe issue is a ZeroDivisionError in the `_sparse_fit` function for SVM with an empty `support_vectors_` attribute. The error occurs when the code attempts to create `dual_coef_indptr` by calling `np.arange` with a `step` argument of `dual_coef_indices.size / n_class`, which evaluates to `0.0` when `n_class` is 0 or `dual_coef_indices.size` is 0.\n\nThe provided stacktrace points to the `_sparse_fit` function in `sklearn/svm/base.py`. This function is responsible for fitting the SVM model to sparse data.\n\nUpon examining the code, we can see that the error occurs when `n_SV` is 0, which means that no support vectors were found. In this case, `dual_coef_indices.size` is also 0, and the code attempts to divide by `n_class`, which is 0.\n\nThe fault is in the `_sparse_fit` function, which does not handle the edge case where `n_SV` is 0.\n\nFAULT: _sparse_fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1243,
+ "response_tokens": 242,
+ "elapsed_s": 1.22,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_sparse_fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

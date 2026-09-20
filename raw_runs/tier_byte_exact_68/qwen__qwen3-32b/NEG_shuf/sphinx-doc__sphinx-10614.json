@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6129,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is with the SVG inheritance diagrams generating incorrect links when the diagram is in a subdirectory. The user mentioned that the links in the SVG are relative to the SVG file itself (which is in _images) but the paths are generated as if they're relative to the page that includes the SVG. This leads to 404 errors when navigating from a subdirectory page.\n\nLooking at the candidate functions, the key part is probably in how the URLs are generated for the SVG elements. The user provided some examples of the incorrect links. For instance, when the page is in my_package/index.html, the SVG links use ../my_class_1.html, which points to the parent directory (docs_build) instead of staying in my_package.\n\nThe html_visit_inheritance_diagram function is mentioned in the localization notes. It's responsible for handling the inheritance_diagram node during HTML builds. The notes say that this function gets a refuri which is relative to the current document's directory, but then prepends a static ../, leading to the broken path. \n\nSo, the html_visit_inheritance_diagram function is likely where the URLs are being generated incorrectly. It seems like the function is hardcoding a ../ prefix, which isn't correct when the SVG is embedded in a subdirectory. The SVG's object tag might be in a different location (like _images), so the relative paths need to be adjusted accordingly. The function probably needs to calculate the correct relative path based on the position of the SVG file and the target HTML files.\n\nTherefore, the fault lies in the html_visit_inheritance_diagram function because it's handling the URL generation for the SVG links and incorrectly prepending the ../.\n</think>\n\nFAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1566,
+ "response_tokens": 371,
+ "elapsed_s": 1.16,
+ "key_suffix": "X6XBbC",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

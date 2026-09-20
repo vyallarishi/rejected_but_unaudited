@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5642,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to mask propagation in the `astropy.nddata` module, specifically when performing arithmetic operations with `NDDataRef` instances. The problem arises when one of the operands does not have a mask, causing the mask propagation to fail.\n\nTo solve this issue, we need to identify the function responsible for handling mask propagation during arithmetic operations. The provided information points to the `NDArithmeticMixin` class, which contains methods for performing arithmetic operations.\n\nUpon reviewing the code, we find that the `_arithmetic_mask` method is responsible for handling mask propagation. This method takes in the operation, operand, and handle_mask as parameters.\n\nThe issue seems to be related to how the `handle_mask` function is applied when one of the operands does not have a mask. The current implementation attempts to apply the `handle_mask` function to the masks of both operands, which fails when one of the masks is `None`.\n\nTo fix this issue, we need to modify the `_arithmetic_mask` method to handle the case where one of the operands does not have a mask.\n\n### Solution\n\nThe fault is in the `_arithmetic_mask` function.\n\n```python\ndef _arithmetic_mask(self, operation, operand, handle_mask, axis=None, **kwds):\n    # ...\n\n    if self.mask is None:\n        result_mask = operand.mask\n    elif operand.mask is None:\n        result_mask = self.mask\n    else:\n        result_mask = handle_mask(self.mask, operand.mask)\n\n    # ...\n```\n\nIn this modified version, we check if either of the masks is `None` and handle it accordingly. If one of the masks is `None`, we simply assign the other mask to the result. If both masks are not `None`, we apply the `handle_mask` function to compute the result mask.",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1503,
+ "response_tokens": 372,
+ "elapsed_s": 3.73,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

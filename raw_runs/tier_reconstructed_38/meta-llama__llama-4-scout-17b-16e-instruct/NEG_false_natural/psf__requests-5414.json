@@ -1,0 +1,20 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4014,
+ "raw": "To solve this issue, let's analyze the problem step by step.\n\nThe problem arises when attempting to access a URL like `http://.example.com`, which results in a `UnicodeError`. The expected result is an `InvalidUrl` exception.\n\nUpon reviewing the provided information, we can see that the issue is related to the handling of invalid URLs, specifically those with an empty label.\n\nThe `requests` library uses the `urllib3` library under the hood, which in turn uses the `idna` library for IDNA encoding. The error occurs when the `idna` library tries to encode the hostname.\n\nThe key to solving this issue lies in the `PreparedRequest` class, specifically in the `_get_idna_encoded_host` method. This method is responsible for encoding the hostname using IDNA.\n\nWhen the hostname is empty, the `idna` library raises a `UnicodeError`. To handle this case, we need to catch this exception and raise an `InvalidURL` exception instead.\n\nBased on the provided code and the analysis above, the function that contains the fault is `_get_idna_encoded_host`.\n\nHere is the corrected code:\n\n```python\ndef _get_idna_encoded_host(host):\n    try:\n        host = idna.encode(host)\n    except UnicodeError:\n        raise InvalidURL(\"URL has an invalid label.\")\n    return host\n```\n\nThis change will ensure that when an invalid URL with an empty label is encountered, an `InvalidURL` exception is raised instead of a `UnicodeError`.\n\nFAULT: _get_idna_encoded_host",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1064,
+ "response_tokens": 317,
+ "elapsed_s": 5.37,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_get_idna_encoded_host",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

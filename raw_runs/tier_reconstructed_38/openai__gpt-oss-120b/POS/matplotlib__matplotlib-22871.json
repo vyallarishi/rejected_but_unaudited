@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5931,
+ "raw": "FAULT: format_ticks",
+ "reasoning": "We need to identify which function contains the fault causing ConciseDateFormatter not showing year offset when plotting less than 12 months and January not included. The description mentions that in format_ticks, it determines level and then condition `if level < 2: show_offset = False`. That seems like a bug: offset (year) should be shown when level is month (level=1) but year offset is needed. So the faulty function is likely `format_ticks` in class ConciseDateFormatter. The list includes `def format_ticks(self, values):` under ConciseDateFormatter. So answer: format_ticks.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1665,
+ "response_tokens": 139,
+ "elapsed_s": 0.84,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

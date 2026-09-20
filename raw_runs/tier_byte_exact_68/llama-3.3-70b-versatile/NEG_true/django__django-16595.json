@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16595",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 6306,
+ "raw": "FAULT: reduce",
+ "finish_reason": "stop",
+ "prompt_tokens": 1480,
+ "response_tokens": 4,
+ "elapsed_s": 0.47,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

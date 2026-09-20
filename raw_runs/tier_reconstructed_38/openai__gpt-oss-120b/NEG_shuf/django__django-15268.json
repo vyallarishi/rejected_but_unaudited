@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4942,
+ "raw": "FAULT: reduce",
+ "reasoning": "We need to identify which function contains the fault. The issue: Optimize multiple AlterFooTogether operations into one. The migration optimizer calls operation1.reduce(operation2, app_label) to see if they can be combined. The AlterUniqueTogether and AlterIndexTogether operations do not override this method, so base implementation is called. Since these operations are not 'elidable', the method returns False, which signals they cannot be combined. So the fault is in the reduce method implementation (or lack of override) in the base class. The function that contains the fault is reduce. So answer: reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1178,
+ "response_tokens": 132,
+ "elapsed_s": 0.81,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

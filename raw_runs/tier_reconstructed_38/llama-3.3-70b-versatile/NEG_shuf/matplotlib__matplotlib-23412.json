@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 11830,
+ "raw": "FAULT: draw",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3060,
+ "response_tokens": 4,
+ "elapsed_s": 0.4,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-13135",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 6220,
+ "raw": "FAULT: fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1890,
+ "response_tokens": 82,
+ "elapsed_s": 9.85,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

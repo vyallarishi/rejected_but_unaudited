@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7028,
+ "raw": "FAULT: changelist_view",
+ "reasoning": "We need to determine which function contains the fault: missing transaction handling for list_editable processing in changelist_view. The description says \"Add transaction handling to Changelist list_editable processing.\" So the function likely is changelist_view itself, which processes POST for list_editable. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: changelist_view.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1696,
+ "response_tokens": 110,
+ "elapsed_s": 0.84,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

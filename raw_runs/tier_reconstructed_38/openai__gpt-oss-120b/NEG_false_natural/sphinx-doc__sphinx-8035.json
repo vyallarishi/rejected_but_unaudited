@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9773,
+ "raw": "FAULT: filter_members",
+ "reasoning": "We need to answer which function contains the fault. The description: private-members option currently is boolean, but should accept arguments like members. The logic for filtering members is in filter_members. It checks self.options.private_members. So the fault is that filter_members treats private-members as boolean, not list. So function is filter_members. Provide answer line.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2358,
+ "response_tokens": 84,
+ "elapsed_s": 0.87,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

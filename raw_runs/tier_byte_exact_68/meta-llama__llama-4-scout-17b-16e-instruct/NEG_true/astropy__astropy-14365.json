@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3746,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to the `ascii.qdp` format in Astropy's Table reading functionality. The problem arises because the current implementation assumes that QDP commands are in uppercase, which is not a requirement for QDP files themselves. This leads to a failure when trying to read a QDP file with lowercase commands.\n\nTo identify the faulty function, we need to analyze the provided information and the code structure of `astropy/io/ascii/qdp.py`. The error message indicates that the issue is with recognizing QDP lines, specifically with the line `read serr 1 2`, which suggests a problem with case sensitivity in command recognition.\n\nThe expected behavior is that the QDP file should be read into a `Table` without errors, regardless of the case used in the commands. The provided QDP file example and the error message point towards an issue in the parsing logic that does not correctly handle lowercase commands.\n\n### Analysis of Candidate Functions\n\n- `_line_type`: This function is directly involved in determining the type of line in a QDP file. It uses regular expressions to match commands. The issue seems to stem from a case-sensitive match.\n\n- `_read_table_qdp`: While this function is on the call stack leading to the error, the root cause seems more directly related to the line-type recognition rather than the overall table-reading logic.\n\n- Other functions like `_write_table_qdp` are not relevant to the read operation and can be ruled out.\n\n### Identification of the Faulty Function\n\nGiven the information and analysis, the faulty function appears to be `_line_type`. This function directly handles the recognition of QDP commands and is where the case sensitivity issue would manifest.\n\n### Solution\n\nThe solution involves modifying the `_line_type` function to make the command recognition case-insensitive. This can be achieved by adjusting the regular expressions used in this function to match commands regardless of case.\n\n### FAULT\n\nFAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 1040,
+ "response_tokens": 398,
+ "elapsed_s": 1.27,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

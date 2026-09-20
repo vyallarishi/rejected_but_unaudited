@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5977,
+ "raw": "To solve this issue, we need to identify the function that is responsible for generating the `Message-ID` header in the email message. The `Message-ID` header is generated using the `make_msgid` function, which is called with the `domain` parameter set to `DNS_NAME`. \n\nThe error occurs when the `hostname` is set to a non-ASCII value and the email encoding is set to a non-unicode encoding, such as `iso-8859-1`. In this case, the `make_msgid` function attempts to encode the `Message-ID` header using the specified encoding, which fails because the `Message-ID` header contains non-ASCII characters.\n\nThe problem lies in the fact that the `domain` name is not being converted to punycode before being used to generate the `Message-ID` header. \n\nThe function that contains the fault is `message` in the `EmailMessage` class. However, based on the provided code and stacktrace, the more specific function that needs to be modified is the one that calls `make_msgid` and sets the `Message-ID` header.\n\nThe `forbid_multi_line_headers` function is also relevant, as it is where the encoding error occurs. However, the root cause of the issue is that the `domain` name is not being converted to punycode.\n\nThe function that should be modified to convert the `domain` name to punycode is not directly listed, but based on the code structure, it seems that `django.core.mail.message` is where the `make_msgid` function is called.\n\nTherefore, the function that contains the fault is `message`.\n\nHowever, looking at the code structure, a more accurate answer would be:\n\n FAULT: forbid_multi_line_headers \n\nis not correct as it is a general function. \n\nLooking at `django.core.mail.message`, we can see that `make_msgid` is used. However, `make_msgid` can be imported from `email.utils`. \n\nSo we should look at `django.core.mail.message` module.\n\nIn that case, `message` function in the `EmailMessage` class seems to be a good candidate.\n\nBut `message` function calls `make_msgid` which in turn uses `domain`. \n\nHence \n\nFAULT: message",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1439,
+ "response_tokens": 468,
+ "elapsed_s": 4.67,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "forbid_multi_line_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

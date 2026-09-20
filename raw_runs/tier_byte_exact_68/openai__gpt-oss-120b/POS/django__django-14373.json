@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14373",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 1719,
+ "raw": "FAULT: Y",
+ "finish_reason": "stop",
+ "prompt_tokens": 520,
+ "response_tokens": 113,
+ "elapsed_s": 0.69,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "Y",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

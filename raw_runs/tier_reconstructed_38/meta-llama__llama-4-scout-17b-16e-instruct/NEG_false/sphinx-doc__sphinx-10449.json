@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 14991,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The problem is that the `autodoc_typehints = \"description\"` option causes Sphinx's `autoclass` to include the class's \"return type\" for code such as this:\n\n```python\nclass Square:\n    \"\"\"A class representing a square figure.\"\"\"\n\n    def __init__(self, width: int, height: int) -> None:\n        self.width = width\n        self.height = height\n```\n\nThe expected behavior is that there should be no return type listed for the class.\n\nAfter analyzing the code and the Sphinx documentation, it appears that the issue is related to the `autodoc_typehints` option and how it interacts with the `autoclass` directive.\n\nThe fault is in the `format_signature` function. \n\nThis function is directly responsible for creating the signature string that is displayed. For `autoclass`, autodoc uses the `__init__` method's signature. The issue arises from how the return type is handled in this function.\n\nTo fix this issue, we need to modify the `format_signature` function to correctly handle the return type when `autodoc_typehints` is set to `\"description\"`. \n\nHowever, based on the provided conversations and code changes, it seems that the issue is already fixed in Sphinx version 4.4.1. The fix involves modifying the `format_signature` function to check the `autodoc_typehints` option and handle the return type accordingly.\n\nHere is the corrected code:\n\n```python\ndef format_signature(self, **kwargs: Any):\n    # ...\n    if self.options.get('autodoc_typehints') == \"description\":\n        # do not show return type\n        retann = None\n    # ...\n```\n\nBut based on the information provided and standard practices for such issues, here is the one-line answer:\n\nFAULT: format_signature",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3502,
+ "response_tokens": 399,
+ "elapsed_s": 4.26,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2410,
+ "raw": "To solve this issue, let's analyze the provided information and understand what's being asked. The problem is about supporting header rows in RestructuredText (RST) output for a table written using Astropy's `QTable`. The current implementation does not handle the `header_rows` parameter when writing to RST format, leading to an error.\n\nThe error message indicates that the `RST` class's `__init__` method does not recognize the `header_rows` keyword argument. This suggests that the issue lies in how the `RST` writer is initialized or how it handles additional parameters.\n\nLooking at the candidate functions provided in `astropy/io/ascii/rst.py`, we have:\n1. `SimpleRSTHeader`\n2. `SimpleRSTData`\n3. `RST`\n\nThe `RST` class is a likely candidate because it's directly involved in writing tables in RST format. The `__init__` method of `RST` is mentioned in the error traceback, indicating it's where the error occurs.\n\nThe task is to identify which function contains the fault. Given that the error is about an unexpected keyword argument `header_rows` for `RST.__init__`, it implies that the `RST` class needs to be modified to accept and handle this argument.\n\nTherefore, the function that contains the fault is `RST.__init__`, but since we are asked to provide a function name from the list, the answer is:\n\nFAULT: RST",
+ "finish_reason": "stop",
+ "prompt_tokens": 645,
+ "response_tokens": 300,
+ "elapsed_s": 1.04,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "RST",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

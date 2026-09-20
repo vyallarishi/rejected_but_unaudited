@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 3985,
+ "raw": "FAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 1151,
+ "response_tokens": 92,
+ "elapsed_s": 0.76,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

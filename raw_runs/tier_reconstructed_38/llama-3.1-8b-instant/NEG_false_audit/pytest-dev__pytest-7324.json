@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 2057,
+ "raw": "FAULT: expression",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 564,
+ "response_tokens": 4,
+ "elapsed_s": 6.52,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "expression",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3116,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Identify the problem**: The issue lies in the interpretation of two-digit years in HTTP date strings. The current logic incorrectly determines the century by hardcoding a threshold, which violates the RFC 7231 requirement for a sliding window relative to the current time.\n\n2. **Understand the requirement**: According to RFC 7231, a two-digit year in an HTTP date string should be interpreted relative to the current year, with years more than 50 years in the future considered to be in the past.\n\n3. **Locate the relevant function**: The function responsible for parsing HTTP date strings is `parse_http_date` in `django/utils/http.py`.\n\n4. **Analyze the function**: The function `parse_http_date` contains the logic for interpreting two-digit years, which is currently hardcoded to consider years 0-69 to be in 2000-2069 and years 70-99 to be in 1970-1999.\n\n5. **Conclusion**: The function that contains the fault is `parse_http_date`, as it incorrectly interprets two-digit years in HTTP date strings.\n\nFAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 734,
+ "response_tokens": 235,
+ "elapsed_s": 0.89,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

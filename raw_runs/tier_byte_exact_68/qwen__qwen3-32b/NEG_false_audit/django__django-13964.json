@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4281,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The issue is that when you set the product on the order with a new Product instance that doesn't have its primary key (sku) set yet, and then later set the sku and save, the order's product_id isn't updated. So when you save the order, it ends up with an empty string as the product_id, which causes a foreign key violation.\n\nLooking at the code flow, when you do order.product = Product(), the __set__ method of the ForwardManyToOneDescriptor is called. That's because the product is a ForeignKey field, so the descriptor handles the assignment. The __set__ method in ForwardManyToOneDescriptor is responsible for setting the related object on the instance. \n\nIn the __set__ method, when the value is an instance of the related model (Product), it should set the product_id on the Order instance to the primary key of the Product. But if the Product's primary key isn't set yet (because it's a new instance with an empty sku), then the Order's product_id is set to an empty string. Even after you later set the sku on the Product and save it, the Order's product_id remains as the empty string. \n\nThe key here is that when the __set__ method is called initially, it takes the current primary key value of the Product instance. Since the Product hasn't been saved yet and the sku is empty, the product_id is set to empty. Later changes to the Product's sku don't update the Order's product_id because the Order doesn't track changes to the related object after it's been assigned. \n\nSo the problem is in the __set__ method of the ForwardManyToOneDescriptor. When the descriptor sets the product_id, it uses the current value of the related object's primary key at the time of assignment. If the related object's primary key is not yet set (because it's a new unsaved instance), the foreign key on the parent (Order) is set to that empty value. Even after the related object is saved with a proper primary key, the parent's foreign key doesn't get updated because the parent doesn't re-check the related object's primary key after the initial assignment.\n\nTherefore, the fault lies in the __set__ method of the ForwardManyToOneDescriptor class because it doesn't handle the case where the related object's primary key is going to be set later. It uses the current value at the time of assignment, which is empty, leading to the incorrect foreign key value being saved.\n</think>\n\nFAULT: ForwardManyToOneDescriptor.__set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 924,
+ "response_tokens": 529,
+ "elapsed_s": 1.47,
+ "key_suffix": "j6UVRF",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

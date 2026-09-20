@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7299,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is about a Django queryset that uses a union and ordering, and then when you try to evaluate it again, it throws an error related to the ORDER BY clause not being in the select list. \n\nThe user provided a traceback that ends with a ProgrammingError about ORDER BY position 4 not being in the select list. The key part here is that after calling order_by() on the queryset, the original queryset becomes broken. The localization notes mention that when you call order_by(), it clones the queryset but the clone shares some sub-queries, and modifying the clone in-place corrupts the original.\n\nLooking at the candidate functions, the main suspect is the clone method in the Query class. The notes say that when you call order_by(), it clones the Query object, but the clone is a shallow copy. The combined_queries (the subqueries in the union) are shared between the original and the clone. Then, when order_by() modifies one of the subqueries, it affects the original.\n\nThe Query.clone() method is responsible for creating a copy of the query. If it does a shallow copy, then any mutable attributes like combined_queries would be shared between the original and the clone. When the clone (from order_by) modifies one of the subqueries (like clearing the order by), it would affect the original query. \n\nSo the fault lies in the clone method not properly deep copying the combined_queries or other related structures. The clone method in the Query class is the one that's called during the cloning process, and if it doesn't handle the combined_queries correctly, that would lead to the shared state issue.\n\nTherefore, the function that contains the fault is Query.clone.\n</think>\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 1905,
+ "response_tokens": 364,
+ "elapsed_s": 1.13,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

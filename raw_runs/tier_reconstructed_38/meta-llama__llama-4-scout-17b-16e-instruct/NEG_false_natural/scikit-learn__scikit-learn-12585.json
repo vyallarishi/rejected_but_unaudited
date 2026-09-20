@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3173,
+ "raw": "### Thought Process and Reasoning\n\nThe issue arises when using the `clone` function from scikit-learn's `base` module with an estimator that has a parameter which is another estimator class, rather than an instance of that class. The `clone` function is designed to create a deep copy of an estimator, including its parameters. However, when a parameter is an estimator class rather than an instance, the function fails.\n\nThe error occurs because the `clone` function checks if the estimator has a `get_params` method, which is a characteristic of estimator instances, not classes. When it encounters an estimator class, it incorrectly attempts to call `get_params` on the class, which results in a `TypeError` because the class's `get_params` method requires an instance (`self`).\n\nTo fix this issue, we need to modify the `clone` function to properly handle estimator classes as parameters. This involves checking if the parameter is an estimator class and handling it accordingly.\n\n### Solution\n\nThe fault is in the `clone` function in `sklearn/base.py`. The fix involves modifying the condition to check if the estimator is an instance of `type` (which represents classes in Python) or if it does not have a `get_params` method. Here's how you can modify the `clone` function:\n\n```python\ndef clone(estimator, safe=True):\n    \"\"\"\n    Clone an estimator.\n\n    Parameters\n    ----------\n    estimator : object\n        The estimator to clone.\n\n    safe : boolean, optional\n        If `safe` is `True`, the clone is guaranteed to be equal to the\n        original.\n\n    Returns\n    -------\n    estimator : object\n        The cloned estimator.\n    \"\"\"\n    if safe and not hasattr(estimator, 'get_params'):\n        raise ValueError(\"Estimator %s does not implement `get_params` \"\n                         \"and can therefore not be cloned. \"\n                         \"A fix would be to implement `get_params` \"\n                         \"for this estimator.\" % estimator)\n\n    # No need to deepcopy in this case\n    if isinstance(estimator, type) or not hasattr(estimator, 'get_params'):\n        return estimator\n\n    # Get parameters\n    estimator_params = estimator.get_params()\n\n    # Clone parameters\n    new_object_params = {}\n    for name, param in estimator_params.items():\n        if isinstance(param, type):  # Check if parameter is an estimator class\n            new_object_params[name] = param\n        else:\n            new_object_params[name] = clone(param, safe=False)\n\n    # Create new instance\n    new_estimator = estimator.__class__\n    new_estimator = new_estimator(**new_object_params)\n\n    return new_estimator\n```\n\nHowever, a more accurate and straightforward fix, as suggested, is to change the line in `base.py` to:\n\n```python\nelif not hasattr(estimator, 'get_params') or isinstance(estimator, type):\n```\n\nThis change ensures that if the estimator is a class (and not an instance), it will be treated as is without attempting to call `get_params` on it, thus avoiding the error.\n\n### FAULT\n\nclone",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 758,
+ "response_tokens": 638,
+ "elapsed_s": 7.55,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "Parameters",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

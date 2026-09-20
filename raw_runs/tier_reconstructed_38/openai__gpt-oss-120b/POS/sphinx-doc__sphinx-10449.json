@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 14922,
+ "raw": "FAULT: format_signature",
+ "reasoning": "We need to identify which function contains the fault causing autodoc_typehints = \"description\" to include return type for class. The description says format_signature builds signature string, and a regex extracts return annotation and reconstructs signature, appending return type. Likely function is `format_signature` in ClassDocumenter or FunctionDocumenter. The issue is for class, using __init__ signature, and return annotation is None, but they include it. The function that parses and adds return annotation is `format_signature`. So answer: `format_signature`. Which one? In ClassDocumenter there is a method `format_signature`. So FAULT: format_signature.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3561,
+ "response_tokens": 147,
+ "elapsed_s": 0.97,
+ "key_suffix": "42TFwC",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

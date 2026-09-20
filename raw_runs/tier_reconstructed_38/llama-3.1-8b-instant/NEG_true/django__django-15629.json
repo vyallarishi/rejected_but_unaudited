@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 9628,
+ "raw": "FAULT: alter_field",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2232,
+ "response_tokens": 5,
+ "elapsed_s": 0.43,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "alter_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

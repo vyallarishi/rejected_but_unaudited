@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6896,
+ "raw": "To solve this issue, we need to identify the function that is responsible for the faulty behavior. The problem lies in the fact that the `formfield_callback` specified in the `Meta` attribute of the form class is not being used when creating a new form class with `modelform_factory`.\n\nThe `modelform_factory` function is responsible for creating a new form class based on the provided form class and model. It constructs a new `Meta` class with the provided attributes, but it does not check if the `formfield_callback` is specified in the original form class's `Meta` attribute.\n\nThe fault lies in the `modelform_factory` function, which does not use the `formfield_callback` from the form's `Meta` class if no `formfield_callback` is provided.\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1584,
+ "response_tokens": 167,
+ "elapsed_s": 0.94,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

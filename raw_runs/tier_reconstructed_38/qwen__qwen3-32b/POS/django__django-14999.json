@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6552,
+ "raw": "FAULT: RenameModel",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is about the RenameModel operation in Django migrations. The user says that when a model has a db_table defined, using RenameModel should be a no-op (no operation), but in reality, it's causing issues in Postgres by dropping and recreating foreign key constraints and in SQLite by recreating the table.\n\nFirst, I need to recall how Django's migration operations work. The RenameModel operation is supposed to rename a model, which typically involves changing the model's name in the state and the database table name. However, if the model's db_table is explicitly set, renaming the model shouldn't affect the actual database table name. Therefore, the RenameModel operation should do nothing in this case because the db_table is already fixed.\n\nLooking at the candidate functions provided, the key is to find where the RenameModel operation is actually performing the database alteration. The user mentioned that the database_forwards method is the primary driver. Let me check the RenameModel class. The database_forwards method for RenameModel would handle applying the rename to the database.\n\nIn Django's source code, the RenameModel.operation.database_forwards method is responsible for renaming the database table. If the model has a db_table specified, the old and new table names would be the same because db_table overrides the default table name (which is based on the model's name). So, when RenameModel is called, even if the model's name changes, if db_table is set, the old and new table names would be the same. However, the current implementation might not check this and proceeds to call alter_db_table anyway, leading to unnecessary operations that cause the mentioned issues.\n\nThe fault is likely in the database_forwards method of the RenameModel class because it doesn't check if the old and new db_table values are the same before attempting to alter the table. As a result, even when the db_table is explicitly set (and thus shouldn't change), the operation proceeds to alter the table, which in Postgres causes FK constraints to be dropped and recreated, and in SQLite, the table is recreated.\n\nSo the function containing the fault is RenameModel's database_forwards method. The method should check if the old_model's db_table is different from the new_model's db_table before calling schema_editor.alter_db_table. If they are the same, it should do nothing. The current implementation doesn't do this check, leading to the unnecessary operation.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1487,
+ "response_tokens": 514,
+ "elapsed_s": 10.78,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "RenameModel",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

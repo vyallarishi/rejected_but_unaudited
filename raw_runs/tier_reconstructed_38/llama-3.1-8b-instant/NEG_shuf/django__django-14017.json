@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 4716,
+ "raw": "FAULT: _combine",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1166,
+ "response_tokens": 5,
+ "elapsed_s": 0.39,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_combine",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

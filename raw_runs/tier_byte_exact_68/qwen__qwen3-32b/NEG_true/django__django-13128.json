@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13128",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5588,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when doing a temporal subtraction without using ExpressionWrapper, Django throws a FieldError about mixed types. The user's example is using F('end') - F('start') and then adding a Value with a DurationField. The error occurs because the ORM can't handle combining DateTimeField and DurationField without specifying the output_field.\n\nLooking at the code provided, the key part is the _resolve_output_field function. The localization notes mention that when resolving the output type for the subtraction (F('end') - F('start')), the ORM calls _resolve_output_field on the CombinedExpression. The problem here is that the subtraction of two DateTimeFields should result in a DurationField, but the current logic in _resolve_field is incorrectly inferring the result as a DateTimeField.\n\nIn the CombinedExpression's _resolve_output_field method, if the two fields are the same type (both DateTimeField), it assumes the result is also that type. But subtracting two dates should give a duration. So the fault is that the _resolve_output_field isn't correctly handling the case where the operation is a subtraction between two DateTimeFields. Instead of returning a DateTimeField, it should return a DurationField. Therefore, the function that needs to be fixed is _resolve_output_field.\n</think>\n\nFAULT: _resolve_output_field",
+ "finish_reason": "stop",
+ "prompt_tokens": 1301,
+ "response_tokens": 284,
+ "elapsed_s": 0.89,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_resolve_output_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

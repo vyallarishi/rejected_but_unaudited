@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 15078,
+ "raw": "FAULT: ClassDocumenter.format_signature",
+ "reasoning": "We need to identify which function contains the fault causing autodoc_typehints = \"description\" to cause autoclass to include a return type for __init__ (i.e., showing \"-> None\" as return type). The description says that format_signature is responsible for creating signature string displayed. It mentions that _call_format_args returns full signature including -> None. A regex within this function parses signature and extracts None as return annotation (retann). The function then reconstructs signature, appends ... The bug likely is in format_signature function of ClassDocumenter or FunctionDocumenter? The list includes many format_signature definitions: in Documenter, DocstringSignatureMixin, DocstringStripSignatureMixin, FunctionDocumenter, ClassDocumenter, MethodDocumenter, etc.\n\nThe bug is about autodoc_typehints = \"description\". That option moves type hints from signature to description. For __init__, return annotation is None, but it should be omitted. The bug likely is in format_signature of ClassDocumenter (or its parent) where it doesn't drop return annotation when typehints are moved to description. The function that parses signature and extracts retann is probably in Documenter.format_signature (maybe in ClassDocumenter.format_signature). Let's recall Sphinx code: In autodoc, there is a function format_signature in Documenter that uses self.options['annotations'] etc. Actually, there is a function format_signature in ClassDocumenter that calls self.format_args and then maybe adds return annotation. The bug likely is in ClassDocumenter.format_signature.\n\nThus answer: ClassDocumenter.format_signature. The list includes \"def format_signature(self, **kwargs: Any):\" under ClassDocumenter. So output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3595,
+ "response_tokens": 361,
+ "elapsed_s": 1.44,
+ "key_suffix": "U0l0Y0",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

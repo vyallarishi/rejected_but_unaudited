@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6154,
+ "raw": "FAULT: __init__",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is using Django's TextChoices for a model's CharField. When they create an instance with MyChoice.FIRST_CHOICE, the my_str_value field ends up being an enum member instead of the string 'first'. That's causing the test to fail because when they check the string representation, it's showing the enum's name instead of the value.\n\nLooking at the Django Model class, the __init__ method is involved when creating an instance. The user mentioned that when they create the object, the __init__ method does a raw assignment of the enum object to the attribute. So, the __init__ method isn't converting the enum to its string value. Instead, it's just setting the enum instance as the field's value. That's the root of the problem.\n\nIn Django, when you pass a choice to a field, you usually pass the value, not the enum member. But here, the code is passing the enum member (MyChoice.FIRST_CHOICE), and the model's __init__ is assigning it directly. The field's to_python or other conversion methods might not be triggered here because the value is being set directly in the __init__.\n\nThe Model's __init__ method is responsible for initializing the instance attributes. If it's not handling the conversion from the enum to the actual value, then that's where the issue lies. The __init__ should probably check if the value is an enum member and convert it to the appropriate primitive type (string or integer) before assigning it to the instance's attribute. But in this case, it's just setting the enum object, leading to the __str__ of the enum being used instead of the underlying value.\n\nSo the fault is in the Model's __init__ method because it's not properly converting the enum member to the expected string value when initializing the instance. Instead, it's keeping the enum instance, which changes the behavior when accessing the field's value.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1417,
+ "response_tokens": 417,
+ "elapsed_s": 6.92,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

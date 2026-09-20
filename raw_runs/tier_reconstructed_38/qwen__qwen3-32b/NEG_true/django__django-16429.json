@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2062,
+ "raw": "FAULT: timesince",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The issue is that when using timesince() with a datetime that's more than a month ago and with USE_TZ=True, there's a TypeError about subtracting offset-naive and offset-aware datetimes. \n\nThe user mentioned that the problem is in the pivot instantiation in the timesince.py file. The test case subtracts 31 days from the current timezone-aware datetime (since USE_TZ is True), creating 'd'. Then, when timesince(d) is called, it crashes.\n\nLooking at the code in timesince.py, the function 'timesince' is the main one here. The pivot is created using datetime.datetime.now() if 'now' is not provided. But when USE_TZ is True, 'now' should be timezone-aware. However, in the code, if the 'now' parameter isn't given, it uses datetime.datetime.now(), which is naive. That's the problem. Because 'd' is timezone-aware (since it was created with timezone.now() in the test), when the code tries to subtract the naive pivot from the aware 'd', that's where the error occurs.\n\nSo the pivot should also be timezone-aware. The fix would involve making sure that when 'now' is not provided, it uses the correct timezone. The function that's responsible for this is 'timesince', because it's where the pivot is created. The 'timeuntil' function isn't directly involved here since the test is about timesince.\n\nTherefore, the fault is in the 'timesince' function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 544,
+ "response_tokens": 335,
+ "elapsed_s": 5.31,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

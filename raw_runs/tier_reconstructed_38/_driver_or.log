@@ -1,0 +1,62 @@
+=== recon-OR driver started Sun Aug  2 12:52:41 IST 2026 ===
+--- 12:52:41 qwen/qwen3-32b POS ---
+[qwen/qwen3-32b/POS] done=10 skip=2 err=0
+[qwen/qwen3-32b/POS] done=20 skip=2 err=0
+[qwen/qwen3-32b/POS] done=30 skip=2 err=0
+DONE [qwen/qwen3-32b/POS]: done=36 skipped=2 errored=0
+--- 13:01:27 qwen/qwen3-32b NEG_true ---
+[qwen/qwen3-32b/NEG_true] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_true] done=30 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_true]: done=38 skipped=0 errored=0
+--- 13:08:25 qwen/qwen3-32b NEG_false ---
+[qwen/qwen3-32b/NEG_false] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_false] done=30 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_false]: done=38 skipped=0 errored=0
+--- 13:29:04 qwen/qwen3-32b NEG_shuf ---
+[qwen/qwen3-32b/NEG_shuf] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_shuf] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_shuf] done=30 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_shuf]: done=38 skipped=0 errored=0
+--- 13:37:58 qwen/qwen3-32b NEG_false_audit ---
+[qwen/qwen3-32b/NEG_false_audit] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_audit] done=30 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_false_audit]: done=38 skipped=0 errored=0
+--- 13:54:28 qwen/qwen3-32b NEG_false_natural ---
+[qwen/qwen3-32b/NEG_false_natural] done=10 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=20 skip=0 err=0
+[qwen/qwen3-32b/NEG_false_natural] done=30 skip=0 err=0
+DONE [qwen/qwen3-32b/NEG_false_natural]: done=38 skipped=0 errored=0
+--- 14:09:55 meta-llama/llama-4-scout POS ---
+[meta-llama/llama-4-scout/POS] done=10 skip=0 err=0
+[meta-llama/llama-4-scout/POS] done=20 skip=0 err=0
+[meta-llama/llama-4-scout/POS] done=30 skip=0 err=0
+DONE [meta-llama/llama-4-scout/POS]: done=38 skipped=0 errored=0
+--- 14:12:30 meta-llama/llama-4-scout NEG_true ---
+[meta-llama/llama-4-scout/NEG_true] done=10 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_true] done=20 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_true] done=30 skip=0 err=0
+DONE [meta-llama/llama-4-scout/NEG_true]: done=38 skipped=0 errored=0
+--- 14:15:03 meta-llama/llama-4-scout NEG_false ---
+[meta-llama/llama-4-scout/NEG_false] done=10 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_false] done=20 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_false] done=30 skip=0 err=0
+DONE [meta-llama/llama-4-scout/NEG_false]: done=38 skipped=0 errored=0
+--- 14:17:52 meta-llama/llama-4-scout NEG_shuf ---
+[meta-llama/llama-4-scout/NEG_shuf] done=10 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_shuf] done=20 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_shuf] done=30 skip=0 err=0
+DONE [meta-llama/llama-4-scout/NEG_shuf]: done=38 skipped=0 errored=0
+--- 14:20:57 meta-llama/llama-4-scout NEG_false_audit ---
+[meta-llama/llama-4-scout/NEG_false_audit] done=10 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_false_audit] done=20 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_false_audit] done=30 skip=0 err=0
+DONE [meta-llama/llama-4-scout/NEG_false_audit]: done=38 skipped=0 errored=0
+--- 14:24:05 meta-llama/llama-4-scout NEG_false_natural ---
+[meta-llama/llama-4-scout/NEG_false_natural] done=10 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_false_natural] done=20 skip=0 err=0
+[meta-llama/llama-4-scout/NEG_false_natural] done=30 skip=0 err=0
+DONE [meta-llama/llama-4-scout/NEG_false_natural]: done=38 skipped=0 errored=0
+=== recon-OR driver finished Sun Aug  2 14:27:02 IST 2026 ===

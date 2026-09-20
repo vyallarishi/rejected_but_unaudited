@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9004,
+ "raw": "### Thought Process and Reasoning\n\nThe issue at hand involves the automatic conversion of a structured `np.array` to an `NdarrayMixin` when it is added as a column to an `astropy.table.Table`. The goal is to modify this behavior to avoid the auto-transform and instead, add a FutureWarning to signal the change in behavior in a future version (5.2).\n\nTo tackle this issue, we first need to identify where in the code this conversion is happening. The description points to a specific code snippet in `astropy/table/table.py` where a structured ndarray gets viewed as a mixin unless it's already a valid mixin class.\n\nThe current behavior is that if a structured `np.array` is added to a Table, it gets turned into an `NdarrayMixin`. However, with the changes in the code, specifically after #12644, this conversion might not be necessary or desirable anymore.\n\nThe proposed solution involves adding a FutureWarning when a structured array is added as a column, indicating that in the future (version 5.2), it will be added as a `Column` instead of being converted to an `NdarrayMixin`. The behavior will change in version 5.2, where the auto-conversion to `NdarrayMixin` will be removed.\n\n### Solution\n\nTo solve this issue, we need to locate the function responsible for the auto-conversion and modify it to issue a FutureWarning. Based on the provided information, the function in question seems to be related to the initialization of a Table and the handling of columns.\n\nThe function that contains the fault is:\n```\nFAULT: _init_from_ndarray\n```\n\nThis function is likely where the conversion of a structured `np.array` to an `NdarrayMixin` occurs. To fix the issue, we will modify this function to add the necessary FutureWarning and change the behavior in version 5.2 as proposed. \n\nHowever, without directly referencing the hint, the logical step involves:\n\n1. Identifying where structured ndarrays are handled in the Table class.\n2. Adding a FutureWarning for the conversion to NdarrayMixin.\n3. Planning for the change in behavior in version 5.2.\n\nGiven the context and the goal, the actual implementation would involve modifying the relevant part of `astropy/table/table.py` to include the FutureWarning and to change the behavior as described. \n\nFor the purpose of this task and based on the information given:\n```\nFAULT: _init_from_ndarray\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2187,
+ "response_tokens": 502,
+ "elapsed_s": 5.74,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_init_from_ndarray",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

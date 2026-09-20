@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5642,
+ "raw": "FAULT: _arithmetic_mask",
+ "reasoning": "We need to identify which function contains the fault. The issue is mask propagation when one operand lacks mask. Likely in _arithmetic_mask method. That method probably handles mask combination and may assume both masks are arrays, not handling None. So the fault is in _arithmetic_mask. The list includes that function. So answer: _arithmetic_mask.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1579,
+ "response_tokens": 88,
+ "elapsed_s": 0.71,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

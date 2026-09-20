@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14311",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2815,
+ "raw": "To solve this issue, we need to understand how the autoreloader works in Django and how it handles the `python -m` command. The autoreloader is responsible for restarting the development server when changes are made to the code. The issue here is that the autoreloader does not correctly handle the `python -m` command when the module name is a dotted name.\n\nThe `get_child_arguments` function in `django/utils/autoreload.py` seems to be relevant here. This function is used to get the arguments that should be passed to the child process when the autoreloader restarts the development server.\n\nUpon closer inspection, it appears that the `get_child_arguments` function does not correctly handle the case where the module name is a dotted name. This is because it does not properly construct the arguments for the `python -m` command.\n\nThe fault is likely in the `get_child_arguments` function. \n\nFAULT: get_child_arguments",
+ "finish_reason": "stop",
+ "prompt_tokens": 681,
+ "response_tokens": 194,
+ "elapsed_s": 0.83,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_child_arguments",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

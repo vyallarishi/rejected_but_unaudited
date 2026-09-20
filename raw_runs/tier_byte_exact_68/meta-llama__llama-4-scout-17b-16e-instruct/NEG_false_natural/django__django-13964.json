@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4225,
+ "raw": "## Step 1: Understanding the issue\nThe problem arises when saving a parent object after setting a related child object with a non-numeric primary key. Specifically, when the child object's primary key is set after it has been assigned to the parent, the parent's foreign key field is not updated correctly.\n\n## Step 2: Identifying the relevant code\nThe issue seems to be related to how Django handles foreign key relationships, particularly in the `related_descriptors.py` file. The `__set__` method in the `ForeignKeyDeferredAttribute` class and other descriptor classes seems to be relevant.\n\n## Step 3: Analyzing the __set__ method\nIn the `__set__` method of `ForeignKeyDeferredAttribute`, when setting the related object, it checks if the value (the new related object) is an instance of the related model. If it is, it sets the underlying foreign key field to the value of the related object's primary key.\n\n## 4: Understanding the problem with non-numeric primary keys\nThe issue specifically occurs with non-numeric primary keys. When the related object's primary key is not auto-incrementing and is a string (like `sku` in the `Product` model), and it's set after assignment to the parent, the parent doesn't see the change in the primary key.\n\n## 5: Finding the fault\nThe fault seems to be in how the `ForeignKeyDeferredAttribute` class handles setting the related object when the related object's primary key is not yet set or is set later. This points towards the `__set__` method in descriptor classes, particularly where it deals with setting the foreign key field based on the related object's primary key.\n\n## 6: Pinpointing the exact function\nGiven the description and analysis, the function that likely contains the fault is related to how it sets the foreign key field when the related object is assigned. The `__set__` method in `ForwardManyToOneDescriptor` seems like a prime candidate because it's involved in setting the related object for a many-to-one relationship, which includes foreign keys.\n\nThe final answer is: \nFAULT: __set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 939,
+ "response_tokens": 435,
+ "elapsed_s": 1.56,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

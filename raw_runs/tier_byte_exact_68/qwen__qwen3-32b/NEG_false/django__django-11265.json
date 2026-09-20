@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11265",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8091,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when they use exclude on a queryset that has an annotated FilteredRelation, they get a FieldError because the annotation name 'book_alice' isn't recognized. \n\nFrom the error traceback, it looks like the issue arises when Django tries to process the exclude clause. The split_exclude function is involved here. The user mentioned that split_exclude creates a new query without the annotations from the original query. So when it tries to add the filter on 'book_alice', which was an annotation in the original query, the new query doesn't have that annotation anymore, leading to the FieldError.\n\nLooking at the split_exclude function's code, it creates a new Query instance (query = Query(self.model)) which doesn't carry over the annotations from the original query. The original query had the 'book_alice' annotation added via annotate(), but when split_exclude is called, the new query doesn't have that annotation. Therefore, when it tries to reference 'book_alice', it can't find it, causing the error.\n\nThe key here is that when split_exclude is called, it's creating a new query that doesn't include the annotations from the original query. The function responsible for adding annotations is add_annotation, but since split_exclude is creating a new query from scratch, those annotations aren't carried over. \n\nSo the fault lies in the split_exclude function because it's not preserving the annotations when creating the new query. The new query lacks the necessary annotations, leading to the FieldError when trying to reference them in the exclude clause.\n</think>\n\nThe issue arises because the `split_exclude` function creates a new `Query` object that does not inherit the annotations (like `book_alice`) from the original query. When `split_exclude` is called during an `exclude` operation on a queryset with a `FilteredRelation` annotation, it generates a new query without the original annotations. This new query lacks the necessary `FilteredRelation` setup, leading to a `FieldError` when attempting to reference the missing annotation (`book_alice`). The root cause is that `split_exclude` fails to propagate the annotations from the original query to the new one, making it impossible for subsequent operations (like filtering on the annotation) to resolve the field.\n\n**Answer:**  \nFAULT: split_exclude",
+ "finish_reason": "stop",
+ "prompt_tokens": 2095,
+ "response_tokens": 484,
+ "elapsed_s": 1.41,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "split_exclude",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

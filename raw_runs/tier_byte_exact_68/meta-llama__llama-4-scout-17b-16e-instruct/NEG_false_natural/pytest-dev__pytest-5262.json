@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8275,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The error occurs when `youtube-dl` logs to pytest's captured output. The `youtube-dl` library checks if the output mode contains 'b' to decide whether to write `bytes` or `str`. However, the `_pytest.capture.EncodedFile` class incorrectly advertises `rb+` as its mode, which includes 'b' for binary.\n\nThe issue arises from the `EncodedFile` class in `src/_pytest/capture.py`. This class is used to capture output and provides a way to write to the captured output. However, its `mode` attribute is not explicitly set, and it defaults to the mode of the underlying buffer, which is `rb+` for binary.\n\nTo fix this issue, we need to modify the `EncodedFile` class to override the `mode` attribute and exclude 'b' for binary. This can be achieved by adding a `mode` property to the `EncodedFile` class that returns the mode of the underlying buffer without 'b'.\n\nHere's the corrected code:\n\n```python\nclass EncodedFile(object):\n    def __init__(self, buffer, encoding):\n        self.buffer = buffer\n        self.encoding = encoding\n        self._closed = False\n\n    def write(self, obj):\n        if isinstance(obj, six.text_type):\n            obj = obj.encode(self.encoding, \"replace\")\n        elif _PY3:\n            raise TypeError(\n                \"write() argument must be str, not {}\".format(type(obj).__name__)\n            )\n        self.buffer.write(obj)\n\n    def writelines(self, linelist):\n        self.buffer.writelines(linelist)\n\n    def name(self):\n        return self.buffer.name\n\n    @property\n    def mode(self):\n        mode = self.buffer.mode\n        if 'b' in mode:\n            mode = mode.replace('b', '')\n        return mode\n\n    def __getattr__(self, name):\n        return getattr(self.buffer, name)\n```\n\nWith this modification, the `mode` attribute of the `EncodedFile` class will no longer include 'b' for binary, and `youtube-dl` will correctly write `str` instead of `bytes` to the captured output.\n\nThe function that contains the fault is `EncodedFile`. \n\nFAULT: EncodedFile",
+ "finish_reason": "stop",
+ "prompt_tokens": 2040,
+ "response_tokens": 479,
+ "elapsed_s": 1.46,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "EncodedFile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

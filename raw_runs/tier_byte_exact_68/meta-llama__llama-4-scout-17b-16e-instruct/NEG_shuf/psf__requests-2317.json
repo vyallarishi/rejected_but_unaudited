@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3795,
+ "raw": "# Step-by-step analysis of the problem:\n1. **The issue arises from the `prepare_method` function** in `requests/models.py`. This function takes a method as input, which can be a byte string.\n2. **In Python 3, byte strings are not implicitly converted to regular strings**. When a byte string is passed to the `builtin_str` function (which is an alias for `str` in Python 3), it results in a literal string representation of the byte string, rather than the actual string.\n3. **The `prepare_method` function calls `builtin_str(self.method).upper()`**, which converts the byte string `b'GET'` to the literal string `\"b'GET'\"` and then uppercases it to `\"B'GET'\"`.\n4. **The resulting string `\"B'GET'\"` is not a valid HTTP method**, which causes the server to return a 404 Not Found response.\n\n# Fixed solution:\nThe fix involves modifying the `prepare_method` function to handle byte strings correctly. Here's the corrected code:\n```python\ndef prepare_method(self, method):\n    if method is not None and not isinstance(method, str):\n        method = method.decode('utf-8')\n    self.method = method.upper()\n```\n# Explanation of changes:\n*   **Added a check for byte strings**: Before converting the method to uppercase, we check if it's a byte string. If it is, we decode it to a regular string using UTF-8 encoding.\n*   **Decoded byte strings to regular strings**: If the method is a byte string, we decode it to a regular string using the `decode` method.\n*   **Uppercased the method**: Finally, we uppercase the method using the `upper` method.\n\n# Tests and example uses:\nYou can test the corrected `prepare_method` function with different inputs, including byte strings and regular strings:\n```python\nprepared_request = PreparedRequest()\nprepared_request.prepare_method(b'GET')  # Should result in 'GET'\nprepared_request.prepare_method('POST')  # Should result in 'POST'\nprepared_request.prepare_method(b'PUT')  # Should result in 'PUT'\n```\n# FAULT:\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 909,
+ "response_tokens": 451,
+ "elapsed_s": 1.4,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "FAULT",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 3518,
+ "raw": "get_connection_params",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 856,
+ "response_tokens": 4,
+ "elapsed_s": 3.39,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "get_connection_params",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

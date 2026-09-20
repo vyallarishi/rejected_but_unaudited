@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 6018,
+ "raw": "FAULT: _arithmetic_mask",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1605,
+ "response_tokens": 7,
+ "elapsed_s": 0.3,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

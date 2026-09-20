@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4276,
+ "raw": "To solve this issue, let's analyze the problem step by step:\n\n1. **Understanding the Problem**: The task is to prevent new object creation in a model formset. Currently, model formsets in Django do not provide a direct way to create an \"edit only\" view of objects. Users have tried using `extra=0` to achieve this, but it's not reliable because `extra` is meant for displaying extra forms and can be bypassed by adding more forms with JavaScript or by sending additional POST data.\n\n2. **Identifying the Relevant Code**: The candidate functions are listed from `django/forms/models.py`. The key functions related to saving and formset management are:\n   - `save_new_objects` within `BaseModelFormSet` or its subclasses.\n   - `save_new` method, which is responsible for saving new objects.\n\n3. **Analyzing the Saving Process**: When a formset is saved, it iterates over its forms. For model formsets, the `save_new_objects` method is specifically called as part of the saving process. This method iterates over `self.extra_forms` (or effectively all forms that are not bound to existing instances) and calls `self.save_new(form, commit=commit)` for each, which creates and saves a new model instance.\n\n4. **Finding the Fault**: The fault lies in the `save_new_objects` method of `BaseModelFormSet`. This method does not check if a form is actually bound to a new object or an existing one; it saves all extra forms as new objects. This is problematic because it allows the creation of new objects even when the intention is to only edit existing ones.\n\n5. **Proposed Solution**: To disallow new object creation, we need to override or modify the behavior of the method that saves new objects. Specifically, we should prevent `save_new_objects` from saving new forms.\n\nGiven the information and analysis above, the function that contains the fault is:\n\nFAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1028,
+ "response_tokens": 403,
+ "elapsed_s": 1.22,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2776,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The issue is about SplitArrayField with BooleanField where checkboxes stay checked after the first True value. The user mentioned that the final_attrs dictionary is modified by the CheckboxInput widget's get_context method. \n\nSo, looking at the SplitArrayWidget's get_context method. The SplitArrayWidget is responsible for rendering multiple widgets, probably in a loop. The problem description says that when they loop through the data, they pass the same final_attrs dictionary each time. When CheckboxInput (which is used for BooleanField) gets a True value, it adds 'checked': True to the attrs. But since it's the same dict for all widgets, once it's set to True, all subsequent checkboxes will have that attribute, even if their data is False.\n\nThe key here is that the SplitArrayWidget's get_context is creating a single final_attrs and reusing it for each subwidget. That's the problem because modifying it in place for one widget affects all the others. The correct approach should be to create a new attrs dictionary for each subwidget, so that changes for one don't affect others.\n\nLooking at the candidate functions, the SplitArrayWidget's get_context is the one that's handling the rendering loop. The code in get_context would be where they loop through the data and call self.widget.get_context (the CheckboxInput's get_context) each time with the same final_attrs. Therefore, the fault lies in the SplitArrayWidget's get_context method because it's reusing the same attrs dict for all subwidgets, leading to the checked state being retained across them.\n\nWait, but the user's localization notes already point to SplitArrayWidget.get_context as the one called to render the checkboxes. The problem is that in that method, they create a single final_attrs and pass it to each subwidget's get_context. Since CheckboxInput's get_context modifies that same dict, subsequent widgets inherit those changes. Therefore, the SplitArrayWidget.get_context is the function where the mistake happens. The fix would involve ensuring each subwidget gets its own copy of attrs, so modifications for one don't affect others. Hence, the FAULT is in SplitArrayWidget.get_context.\n</think>\n\nFAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 629,
+ "response_tokens": 462,
+ "elapsed_s": 1.29,
+ "key_suffix": "A11SkB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

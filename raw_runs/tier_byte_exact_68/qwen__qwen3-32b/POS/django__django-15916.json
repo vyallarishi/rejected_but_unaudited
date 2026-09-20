@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5515,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that when they define a formfield_callback in the Meta class of their ModelForm, it doesn't get used when they create a form using modelform_factory. Instead, the callback is being overwritten to None.\n\nSo, looking at the example they provided, they have a MyForm class that specifies formfield_callback in both the class itself and the Meta. Then when they use modelform_factory with form=MyForm, the FactoryForm doesn't apply the callback. The issue is that modelform_factory is overriding the formfield_callback to None.\n\nThe user mentioned that the problem is in the modelform_factory function. Let me think about how modelform_factory works. From what I remember, modelform_factory constructs a ModelForm by taking the provided form class and possibly modifying its Meta options. \n\nIn the Django source code, modelform_factory probably creates a new Meta class for the form. When it does that, it might be explicitly setting formfield_callback to None if it's not provided as an argument. Let me check the steps they outlined in the localization notes.\n\nThe notes say that modelform_factory is called with a form argument but no formfield_callback. The parameter defaults to None. The function doesn't check for form.Meta.formfield_callback as a fallback. Instead, it constructs a new Meta with formfield_callback set to None. Then, when creating the new form class, the Meta's formfield_callback is overridden, so the original one from MyForm's Meta is lost.\n\nSo the fault is in modelform_factory because it's not respecting the formfield_callback defined in the Meta of the provided form class. Instead, it's setting it to None. The function should check if the form class's Meta already has a formfield_callback and use that as a default if the parameter isn't provided.\n\nTherefore, the function that needs to be fixed is modelform_factory. It's the one responsible for creating the form class and merging the options correctly.\n</think>\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1276,
+ "response_tokens": 433,
+ "elapsed_s": 1.27,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

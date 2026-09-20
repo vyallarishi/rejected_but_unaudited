@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15127",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4487,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using @override_settings in tests to change MESSAGE_TAGS, the LEVEL_TAGS variable isn't updated, leading to level_tag returning an empty string. \n\nFirst, I remember that LEVEL_TAGS is a module-level variable in django/contrib/messages/storage/base.py. It's initialized by calling get_level_tags() when the module is imported. The issue arises because when tests override MESSAGE_TAGS using @override_settings, the cached LEVEL_TAGS doesn't get updated. \n\nThe key here is understanding how Django's caching works for settings. The get_level_tags function's return value is cached. So when settings are changed during a test, the cache isn't invalidated. The LEVEL_TAGS variable, which was set once at import time, doesn't reflect the new MESSAGE_TAGS setting. \n\nLooking at the functions listed, the one that's responsible for getting the level tags is get_level_tags. But since it's cached, when the settings are overridden, the cache isn't cleared. The problem is that the cache for get_level_tags isn't being reset when the settings are changed. \n\nThe @override_settings decorator is supposed to temporarily change settings for a test. However, if get_level_tags caches its result and that cache isn't invalidated when the settings change, then subsequent calls to level_tag will use the old cache. \n\nSo the fault lies in the get_level_tags function because it's caching the result, and that cache isn't being cleared when MESSAGE_TAGS is overridden. The LEVEL_TAGS variable is set once using this function's result, and if the cache isn't reset, it remains stale. \n\nTherefore, the function that needs to be looked at is get_level_tags. The caching mechanism here isn't properly invalidated when the settings are changed via @override_settings, leading to the incorrect LEVEL_TAGS being used.\n</think>\n\nFAULT: get_level_tags",
+ "finish_reason": "stop",
+ "prompt_tokens": 988,
+ "response_tokens": 388,
+ "elapsed_s": 1.14,
+ "key_suffix": "sruaC4",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_level_tags",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2334,
+ "raw": "## Step 1: Identify the problem\nThe issue lies in the way `django.utils.http.parse_http_date` handles two-digit years in date strings, specifically in its interpretation of years according to RFC 7231. The current implementation uses a hardcoded threshold (years < 70 are considered to be in the 2000s, and years 70-99 in the 1900s), which does not comply with the RFC requirement for interpreting two-digit years based on a sliding window relative to the current time.\n\n## Step 2: Understand the requirement\nRFC 7231 suggests that for dates in the RFC 850 format (which uses a two-digit year), if the year appears to be more than 50 years in the future, it should be interpreted as being in the past with the same last two digits. This implies a dynamic adjustment based on the current year.\n\n## 3: Locate the faulty function\nThe function in question is `parse_http_date` because it directly deals with parsing HTTP dates, including those in the RFC 850 format that may contain two-digit years.\n\n## 4: Confirm the fault\nThe fault is confirmed to be in `parse_http_date` because its logic for handling two-digit years is static and does not adjust according to the current year, thereby not complying with the standards outlined in RFC 7231.\n\nThe final answer is:\nFAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 569,
+ "response_tokens": 285,
+ "elapsed_s": 0.89,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4966",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 7246,
+ "raw": "decode",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1951,
+ "response_tokens": 2,
+ "elapsed_s": 0.36,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "decode",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

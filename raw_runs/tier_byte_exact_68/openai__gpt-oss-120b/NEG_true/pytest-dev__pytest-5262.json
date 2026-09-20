@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 9766,
+ "raw": "FAULT: __getattr__",
+ "finish_reason": "stop",
+ "prompt_tokens": 2427,
+ "response_tokens": 211,
+ "elapsed_s": 0.99,
+ "key_suffix": "AG0xGb",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__getattr__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

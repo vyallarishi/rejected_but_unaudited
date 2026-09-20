@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15499",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8369,
+ "raw": "FAULT: CreateModel.reduce",
+ "reasoning": "We need to identify which function contains the fault. The issue: Optimize CreateModel + AlterModelManagers to CreateModel. The reduce method in CreateModel should combine with AlterModelManagers, but missing block. So the fault is in CreateModel.reduce method. The function name is \"reduce\" inside class CreateModel. The list includes \"def reduce(self, operation, app_label):\" under CreateModel. So answer: CreateModel.reduce. Probably just \"CreateModel.reduce\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 1908,
+ "response_tokens": 110,
+ "elapsed_s": 0.97,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

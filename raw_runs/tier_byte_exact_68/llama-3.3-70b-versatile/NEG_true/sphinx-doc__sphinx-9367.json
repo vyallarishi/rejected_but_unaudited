@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-9367",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 3433,
+ "raw": "FAULT: visit_Tuple",
+ "finish_reason": "stop",
+ "prompt_tokens": 950,
+ "response_tokens": 6,
+ "elapsed_s": 0.28,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "visit_Tuple",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

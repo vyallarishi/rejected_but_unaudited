@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13195",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5387,
+ "raw": "To solve this task, I need to analyze the given issue and identify the function that contains the fault. \n\nThe issue is related to the `HttpResponse.delete_cookie()` method, which is not preserving the cookie's `SameSite` attribute when deleting a cookie. This results in a warning message from Firefox because the `SameSite` attribute is set to an invalid value without the `Secure` attribute.\n\nThe `delete_cookie` method in `django/http/response.py` is responsible for deleting a cookie by setting its `max_age` to 0 and `expires` to a date in the past. However, it does not preserve the `SameSite` attribute of the original cookie.\n\nThe candidate functions in `django/http/response.py` are listed, and the function that contains the fault is `delete_cookie`.\n\nHere is the solution:\n\nFAULT: delete_cookie",
+ "finish_reason": "stop",
+ "prompt_tokens": 1259,
+ "response_tokens": 173,
+ "elapsed_s": 0.81,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "delete_cookie",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

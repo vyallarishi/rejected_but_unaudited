@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2711,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that the MigrationRecorder isn't respecting the db_router's allow_migrate rules. Their setup has multiple databases, and they only want migrations to run on the 'default' database. But when running tests, Django is creating test databases for all connections and running migrate on each, which causes the MigrationRecorder to create the django_migrations table on non-default databases, which it shouldn't.\n\nThe issue seems to be in the MigrationRecorder's ensure_schema method. Let me look at the flow again. When the test runner sets up databases, it calls migrate on each database. During migration, the executor calls record_applied, which calls ensure_schema. The ensure_schema checks if the Migration model's table exists. If not, it tries to create it. But here's the problem: when creating the table, it doesn't check the router's allow_migrate method. The router is supposed to prevent any migrations (and thus table creation) on non-default databases. However, the ensure_schema method directly creates the table without going through the router check.\n\nSo the fault is that the ensure_schema function isn't using the router to determine if it's allowed to create the table. The router's allow_migrate is supposed to control where migrations are applied, but in this case, the MigrationRecorder bypasses that check when creating the django_migrations table. Therefore, the ensure_schema function is the one that needs to respect the router's rules. The other functions like record_applied might be okay if they rely on ensure_schema, but the core issue is that ensure_schema isn't checking the router before creating the table.\n</think>\n\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 606,
+ "response_tokens": 348,
+ "elapsed_s": 1.07,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

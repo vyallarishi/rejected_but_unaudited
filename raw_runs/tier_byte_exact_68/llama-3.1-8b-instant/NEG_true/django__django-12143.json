@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 14158,
+ "raw": "get_inline_instances",
+ "finish_reason": "stop",
+ "prompt_tokens": 3174,
+ "response_tokens": 4,
+ "elapsed_s": 27.71,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "get_inline_instances",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

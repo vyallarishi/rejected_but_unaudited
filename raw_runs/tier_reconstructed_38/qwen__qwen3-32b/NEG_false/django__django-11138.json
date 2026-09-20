@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5528,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "\nOkay, let's try to figure out where the problem is. The user is saying that when using a date lookup with Django and a database like MySQL, the TIME_ZONE setting for the database isn't being used. Instead, it's converting from UTC to the Django time zone, which might not be correct if the database's timezone (tz2) is different.\n\nLooking at the example, when they use a direct datetime filter, it works because the database is storing in Paris time. But when using a date lookup, Django is generating a CONVERT_TZ from UTC to Paris, which is wrong if the database's timezone is already Paris. The issue is that the conversion should be from the database's timezone (tz2) to the Django app's timezone (tz1), but it's hardcoded to UTC.\n\nThe user mentioned a specific line in the Django code (operations.py line 49) where UTC is forced. Let me check that. The function in question is probably _convert_field_to_tz. The description says that this function generates the incorrect SQL by hardcoding 'UTC' as the source timezone. So when converting, it's using UTC instead of the database's timezone. That would explain why even if the database is set to Paris, it's converting from UTC to Paris again, which is unnecessary and incorrect if the database is already in Paris time.\n\nSo the problem is that _convert_field_to_tz is using UTC as the source, not considering the database's TIME_ZONE setting. The correct source should be the database's timezone (tz2), but it's being forced to UTC. Therefore, the faulty function is _convert_field_to_tz.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1482,
+ "response_tokens": 348,
+ "elapsed_s": 5.8,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 4070,
+ "raw": "urllib3",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1101,
+ "response_tokens": 4,
+ "elapsed_s": 0.39,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "urllib3",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

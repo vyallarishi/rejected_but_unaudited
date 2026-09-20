@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11276",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2355,
+ "raw": "<think>\nOkay, let's see. The issue is about replacing Django's own escape function with Python's built-in html.escape(). The description says that Django's escape is slower and there's duplication.\n\nLooking at the candidate functions listed, the first one is def escape(text):. That's probably the one they're talking about. The problem mentions that Django's version uses str.translate, which is slower. The Python html.escape uses replace, which is faster as per the bug reference.\n\nThe user did a timeit test and saw a performance improvement when switching. Also, there's a note about the difference in the output for single quotes (using &#x27; vs &#39;), but they consider it a backwards incompatible change. However, the main issue is replacing the Django function with the stdlib one.\n\nSo the function in django.utils.html that's causing the duplication and performance issue is the escape function. The other functions like escapejs or format_html might use the same method, but the primary candidate here is the escape function itself. The ruled out section also mentions escape being the cause, even though it's upstream now. Wait, the ruled out says \"escape: ruled out; the true cause is upstream.\" Hmm, maybe I'm misunderstanding. Wait, the user says that the function is a duplicate of the stdlib's, so the fault is in Django's escape function because it's redundant. The idea is to replace Django's escape with the stdlib one. Therefore, the function that contains the fault is the Django's own escape function. So the answer should be escape.\n</think>\n\nFAULT: escape",
+ "finish_reason": "stop",
+ "prompt_tokens": 545,
+ "response_tokens": 328,
+ "elapsed_s": 1.07,
+ "key_suffix": "4QTq9Z",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "escape",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

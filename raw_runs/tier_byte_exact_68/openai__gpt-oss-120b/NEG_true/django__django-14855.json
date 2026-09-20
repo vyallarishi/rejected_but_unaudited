@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5207,
+ "raw": "FAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 1230,
+ "response_tokens": 72,
+ "elapsed_s": 0.67,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

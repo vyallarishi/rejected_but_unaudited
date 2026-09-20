@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 7357,
+ "raw": "FAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 1948,
+ "response_tokens": 203,
+ "elapsed_s": 0.95,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

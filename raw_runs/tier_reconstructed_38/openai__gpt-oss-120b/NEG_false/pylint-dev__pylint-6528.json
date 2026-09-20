@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6936,
+ "raw": "FAULT: _discover_files",
+ "reasoning": "We need to identify which function contains the fault causing ignore options not respected in recursive mode. The description says _discover_files likely doesn't filter based on ignore options. The candidate list includes _discover_files. So answer: _discover_files.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1747,
+ "response_tokens": 62,
+ "elapsed_s": 0.7,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

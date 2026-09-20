@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5685,
+ "raw": "FAULT: _convert_field_to_tz",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The user is saying that when using the `__date` lookup with a DateTimeField and USE_TZ=True, Django is generating incorrect SQL for MySQL. Specifically, it's using CONVERT_TZ with 'UTC' as the source timezone instead of the database's timezone. \n\nThe problem seems to be that the conversion is happening from UTC to the Django app's timezone (tz1), but the database might be using a different timezone (tz2). The user's example shows that when the database's TIME_ZONE is set (tz2), Django should convert from that tz2 to the app's tz1, but instead, it's converting from UTC to tz1. \n\nLooking at the code reference provided, the line in question is in the `DatabaseOperations` class of the MySQL backend. The function mentioned is `_convert_field_to_tz`. The user says this function directly generates the incorrect SQL by hardcoding 'UTC' as the source timezone in the CONVERT_TZ function. \n\nSo, the `_convert_field_to_tz` function is responsible for generating the SQL to convert the field's timezone. If it's hardcoding the source timezone as UTC instead of using the database's timezone (tz2), that would explain the issue. The correct behavior should be to use the database's timezone as the source when converting to the target timezone (the app's tz1). \n\nOther functions like `date_trunc_sql` are ruled out by the user, so the main suspect is `_convert_field_to_tz`. The function's job is to convert the field's timezone, but it's not taking into account the database's timezone setting. Instead, it's assuming the source is UTC, which is incorrect when the database is using a different timezone. \n\nTherefore, the fault lies in the `_convert_field_to_tz` function because it's not using the correct source timezone when generating the CONVERT_TZ SQL fragment.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1510,
+ "response_tokens": 414,
+ "elapsed_s": 9.23,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7357,
+ "raw": "## Step 1: Understanding the issue\nThe problem arises when using the `union` method on querysets in Django, specifically when one of the querysets is ordered. When `order_by()` is called on the resulting queryset, it clones the original queryset. However, the cloning process does not properly handle the `combined_queries` attribute, which is shared among the cloned querysets. This leads to unexpected behavior when trying to access or manipulate the original queryset after calling `order_by()`.\n\n## 2: Identifying the root cause\nThe root cause of the issue is in the `clone` method of the `Query` class. This method performs a shallow copy of its `__dict__`, which means that it does not create new, independent copies of all its attributes. Specifically, the `combined_queries` attribute, which contains sub-queries for the union, is shared between the original query and its clone. When `order_by()` is called on the clone, it modifies one of the shared sub-query objects in-place, corrupting the state of the original query object.\n\n## 3: Localizing the fault\nGiven the description of the issue and the process of elimination, the fault is localized to the `clone` method of the `Query` class. This method is responsible for creating a copy of a query object. The issue arises because it does not handle the `combined_queries` attribute correctly, leading to shared state between the original and cloned queries.\n\n## 4: Conclusion\nBased on the analysis, the function that contains the fault is `clone`. This function needs to be adjusted to properly handle the cloning of querysets that have been created with the `union` method, ensuring that each clone has its own independent state.\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 1877,
+ "response_tokens": 360,
+ "elapsed_s": 1.21,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

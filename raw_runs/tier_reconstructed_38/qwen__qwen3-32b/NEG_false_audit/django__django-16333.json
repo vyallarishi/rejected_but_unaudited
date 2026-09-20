@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3284,
+ "raw": "FAULT: UserCreationForm.save",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using UserCreationForm with a custom User model that has ManyToManyFields, the M2M data isn't being saved. The user mentioned that UserCreationForm's save method doesn't call self.save_m2m(), unlike ModelForm's save method. \n\nSo, I need to look at the UserCreationForm's save function. Let me think about how Django's form saving works. Normally, a ModelForm's save method, when commit is True, saves the instance and then calls save_m2m() to handle many-to-many relationships. But if the form's save doesn't call save_m2m, then those relationships won't be saved.\n\nLooking at the UserCreationForm's save method. The description says that in UserCreationForm.save(commit=True), it omits to call self.save_m2m(). So the fault is in the save method of UserCreationForm. \n\nThe candidate functions listed include the UserCreationForm's save method. The localization notes also mention that the save function is the path where the symptom occurs. The steps outline that when save is called, the super().save(commit=False) is done, then the password is set, then user.save() is called. But since save_m2m isn't called, the M2M fields aren't saved. \n\nTherefore, the fault is in the save method of UserCreationForm. The correct function to fix is the save method in UserCreationForm.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 745,
+ "response_tokens": 320,
+ "elapsed_s": 5.77,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

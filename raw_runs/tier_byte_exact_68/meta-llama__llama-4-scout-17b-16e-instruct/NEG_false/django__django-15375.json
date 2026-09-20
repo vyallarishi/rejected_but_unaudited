@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5954,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Aggregate function with default argument causes SQL error**: The use of the `default` argument in aggregate functions, such as `Sum(\"id\", default=0)`, results in SQL that is syntactically incorrect, specifically when used in conjunction with `annotate()`.\n\n2. **Subquery generation**: When `.aggregate()` is called on an annotated queryset, Django generates a subquery. This subquery wraps the original query.\n\n3. **Aggregate alias omission**: The problem arises because the logic for adding the aggregate's alias to the outer query's list of columns to select fails when the aggregate is wrapped in a `Coalesce` function.\n\n4. **Empty SELECT list**: The SQL compiler generates an outer query with an empty SELECT list (`SELECT FROM ...`), which is rejected by the database.\n\n# Fixed solution:\nThe fault is in the `get_aggregation` function.\n\n# Explanation of changes:\nNo explicit changes are provided as the issue seems to be within the core functionality of Django. However, understanding the flow:\n- The `get_aggregation` method needs to correctly handle aggregates with a default value.\n- Specifically, when an aggregate is used with `default`, it should be properly included in the subquery's SELECT list.\n\n# Tests and example uses:\nTo test, you can use the following example:\n```python\nfrom django.db.models import Sum, F\nfrom django.db.models.functions import Coalesce\n\n# Assuming Book is a model\nBook.objects.annotate(idx=F(\"id\")).aggregate(Sum(\"id\", default=0))\n```\nThis should no longer raise an `OperationalError`. \n\nThe long form using `Coalesce` works as a workaround:\n```python\nBook.objects.annotate(idx=F(\"id\")).aggregate(x=Coalesce(Sum(\"id\"), 0))\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1505,
+ "response_tokens": 378,
+ "elapsed_s": 1.23,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

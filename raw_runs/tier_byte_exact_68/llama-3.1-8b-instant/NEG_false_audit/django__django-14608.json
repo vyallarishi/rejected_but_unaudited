@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 2691,
+ "raw": "FAULT: full_clean",
+ "finish_reason": "stop",
+ "prompt_tokens": 658,
+ "response_tokens": 5,
+ "elapsed_s": 0.35,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "full_clean",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

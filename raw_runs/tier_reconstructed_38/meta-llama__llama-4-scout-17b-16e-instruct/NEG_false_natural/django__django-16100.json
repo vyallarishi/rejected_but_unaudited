@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7129,
+ "raw": "## Step 1: Understand the issue\nThe issue is about adding transaction handling to the `changelist_view` in Django admin to prevent unexpected states in the database in case of errors during the processing of `list_editable` fields.\n\n## Step 2: Identify the relevant code\nThe `changelist_view` function in `django/contrib/admin/options.py` is responsible for handling the changelist view, including the processing of `list_editable` fields.\n\n## Step 3: Analyze the code path\nThe code path involves handling POST requests for `list_editable` fields, which includes saving multiple model instances. If an error occurs partway through this process, the database could be left in an inconsistent state without a transaction.\n\n## 4: Determine the fault site\nGiven that the `changelist_view` function handles the `list_editable` processing and that this processing involves database modifications, the function that contains the fault is likely `changelist_view`.\n\nThe final answer is:\nFAULT: changelist_view",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1662,
+ "response_tokens": 212,
+ "elapsed_s": 5.35,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

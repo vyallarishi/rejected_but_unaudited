@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6756,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to the `weighted` method in xarray, specifically when passing boolean weights to calculate the weighted mean. The problem arises because the `sum_of_weights` is calculated as the dot product of two boolean arrays, which results in a boolean value (`True` or `False`) instead of an integer or float.\n\nTo solve this issue, we need to identify where in the code the `sum_of_weights` is calculated and modify it to handle boolean weights correctly. \n\nThe provided code sample and the expected output suggest that the issue lies in how the weights are being processed. \n\nUpon reviewing the xarray codebase, we find that the `_sum_of_weights` function is responsible for calculating the sum of weights. \n\nThe issue arises from the fact that when `wgt` is a boolean array, `xr.dot(dta.notnull(), wgt)` yields a boolean value (`True` or `False`) instead of an integer or float. \n\nTo fix this issue, we need to modify the `_sum_of_weights` function to convert boolean weights to integers before calculating the sum.\n\n### Solution\n\nThe fault is in the `_sum_of_weights` function.\n\nTo fix the issue, we can modify the `_sum_of_weights` function to convert boolean weights to integers before calculating the sum. \n\n```python\ndef _sum_of_weights(self, weights):\n    if weights.dtype.kind == 'b':  # Check if weights are boolean\n        weights = weights.astype(int)  # Convert boolean to int\n    return xr.dot(self.notnull(), weights)\n```\n\nHowever, the optimal solution would be to modify the `dot` function to handle boolean arrays correctly. \n\n```python\ndef dot(*arrays, dims=None, **kwargs):\n    for array in arrays:\n        if array.dtype.kind == 'b':  # Check if array is boolean\n            array = array.astype(int)  # Convert boolean to int\n    # Perform the dot product\n    return xr.dot(*arrays, dims=dims, **kwargs)\n```\n\nBut based on the provided information and standard practices, the function that contains the fault is:\n\nFAULT: _sum_of_weights",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1847,
+ "response_tokens": 442,
+ "elapsed_s": 6.89,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_sum_of_weights",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

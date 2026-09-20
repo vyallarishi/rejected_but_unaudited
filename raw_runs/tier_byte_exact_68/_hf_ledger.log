@@ -1,0 +1,5 @@
+cohort instances: 106
+ledgers fetched:  106
+missing:          0 []
+with >=1 rejected candidate: 106
+rejected-candidate species (richer taxonomy): {'no_path': 451, 'other': 143, 'on_path': 23, 'downstream': 11, 'overridden': 3}

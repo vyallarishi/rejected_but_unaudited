@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6084,
+ "raw": "### Thought Process and Reasoning\n\nThe bug is related to the `ConciseDateFormatter` not showing the year when plotting less than 12 months and January is not included in the x-axis. To solve this, we need to understand how the `ConciseDateFormatter` works and where the logic for showing the year is implemented.\n\nThe `ConciseDateFormatter` class is defined in `matplotlib/dates.py`. The `format_ticks` method is responsible for formatting the tick values. It determines the formatting level by finding the most significant time unit that changes across ticks.\n\nThe issue arises when the level is less than 2, and the `show_offset` flag is set to `False`. This flag controls whether to show the offset (year) in the date format.\n\n### Solution\n\nTo fix the bug, we need to modify the `ConciseDateFormatter` class to show the year in the offset when the level is 1 (months) and the span of the ticks is more than a year.\n\n```python\ndef format_ticks(self, values):\n    # ... (rest of the method remains the same)\n\n    if level < 2:\n        show_offset = False\n    else:\n        show_offset = True\n```\n\nHowever, after analyzing the provided code and the `matplotlib/dates.py` file, the actual fix involves ensuring that `show_offset` is `True` when the level is 1 and the ticks span across years.\n\n```python\ndef format_ticks(self, values):\n    # ... (rest of the method remains the same)\n\n    if level < 2:\n        show_offset = self.show_offset and (ticks[-1] - ticks[0]).days > 365\n    else:\n        show_offset = True\n```\n\n### FAULT\n\nThe function that contains the fault is `format_ticks`. \n\nFAULT: format_ticks",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1641,
+ "response_tokens": 376,
+ "elapsed_s": 3.8,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

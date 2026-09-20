@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5178,
+ "raw": "To solve this issue, we need to identify where the fault lies. The problem arises when the computer hostname is set to a non-ASCII value and the email encoding is set to a non-unicode encoding (in this case, 'iso-8859-1'). \n\nThe error occurs because Python attempts to convert all headers to the specified encoding, including the Message-ID header, which contains the hostname. When the hostname contains non-ASCII characters and the encoding is not compatible with these characters, a UnicodeEncodeError is raised.\n\nLooking at the provided code and the stacktrace, the issue seems to be in the `message.py` file, specifically in the `make_msgid` function call within the `EmailMessage` class's `message` method. \n\nHowever, the actual fault lies in the fact that the domain name is not being converted to punycode before being used in the Message-ID header. This conversion should happen before the message is created, ideally in a function that deals with creating the Message-ID.\n\nThe function that contains the fault is `forbid_multi_line_headers`, as it attempts to encode the header value using the specified encoding, which fails when the header value contains non-ASCII characters.\n\nFAULT: forbid_multi_line_headers",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1279,
+ "response_tokens": 252,
+ "elapsed_s": 1.63,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "forbid_multi_line_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

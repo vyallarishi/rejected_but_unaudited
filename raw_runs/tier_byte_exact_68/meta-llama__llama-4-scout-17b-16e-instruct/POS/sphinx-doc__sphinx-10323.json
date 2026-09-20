@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10323",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5203,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The problem is that when using the `literalinclude` directive with the `:prepend:` option, the leading whitespace is removed, resulting in incorrect indentation.\n\nThe root cause of this issue is that the `dedent_filter` is applied to the entire content, including the prepended lines. This causes the prepended lines to be incorrectly dedented, or to trigger a warning if they contain non-whitespace characters in the dedented part.\n\nTo fix this issue, we need to modify the `LiteralIncludeReader` class to apply the `dedent_filter` only to the included lines, not to the prepended lines. We can do this by reordering the filters in the `read` method.\n\nThe fault is in the `read` method of the `LiteralIncludeReader` class. Specifically, the line where the filters are defined:\n```python\nself.filters = [self.pyobject_filter, self.lines_filter, self.start_filter,\n                self.end_filter, self.prepend_filter, self.append_filter,\n                self.dedent_filter]\n```\nThe `dedent_filter` should be applied before the `prepend_filter` and `append_filter`. This way, the prepended lines will not be dedented.\n\nHere is the corrected code:\n```python\nself.filters = [self.pyobject_filter, self.lines_filter, self.start_filter,\n                self.end_filter, self.dedent_filter, self.prepend_filter, self.append_filter]\n```\nBy making this change, we ensure that the `dedent_filter` is applied only to the included lines, and not to the prepended lines, resulting in correct indentation.\n\nFAULT: `LiteralIncludeReader.read`",
+ "finish_reason": "stop",
+ "prompt_tokens": 1349,
+ "response_tokens": 351,
+ "elapsed_s": 1.07,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "read",
+ "parse_method": "fault_line",
+ "hit_output_cap": false,
+ "predicted_function_original": null,
+ "parse_method_original": "none"
+}

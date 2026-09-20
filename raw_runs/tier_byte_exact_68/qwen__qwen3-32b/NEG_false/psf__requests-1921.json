@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2898,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is trying to remove a default header from a session by setting it to None, but instead of not sending the header, it sends \"None\" as the value. The correct way is to delete the header, but they want to understand why setting to None doesn't work.\n\nLooking at the code, the issue is in how the headers are prepared. The user mentioned that in the PreparedRequest's prepare_headers method, the headers dictionary is processed. When a header is set to None, like {'Accept-Encoding': None}, the prepare_headers function takes this dictionary and adds it to the CaseInsensitiveDict without checking for None values. Then, when serializing the headers for the HTTP request, the None is converted to the string 'None', which is sent as the header value.\n\nSo the problem is that prepare_headers doesn't filter out headers with None values. The function that's supposed to handle the headers and remove or ignore those with None values isn't doing so. Therefore, the fault lies in the prepare_headers function because it doesn't handle None values correctly. The function should check if the value is None and exclude the header from being sent, but it's not doing that check. Instead, it's including the header with the value 'None' as a string.\n</think>\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 678,
+ "response_tokens": 278,
+ "elapsed_s": 0.89,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

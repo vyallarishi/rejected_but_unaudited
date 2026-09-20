@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2057,
+ "raw": "FAULT: expr",
+ "reasoning": "We need to identify which function contains the fault causing the assertion failure. The bug occurs when Expression.compile receives \"False\". It parses to an AST Name node with id \"False\". Then compile() asserts that name is not \"None\", \"True\", \"False\". In Python's compile.c, they assert that name is not a constant name because they should be ast.Constant nodes, not ast.Name. So the parser incorrectly creates ast.Name for literals instead of ast.Constant. So the fault is in the parser function that builds the AST. Likely in expression(s: Scanner) or related functions that parse tokens. The token for \"False\" is recognized as a name token, but should be recognized as a constant token. The parser likely treats \"False\" as a name token and returns ast.Name. So the function that creates the AST node is probably in expression parsing: maybe in expr(s: Scanner) or not_expr, etc. Let's think: The grammar likely supports identifiers and boolean literals. The bug is that they treat \"False\" as identifier. So the function that maps token to AST node is probably in expr(s: Scanner) where they handle token types. So the fault is in expr(s: Scanner). The question: \"Which function contains the fault?\" Provide one function name from list. I'd answer: expr.",
+ "finish_reason": "stop",
+ "prompt_tokens": 605,
+ "response_tokens": 279,
+ "elapsed_s": 1.0,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "expr",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

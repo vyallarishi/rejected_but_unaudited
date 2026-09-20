@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 8555,
+ "raw": "_changeform_view",
+ "finish_reason": "stop",
+ "prompt_tokens": 1970,
+ "response_tokens": 4,
+ "elapsed_s": 14.82,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_changeform_view",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

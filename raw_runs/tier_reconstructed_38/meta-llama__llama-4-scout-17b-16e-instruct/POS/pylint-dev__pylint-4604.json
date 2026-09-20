@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-4604",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4567,
+ "raw": "To solve this issue, we need to identify the function that is responsible for checking unused imports and modify it to correctly handle type comments.\n\nThe issue arises from the fact that the current implementation of the `unused-import` check does not consider type comments when determining whether an import is used. \n\nThe function `leave_assign` seems to be a good candidate for this issue. This function is called after all child nodes of the `assign` node have been visited. \n\nIn this function, we can add a check to see if the assignment node has a type comment and if the type comment uses the imported module.\n\nHere is the function name that contains the fault:\n\n```\nFAULT: leave_assign\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1160,
+ "response_tokens": 140,
+ "elapsed_s": 2.04,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "leave_assign",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

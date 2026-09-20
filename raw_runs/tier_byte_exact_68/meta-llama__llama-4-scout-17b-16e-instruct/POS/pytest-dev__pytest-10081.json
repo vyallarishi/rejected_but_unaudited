@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4810,
+ "raw": "To solve this issue, we need to understand the flow of how tests are collected, run, and torn down in pytest, especially when using the unittest framework and the `--pdb` option.\n\nThe problem arises when a test class is marked with `@unittest.skip`. In normal conditions, pytest correctly skips the test and does not execute the `setUp` and `tearDown` methods. However, when running with `--pdb`, the behavior changes, and the `tearDown` method is executed.\n\nThe key to solving this issue lies in understanding how pytest interacts with unittest.TestCase and how skips are handled.\n\n## Step 1: Understanding the Interaction Between Pytest and Unittest\nPytest uses a plugin-based architecture and has a specific plugin for unittest.TestCase. This plugin, `_pytest.unittest`, is responsible for integrating unittest.TestCase with pytest.\n\n## Step 2: Identifying the Issue with Skipped Tests and Teardown\nThe issue seems to stem from how the `pytest_runtest_protocol` function handles skipped tests when `--pdb` is used. Normally, when a test is skipped, pytest should not execute the `setUp` and `tearDown` methods. However, with `--pdb`, it appears that the `tearDown` method is executed.\n\n## 3: Analyzing the Role of `pytest_runtest_protocol`\nThe `pytest_runtest_protocol` function is crucial as it defines the protocol for running a test. For unittest.TestCase, this involves setting up and tearing down the test case.\n\n## 4: Understanding the Impact of `--pdb`\nThe `--pdb` option drops into a pdb debugger session when a test fails. This changes the normal flow of test execution and can affect how setup and teardown are handled.\n\n## 5: Locating the Fault\nGiven the information and the flow of test execution, the fault seems to be in how the unittest plugin handles the setup and teardown for skipped tests when `--pdb` is used. Specifically, the issue lies in the `pytest_runtest_protocol` function not correctly handling class-level skips.\n\nThe final answer is:\nFAULT: pytest_runtest_protocol",
+ "finish_reason": "stop",
+ "prompt_tokens": 1212,
+ "response_tokens": 442,
+ "elapsed_s": 1.45,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "pytest_runtest_protocol",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

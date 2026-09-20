@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16136",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4889,
+ "raw": "To solve this issue, we need to identify the function that causes the fault. The error occurs when the `dispatch` method returns a non-awaitable `HttpResponseNotAllowed` object for a GET request, which is then attempted to be awaited by the `async_to_sync` wrapper.\n\nThe `dispatch` method in `View` class is responsible for handling the request and calling the corresponding method (e.g., `post`, `get`, etc.) based on the request method. If the request method is not allowed, it calls the `http_method_not_allowed` method, which returns an `HttpResponseNotAllowed` object.\n\nThe problem arises because the `dispatch` method returns the `HttpResponseNotAllowed` object directly, without wrapping it in an awaitable object, when the request method is not allowed. This causes the `async_to_sync` wrapper to attempt to await the non-awaitable object, resulting in a `TypeError`.\n\nThe function that contains the fault is `dispatch`. \n\nFAULT: dispatch",
+ "finish_reason": "stop",
+ "prompt_tokens": 1233,
+ "response_tokens": 208,
+ "elapsed_s": 0.75,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "dispatch",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4675,
+ "raw": "## Thought Process and Reasoning\n\nTo solve this task, we need to identify the function in the `requests/models.py` file that contains the fault, which causes a `UnicodeError` when attempting to access a URL like `http://.example.com`. \n\nThe error occurs because the URL has an invalid hostname. The `requests` library should raise an `InvalidUrl` exception in this case, but instead, it raises a `UnicodeError`. \n\nLooking at the provided code and the stacktrace, we can see that the error occurs during the preparation of the URL. \n\nThe `prepare_url` function in `requests/models.py` is responsible for preparing the URL. It calls `parse_url` to extract the hostname, and then it checks if the hostname is ASCII. If not, it tries to encode the hostname using IDNA. \n\nIf the hostname is empty or too long, IDNA encoding will raise a `UnicodeError`. This error is not caught, and it propagates up the stack.\n\n## Solution\n\nThe fault is in the `_get_idna_encoded_host` function, which is called by `prepare_url`. This function tries to encode the hostname using IDNA, but it does not handle the case where the hostname is empty or too long.\n\nThe fix is to add a try-except block to catch the `UnicodeError` and raise an `InvalidURL` exception instead.\n\n## FAULT\n\nFAULT: _get_idna_encoded_host",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1206,
+ "response_tokens": 294,
+ "elapsed_s": 4.11,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_get_idna_encoded_host",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_true",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 4502,
+ "raw": "clone",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1086,
+ "response_tokens": 2,
+ "elapsed_s": 0.42,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "clone",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

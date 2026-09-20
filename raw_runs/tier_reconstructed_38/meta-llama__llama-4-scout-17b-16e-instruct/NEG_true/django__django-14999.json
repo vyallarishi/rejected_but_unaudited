@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7861,
+ "raw": "## Step 1: Understand the issue\nThe issue is that a `RenameModel` operation with `db_table` defined should be a noop, but it's not. This operation is causing the table to be dropped and recreated, which can lead to issues with foreign key constraints.\n\n## 2: Identify the relevant code\nThe relevant code is in the `database_forwards` method of the `RenameModel` class in `django/db/migrations/operations/models.py`.\n\n## 3: Analyze the code\nThe `database_forwards` method calls `schema_editor.alter_db_table(new_model, old_model._meta.db_table, new_model._meta.db_table)`, which is the cause of the issue. This line of code is executed even if the model has a `db_table` defined.\n\n## 4: Determine the fix\nTo fix this issue, we need to add a check to see if the model has a `db_table` defined, and if so, do nothing.\n\n## 5: Identify the function to modify\nThe function that needs to be modified is `database_forwards` in the `RenameModel` class.\n\n## 6: Refine the function name\nThe function name is `database_forwards`.\n\nThe final answer is: \nFAULT: database_forwards",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1760,
+ "response_tokens": 263,
+ "elapsed_s": 3.08,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_forwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

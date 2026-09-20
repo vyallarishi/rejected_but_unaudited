@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2262,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "\nOkay, let's see. The issue is about deprecated keyword arguments \"db\" and \"passwd\" in the MySQL backend of Django. The user provided a list of candidate functions from the mysql/base.py file.\n\nThe problem occurs in the connection parameters where 'db' and 'passwd' are used. Looking at the functions, the get_connection_params function is responsible for preparing the connection parameters. That's where the 'db' and 'passwd' are set based on the settings. Since those kwargs are deprecated, the function that sets them would be the one needing to be fixed. So the fault is in get_connection_params.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 629,
+ "response_tokens": 134,
+ "elapsed_s": 2.15,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

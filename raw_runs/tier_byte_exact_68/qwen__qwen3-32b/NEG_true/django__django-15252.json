@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15252",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3209,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is saying that the MigrationRecorder isn't respecting the db_router's allow_migrate rules. Their setup uses a multi-database configuration where only the 'default' database should have tables created. They have a router that returns True only for 'default' in allow_migrate.\n\nThe problem occurs during tests when the test runner creates test databases and runs migrate on each connection. When migrate is called on a non-default database, the MigrationRecorder tries to record applied migrations. The key part here is the ensure_schema method. \n\nLooking at the flow: when record_applied is called, it checks if the migration table exists. If not, it calls ensure_schema, which then creates the table. But during this process, there's no check using the router's allow_migrate. So even if the router says that the database shouldn't be used, the table is still created because the router isn't consulted here.\n\nThe user's analysis points to ensure_schema as the faulty function because it creates the table without checking the router. The other functions like applied_migrations don't create the table, so they don't cause the issue. The problem is that when ensure_schema is called, it doesn't use the router to determine if creating the table is allowed for that database. Therefore, the fault lies in the ensure_schema method not respecting the router's rules.\n</think>\n\nFAULT: ensure_schema",
+ "finish_reason": "stop",
+ "prompt_tokens": 704,
+ "response_tokens": 297,
+ "elapsed_s": 0.91,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "ensure_schema",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

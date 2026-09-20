@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4167,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is about SplitArrayField with BooleanField where checkboxes remain checked after the first True value. \n\nFrom the description, when using SplitArrayField, the widgets are rendered using a SplitArrayWidget. The key part seems to be in the get_context method of SplitArrayWidget. The explanation says that SplitArrayWidget.get_context creates a single final_attrs dictionary for all subwidgets. Then, when looping through the data, it calls CheckboxInput.get_context for each item, passing the same final_attrs each time. When CheckboxInput gets a True value, it adds 'checked': True to the attrs. But since it's the same dict for all widgets, once it's set to True, all subsequent checkboxes use that same attrs with checked=True, even if their data is False.\n\nSo the problem is that the SplitArrayWidget's get_context is reusing the same attrs dictionary for all subwidgets. The CheckboxInput's get_context modifies this dictionary, which affects all subsequent widgets. Therefore, the fault lies in the SplitArrayWidget's get_context method because it's not creating a new attrs dictionary for each subwidget, leading to the checked state being incorrectly applied to all after the first True.\n\nLooking at the candidate functions, the SplitArrayWidget's get_context is mentioned as part of the process. The SplitArrayField isn't directly involved here; the issue is about rendering the widgets, which is handled by the widget, not the field. The SplitArrayWidget's get_context is the one creating the final_attrs and reusing it. Therefore, the function with the fault is SplitArrayWidget.get_context.\n</think>\n\nFAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 927,
+ "response_tokens": 350,
+ "elapsed_s": 1.0,
+ "key_suffix": "42TFwC",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

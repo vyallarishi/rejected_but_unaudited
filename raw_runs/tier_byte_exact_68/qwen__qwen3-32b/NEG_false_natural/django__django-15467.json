@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5558,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that when they define radio_fields in their ModelAdmin, their custom empty_label for a foreign key field gets overridden by Django's default 'None' label. \n\nSo, looking at their example, they have a ModelAdmin subclass where they set radio_fields to 'myfield', and in formfield_for_foreignkey, they set the empty_label to their own custom string. But when the form is rendered, it still shows 'None' instead of their custom label. \n\nThe user provided a code example and a localization note. The localization note says that the user's formfield_for_foreignkey is called, which then calls the super class's method. In the BaseModelAdmin's formfield_for_foreignkey method, there's a line that sets kwargs['empty_label'] to _('None') if the field is blank, otherwise None. This line is overwriting the custom empty_label that the user set.\n\nThe user suggests that this line should be modified to use kwargs.get('empty_label') or the default, meaning that if the user provided an empty_label, it should take precedence. \n\nLooking at the list of candidate functions, the relevant one here is formfield_for_foreignkey in BaseModelAdmin. The issue is that in that method, when radio_fields is in use, it's enforcing the default empty label, ignoring any user-provided value. \n\nSo the fault is in the formfield_for_foreignkey method of BaseModelAdmin. The line that sets empty_label unconditionally is the problem. The fix would involve checking if the user has already set empty_label in kwargs before applying the default. \n\nTherefore, the function containing the fault is formfield_for_foreignkey.\n</think>\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1330,
+ "response_tokens": 363,
+ "elapsed_s": 1.09,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

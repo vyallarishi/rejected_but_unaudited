@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 18539,
+ "raw": "FAULT: to_unstacked_dataset",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 4910,
+ "response_tokens": 8,
+ "elapsed_s": 7.88,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "to_unstacked_dataset",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

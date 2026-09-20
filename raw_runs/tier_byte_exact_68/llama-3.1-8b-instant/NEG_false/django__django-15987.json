@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15987",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 1849,
+ "raw": "FAULT: fixture_dirs",
+ "finish_reason": "stop",
+ "prompt_tokens": 454,
+ "response_tokens": 5,
+ "elapsed_s": 0.25,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "fixture_dirs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

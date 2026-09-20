@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11265",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8024,
+ "raw": "# Step-by-step analysis of the problem:\n1. **The issue arises when using `exclude` on a queryset with an annotated `FilteredRelation`.** This suggests that the problem lies in how the `exclude` method handles annotations, specifically those created with `FilteredRelation`.\n\n2. **The error occurs because Django cannot resolve the annotation name (`book_alice`) into a field.** This indicates that the issue might be related to how Django tracks and resolves annotations during query processing.\n\n3. **The `split_exclude` method creates a new query object without the annotations from the original query.** This is crucial because when `split_exclude` tries to add a filter to the new query object, it does not have access to the annotations (like `book_alice`) defined in the original query.\n\n4. **The faulty function seems to be `split_exclude` in `django/db/models/sql/query.py`.** This method appears to be the source of the problem because it creates a new query object that lacks the necessary annotations.\n\n# Fixed solution:\nTo fix this issue, we need to ensure that the new query object created in `split_exclude` includes the annotations from the original query. \n\n```python\ndef split_exclude(self, filter_expr, can_reuse, names_with_path):\n    # Create a new query object that clones the original query's annotations\n    query = self.clone()\n    # Rest of the method remains the same\n    ...\n```\n\nHowever, simply changing the line to clone the query might not be sufficient, as we need to ensure that annotations are properly copied:\n\n```python\ndef split_exclude(self, filter_expr, can_reuse, names_with_path):\n    # Create a new query object that clones the original query\n    query = self.clone()\n    query.annotations = self.annotations.copy()\n    # Rest of the method remains the same\n    ...\n```\n\n# Explanation of changes:\n- **Clone the original query:** Instead of creating a new, empty `Query` object, we clone the original query. This ensures that the new query object has the same structure and definitions as the original query.\n- **Copy annotations:** By explicitly copying the `annotations` dictionary from the original query to the new query, we ensure that the new query object has access to all annotations, including those created with `FilteredRelation`.\n\n# Tests and example uses:\nTo verify that this fix works, you can use the test case provided in the issue description:\n\n```python\ndef test_with_join(self):\n    self.assertSequenceEqual(\n        Author.objects.annotate(\n            book_alice=FilteredRelation('book', condition=Q(book__title__iexact='poem by alice')),\n        ).exclude(book_alice__isnull=False),\n        []\n    )\n```\n\nThis test should now pass without raising a `FieldError`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2086,
+ "response_tokens": 573,
+ "elapsed_s": 1.63,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

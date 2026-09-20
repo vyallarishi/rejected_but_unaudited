@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4966",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7246,
+ "raw": "FAULT: UnsignedIntegerCoder.decode",
+ "reasoning": "We need to answer: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\"\n\nWe have a description about handling signed bytes from OPeNDAP via pydap. The issue is that xarray's decode_cf_variable (or UnsignedIntegerCoder.decode) doesn't handle the case where dtype.kind == 'u' and attribute _Unsigned == False. The warning is thrown: variable 'test' has _Unsigned attribute but is not of integer type. Ignoring attribute.\n\nThe code location referenced is xarray/coding/variables.py line 311. That is likely inside UnsignedIntegerCoder.decode. Let's check typical code: UnsignedIntegerCoder.decode checks if variable.dtype.kind == 'i' and variable.attrs.get('_Unsigned') == 'true' (or True). It then casts to signed integer? Actually for unsigned bytes stored as signed, they add _Unsigned=True to indicate unsigned. For signed bytes stored as unsigned, they add _Unsigned=False. So the fix is to handle dtype.kind == 'u' and unsigned == False.\n\nThus the faulty function is UnsignedIntegerCoder.decode. The list includes functions: class UnsignedIntegerCoder(VariableCoder): def encode..., def decode...\n\nThus answer: FAULT: UnsignedIntegerCoder.decode\n\nBut the list includes just function names, not methods? The list includes \"class UnsignedIntegerCoder(VariableCoder): def encode..., def decode...\". So the function name is \"UnsignedIntegerCoder.decode\". Probably they want \"UnsignedIntegerCoder.decode\". Provide that.\n\nThus final answer.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2009,
+ "response_tokens": 344,
+ "elapsed_s": 1.22,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "decode",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

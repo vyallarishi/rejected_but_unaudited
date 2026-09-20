@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7506,
+ "raw": "To solve this issue, we need to analyze the provided information. The problem seems to be related to the `lookup_allowed` function in the `ModelAdmin` class. \n\nThe issue arises when the `lookup_allowed` function incorrectly raises a `DisallowedModelAdminLookup` exception when a foreign key is used as a primary key. \n\nThe provided test case demonstrates this issue. The test creates several models, including `Country`, `Place`, `Restaurant`, and `Waiter`, with specific relationships between them. It then creates a `WaiterAdmin` class with a `list_filter` that includes a lookup on `restaurant__place__country`. \n\nThe test fails because the `lookup_allowed` function does not allow the lookup `restaurant__place__country`, even though it is specified in the `list_filter`.\n\nAfter analyzing the provided information, it seems that the fault lies in the `lookup_allowed` function.\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1751,
+ "response_tokens": 190,
+ "elapsed_s": 1.14,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

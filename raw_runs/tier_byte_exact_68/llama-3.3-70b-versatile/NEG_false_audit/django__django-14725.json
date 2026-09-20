@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14725",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 4491,
+ "raw": "FAULT: save_new_objects",
+ "finish_reason": "stop",
+ "prompt_tokens": 1095,
+ "response_tokens": 6,
+ "elapsed_s": 0.46,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save_new_objects",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

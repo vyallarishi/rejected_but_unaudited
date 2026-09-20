@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4502,
+ "raw": "FAULT: clone",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is trying to clone a StandardScaler where one of its parameters is the class itself, not an instance. So when they call clone(StandardScaler(with_mean=StandardScaler)), it's passing the class as the with_mean parameter.\n\nLooking at the error traceback, it's happening in the clone function. The error is a TypeError because get_params is missing a 'self' argument. That makes sense because when they try to call get_params on the StandardScaler class (not an instance), there's no self. So the clone function is trying to call get_params on a class instead of an instance.\n\nThe clone function checks if the estimator has get_params, but it doesn't check if it's an instance. So in the case where the parameter is a class (like StandardScaler), it proceeds to call get_params on it, which fails because it's a method that requires an instance.\n\nThe user suggested changing the condition in base.py line 51 to check if the estimator is a class (using isinstance(estimator, type)). The current code probably checks if it's not an estimator, but maybe it's not considering that a class isn't an instance of an estimator.\n\nSo the fault is in the clone function. The clone function doesn't properly handle parameters that are classes (types) instead of instances. The condition to check for estimators probably doesn't account for classes, leading to the incorrect call to get_params on the class.\n\nTherefore, the function containing the fault is clone.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1064,
+ "response_tokens": 322,
+ "elapsed_s": 6.45,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

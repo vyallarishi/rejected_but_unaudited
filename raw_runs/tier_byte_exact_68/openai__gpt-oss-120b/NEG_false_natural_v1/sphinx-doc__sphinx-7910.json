@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-7910",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 6844,
+ "raw": "FAULT: get_object_members",
+ "finish_reason": "stop",
+ "prompt_tokens": 1864,
+ "response_tokens": 678,
+ "elapsed_s": 2.04,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_object_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2995,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is with the SplitArrayField using a BooleanField (like CheckboxInput) where once a True value is encountered, all subsequent checkboxes are rendered as checked, even if their data is False. \n\nThe description says that the SplitArrayWidget's get_context method is called to render the checkboxes. It creates a single final_attrs dictionary for all subwidgets. Then, in a loop, it calls self.widget.get_context (which is CheckboxInput's get_context) for each item, passing the same final_attrs each time. When CheckboxInput gets a True value, it adds 'checked': True to the attrs. The problem is that this modified attrs is used for all subsequent widgets, so even if their data is False, they have the checked attribute from the previous modification.\n\nSo the key here is that the SplitArrayWidget's get_context is reusing the same attrs dictionary for each widget, and since CheckboxInput modifies it in place, it carries over to the next iterations. The candidate functions are in the SplitArrayWidget and SplitArrayField classes.\n\nLooking at the SplitArrayWidget's get_context method, if it's creating a single final_attrs and passing it to each subwidget's get_context, that's the problem. The CheckboxInput's get_context modifies this same dict, leading to the checked state being retained. \n\nThe SplitArrayWidget's get_context is the function where this loop happens. Therefore, the fault lies in SplitArrayWidget.get_context because it's not creating a new attrs dictionary for each subwidget, leading to the shared state issue when CheckboxInput modifies it.\n</think>\n\nFAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 674,
+ "response_tokens": 346,
+ "elapsed_s": 1.03,
+ "key_suffix": "X6XBbC",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

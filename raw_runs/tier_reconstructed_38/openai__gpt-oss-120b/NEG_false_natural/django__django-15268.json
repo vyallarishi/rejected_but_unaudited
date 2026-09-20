@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2693,
+ "raw": "FAULT: reduce",
+ "reasoning": "We need to identify which function contains the fault causing failure to optimize multiple AlterFooTogether operations into one. The description says reduce method is called to combine operations. AlterUniqueTogether and AlterIndexTogether do not override reduce, so base implementation returns False, meaning they are not elidable. The optimizer should combine them, but they aren't. So the fault is in the base class's reduce method implementation, which should perhaps allow combining consecutive AlterFooTogether ops. So the function containing the fault is reduce (in Operation class). So answer: reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 699,
+ "response_tokens": 122,
+ "elapsed_s": 0.83,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7960,
+ "raw": "## Step 1: Understand the issue\nThe issue arises when using `db_collation` with a primary key that has referenced foreign keys in other models, causing foreign key constraint errors in MySQL. This happens because the collation of the primary key is not properly propagated to the foreign key columns.\n\n## 2: Identify the relevant code\nThe problem seems to be related to how Django handles database schema alterations, specifically when altering fields and creating foreign key constraints.\n\n## 3: Analyze the provided code and functions\nThe functions listed are from `django/db/backends/base/schema.py`, which is part of Django's database backend for handling schema operations.\n\n## 4: Determine the faulty function\nThe issue seems to stem from how foreign key fields are altered, specifically in how their database parameters are determined. The `db_parameters` method for `ForeignKey` fields does not propagate the collation from the referenced primary key field.\n\n## 5: Conclusion\nGiven that the problem involves the alteration of fields and the creation of foreign key constraints without properly propagating the collation, the fault lies in how `alter_field` handles the database parameters of the new field, specifically for foreign key fields.\n\nThe final answer is: \nFAULT: _alter_field",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1884,
+ "response_tokens": 253,
+ "elapsed_s": 2.95,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_alter_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3771,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. Based on the provided information, the fault seems to be related to the `get_order_by` function in `django/db/models/sql/compiler.py`. \n\nThe issue arises when `Meta.ordering` contains expressions and `order_by()` is called on a parent model. The `get_order_by` function is where the `ordering` list is populated from `self.query.get_meta().ordering`. \n\nIn this function, the code iterates through the `ordering` list, and the `field` variable becomes an `OrderBy` object. However, the condition `if hasattr(field, 'resolve_expression')` evaluates to False, which is incorrect for an `OrderBy` object. \n\nAs a result, the `else` block is executed, which is intended for string-based field names. The function `get_order_dir` is then called with the `OrderBy` object as its first argument, leading to an `AttributeError` when it attempts a string operation on the object.\n\nTherefore, the function that contains the fault is `get_order_by`.\n\nFAULT: get_order_by",
+ "finish_reason": "stop",
+ "prompt_tokens": 869,
+ "response_tokens": 233,
+ "elapsed_s": 0.8,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

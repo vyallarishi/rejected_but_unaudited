@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2380,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "We need to identify which function contains the fault. The issue: Changing user's email could invalidate password reset tokens. The fix is to add the user's email address into PasswordResetTokenGenerator._make_hash_value(). So the faulty function is _make_hash_value, because it omits email. So answer: _make_hash_value.",
+ "finish_reason": "stop",
+ "prompt_tokens": 591,
+ "response_tokens": 81,
+ "elapsed_s": 0.77,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

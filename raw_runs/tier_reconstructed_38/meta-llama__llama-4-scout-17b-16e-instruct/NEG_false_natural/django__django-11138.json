@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11138",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5624,
+ "raw": "## Step 1: Understand the issue\nThe problem lies in how Django handles timezone conversions when making dates timezone-aware on MySQL, SQLite, and Oracle databases. Specifically, when using `USE_TZ=True` and a `TIME_ZONE` setting is defined in the `DATABASES` settings for a specific database, the timezone conversion is not correctly applied when performing date lookups.\n\n## Step 2: Identify the relevant code\nThe issue seems to be related to how Django generates SQL queries for date lookups. The `date_extract_sql`, `datetime_cast_date_sql`, and `_convert_field_to_tz` functions in `django/db/backends/mysql/operations.py` are potential candidates for investigation.\n\n## 3: Analyze the `_convert_field_to_tz` function\nThe `_convert_field_to_tz` function is used to convert a field to a specific timezone. In the context of the issue, this function is called when performing a date lookup on a `DateTimeField` with `USE_TZ=True`. The function generates a SQL fragment that converts the field from 'UTC' to the target timezone.\n\n## 4: Determine the fault\nThe fault lies in the `_convert_field_to_tz` function, which hardcodes 'UTC' as the source timezone in the generated `CONVERT_TZ(%s, 'UTC', '%s')` SQL fragment. This is incorrect because the source timezone should be the timezone of the database, not 'UTC'.\n\n## 5: Conclusion\nThe function that contains the fault is `_convert_field_to_tz`.\n\nFAULT: _convert_field_to_tz",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1452,
+ "response_tokens": 323,
+ "elapsed_s": 4.35,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_convert_field_to_tz",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

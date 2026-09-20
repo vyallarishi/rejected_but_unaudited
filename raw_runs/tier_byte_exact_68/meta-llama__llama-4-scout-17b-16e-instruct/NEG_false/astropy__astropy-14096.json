@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14096",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3903,
+ "raw": "# Step-by-step analysis of the problem:\n1. **The issue arises from a custom property (`prop`) in a subclass of `SkyCoord`**: The custom property attempts to access a non-existent attribute (`random_attr`), leading to an `AttributeError`.\n2. **The error message is misleading**: It suggests that the `prop` attribute does not exist, when in fact, it's the `random_attr` attribute that's missing.\n3. **The cause lies in Python's attribute access mechanism**: When the property getter fails to access `random_attr`, it raises an `AttributeError`. This error is then caught by Python's `object.__getattribute__`, which misinterprets it as a failure to find the `prop` attribute itself.\n4. **The problematic function is `__getattr__` in `SkyCoord`**: However, the issue is not directly with `__getattr__` in `SkyCoord`, but rather with how Python handles attribute access and error propagation.\n\nHowever, given the provided information and analyzing the process, **the actual fault lies in the `__getattr__` method of the `SkyCoord` class**. This method is responsible for handling attribute access and raising the `AttributeError` with a message that is misleading in this context.\n\n# Fixed solution:\nTo fix this issue, we need to modify the `__getattr__` method in `SkyCoord` to provide a more informative error message when an attribute is not found. However, directly modifying `__getattr__` might not be straightforward or recommended without understanding the full implications on the `SkyCoord` class and its intended behavior.\n\nGiven the constraints and focusing on providing a meaningful response:\n\n```python\nimport astropy.coordinates as coord\n\nclass custom_coord(coord.SkyCoord):\n    @property\n    def prop(self):\n        try:\n            return self.random_attr\n        except AttributeError as e:\n            raise AttributeError(\"Custom coordinate property 'prop' failed to access attribute 'random_attr'\") from e\n\nc = custom_coord('00h42m30s', '+41d12m00s', frame='icrs')\ntry:\n    print(c.prop)\nexcept AttributeError as e:\n    print(e)\n```\n\n# Explanation of changes:\n- **Added a try-except block in the property getter**: This allows for catching the `AttributeError` raised when accessing `random_attr`.\n- **Raised a new `AttributeError` with a more informative message**: This change provides clarity on which attribute failed to be accessed, rather than misleadingly stating that the property itself does not exist.\n\n# Tests and example uses:\nThe example usage demonstrates how the modified property getter provides a clearer error message when attempting to access a non-existent attribute.\n\n# FAULT:\nFAULT: __getattr__",
+ "finish_reason": "stop",
+ "prompt_tokens": 991,
+ "response_tokens": 567,
+ "elapsed_s": 1.57,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "FAULT",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 7044,
+ "raw": "FAULT: _discover_files",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1721,
+ "response_tokens": 6,
+ "elapsed_s": 0.47,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15127",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 1674,
+ "raw": "To solve this issue, we need to understand the flow of how message tags are handled in Django, especially when using `@override_settings` in tests. The problem lies in how `LEVEL_TAGS` is defined and updated.\n\nThe `LEVEL_TAGS` variable is a module-level variable that is set at import time by calling `get_level_tags()`. This function presumably reads the `MESSAGE_TAGS` setting to populate `LEVEL_TAGS`. However, when using `@override_settings` in a test, the `MESSAGE_TAGS` setting is changed, but this change does not affect the already imported and set `LEVEL_TAGS` variable.\n\nThe issue arises in the `level_tag` method of the `Message` class, which is part of `django.contrib.messages.storage.base`. This method tries to look up the level of a message in `LEVEL_TAGS`. If the level is not found (because `LEVEL_TAGS` was populated with the old `MESSAGE_TAGS` setting), it returns an empty string.\n\nGiven this understanding, the fault lies in how `LEVEL_TAGS` is initially set and not updated when settings change. However, we are tasked with identifying a specific function that contains the fault from the provided list.\n\nThe function that directly interacts with `LEVEL_TAGS` and would show the symptom of the issue (returning an empty string due to a stale `LEVEL_TAGS`) is `level_tag`. This method is called on a `Message` object and is responsible for returning the tag for a message's level.\n\nFAULT: level_tag",
+ "finish_reason": "stop",
+ "prompt_tokens": 398,
+ "response_tokens": 303,
+ "elapsed_s": 0.93,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "level_tag",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

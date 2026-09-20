@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-9367",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2457,
+ "raw": "To solve this issue, we need to identify the function responsible for rendering tuples in the `sphinx/pycode/ast.py` file. The problem arises when a tuple contains only one element, and it is rendered without a trailing comma.\n\nThe function that handles the rendering of tuples is `visit_Tuple`, which is a method of the `_UnparseVisitor` class. This function takes an `ast.Tuple` node as input and returns its string representation.\n\nThe issue is that when `node.elts` contains only one element, the `\", \".join()` call returns a string without a comma. To fix this, we need to modify the `visit_Tuple` function to handle the case where `node.elts` contains only one element.\n\nHere is the step-by-step analysis of the problem:\n1. The `visit_Tuple` function checks if `node.elts` is not empty.\n2. If `node.elts` is not empty, it renders each element and joins them with commas using `\", \".join()`.\n3. If `node.elts` contains only one element, the `join()` call returns a string without a comma.\n\nTo fix this issue, we need to modify the `visit_Tuple` function to add a trailing comma when `node.elts` contains only one element.\n\nThe function that contains the fault is:\nFAULT: visit_Tuple",
+ "finish_reason": "stop",
+ "prompt_tokens": 708,
+ "response_tokens": 282,
+ "elapsed_s": 0.88,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "visit_Tuple",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

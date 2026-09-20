@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 17794,
+ "raw": "FAULT: to_stacked_array",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 4718,
+ "response_tokens": 7,
+ "elapsed_s": 0.59,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "to_stacked_array",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

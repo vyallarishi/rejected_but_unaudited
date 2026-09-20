@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4038,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is describing an issue where setting a child object on a parent in Django, when the child has a non-numeric primary key, leads to data loss. Specifically, when they create an Order and assign a Product that hasn't been saved yet, and then set the SKU and save the Product, the Order's product_id isn't updated correctly. Instead of being \"foo\", it's an empty string.\n\nSo the key steps are:\n\n1. Create an Order instance.\n2. Assign a new Product instance (without saving it yet) to order.product.\n3. Set the sku of that Product to \"foo\" and save it.\n4. Save the Order.\n5. The Order's product_id is still an empty string, leading to a foreign key violation.\n\nThe problem seems to be that when the Product is first assigned to the Order, its primary key (sku) is empty. The Order's product_id is set to that empty string. Even after the Product is saved with \"foo\" as the sku, the Order doesn't update its product_id to reference the new sku. \n\nLooking at Django's descriptors for handling foreign keys, the ForwardManyToOneDescriptor's __set__ method is probably involved here. When you assign order.product = Product(), the __set__ method of the descriptor is called. At that time, the Product instance hasn't been saved yet, so its primary key is empty. The descriptor probably sets the product_id on the Order to the current value of the Product's primary key, which is empty. Later, when the Product is saved and gets a primary key, the Order doesn't automatically update its product_id because it's not aware that the Product's primary key has changed.\n\nSo the issue is that when the Order's product is set, the descriptor captures the current primary key of the Product, but if that primary key changes before saving, the Order doesn't track that change. The __set__ method in ForwardManyToOneDescriptor is responsible for setting the foreign key value on the parent (Order) when the child (Product) is assigned. However, it doesn't account for the possibility that the child's primary key might change after assignment but before saving.\n\nTherefore, the fault lies in the __set__ method of the ForwardManyToOneDescriptor class because it doesn't handle cases where the related object's primary key is set after assignment. The method sets the foreign key based on the current state of the related object at the time of assignment, but if the related object's PK changes later, the parent's foreign key isn't updated.\n</think>\n\nFAULT: ForwardManyToOneDescriptor",
+ "finish_reason": "stop",
+ "prompt_tokens": 875,
+ "response_tokens": 540,
+ "elapsed_s": 1.46,
+ "key_suffix": "j6UVRF",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "ForwardManyToOneDescriptor",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

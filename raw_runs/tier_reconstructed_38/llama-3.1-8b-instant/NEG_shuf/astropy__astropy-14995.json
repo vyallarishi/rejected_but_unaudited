@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 6018,
+ "raw": "FAULT: _arithmetic",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1605,
+ "response_tokens": 6,
+ "elapsed_s": 0.45,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_arithmetic",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

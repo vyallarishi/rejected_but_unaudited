@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-13877",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 10093,
+ "raw": "FAULT: factor_terms",
+ "finish_reason": "stop",
+ "prompt_tokens": 2837,
+ "response_tokens": 5,
+ "elapsed_s": 0.51,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "factor_terms",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

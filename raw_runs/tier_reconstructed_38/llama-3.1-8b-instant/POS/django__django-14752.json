@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 3689,
+ "raw": "get",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 853,
+ "response_tokens": 2,
+ "elapsed_s": 0.31,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "get",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

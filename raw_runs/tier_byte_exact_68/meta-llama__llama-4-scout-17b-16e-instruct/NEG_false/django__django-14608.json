@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14608",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2534,
+ "raw": "FAULT: non_form_errors \n\nHowever a more accurate location of fault seems to be in `BaseFormSet.full_clean()` method where `self._non_form_errors = self.error_class()` is called without providing the `error_class` argument.\n\nThe actual correct location of fault would then be in `BaseFormSet` class specifically \n\n`BaseFormSet.full_clean()` indirectly points towards  `BaseFormSet` \n\nHowever considering a method \n\nFAULT: full_clean",
+ "finish_reason": "stop",
+ "prompt_tokens": 606,
+ "response_tokens": 93,
+ "elapsed_s": 0.44,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "non_form_errors",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

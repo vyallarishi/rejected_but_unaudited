@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 8061,
+ "raw": "FAULT: _alter_field",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1928,
+ "response_tokens": 6,
+ "elapsed_s": 0.4,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_alter_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

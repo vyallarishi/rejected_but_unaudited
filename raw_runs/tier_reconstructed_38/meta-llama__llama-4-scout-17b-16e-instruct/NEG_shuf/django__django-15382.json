@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6781,
+ "raw": "## Step 1: Analyze the problem description\nThe issue reported is about a filter on an exists-subquery with an empty queryset removing the whole WHERE block from a Django query. This results in an `EmptyResultSet` when the query is executed, and the WHERE block is missing when inspecting the query.\n\n## Step 2: Identify key functions involved\nThe problem seems to involve the optimization and execution of Django queries, specifically when using `Exists` with an empty queryset in a filter. The key functions to look into are those responsible for handling query filters, exists queries, and the optimization of queries.\n\n## 3: Examine the role of `add_q` and `_add_q`\nThe function `add_q` is directly mentioned as being on the causal path of the issue. It receives a `Q` object containing `~Exists(EmptyQuerySet)` and then calls `_add_q` to process it. The bug seems to cause `self.set_empty()` to be called during the execution of `_add_q`, marking the entire query as empty.\n\n## 4: Determine the fault based on the analysis\nGiven that `add_q` is directly involved in processing the `Q` object and that it calls `_add_q` which seems to be where the optimization logic leading to the bug resides, we need to focus on these functions. However, the direct fault seems to be related to how `add_q` and subsequently `_add_q` handle the condition that should evaluate to TRUE but instead causes the query to be marked as empty.\n\n## 5: Conclusion\nThe function that contains the fault, based on the analysis and the information provided, seems to be `add_q`. This is because `add_q` is directly on the causal path and is responsible for receiving and processing the `Q` object that leads to the issue.\n\nFAULT: add_q",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1593,
+ "response_tokens": 376,
+ "elapsed_s": 1.33,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

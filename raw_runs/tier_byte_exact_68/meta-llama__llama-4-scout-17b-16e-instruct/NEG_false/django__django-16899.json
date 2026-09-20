@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4188,
+ "raw": "To solve this task, I need to identify the function responsible for generating the error message when the `readonly_fields` check fails in a `ModelAdmin` subclass. The error message currently does not include the field name, which makes it harder to understand the issue.\n\nThe function that seems most relevant to this issue is `_check_readonly_fields_item` in `django/contrib/admin/checks.py`. This function appears to be part of the `BaseModelAdminChecks` class and is likely responsible for checking each item in the `readonly_fields` list.\n\nUpon closer inspection, it seems that the function `_check_readonly_fields_item` indeed generates an error message when a value in `readonly_fields` is not a callable, an attribute of the `ModelAdmin` subclass, or an attribute of the model. The error message is generated using the `errors` list, and it would make sense to modify this function to include the field name in the error message.\n\nThe correct function name that contains the fault is:\n\nFAULT: _check_readonly_fields_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 1035,
+ "response_tokens": 212,
+ "elapsed_s": 1.02,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

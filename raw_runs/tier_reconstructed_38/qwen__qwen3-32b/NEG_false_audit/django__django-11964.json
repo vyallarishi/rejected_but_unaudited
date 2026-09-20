@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6373,
+ "raw": "FAULT: __init__",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is using Django's TextChoices with a CharField, and when they create a model instance with an enum value, the stored value isn't the string they expect but the enum member. The test is failing because when they check the string representation, it's giving 'MyChoice.FIRST_CHOICE' instead of 'first'.\n\nSo, the issue is that when the model is initialized with MyChoice.FIRST_CHOICE, the value isn't converted to the underlying string 'first'. Instead, the enum object itself is being stored as the attribute value. \n\nLooking at the candidate functions, the Model class's __init__ method is mentioned. The localization notes say that in __init__, when creating the object, Django does a raw assignment of the enum object to the attribute. That makes sense because if the code passes an enum member to the model field, the field might not process it into the correct value. \n\nIn Django, when you use choices with a field, you typically pass the raw value (like the string or integer), not the enum member. But when you pass the enum member (like MyChoice.FIRST_CHOICE), the model's __init__ method just assigns it directly. However, the field might not have a chance to convert the enum member into its actual value. \n\nWait, the problem is that when you assign the enum member to the model's attribute, Django doesn't automatically convert it to the underlying value. So in the __init__ method, when the model is initialized with my_str_value=MyChoice.FIRST_CHOICE, the value is stored as the enum member, not the string 'first'. Then, when you access my_str_value, it returns the enum member, not the string. \n\nSo the fault is in the Model's __init__ method because it doesn't process the enum member into the correct primitive value. The __init__ method is doing a raw setattr, which doesn't trigger any of the field's validation or conversion logic. Normally, when you set a field's value through the model, Django should convert the enum member to its corresponding value (like the string or integer). But in this case, it's not happening during initialization.\n\nTherefore, the function responsible is Model.__init__.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1462,
+ "response_tokens": 478,
+ "elapsed_s": 9.88,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

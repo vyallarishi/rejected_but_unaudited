@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8638,
+ "raw": "FAULT: __init__",
+ "reasoning": "\nOkay, let's try to figure out which function in Django's model code is causing this issue. The problem is that when you assign an enum value (like MyChoice.FIRST_CHOICE) to a model's CharField with choices, the instance's attribute ends up being the enum member instead of the string value. So when you call str() on it, you get the enum's string representation (like \"MyChoice.FIRST_CHOICE\") instead of the actual value \"first\".\n\nThe user mentioned that during model initialization, the __init__ method is involved. Let me think about how Django models handle field assignments. When you create a model instance, the __init__ method is called. In Django's Model class, the __init__ method is responsible for setting the initial values of the fields. If you pass in a value for a field during instantiation, Django should probably convert it to the appropriate type. But in this case, when using an enum member, it's not converting it to the underlying string or integer value. Instead, it's keeping the enum object.\n\nLooking at the Model's __init__ method, it uses setattr to assign the values. But maybe it's not checking if the field is a choices field and if the value is an enum member. If it doesn't convert the enum member to its primitive value (like the string \"first\"), then the instance's attribute will hold the enum, leading to the problem described.\n\nThe other functions listed, like clean or save, are part of validation or saving processes, which happen after initialization. The issue here is during the initial assignment of the value when the model is created. So the fault likely lies in how the Model's __init__ method handles the assignment of values to fields, particularly when those values are enum members.\n\nTherefore, the function in question is Model.__init__.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1921,
+ "response_tokens": 383,
+ "elapsed_s": 9.37,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5896,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that when using ax.clear() on shared axes in matplotlib 3.4.2, it adds extra ticks and un-hides shared-axis tick labels. This didn't happen in 3.4.1. \n\nThe user provided a code example where they create a 2x2 grid of subplots with shared x and y axes. Then they loop through each axis, clear it, and plot some data. The result in 3.4.2 shows tick labels that should be hidden because of the shared axes. \n\nLooking at the localization notes, it says that ax.clear() calls ax.cla(), which in turn calls self.xaxis.clear() and self.yaxis.clear(). The Axis.clear() method resets axis properties to defaults, including formatters and ticks. For shared axes, this reset removes the NullFormatter that was hiding the tick labels on interior axes. Without that formatter, the labels become visible, causing the problem.\n\nSo the key here is that when the axis is cleared, it's resetting the formatter to the default, which is not NullFormatter anymore. The NullFormatter was applied to the non-bottom and non-left axes in shared axes setup to hide the labels. But when you call clear, it's removing that formatter, so those labels become visible again.\n\nLooking at the list of functions provided, the Axis class has a clear method. The Axis.clear() function is probably the one responsible for resetting the formatter. So if the clear method is resetting the formatter to the default, which is not NullFormatter, then that's the problem. \n\nThe user also mentions that in the Axis class, there's a clear method. So the fault is likely in the Axis.clear() function. That function is called when you do ax.clear(), which leads to the formatters being reset. \n\nTherefore, the function that contains the fault is Axis.clear.\n</think>\n\nFAULT: Axis.clear",
+ "finish_reason": "stop",
+ "prompt_tokens": 1587,
+ "response_tokens": 401,
+ "elapsed_s": 1.15,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

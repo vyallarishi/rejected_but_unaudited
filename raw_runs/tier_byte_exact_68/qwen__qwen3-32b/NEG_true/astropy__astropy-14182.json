@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14182",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6322,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is trying to write a QTable to RST format with header rows, but it's throwing a TypeError because the RST writer's __init__ method doesn't accept the 'header_rows' argument.\n\nLooking at the traceback, the error is in the RST.__init__() method. The user provided some code where when they try to use header_rows with ascii.rst, it fails because the RST class doesn't handle that keyword. \n\nThe candidate functions mentioned are in astropy/io/ascii/rst.py. The RST class is a subclass of FixedWidth, right? And the FixedWidth class probably does handle header_rows, but the RST class's __init__ isn't passing it along. \n\nSo the problem is that the RST writer doesn't support the header_rows parameter. The user wants to add support for header rows in the RST output. The error occurs because the 'header_rows' argument is passed to the RST writer's __init__, but it's not defined there. \n\nLooking at the code structure, the RST class's __init__ method probably needs to accept the header_rows argument and pass it to the parent class. The FixedWidth class's __init__ might be expecting header_rows, but since RST doesn't forward it, that's the issue.\n\nSo the faulty function is the __init__ method of the RST class in the rst.py file. The __init__ function doesn't accept 'header_rows' as a keyword argument, which leads to the TypeError when it's passed.\n</think>\n\nFAULT: __init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1549,
+ "response_tokens": 341,
+ "elapsed_s": 28.22,
+ "key_suffix": "A11SkB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5078,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using Meta.ordering with expressions like OrderBy, the order_by() method crashes. The user provided a detailed description and localization notes.\n\nFrom the localization notes, the key part is in get_order_by. The ordering list comes from self.query.get_meta().ordering, which includes an OrderBy object. Then, in get_order_by, they iterate over this list. The field variable becomes the OrderBy object. The code checks if the field has resolve_expression, but that's false. Then it goes into the else block, which is for string-based fields. It calls get_order_dir with the OrderBy object, leading to an AttributeError when it tries to do string operations on it.\n\nSo the problem is that the code is expecting a string or a field name but gets an OrderBy object instead. The check for hasattr(field, 'resolve_expression') is false, which suggests that the code isn't recognizing the OrderBy object as an expression. But why?\n\nWait, OrderBy is an expression, right? So maybe in Django's code, OrderBy doesn't have resolve_expression, but maybe it should. Or perhaps the code in get_order_by is not handling expressions correctly. The user says that in the test context, during database setup, this happens. But why would it work in a REPL but not in tests?\n\nLooking at the candidate functions, the main one mentioned is get_order_by. The issue is in how get_order_by processes the ordering fields. The code is trying to handle expressions (like OrderBy) but the check isn't working. The OrderBy object doesn't have resolve_expression, so the code treats it as a string, which is wrong.\n\nSo the fault is in get_order_by because it's not correctly handling the OrderBy objects in the Meta.ordering. The function needs to check if the ordering element is an expression and handle it appropriately, but the current check (for resolve_expression) isn't working. Therefore, the function get_order_by is where the problem lies.\n</think>\n\nThe fault lies in the `get_order_by` function, as it incorrectly processes `OrderBy` objects in `Meta.ordering` by treating them as strings instead of expressions. The check for `resolve_expression` fails, leading to improper handling and an `AttributeError`.\n\n**Answer:**  \nFAULT: get_order_by",
+ "finish_reason": "stop",
+ "prompt_tokens": 1120,
+ "response_tokens": 491,
+ "elapsed_s": 1.33,
+ "key_suffix": "X3iAnI",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

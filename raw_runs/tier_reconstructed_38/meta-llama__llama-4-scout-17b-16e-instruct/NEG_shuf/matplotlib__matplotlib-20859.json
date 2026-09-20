@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8339,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to adding a legend to a `SubFigure` in Matplotlib, which currently does not work as expected. The error message indicates that the `Legend` needs either an `Axes` or a `Figure` as its parent. This suggests that the validation check in the `Legend` class does not account for `SubFigure` instances.\n\nTo address this issue, we need to identify the part of the code responsible for this validation and consider how `SubFigure` instances can be accommodated. The `Legend` class's `__init__` method is where the validation occurs, checking if the parent is an instance of `Axes` or `Figure`.\n\nGiven that `SubFigure` is a type of figure, it seems reasonable that it should be able to serve as a parent for a legend. Therefore, the validation check should be updated to include `SubFigure` instances.\n\n### Solution\n\nThe fault lies in the `__init__` method of the `Legend` class, specifically in the validation check for the parent. \n\n```python\nFAULT: __init__\n```\n\nTo fix this, we can modify the validation check in the `Legend` class to also accept `SubFigure` instances:\n\n```python\ndef __init__(\n    self, parent, handles, labels,\n    ...\n):\n    if not isinstance(parent, (Figure, Axes, SubFigure)):\n        raise TypeError(\"Legend needs either Axes, Figure, or SubFigure as parent\")\n    ...\n```\n\nThis change allows `SubFigure` instances to be used as parents for legends, resolving the issue. \n\nPlease note that you may need to import `SubFigure` from `matplotlib.figure` if it's not already imported:\n\n```python\nfrom matplotlib.figure import SubFigure\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1980,
+ "response_tokens": 363,
+ "elapsed_s": 6.19,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

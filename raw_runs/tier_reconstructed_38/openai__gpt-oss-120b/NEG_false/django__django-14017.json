@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3242,
+ "raw": "FAULT: _combine",
+ "reasoning": "We need to answer which function contains the fault. The issue: Q() & Exists(...) raises TypeError because Q.__and__ calls _combine which expects other to be Q, but Exists is not Q. The missing __rand__ would be in Exists class? Actually operator & is left operand's __and__, right operand's __rand__ if left doesn't support. Here left is Q, which supports __and__, but it doesn't accept Exists. Should have fallback to other side's __rand__? In Python, for a & b, it calls a.__and__(b); if that returns NotImplemented, then calls b.__rand__(a). Here Q.__and__ returns TypeError, not NotImplemented. So the fault is in Q._combine raising TypeError instead of returning NotImplemented. So function containing fault is _combine. The list includes def _combine(self, other, conn): in class Q. So answer: _combine.",
+ "finish_reason": "stop",
+ "prompt_tokens": 922,
+ "response_tokens": 205,
+ "elapsed_s": 0.92,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_combine",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

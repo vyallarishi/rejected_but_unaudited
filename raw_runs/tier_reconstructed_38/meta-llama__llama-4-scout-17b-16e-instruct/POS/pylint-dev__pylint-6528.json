@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6861,
+ "raw": "## Step 1: Analyze the given information\nThe issue presented is that Pylint does not respect the `--ignore`, `--ignore-paths`, or `--ignore-patterns` settings when running in recursive mode (`--recursive=y`). This is contrary to the documentation and significantly reduces the usefulness of recursive mode.\n\n## 2: Understand the expected behavior\nThe expected behavior is that files or directories specified in the `--ignore`, `--ignore-paths`, or `--ignore-patterns` options should be skipped during the recursive scan. The `--ignore` option skips files or directories based on their base names, `--ignore-patterns` skips based on regex patterns matching base names, and `--ignore-paths` skips based on regex patterns matching paths.\n\n## 3: Review the provided code and Pylint functionality\nThe provided code snippets and commands demonstrate that despite specifying ignore options, Pylint still analyzes files that should be ignored, such as `.a/foo.py`.\n\n## 4: Identify the relevant Pylint function\nThe function `_discover_files` seems to be directly involved when Pylint is run with `--recursive=y`, as it uses `os.walk` to find all `.py` files but lacks logic to filter results based on ignore options.\n\n## 5: Conclusion on faulty function\nGiven that `_discover_files` is responsible for finding files in recursive mode and does not currently implement filtering based on `--ignore`, `--ignore-patterns`, or `--ignore-paths`, this function is the source of the issue.\n\nThe final answer is: \nFAULT: _discover_files",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1653,
+ "response_tokens": 324,
+ "elapsed_s": 1.37,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

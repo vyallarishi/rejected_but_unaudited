@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3985,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves the `ascii.qdp` table format in Astropy, which assumes that QDP commands are in upper case. However, QDP itself is case-insensitive. The problem arises when trying to read a QDP file with commands in lower case, causing the reader to fail.\n\nTo identify the faulty function, let's analyze the provided information:\n\n1. **Symptoms**: The error occurs when reading a QDP file with lower-case commands, e.g., \"read serr 1 2\". The error message indicates that the line is unrecognized.\n\n2. **Expected Behavior**: The QDP file should be read into a `Table` without errors, regardless of the case used in the commands.\n\n3. **Reproduction Steps**: Creating a QDP file with a lower-case command and attempting to read it using `Table.read` with the `ascii.qdp` format.\n\n4. **Code Location**: The relevant code is in `astropy/io/ascii/qdp.py`.\n\n5. **Function Analysis**: \n    - The function `_line_type` is crucial as it determines the type of line (command, data, etc.) in the QDP file.\n    - The regular expression for commands is defined as `_command_re = r\"READ [TS]ERR(\\s+[0-9])+\"`, which is case-sensitive.\n\nGiven this analysis, the fault lies in the `_line_type` function, specifically in its use of a case-sensitive regular expression to match QDP commands.\n\n### Solution\n\nTo fix the issue, the regular expression in `_line_type` should be modified to be case-insensitive. This can be achieved by using the `re.IGNORECASE` flag or by making the pattern itself case-insensitive (e.g., using `[rR]ead` instead of `READ`).\n\n### FAULT\n\n```\n_line_type\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1083,
+ "response_tokens": 385,
+ "elapsed_s": 1.14,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_line_type",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

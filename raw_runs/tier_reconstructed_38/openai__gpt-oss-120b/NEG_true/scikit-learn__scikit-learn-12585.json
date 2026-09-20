@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4502,
+ "raw": "FAULT: clone",
+ "reasoning": "We need to identify which function contains the fault. The error occurs in clone, which calls estimator.get_params(deep=False). The estimator is a class (StandardScaler) not an instance. The code checks `hasattr(estimator, 'get_params')` which returns True because class has method attribute. Then it tries to call estimator.get_params(deep=False) which fails because missing self. So the bug is in clone's logic: it should treat classes differently. So the faulty function is `clone`. The question: \"Which function contains the fault?\" Answer with one function name. So \"clone\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 1120,
+ "response_tokens": 135,
+ "elapsed_s": 0.86,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

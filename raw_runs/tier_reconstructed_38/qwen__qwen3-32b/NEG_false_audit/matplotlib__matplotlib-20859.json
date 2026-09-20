@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6881,
+ "raw": "FAULT: Legend.__init__",
+ "reasoning": "\nOkay, let's try to figure out where the problem is here. The user is trying to add a legend to a SubFigure, but it's throwing an error that says the legend needs either Axes or Figure as a parent. The code they provided uses subfigures(), which I think is a relatively newer feature in Matplotlib. \n\nFirst, I remember that in Matplotlib, the legend is typically added to a Figure or an Axes. The SubFigure is part of the subplotting module, introduced maybe in a recent version. The error message is coming from the Legend class's __init__ method, which checks if the parent is an Axes or Figure. Since SubFigure isn't one of those, it's causing a TypeError.\n\nThe user mentioned changing line 437 in legend.py to check against FigureBase instead. The Figure and SubFigure classes might both inherit from FigureBase. So perhaps the check is too strict, only allowing Figure or Axes, but not their subclasses like SubFigure. \n\nLooking at the code in the Legend __init__ function, the error is raised because the parent is a SubFigure. The candidate functions listed include the Legend class's __init__ method. The user's analysis points to the __init__ function as directly producing the symptom. The check in the __init__ is for isinstance(parent, (Axes, Figure)), which doesn't include SubFigure. \n\nSo the fault is in the Legend.__init__ function because it doesn't accept SubFigure as a valid parent. The solution would be to modify the isinstance check to include SubFigure or use a more general base class like FigureBase if SubFigure is a subclass of that. \n\nSince the user's proposed fix is to check against FigureBase, which would include both Figure and SubFigure, that suggests that the __init__ method's parent check is too narrow. Therefore, the Legend class's __init__ is the faulty function here.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1685,
+ "response_tokens": 399,
+ "elapsed_s": 12.07,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

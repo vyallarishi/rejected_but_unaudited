@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 14991,
+ "raw": "FAULT: format_signature",
+ "reasoning": "We need to identify which function contains the fault causing autodoc_typehints=\"description\" to include return type for class. The description says format_signature builds signature string, and a regex extracts return annotation and reconstructs signature, appending return type. The bug likely in format_signature or _call_format_args. The list includes format_signature in Documenter, FunctionDocumenter, ClassDocumenter, MethodDocumenter, etc. The specific function that handles return annotation is probably `format_signature` in `Documenter` (or in `ClassDocumenter`). The description: \"The function is directly responsible for creating the signature string that is displayed. For autoclass, autodoc uses the __init__ method's signature. _call_format_args() returns the full signature of __init__, including -> None. A regex within this function parses the signature and extracts None as the return annotation (retann). The function then reconstructs the signature, append\". That sounds like `format_signature` in `Documenter` class. In the list, there is `def format_signature(self, **kwargs: Any):` under Documenter. So answer: format_signature.",
+ "finish_reason": "stop",
+ "prompt_tokens": 3580,
+ "response_tokens": 246,
+ "elapsed_s": 1.28,
+ "key_suffix": "42TFwC",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

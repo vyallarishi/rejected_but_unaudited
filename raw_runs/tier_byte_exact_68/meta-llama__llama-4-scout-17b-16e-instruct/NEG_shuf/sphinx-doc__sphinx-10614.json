@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10614",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6129,
+ "raw": "To solve this issue, we need to identify the function responsible for generating the incorrect links in the SVG inheritance diagrams. \n\nThe problem arises when the `inheritance_diagram` is created in a file that is not in the root directory. The links in the SVG file are relative to the SVG file itself, but the rest of the link is written as if it was relative to the file the SVG is embedded on. \n\nThis issue is caused by the `html_visit_inheritance_diagram` function, which is responsible for visiting the `inheritance_diagram` node in an HTML build. \n\nIn this function, the `refuri` (e.g., `my_class_1.html`) is relative to the current document's directory (`my_package/`). However, it incorrectly prepends a static `../` to the `refuri`, creating a broken path (`../my_class_1.html`). \n\nThis broken path is embedded as a link in the SVG file, which resides in the `_images` directory. The browser resolves this link relative to the SVG's location, resulting in a path to the build root (`docs_build/my_class_1.html`) instead of the subdirectory (`docs_build/my_package/my_class_1.html`), causing a 404 error.\n\nTherefore, the function that contains the fault is `html_visit_inheritance_diagram`.\n\nFAULT: html_visit_inheritance_diagram",
+ "finish_reason": "stop",
+ "prompt_tokens": 1511,
+ "response_tokens": 281,
+ "elapsed_s": 1.9,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "html_visit_inheritance_diagram",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

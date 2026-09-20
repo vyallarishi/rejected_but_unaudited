@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4966",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6391,
+ "raw": "FAULT: UnsignedIntegerCoder.decode",
+ "reasoning": "We need to identify which function contains the fault. The issue is handling of _Unsigned attribute when dtype.kind == 'u' and unsigned == False. The code handling is in xarray/coding/variables.py, likely in UnsignedIntegerCoder.decode. That coder handles unsigned integer conversion. Let's recall: UnsignedIntegerCoder.encode/decode probably checks variable.attrs.get('_Unsigned') and dtype.kind. The bug is that it only handles unsigned == True for signed bytes, not the reverse. So the faulty function is UnsignedIntegerCoder.decode. So answer that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1813,
+ "response_tokens": 130,
+ "elapsed_s": 0.8,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "decode",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

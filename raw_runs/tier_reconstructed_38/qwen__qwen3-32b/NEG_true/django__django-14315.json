@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14315",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2812,
+ "raw": "FAULT: settings_to_cmd_args_env",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that the PostgreSQL client's runshell isn't respecting os.environ values in some cases. Specifically, it's returning an empty dictionary instead of None for the environment, leading to an empty environment being passed to the subprocess.\n\nLooking at the provided code and the notes, there are a few functions mentioned. The main ones are settings_to_cmd_args_env and runshell. The localization notes mention that settings_to_cmd_args_env might be involved. Let me break down the information.\n\nThe user says that in the settings_to_cmd_args_env function, there's a path where it returns (args, {}) if certain conditions are met (like when there are no specific password or SSL options in the connection settings). Then, when runshell is called, it receives this empty dict. The problem arises because when env is an empty dict, the subprocess is called with that empty environment, instead of inheriting the parent's environment (which would happen if env was None).\n\nIn the notes, there's a mention of a commit that introduced the bug. The commit in question modified the settings_to_cmd_args_env function. Previously, it might have returned None for the environment when there were no specific settings, but now it's initializing env as a dictionary and returning it, even if it's empty. \n\nThe PR linked (14315) probably addresses this by ensuring that the environment is only set if there are actual variables to add. If there are none, it should return None so that the subprocess uses the default environment.\n\nSo the fault lies in the settings_to_cmd_args_env function because it's the one that's creating the empty dict in cases where there are no environment variables to set. The runshell function then uses that empty dict instead of None, leading to the subprocess not inheriting the OS environment variables.\n\nThe other functions like allow_thread_sharing, execute_wrapper, and check_settings are ruled out as they don't handle the environment variables for the subprocess. Therefore, the correct function where the fault is located is settings_to_cmd_args_env.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 678,
+ "response_tokens": 438,
+ "elapsed_s": 9.23,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "settings_to_cmd_args_env",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

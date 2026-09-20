@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6111,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem occurs when using aggregate() with a default argument after annotate(). The error is a syntax error in the generated SQL, specifically a SELECT FROM without any columns. \n\nLooking at the debug output, the query generated is \"SELECT FROM (subquery) ...\", which is invalid. The issue seems to be that the outer SELECT is not including any columns. The user mentioned that the default argument is new in Django 4.0 and that using Coalesce works. \n\nThe localization notes point to get_aggregation as the relevant function. Let me think about what get_aggregation does. The function is responsible for handling aggregation on a queryset. When there are existing annotations, it wraps the query in a subquery to avoid conflicts. \n\nIn the case where a default is provided, the aggregate is wrapped in a Coalesce. But the problem is that the outer query doesn't include the aggregate's alias. So, when generating the outer query, the columns to select are missing. \n\nThe get_aggregation function probably creates an AggregateQuery, which is a subquery. Then, when building the outer query, it needs to select the aggregated fields. If the Coalesce is not properly adding the alias to the selected columns, the outer query ends up with an empty SELECT list. \n\nSo, the fault is in get_aggregation because it's responsible for setting up the aggregation and handling the subquery. It might not be correctly adding the aggregate's alias when a default is provided, leading to the missing columns in the outer SELECT.\n</think>\n\nFAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1551,
+ "response_tokens": 333,
+ "elapsed_s": 1.06,
+ "key_suffix": "j6UVRF",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

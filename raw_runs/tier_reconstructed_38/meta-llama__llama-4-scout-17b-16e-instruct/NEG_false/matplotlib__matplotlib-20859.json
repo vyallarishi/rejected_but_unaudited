@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6724,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is related to adding a legend to a `SubFigure` in Matplotlib, which currently does not work as expected. The error message indicates that the `Legend` needs either `Axes` or `Figure` as a parent, but a `SubFigure` is provided instead.\n\nTo solve this issue, we need to understand the current implementation of `SubFigure` and `Legend` in Matplotlib. The `SubFigure` is a container for other figures or subplots, and it seems that the `Legend` class does not recognize it as a valid parent.\n\nThe conversation and code changes provided in the hint suggest that the solution involves modifying the `Legend` class to accept `SubFigure` as a valid parent. This can be achieved by changing the check in the `Legend` class to verify if the parent is an instance of `FigureBase` instead of only `Figure` or `Axes`.\n\n### Solution\n\nThe fault is in the `__init__` method of the `Legend` class. To fix this issue, we need to modify the check to accept `SubFigure` as a valid parent.\n\n```python\n# Change the check in the Legend class to accept SubFigure as a valid parent\nfrom matplotlib.figure import FigureBase\n\n# ...\n\ndef __init__(\n    self, parent, handles, labels,\n    # ...\n):\n    if not isinstance(parent, (Figure, Axes, FigureBase)):\n        raise TypeError(\"Legend needs either Axes or Figure as parent\")\n    # ...\n```\n\nBy making this change, the `Legend` class will recognize `SubFigure` as a valid parent, and the error should be resolved.\n\n### FAULT\n\nFAULT: `__init__`",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1634,
+ "response_tokens": 352,
+ "elapsed_s": 4.84,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

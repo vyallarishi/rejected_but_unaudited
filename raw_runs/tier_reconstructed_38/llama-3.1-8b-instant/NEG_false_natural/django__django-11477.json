@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 1349,
+ "raw": "translate_url",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 340,
+ "response_tokens": 3,
+ "elapsed_s": 0.36,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "translate_url",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

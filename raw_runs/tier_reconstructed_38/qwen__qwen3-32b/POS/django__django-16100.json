@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6959,
+ "raw": "FAULT: changelist_view",
+ "reasoning": "\nOkay, let's see. The user is saying that the changelist_view in Django admin doesn't have a transaction, which could lead to inconsistent database states if there's an error during data changes. They want to know which function is at fault here.\n\nLooking at the list of functions provided, the main candidate is changelist_view. The description mentions that this function handles POST requests for list_editable fields, which involves saving multiple instances. Without a transaction, if an error occurs during these saves, some changes might be committed and others not, leading to inconsistency.\n\nThe user's localization notes also point to changelist_view as the place where the missing transaction is causing the issue. The problem is that when list_editable is used, the view processes multiple model saves, and without a transaction, partial failures leave the database in an unexpected state.\n\nSo the fault is in the changelist_view function of the ModelAdmin class. That's the function that needs to be wrapped in a transaction to ensure all changes are committed atomically or rolled back if any error occurs.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1610,
+ "response_tokens": 222,
+ "elapsed_s": 5.11,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "changelist_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

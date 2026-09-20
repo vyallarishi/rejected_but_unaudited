@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3155,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Problem Description**: The issue arises when the `python-neutronclient` library passes a byte string `method=b'GET'` to the `requests` library. \n2. **Localization**: The problem is localized to the `prepare_method` function in `requests/models.py`, where the line `self.method = builtin_str(self.method).upper()` is executed. \n3. **Root Cause**: In Python 3, `builtin_str` is an alias for `str`, and `str(b'GET')` evaluates to the literal string `\"b'GET'\"`, instead of decoding the byte string to a regular string `\"GET\"`.\n4. **Faulty Function**: The function containing the fault is `prepare_method`, as it incorrectly handles byte string inputs.\n\n# Fixed solution:\nThe fix involves decoding the byte string to a regular string before uppercasing it. The corrected `prepare_method` function should look like this:\n\n```python\ndef prepare_method(self, method):\n    if method is not None:\n        self.method = method.decode('ascii').upper() if isinstance(method, bytes) else method.upper()\n```\n\nHowever, since we are only concerned with identifying the faulty function, we will not provide a complete fixed solution.\n\n# Explanation of changes:\n* **Identified Faulty Function**: The function `prepare_method` is identified as the source of the issue.\n\n# Tests and example uses:\nTo test the faulty function, you can use the following example:\n\n```python\nimport requests\n\n# Create a PreparedRequest object\nreq = requests.PreparedRequest()\n\n# Set the method to a byte string\nmethod = b'GET'\nreq.prepare_method(method)\n\n# Print the resulting method\nprint(req.method)  # Should print \"GET\", but currently prints \"B'GET'\"\n```\n\n# Conclusion:\nThe faulty function is:\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 774,
+ "response_tokens": 385,
+ "elapsed_s": 1.21,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

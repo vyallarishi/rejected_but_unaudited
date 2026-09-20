@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14315",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 2532,
+ "raw": "FAULT: settings_to_cmd_args_env",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 614,
+ "response_tokens": 8,
+ "elapsed_s": 0.26,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "settings_to_cmd_args_env",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

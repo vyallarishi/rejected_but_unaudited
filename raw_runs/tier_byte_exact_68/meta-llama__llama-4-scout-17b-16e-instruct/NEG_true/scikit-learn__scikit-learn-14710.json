@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 9391,
+ "raw": "FAULT: _check_early_stopping_scorer\n\nTo solve this issue, we need to ensure that `y_true` is encoded in the same way as `y_pred` when computing the score during early stopping. \n\nThe problem arises because `self.scorer_` is called with `y_small_train`, which contains integer-encoded labels, and `self.predict(X_binned_val)` returns predictions as strings by using `self.classes_`. \n\nThe default scorer, `accuracy_score`, receives `y_true` as integers and `y_pred` as strings, leading to a `TypeError` when `np.union1d` attempts to sort the concatenated array of integers and strings.\n\nHere is the corrected code:\n\n```python\nimport numpy as np\nfrom sklearn.experimental import enable_hist_gradient_boosting\nfrom sklearn.ensemble import HistGradientBoostingClassifier\nfrom sklearn.preprocessing import LabelEncoder\n\nX = np.random.randn(100, 10)\ny = np.array(['x'] * 50 + ['y'] * 50, dtype=object)\n\n# Encode y\nle = LabelEncoder()\ny_encoded = le.fit_transform(y)\n\ngbrt = HistGradientBoostingClassifier(n_iter_no_change=10)\ngbrt.fit(X, y_encoded)\n\n# Now gbrt.predict(X) will return the predicted class labels as strings\ny_pred = gbrt.predict(X)\n```\n\nHowever, to accurately address the issue within the `HistGradientBoostingClassifier` class itself, we should modify the `_check_early_stopping_scorer` method to encode `y_true` before computing the score:\n\n```python\ndef _check_early_stopping_scorer(self, X_binned_small_train, y_small_train, X_binned_val, y_val):\n    # Encode y_true\n    le = LabelEncoder()\n    y_small_train_encoded = le.fit_transform(y_small_train)\n    y_val_encoded = le.transform(y_val)\n\n    self.train_score_.append(\n        self.scorer_(self, X_binned_small_train, y_small_train_encoded)\n    )\n    val_score = self.scorer_(self, X_binned_val, y_val_encoded)\n    self.validation_score_.append(val_score)\n```\n\nBut the most accurate way would be to use `self._encode_y(y)` within the class to handle encoding:\n\n```python\ndef _check_early_stopping_scorer(self, X_binned_small_train, y_small_train, X_binned_val, y_val):\n    y_small_train_encoded = self._encode_y(y_small_train)\n    y_val_encoded = self._encode_y(y_val)\n\n    self.train_score_.append(\n        self.scorer_(self, X_binned_small_train, y_small_train_encoded)\n    )\n    val_score = self.scorer_(self, X_binned_val, y_val_encoded)\n    self.validation_score_.append(val_score)\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2349,
+ "response_tokens": 596,
+ "elapsed_s": 1.69,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

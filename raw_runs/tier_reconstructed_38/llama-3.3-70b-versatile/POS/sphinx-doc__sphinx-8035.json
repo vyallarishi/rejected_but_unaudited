@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 9604,
+ "raw": "FAULT: filter_members",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2288,
+ "response_tokens": 5,
+ "elapsed_s": 0.35,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

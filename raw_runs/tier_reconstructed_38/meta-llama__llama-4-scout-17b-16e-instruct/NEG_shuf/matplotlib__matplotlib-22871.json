@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7540,
+ "raw": "### Thought Process and Reasoning\n\nThe bug reported is related to the `ConciseDateFormatter` in `matplotlib.dates` not showing the year when plotting data that spans less than 12 months and January is not included in the x-axis. The expected behavior is for the year to be displayed in the offset to the right of the x-axis.\n\nTo solve this issue, we need to understand how `ConciseDateFormatter` works and what controls the display of the year in the offset. The `ConciseDateFormatter` is designed to format dates in a concise way, and it uses the `AutoDateLocator` to determine the tick locations.\n\nThe key to solving this bug is to identify the condition that prevents the year from being displayed in the offset. After analyzing the code, it appears that the condition `if level < 2: show_offset = False` in the `format_ticks` method of `ConciseDateFormatter` is the culprit. When the level is 1 (i.e., the most significant time unit is months), the `show_offset` is set to `False`, which prevents the year from being displayed in the offset.\n\n### Solution\n\nTo fix this bug, we need to modify the `format_ticks` method to display the year in the offset even when the level is 1. We can do this by setting `show_offset` to `True` when the level is 1.\n\n```python\ndef format_ticks(self, values, format=None, ticktype='major'):\n    # ...\n    if level < 2:\n        show_offset = self.show_offset and self.offset_fmt is not None\n        if show_offset:\n            # Determine if the year changes\n            years = [v.date().year for v in values]\n            if len(set(years)) > 1:\n                show_offset = True\n            else:\n                show_offset = False\n    # ...\n```\n\nBy making this change, we ensure that the year is displayed in the offset even when the level is 1, which solves the bug.\n\n### Function Name\n\nThe function that contains the fault is `format_ticks`. \n\nFAULT: format_ticks",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1974,
+ "response_tokens": 436,
+ "elapsed_s": 8.2,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "format_ticks",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

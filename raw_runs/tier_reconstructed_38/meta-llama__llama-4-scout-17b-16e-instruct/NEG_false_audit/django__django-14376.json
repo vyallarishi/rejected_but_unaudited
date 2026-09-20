@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2494,
+ "raw": "To solve this issue, we need to identify the function in `django/db/backends/mysql/base.py` that contains the deprecated \"db\" and \"passwd\" kwargs. \n\nThe issue description points to the `mysqlclient` library, which has marked \"db\" and \"passwd\" as deprecated in favor of \"database\" and \"password\". The `mysqlclient` library is used in the MySQL backend of Django.\n\nLooking at the provided code and the description, the function `get_new_connection` seems to be a likely candidate. This function is responsible for establishing a new connection to the database, and it takes a dictionary of connection parameters.\n\nUpon closer inspection, we can see that `get_new_connection` calls another function, `get_connection_params`, which populates a dictionary with connection parameters. However, the actual connection is established in `get_new_connection`, which passes these parameters to the `mysqlclient` library.\n\nThe description also mentions that `get_connection_params` uses the keys 'db' and 'passwd' based on the 'NAME' and 'PASSWORD' settings. However, the true cause of the issue lies in how these parameters are passed to the `mysqlclient` library.\n\nThe function that actually passes these deprecated parameters to the `mysqlclient` library is `get_new_connection`. \n\nHowever, before `get_new_connection` is called, `get_connection_params` is used to create the connection parameters. \n\nThe correct function to look at is `get_connection_params`, as it directly sets 'db' and 'passwd'.\n\nFAULT: get_connection_params",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 633,
+ "response_tokens": 317,
+ "elapsed_s": 1.15,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

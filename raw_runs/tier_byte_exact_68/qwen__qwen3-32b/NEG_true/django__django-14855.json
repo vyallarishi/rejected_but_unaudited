@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5207,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user says that when they have a custom admin site and a readonly ForeignKey field, the generated URL uses the default /admin/ path instead of their custom admin path like /custom-admin/. \n\nThey mentioned that the problem is in the get_admin_url function in django.contrib.admin.helpers. Specifically, the line where they call reverse without the current_app parameter. The user fixed it by adding current_app with the admin site's name.\n\nLooking at the code structure, the get_admin_url is part of the AdminReadonlyField class. The AdminReadonlyField has a method called get_admin_url, which is probably where the URL is generated for the readonly field. \n\nThe issue arises because when using a custom admin site, the reverse function needs to know the current_app namespace. Without it, reverse defaults to the standard admin namespace. By adding current_app=self.model_admin.admin_site.name, they're telling reverse to use the correct namespace for the custom admin site.\n\nSo the faulty function is get_admin_url in the AdminReadonlyField class. That's where the reverse is called without the current_app, leading to the wrong URL. The user's fix targets this exact method. Therefore, the function containing the fault is get_admin_url.\n</think>\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 1169,
+ "response_tokens": 273,
+ "elapsed_s": 0.87,
+ "key_suffix": "vsRRmV",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

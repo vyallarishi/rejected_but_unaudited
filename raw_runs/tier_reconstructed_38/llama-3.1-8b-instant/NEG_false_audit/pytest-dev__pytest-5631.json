@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 3803,
+ "raw": "num_mock_patch_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1026,
+ "response_tokens": 5,
+ "elapsed_s": 9.58,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6018,
+ "raw": "FAULT: _arithmetic_mask",
+ "reasoning": "\nOkay, let's try to figure out which function in the given list is causing the issue. The problem is about mask propagation failing in NDDataRef when one operand doesn't have a mask, specifically in version 5.3. The error occurs when using handle_mask=np.bitwise_or, leading to a TypeError between int and NoneType.\n\nFrom the user's description, when one operand lacks a mask, the code seems to treat that missing mask as None, and then tries to apply a bitwise OR operation between an integer (from the existing mask) and None. That's invalid, hence the error. The expected behavior is that if one operand doesn't have a mask, the resulting mask should just be the existing one.\n\nLooking at the candidate functions in the NDArithmeticMixin class, the key methods involved in arithmetic operations are _arithmetic, _arithmetic_mask, and the specific operations like multiply. The error is likely in how the mask is handled during arithmetic operations when one operand doesn't have a mask.\n\nThe _arithmetic_mask method is responsible for handling the mask during arithmetic operations. The handle_mask parameter is passed to it, which in this case is np.bitwise_or. The problem probably arises here because when one of the operands doesn't have a mask (i.e., its mask is None), the code attempts to apply the bitwise_or operation between the existing mask (an array of integers) and None, leading to the TypeError.\n\nSo the fault is in the _arithmetic_mask function. This function should check if one of the operands has no mask and handle that case by either using the existing mask or properly combining them without causing a type error. The issue is that it's not properly handling the case where one mask is None, leading to the invalid operation.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1594,
+ "response_tokens": 370,
+ "elapsed_s": 4.11,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

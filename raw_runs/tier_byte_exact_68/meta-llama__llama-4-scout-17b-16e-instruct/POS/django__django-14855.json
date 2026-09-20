@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3436,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. The problem description points to the `get_admin_url` method in `django.contrib.admin.helpers`, which is used to generate the URL for a readonly ForeignKey field in a custom Admin Site.\n\nUpon reviewing the provided code snippets and the issue description, the function that contains the fault is `get_admin_url`. This method is part of the `AdminReadonlyField` class.\n\nFAULT: get_admin_url \n\nHowever, as per the given format, it seems we need to provide the function name in a specific format without directly referencing `get_admin_url` but rather implying it through the class. Given that `get_admin_url` is a method within the `AdminReadonlyField` class, the correct answer based on the class provided would be:\n\nFAULT: AdminReadonlyField \n\nBut to accurately reflect the method in question and adhere strictly to the required format which seems to focus on a direct function reference:\n\nGiven the direct reference isn't explicitly listed but implied through classes, and considering standard professional guidelines for accuracy and clarity:\n\nThe final answer is: \nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 803,
+ "response_tokens": 231,
+ "elapsed_s": 0.93,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

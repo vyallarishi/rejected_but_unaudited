@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6936,
+ "raw": "To solve this issue, we need to understand how Pylint handles file discovery and filtering when run in recursive mode. The problem lies in the fact that Pylint does not respect the `--ignore`, `--ignore-paths`, or `--ignore-patterns` settings when using the `--recursive=y` option.\n\nUpon examining the code, we find that the `_discover_files` method in `pylint/lint/pylinter.py` is responsible for file discovery. This method uses `os.walk` to find all Python files but lacks the logic to filter files based on the ignore settings.\n\nTo fix this issue, we need to modify the `_discover_files` method to filter files based on the ignore patterns and paths. \n\nHere is the corrected code:\n\n```python\nimport fnmatch\nimport os\nfrom typing import Iterator, Sequence\n\ndef _discover_files(self, files_or_modules: Sequence[str]) -> Iterator[str]:\n    \"\"\"Discover files in the given files or modules.\n\n    If a file is found, yield it.\n    If a directory is found, explore it and yield its files.\n    \"\"\"\n    for file_or_module in files_or_modules:\n        if os.path.isfile(file_or_module):\n            yield file_or_module\n        elif os.path.isdir(file_or_module):\n            for root, dirs, files in os.walk(file_or_module):\n                for file in files:\n                    if file.endswith(\".py\"):\n                        filepath = os.path.join(root, file)\n                        if not self.file_matches_ignore(filepath):\n                            yield filepath\n\ndef file_matches_ignore(self, filepath: str) -> bool:\n    \"\"\"Check if the file matches any of the ignore patterns or paths.\"\"\"\n    # Check if file matches ignore paths\n    for ignore_path in self.ignore_paths:\n        if filepath.startswith(ignore_path):\n            return True\n\n    # Check if file matches ignore patterns\n    for ignore_pattern in self.ignore_patterns:\n        if fnmatch.fnmatch(filepath, ignore_pattern):\n            return True\n\n    # Check if file matches ignore\n    for ignore in self.ignore:\n        if filepath.endswith(ignore):\n            return True\n\n    return False\n```\n\nIn this corrected code, we added a new method `file_matches_ignore` that checks if a file matches any of the ignore patterns or paths. We then modified the `_discover_files` method to use this new method to filter files.\n\nWith this change, Pylint should now correctly respect the `--ignore`, `--ignore-paths`, and `--ignore-patterns` settings when running in recursive mode. \n\nThe function that contains the fault is `_discover_files`. \n\nFAULT: _discover_files",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1674,
+ "response_tokens": 532,
+ "elapsed_s": 6.75,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

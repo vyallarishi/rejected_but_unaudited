@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4871,
+ "raw": "To solve this issue, we need to understand the problem and the code involved. The problem is that when running `pytest --pdb` on a test class marked with `@unittest.skip`, the `tearDown` method of the test class is executed, which is unexpected.\n\nThe code involved is in the `src/_pytest/unittest.py` file, specifically in the `_make_xunit_fixture` and `pytest_runtest_protocol` functions.\n\nAfter analyzing the code, we can see that the issue is in the `pytest_runtest_protocol` function, which does not check if the test class is skipped before calling the `setup` and `teardown` methods.\n\nThe fault is in the `_make_xunit_fixture` function, specifically in the `setup` method of the `TestCaseFunction` class. This method does not check if the test class is skipped before calling the `setUp` method of the test class.\n\nTo fix this issue, we need to add a check for class-level skips in the `setup` method of the `TestCaseFunction` class.\n\nThe correct answer is:\nFAULT: _make_xunit_fixture \n\nHowever, a more specific function name would be:\nFAULT: TestCaseFunction.setup \n\nBut as per the question, the answer should be one of the function names provided in the list.\n\nSo, \nFAULT: _make_xunit_fixture",
+ "finish_reason": "stop",
+ "prompt_tokens": 1229,
+ "response_tokens": 286,
+ "elapsed_s": 1.17,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_make_xunit_fixture",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

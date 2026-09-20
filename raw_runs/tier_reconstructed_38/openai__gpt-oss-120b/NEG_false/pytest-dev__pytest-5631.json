@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3646,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "We need to answer with the function name that contains the fault. The description says the error occurs in num_mock_patch_args function in src/_pytest/compat.py. The list includes \"num_mock_patch_args\". So answer: FAULT: num_mock_patch_args.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1045,
+ "response_tokens": 69,
+ "elapsed_s": 0.67,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13033",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 10210,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user is dealing with a Django model that has a self-referential foreign key, and when they use order_by on a related field, it's generating an unexpected SQL query with an extra join and incorrect ordering.\n\nFirst, the problem seems to be in how Django's query compiler handles the order_by when there's a self-referential foreign key. The user provided some code examples and SQL outputs. The key issue is that when ordering by \"record__root_id\", Django adds an unnecessary LEFT OUTER JOIN to the same table (OneModel) again, which leads to the wrong ordering direction because of the default ordering on the Meta class of OneModel.\n\nLooking at the localization notes, the problem is traced to the setup_joins function in the Query class. The setup_joins method is responsible for setting up the necessary joins when resolving field lookups. When processing the \"root_id\" part of the order_by path, it's incorrectly interpreting this as needing to join through the \"root\" relation, which is a ForeignKey to itself. This leads to an extra join and the ordering being applied on the joined table's id, which has the default ordering of \"-id\" (DESC). \n\nThe user also mentioned that when they use \"record__root__id\" instead, the query is correct. This suggests that when the path includes the relation name (\"root\") explicitly, Django doesn't add the extra join. But when using \"root_id\", which is the field name of the foreign key, Django's setup_joins is resolving it as a relation, hence adding the extra join. \n\nThe setup_joins function is called to resolve the field path for ordering. The problem arises because the foreign key's field name (root_id) is being treated as a relation, leading to an unnecessary self-join. The default ordering on the OneModel's Meta class (-id) then affects the ordering direction when using the joined table's id. \n\nSo, the setup_joins function is incorrectly handling the case where a self-referential foreign key's field name (like root_id) is used in an order_by, causing an extra join. This function is responsible for setting up the joins, and in this case, it's adding a join that shouldn't be there because the root_id is a field, not a relation. However, since root is a ForeignKey, root_id is the actual column name, but Django's ORM might be interpreting it as a relation path. \n\nTherefore, the fault lies in the setup_joins method's logic for resolving the field path when a self-referential foreign key is involved. The function is adding an unnecessary join when it shouldn't, leading to the incorrect SQL and ordering.\n</think>\n\nFAULT: setup_joins",
+ "finish_reason": "stop",
+ "prompt_tokens": 2525,
+ "response_tokens": 575,
+ "elapsed_s": 1.75,
+ "key_suffix": "IGhw8y",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "setup_joins",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

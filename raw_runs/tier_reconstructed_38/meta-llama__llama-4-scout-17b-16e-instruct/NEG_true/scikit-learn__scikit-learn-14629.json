@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6148,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented is an `AttributeError` that occurs when using `cross_val_predict` with the `method='predict_proba'` argument and a `MultiOutputClassifier`. The error message indicates that the `MultiOutputClassifier` object has no attribute `classes_`. \n\nTo address this issue, we need to understand why `cross_val_predict` is trying to access `estimator.classes_` and how `MultiOutputClassifier` handles classes. \n\nThe `cross_val_predict` function is designed to work with various estimators, including those that support multi-output classification. However, it seems to assume that the estimator has a `classes_` attribute, which is not the case for `MultiOutputClassifier`.\n\n`MultiOutputClassifier` is a wrapper that applies a base estimator to each output. As such, it does not have a single `classes_` attribute. Instead, each base estimator has its own `classes_` attribute.\n\nThe bug is likely in the implementation of `cross_val_predict`, specifically in how it handles the `method='predict_proba'` argument. The function is trying to access `estimator.classes_`, which does not exist for `MultiOutputClassifier`.\n\nTo fix this issue, we need to modify `cross_val_predict` to handle `MultiOutputClassifier` correctly. This might involve checking if the estimator is a `MultiOutputClassifier` and, if so, accessing the `classes_` attribute of the base estimator.\n\n### Solution\n\nThe function that contains the fault is:\n```\nFAULT: cross_val_predict\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1471,
+ "response_tokens": 311,
+ "elapsed_s": 1.16,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

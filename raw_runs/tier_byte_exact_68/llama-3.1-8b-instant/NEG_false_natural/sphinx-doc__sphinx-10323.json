@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10323",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 5369,
+ "raw": "FAULT: prepend_filter",
+ "finish_reason": "stop",
+ "prompt_tokens": 1414,
+ "response_tokens": 5,
+ "elapsed_s": 0.31,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "prepend_filter",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

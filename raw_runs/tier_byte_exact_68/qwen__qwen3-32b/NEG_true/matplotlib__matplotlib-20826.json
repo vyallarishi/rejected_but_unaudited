@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7605,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this bug. The problem is that when using shared axes and calling ax.clear(), extra ticks appear and hidden tick labels become visible again. The user mentioned that this is a regression between 3.4.1 and 3.4.2. \n\nFirst, looking at the code flow: when ax.clear() is called, it delegates to ax.cla(), which in turn calls self.xaxis.clear() and self.yaxis.clear(). The Axis.clear() method is responsible for resetting the axis properties to their defaults. \n\nIn the case of shared axes, the initial setup (from subplots with sharex and sharey) hides the tick labels on the inner axes. But after calling clear(), those labels reappear. The key here is that the clear() method on the Axis might be resetting the formatters or other properties that were set up during the shared axis configuration.\n\nLooking at the Axis class's clear method, it probably resets the major and minor tick formatters and locators to their defaults. If the shared axis setup relies on NullFormatter to hide the labels, then clearing would replace that with the default formatter, causing the labels to show again. \n\nThe candidate functions listed include Axis.clear. Since the problem arises from the clear method resetting the axis properties, the fault likely lies in how Axis.clear() handles the formatters and tick parameters. Specifically, when the axis is cleared, it might not preserve the shared state or the custom formatters that were applied to hide the labels. \n\nOther functions like cla or clear in the Axes class are just delegates, so the actual issue is in the Axis.clear method. Therefore, the fault is in the Axis.clear function.\n</think>\n\nFAULT: Axis.clear",
+ "finish_reason": "stop",
+ "prompt_tokens": 1991,
+ "response_tokens": 357,
+ "elapsed_s": 1.1,
+ "key_suffix": "3U6wj9",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

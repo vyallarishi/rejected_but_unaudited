@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 5770,
+ "raw": "FAULT: dot",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1666,
+ "response_tokens": 4,
+ "elapsed_s": 0.32,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

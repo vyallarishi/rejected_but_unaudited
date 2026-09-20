@@ -1,0 +1,20 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7044,
+ "raw": "## Step 1: Analyze the given information\nThe issue presented is that Pylint does not respect the `--ignore`, `--ignore-paths`, or `--ignore-patterns` settings when running in recursive mode (`--recursive=y`). This is contrary to the documentation and significantly reduces the usefulness of recursive mode.\n\n## 2: Understand the expected behavior\nThe expected behavior is that Pylint should ignore files or directories specified by the `--ignore`, `--ignore-paths`, or `--ignore-patterns` options, even when running in recursive mode.\n\n## 3: Identify relevant code and functions\nThe provided code snippets and function lists point towards the `PyLinter` class in `pylint/lint/pylinter.py` as a key area of investigation. Specifically, functions like `_discover_files` seem relevant because they are involved in finding files to lint.\n\n## 4: Locate the fault\nThe fault seems to be in the `_discover_files` method. This method uses `os.walk` to find all Python files when `--recursive=y` is specified but does not appear to filter these files based on the ignore settings.\n\n## 5: Confirm the faulty function\nGiven that `_discover_files` is directly involved in discovering files to be linted and that it does not currently implement filtering based on ignore settings, it is reasonable to conclude that this function contains the fault.\n\nThe final answer is:\n```\nFAULT: _discover_files\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1694,
+ "response_tokens": 297,
+ "elapsed_s": 1.11,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

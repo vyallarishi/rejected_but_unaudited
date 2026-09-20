@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2870,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that the ascii.qdp reader in Astropy expects QDP commands to be in uppercase, but the actual QDP file uses lowercase commands like \"read serr 1 2\". The error occurs because the reader doesn't recognize the lowercase command.\n\nLooking at the candidate functions, the user provided some localization notes pointing to the _line_type function. Let me check that. The _line_type function is responsible for determining the type of a line in the QDP file. The regular expression used there, _command_re, is case-sensitive. The current regex is r\"READ [TS]ERR(\\s+[0-9])+\", which matches \"READ\" in uppercase. Since the input line is \"read\" in lowercase, this regex doesn't match, leading to an error.\n\nSo the issue is that the regex in _line_type is case-sensitive. The function _line_type is called with the line 'read serr 1 2', and since the regex expects uppercase, it fails. Therefore, the fault lies in the _line_type function because it's where the command is checked against the regex. The regex needs to be case-insensitive to match both uppercase and lowercase commands.\n\nWait, but the user mentioned that the ruled-out entry was _line_type, but according to the notes, the problem is in _line_type. Wait, the user's localization notes say that the _line_type is where the issue is. The ruled out part was maybe other functions. The key is that the regex in _line_type is case-sensitive. Therefore, modifying that regex to be case-insensitive would fix the problem. Hence, the faulty function is _line_type.\n</think>\n\nThe issue arises because the `_line_type` function uses a case-sensitive regular expression to identify QDP commands. When a line like `read serr 1 2` is processed, the regex `r\"READ [TS]ERR(\\s+[0-9])+\"` fails to match due to the lowercase `read`, leading to an unrecognized line error. This function is responsible for determining the line type, and its case-sensitive regex is the root cause of the mismatch.\n\nFAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 865,
+ "response_tokens": 461,
+ "elapsed_s": 1.21,
+ "key_suffix": "AG0xGb",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3573,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "\nOkay, let's see. The user is encountering a ValueError when using pytest 3.6.0 with a test that uses a patch where the 'new' argument is a numpy array. The error occurs during test collection and is related to checking if the array is in 'sentinels'. \n\nLooking at the error traceback, the problem is in the line where it does 'p.new in sentinels'. The issue is that when p.new is a numpy array, the 'in' operation returns an array of booleans instead of a single boolean, causing the ValueError.\n\nThe user mentioned that the problem was introduced by a specific commit in pytest. The commit in question is probably the one that modified the num_mock_patch_args function. The function num_mock_patch_args is trying to count how many patch arguments are in sentinels. \n\nThe relevant code in num_mock_patch_args is checking if p.new is in sentinels. But when p.new is a numpy array, the 'in' check is vectorized, leading to an array of truth values instead of a scalar. This is because numpy overrides the 'in' operator to perform element-wise checking, which returns an array of booleans. When the code expects a single boolean, this causes the error.\n\nSo the faulty function is num_mock_patch_args, which is in the list provided. The function is trying to check if p.new is in sentinels, but with numpy arrays, this check fails. The fix would involve modifying how the check is done to avoid this numpy-specific behavior, perhaps by converting p.new to a Python native type or handling numpy arrays specially.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 980,
+ "response_tokens": 340,
+ "elapsed_s": 4.96,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

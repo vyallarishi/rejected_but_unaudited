@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14315",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1276,
+ "raw": "FAULT: settings_to_cmd_args_env",
+ "reasoning": "We need to identify which function contains the fault. The issue: database client runshell doesn't respect os.environ values in some cases. The description: postgresql client returns empty dict instead of None for env as a result os.environ is not used and empty env passed to subprocess. Bug introduced in commit. The candidate functions: settings_to_cmd_args_env and runshell. The fault likely is in settings_to_cmd_args_env returning {} instead of None when no env variables needed. BaseDatabaseClient.runshell probably checks if env is not None to decide to use os.environ. If env is {} (empty dict), it treats as provided env and passes empty env, ignoring os.environ. So the bug is that settings_to_cmd_args_env should return None when no env overrides, not {}. So the faulty function is settings_to_cmd_args_env. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: settings_to_cmd_args_env.",
+ "finish_reason": "stop",
+ "prompt_tokens": 409,
+ "response_tokens": 225,
+ "elapsed_s": 41.1,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "settings_to_cmd_args_env",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

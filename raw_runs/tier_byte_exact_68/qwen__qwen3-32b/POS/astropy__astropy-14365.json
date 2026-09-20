@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2649,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that the ascii.qdp reader in Astropy expects QDP commands to be in uppercase, but the user provided them in lowercase. The error occurs because the reader doesn't recognize the line 'read serr 1 2' as a valid command.\n\nLooking at the candidate functions, the key part is probably where the line is parsed to determine its type. The user mentioned that the _line_type function is called with the line 'read serr 1 2'. The regular expression used here, _command_re, is case-sensitive and looks for \"READ [TS]ERR...\". Since the input line uses lowercase 'read', the regex doesn't match, leading to an error.\n\nSo the fault lies in the _line_type function because it uses a case-sensitive regex to check for commands. The regex should be case-insensitive to match both uppercase and lowercase commands. Therefore, modifying the regex in _line_type to be case-insensitive would fix the issue. The function that needs to be adjusted is _line_type.\n</think>\n\nFAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 819,
+ "response_tokens": 234,
+ "elapsed_s": 0.7,
+ "key_suffix": "AG0xGb",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

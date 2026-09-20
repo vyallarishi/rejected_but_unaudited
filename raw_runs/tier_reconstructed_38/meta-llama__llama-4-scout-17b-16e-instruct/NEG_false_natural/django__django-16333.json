@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3214,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understand the issue**: The problem lies in the fact that `UserCreationForm` does not save data from `ManyToMany` form fields when `save(commit=True)` is called.\n2. **Identify the cause**: The cause of this issue is that `UserCreationForm.save(commit=True)` does not call `self.save_m2m()`, which is necessary to save the `ManyToMany` fields.\n3. **Locate the relevant code**: The relevant code is in the `save` method of `UserCreationForm` in `django/contrib/auth/forms.py`.\n4. **Analyze the code**: The `save` method of `UserCreationForm` calls `super().save(commit=False)`, which creates a model instance but does not trigger M2M saving because `commit` is `False`. Then, it sets the user's password and calls `user.save()` inside the `if commit:` block, saving the main model instance. However, it does not call `self.save_m2m()`.\n\n# Fixed solution:\nThe fix involves modifying the `save` method of `UserCreationForm` to call `self.save_m2m()` when `commit=True`. Here is the corrected code:\n```python\nclass UserCreationForm(forms.ModelForm):\n    # ...\n\n    def save(self, commit=True):\n        user = super().save(commit=False)\n        user.set_password(self.cleaned_data[\"password1\"])\n        if commit:\n            user.save()\n            self.save_m2m()  # Add this line to save M2M fields\n        return user\n```\n\n# Explanation of changes:\n*   **Added `self.save_m2m()`**: We added a call to `self.save_m2m()` inside the `if commit:` block to ensure that `ManyToMany` fields are saved when `commit=True`.\n\n# Tests and example uses:\nTo test this fix, you can create a test case that uses `UserCreationForm` with a custom `User` model that has `ManyToMany` fields. For example:\n```python\nfrom django.test import TestCase\nfrom .forms import UserCreationForm\nfrom .models import CustomUser, Group\n\nclass TestUserCreationForm(TestCase):\n    def test_save_m2m_fields(self):\n        # Create a group\n        group = Group.objects.create(name=\"Test Group\")\n\n        # Create a form instance\n        data = {\n            \"username\": \"testuser\",\n            \"password1\": \"testpassword\",\n            \"password2\": \"testpassword\",\n            \"groups\": [group.id],\n        }\n        form = UserCreationForm(data)\n\n        # Save the form\n        if form.is_valid():\n            user = form.save()\n            self.assertEqual(user.groups.count(), 1)\n            self.assertEqual(user.groups.first().name, \"Test Group\")\n```\nThis test case creates a group, creates a form instance with the group selected, saves the form, and then checks that the user's groups are correctly saved.\n\nFAULT: save",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 740,
+ "response_tokens": 621,
+ "elapsed_s": 1.94,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 17724,
+ "raw": "FAULT: _unstack_once",
+ "reasoning": "We need to identify which function contains the fault causing to_unstacked_dataset broken for single-dim variables. The description: to_unstacked_dataset fails due to MergeError: conflicting values for variable 'y' on objects to be combined. Likely during merging of datasets created from each slice of stacked DataArray. The function that merges them is probably Dataset._replace or merge? Actually to_unstacked_dataset likely loops over each variable in stacked DataArray and creates a dataset for each variable, then merges them. The conflict arises because variable 'y' coordinate appears as a variable (coordinate) in each dataset with different values (scalar coordinate). The merging should drop coordinate 'y' from each dataset or treat it as coordinate not variable. The bug likely in Dataset._unstack_once or to_unstacked_dataset itself. But the question: \"Which function contains the fault? Answer with one function name from the list\". The list includes many functions. The fault is likely in Dataset._unstack_once (since that handles unstacking). However the description says to_unstacked_dataset broken for single-dim variables. The function to_unstacked_dataset is not listed; but there is Dataset.unstack (which uses _unstack_once). But to_unstacked_dataset is a method on DataArray? Actually DataArray has to_unstacked_dataset method. The list includes Dataset._unstack_once, but not DataArray.to_unstacked_dataset. The bug may be in DataArray.to_unstacked_dataset, but not listed. However the list includes Dataset._unstack_once, which is internal for unstacking. The error arises when merging datasets after slicing; that merging is done by Dataset.merge maybe. But the conflict is about variable 'y' being present as a variable in each dataset. The code that creates the dataset for each variable likely uses Dataset._replace to set coordinates. The conflict arises because each dataset includes coordinate 'y' as a variable (since it's a scalar coordinate). The merging should treat it as coordinate, but maybe they are added as data variable inadvertently. The function that adds coordinates as data variables is Dataset._replace? Or Dataset._construct_direct? Hmm.\n\nBut the question likely expects the answer: `_unstack_once`. Because that is where the bug is: it doesn't drop the coordinate 'y' when it's scalar, causing conflict. So answer: `_unstack_once`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 4781,
+ "response_tokens": 503,
+ "elapsed_s": 10.07,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_unstack_once",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

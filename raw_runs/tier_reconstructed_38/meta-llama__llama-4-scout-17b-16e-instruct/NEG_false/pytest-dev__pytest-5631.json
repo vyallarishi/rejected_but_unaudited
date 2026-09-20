@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3646,
+ "raw": "-step analysis of the problem:\n1. **Understanding the Error**: The error occurs when running pytest with a test file that contains a `@patch` decorator where \"new\" is an array. The error specifically happens in pytest 3.6.0 but not in 3.3.\n2. ** Source of the Error**: The error in the `_pytest/compat.py, specifically in the `num_mock_patch_args` function. This function is used to determine the number of mock patch arguments in a function.\n3. **Analyzing the `num_mock_patch_args` Function**: This function iterates over patchings attached to a function and checks if `p.new in sentinels`. When `p.new a numpy array, this condition returns an array of booleans instead of a single boolean value, causing aError` because the truth value of an array with more than one element is ambiguous.\n4. **Localization of**: The fault is localized to the `num_mock_patch_args` function in `src/_pytest/compat.py`. This function is directly responsible for the error when it encounters a patch with `new` set to a numpy array.\n\n# Fixed solution:\nThe actual fix involves changing how the condition is evaluated to handle numpy arrays properly. However, based on the provided information and following the format strictly for the answer:\n\n# Explanation of changes:\n- **Understanding the Requirement**: The fix requires modifying the `num_mock` function or its usage to cases where `p.new` is not a simple type but a complex one like a numpy array.\n\n# example uses:\nGiven the constraints of the task, let's focus on the direct answer as requested:\n\nFAULT: num_mock_patch_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 931,
+ "response_tokens": 395,
+ "elapsed_s": 5.02,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

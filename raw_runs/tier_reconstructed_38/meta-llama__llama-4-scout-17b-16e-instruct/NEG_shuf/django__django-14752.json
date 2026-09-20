@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4998,
+ "raw": "## Step 1: Understand the issue\nThe issue is about refactoring the `AutocompleteJsonView` in Django's admin interface to support extra fields in autocomplete responses. Currently, adding new attributes to autocomplete field results requires extending `AutocompleteJsonView` and fully overriding the `get` method, which is cumbersome and prone to maintenance issues.\n\n## 2: Identify the problem\nThe problem lies in the `get` method of `AutocompleteJsonView`, specifically in how it constructs the JSON response. The method hardcodes the structure of each result item, making it difficult for users to add extra fields.\n\n## 3: Determine the solution\nThe solution involves adding a result customization extension point to the `get` method. This can be achieved by moving the lines that construct the results inside the `JsonResponse` constructor to a separate method, such as `serialize_result`.\n\n## 4: Locate the relevant code\nThe relevant code is in the `get` method of `AutocompleteJsonView` in `django/contrib/admin/views/autocomplete.py`.\n\n## 5: Identify the faulty function\nThe faulty function is `get`, as it directly produces the symptom by hardcoding the structure of each result item.\n\nThe final answer is: \nFAULT: get",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1101,
+ "response_tokens": 252,
+ "elapsed_s": 3.52,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

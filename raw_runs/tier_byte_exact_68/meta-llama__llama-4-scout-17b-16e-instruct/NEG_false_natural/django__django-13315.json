@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13315",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4549,
+ "raw": "To solve this issue, we need to identify the function that is responsible for rendering the form field with duplicate options when a `Q` object is passed as `limit_choices_to` on a `ForeignKey` field involving a join.\n\nThe issue seems to be related to how the queryset is filtered when `limit_choices_to` is applied. The `limit_choices_to` parameter is used to limit the choices in a `ModelChoiceField` or `ModelMultipleChoiceField`. When a `Q` object is passed, it is used to filter the queryset.\n\nThe function that applies the `limit_choices_to` to the form field is `apply_limit_choices_to_to_formfield`. This function is called when creating a form field, and it modifies the queryset of the field based on the `limit_choices_to` parameter.\n\nHowever, the actual fault lies in how the queryset is evaluated when `complex_filter` is called. The `complex_filter` method is used to apply the `Q` object to the queryset. This method can cause duplicate rows to be returned if the `Q` object involves a join.\n\nThe key to solving this issue is to ensure that the queryset does not contain duplicate instances. This can be achieved by using the `distinct` method on the queryset.\n\nBased on the provided information, the function that contains the fault is:\n\nFAULT: apply_limit_choices_to_to_formfield\n\nThis function is responsible for applying the `limit_choices_to` to the form field, which can lead to duplicate options being rendered in the form field. \n\nHowever, to actually fix the issue, you would modify the `apply_limit_choices_to_to_formfield` function to ensure that the queryset does not contain duplicates, for example:\n\n```python\ndef apply_limit_choices_to_to_formfield(formfield):\n    limit_choices_to = getattr(formfield, 'limit_choices_to', None)\n    if limit_choices_to is not None:\n        formfield.queryset = formfield.queryset.complex_filter(limit_choices_to).distinct()\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1077,
+ "response_tokens": 405,
+ "elapsed_s": 1.33,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "apply_limit_choices_to_to_formfield",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

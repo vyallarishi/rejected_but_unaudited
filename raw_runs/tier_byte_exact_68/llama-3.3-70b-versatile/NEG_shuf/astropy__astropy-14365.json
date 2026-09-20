@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14365",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 3985,
+ "raw": "FAULT: _line_type",
+ "finish_reason": "stop",
+ "prompt_tokens": 1109,
+ "response_tokens": 6,
+ "elapsed_s": 0.55,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_line_type",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

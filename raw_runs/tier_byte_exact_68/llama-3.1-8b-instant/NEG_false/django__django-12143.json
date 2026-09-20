@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 6320,
+ "raw": "FAULT: _create_formsets",
+ "finish_reason": "stop",
+ "prompt_tokens": 1518,
+ "response_tokens": 7,
+ "elapsed_s": 8.73,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_create_formsets",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

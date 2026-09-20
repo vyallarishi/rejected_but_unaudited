@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4027,
+ "raw": "_fault: _combine",
+ "reasoning": "We need to identify which function contains the fault causing TypeError when Q() & Exists(...). The traceback shows Q.__and__ calls self._combine(other, self.AND). In _combine, it checks isinstance(other, Q) and raises TypeError if not. So the fault is that _combine doesn't handle Exists objects. So the function containing the fault is _combine in class Q. The list includes \"_combine\". So answer: _combine.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1096,
+ "response_tokens": 105,
+ "elapsed_s": 0.71,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

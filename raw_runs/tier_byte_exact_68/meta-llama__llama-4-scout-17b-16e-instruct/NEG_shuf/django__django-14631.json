@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14631",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4675,
+ "raw": "## Thought Process and Reasoning\nThe issue at hand involves the `BaseForm` class in Django's form system. Specifically, it's about how the `_clean_fields` and `changed_data` methods access their values. Currently, they do not use a `BoundField` object, which can lead to inconsistencies, such as `form._clean_fields()` returning a different value from `form[name].initial` when they should be the same.\n\nThe goal is to modify these methods to access values through a `BoundField` object for consistency and to reduce code paths. This involves moving the per-field logic of `changed_data()` into a method of the `BoundField` class, which could be named something like `did_change()` or `_did_change()`.\n\n## Identifying the Fault\nThe fault lies in the `BaseForm` class, specifically in its methods `_clean_fields` and `changed_data`. However, when looking for a single function name that contains the fault and is listed among the candidate functions, we focus on methods that directly relate to the issue described.\n\n## Solution\nGiven the information and the goal to identify a function that contains the fault, we look for a method directly implicated in the inconsistent access to form field values.\n\nThe function that directly relates to the described issue and is listed is:\n```\nFAULT: _clean_fields\n```\nThis method is directly mentioned in the context of accessing values not through a `BoundField` object, leading to potential inconsistencies. \n\nHowever, considering the broader context and the need to pinpoint a function that is directly associated with the fault in terms of code modification and consistency with the problem statement, both `_clean_fields` and `changed_data` are relevant. But based on the provided list and focusing on a singular function name that encapsulates the issue of accessing form data:\n\n```\nFAULT: changed_data\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1041,
+ "response_tokens": 372,
+ "elapsed_s": 1.17,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_clean_fields",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

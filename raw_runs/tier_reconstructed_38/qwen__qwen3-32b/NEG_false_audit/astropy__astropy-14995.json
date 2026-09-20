@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4437,
+ "raw": "FAULT: _arithmetic",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when one operand doesn't have a mask, using handle_mask=np.bitwise_or leads to a TypeError because it's trying to apply bitwise_or between an integer and None. \n\nThe user mentioned that in v5.3, the mask propagation fails in certain cases, but it worked in v5.2. The error occurs when, for example, a masked NDDataRef is multiplied by one without a mask. The error message points to a problem with the bitwise operation between an int and NoneType. \n\nLooking at the candidate functions, the _arithmetic method is the main one here. The multiply method calls _arithmetic, which in turn handles the mask via _arithmetic_mask or some other helper. The user's trace says that inside _arithmetic, there's a call like self._handle_mask(operand, handle_mask), which probably is where the problem occurs. \n\nWait, but the candidate functions don't have a _handle_mask method listed. Maybe that's part of the _arithmetic_mask function? The user ruled out _arithmetic_mask, but maybe that's where the issue is. However, the user says that the true cause is upstream, so maybe the problem is in how the masks are being passed to the handle_mask function.\n\nIn the _arithmetic method, when handling the mask, if one of the operands doesn't have a mask, perhaps it's passing None, and the handle_mask (np.bitwise_or) is trying to operate on the mask of one operand (an array) and the other's mask (None). For example, if one mask is present and the other isn't, how are they combined? In the case of np.bitwise_or, if one of the operands is None, that would cause an error. \n\nIn previous versions (v5.2), maybe when one operand didn't have a mask, the handle_mask function was given the mask from the other operand, and the absence of a mask was treated as \"no mask\", so the result would just have the existing mask. But in v5.3, perhaps there's a change where it's trying to apply the handle_mask function even when one mask is None, leading to the TypeError.\n\nLooking at the _arithmetic method's parameters, handle_mask is set to np.logical_or by default. But in the example, the user is passing np.bitwise_or. The problem arises when one operand's mask is None. The handle_mask function expects two arrays, but if one is None, then passing None into bitwise_or would cause an error.\n\nSo the fault is likely in the _arithmetic method's handling of the masks. Specifically, when one of the operands doesn't have a mask, the code might be passing None as an argument to the handle_mask function (np.bitwise_or), which can't handle None. The correct approach would be to treat a missing mask as an \"all False\" mask (i.e., no mask), but perhaps in the code, it's not doing that. \n\nThe _arithmetic method is responsible for determining how the masks are combined. If the code in _arithmetic isn't checking for None masks and instead passes them directly to handle_mask, then using np.bitwise_or would fail when one is None. The expected behavior is that when one operand doesn't have a mask, the existing mask should be carried over. But if the handle_mask function is being called with one mask as None, that's causing the error.\n\nTherefore, the function that's at fault is _arithmetic, because it's not properly handling the case where one operand's mask is None before passing them to handle_mask. The _arithmetic function needs to ensure that both masks are valid arrays (perhaps by substituting a full False array when one is None) before applying the handle_mask function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1248,
+ "response_tokens": 803,
+ "elapsed_s": 18.29,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_arithmetic",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

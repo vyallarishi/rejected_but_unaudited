@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8250,
+ "raw": "#### Thought Process and Reasoning\nThe issue arises when using `HistGradientBoostingClassifier` with a string target variable and early stopping enabled. The error occurs because the scorer used during early stopping receives `y_true` as integers but `y_pred` as strings, leading to a type mismatch when computing the accuracy score.\n\nTo solve this, we need to ensure that `y_true` is encoded in the same way as `y_pred` when computing the score during early stopping. This involves modifying the `_check_early_stopping_scorer` method to encode `y_true` using the `classes_` attribute of the estimator.\n\n#### Solution\nThe fault lies in the `_check_early_stopping_scorer` method of the `BaseHistGradientBoosting` class. The issue arises because `y_true` is not encoded correctly when computing the score during early stopping.\n\n```python\nFAULT: _check_early_stopping_scorer\n```\n\nHowever, the actual fix involves modifying the `_encode_y` method to handle the encoding of `y_true` correctly. \n\nThe correct solution is to modify the `HistGradientBoostingClassifier` to properly encode `y_true` during early stopping. This can be achieved by changing the line where `self.scorer_` is called in the `_check_early_stopping_scorer` method.\n\n```diff\n--- a/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py\n+++ b/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py\n@@ -432,7 +432,7 @@\ndef _check_early_stopping_scorer(self, X_binned_small_train, y_small_train,\n         \"\"\"\n         self.train_score_.append(\n             self.scorer_(self, X_binned_small_train, y_small_train)\n-        )\n+        )\n+        y_val_encoded = self._encode_y(y_val)\n         self.validation_score_.append(\n-            self.scorer_(self, X_binned_val, y_val)\n+            self.scorer_(self, X_binned_val, y_val_encoded)\n         )\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2089,
+ "response_tokens": 440,
+ "elapsed_s": 1.34,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

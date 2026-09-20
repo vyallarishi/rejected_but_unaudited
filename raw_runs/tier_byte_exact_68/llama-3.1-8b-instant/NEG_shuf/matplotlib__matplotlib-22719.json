@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-22719",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 10069,
+ "raw": "FAULT: `convert_units`",
+ "finish_reason": "stop",
+ "prompt_tokens": 2580,
+ "response_tokens": 7,
+ "elapsed_s": 0.6,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "convert_units",
+ "parse_method": "fault_line",
+ "hit_output_cap": false,
+ "predicted_function_original": null,
+ "parse_method_original": "none"
+}

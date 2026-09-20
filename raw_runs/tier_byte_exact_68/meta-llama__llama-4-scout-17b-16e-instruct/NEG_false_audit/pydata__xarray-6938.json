@@ -1,0 +1,17 @@
+{
+ "instance_id": "pydata__xarray-6938",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7551,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves the `.swap_dims()` method in xarray, which appears to modify the original object under certain conditions. Specifically, when a data variable is swapped into being a dimension coordinate variable, its `.dims` can be altered in the original dataset. This behavior is unexpected because xarray aims to maintain immutability.\n\nTo solve this issue, we need to identify where in the code the modification occurs and understand why the immutability contract is violated. The provided code snippets and conversations hint at the problem lying within how variables are handled during the dimension swap operation.\n\n### Analysis of Provided Information\n\n1. **Minimal Complete Verifiable Example (MCVE):** The example demonstrates how `.swap_dims()` can change the original dataset's variable dimensions when promoting a data variable to a dimension coordinate.\n\n2. **Conversations and Actions:** Discussions point towards the issue being related to how `.swap_dims()` and related methods handle variable dimensions and coordinates. There's a mention of a fix related to ensuring immutability during these operations.\n\n3. **Code Localization:** The fault seems to be in the `Dataset` class, specifically in methods related to swapping dimensions and handling variable dimensions.\n\n### Solution\n\nBased on the analysis and the process of elimination, the function that contains the fault appears to be related to how variables are manipulated during dimension swap operations. \n\nGiven the information and focusing on the core issue of immutability violation during the swap operation, we can deduce the problematic function.\n\n### Conclusion\n\n```plaintext\nFAULT: Dataset.__getitem__\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2151,
+ "response_tokens": 316,
+ "elapsed_s": 1.23,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__getitem__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

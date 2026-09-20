@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-14096",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 4004,
+ "raw": "FAULT: __getattribute__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1026,
+ "response_tokens": 7,
+ "elapsed_s": 0.47,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "__getattribute__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

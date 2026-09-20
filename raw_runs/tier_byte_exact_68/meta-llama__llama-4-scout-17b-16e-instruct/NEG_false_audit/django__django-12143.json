@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6477,
+ "raw": "To solve this issue, we need to identify the function in `django/contrib/admin/options.py` where the fault occurs. The issue description mentions a problem with generating a regex pattern using string formatting, which can cause problems when the arguments contain special regex characters.\n\nThe key line of code mentioned in the issue description is:\n```python\npk_pattern = re.compile(r'{}-\\d+-{}$'.format(prefix, self.model._meta.pk.name))\n```\nThis line is used to generate a regex pattern to match the primary key of a model in the admin changeform view. The issue arises when the `prefix` argument contains special regex characters.\n\nAfter analyzing the code, we can see that the `get_inline_instances` method in `ModelAdmin` class calls other methods that use the `prefix` argument to generate the regex pattern.\n\nHowever, the actual fault is in the `_create_formsets` method, which is called by the `_changeform_view` method. The `_create_formsets` method uses the `prefix` argument to generate the regex pattern.\n\nBut, according to the django code, the `_create_formsets` method calls `get_inline_instances` and passes the `prefix` argument.\n\nUpon further inspection, we can see that the fault is actually in the `get_inline_instances` method's call stack, specifically in the line where `pk_pattern` is generated.\n\nThe correct function name where the fault occurs is not directly listed, but based on the description and code analysis, we can deduce that it is in the `ModelAdmin` class's methods that handle formsets.\n\nGiven the ModelAdmin class and its methods provided, a likely candidate for where the regex pattern is used and could cause a fault is in methods related to formset handling.\n\nFAULT: get_inline_instances",
+ "finish_reason": "stop",
+ "prompt_tokens": 1530,
+ "response_tokens": 362,
+ "elapsed_s": 1.11,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_inline_instances",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

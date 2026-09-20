@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14915",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7182,
+ "raw": "To solve this issue, we need to identify the function that is responsible for the `ModelChoiceIteratorValue` being unhashable. \n\nThe error occurs because the `ModelChoiceIteratorValue` instance is being used as a dictionary key, which requires it to be hashable. \n\nUpon reviewing the provided code and the execution path, it becomes clear that the `ModelChoiceIteratorValue` class is missing a `__hash__` method. \n\nThis method is necessary to make instances of the class hashable, which is a requirement for using them as dictionary keys.\n\nThe class `ModelChoiceIteratorValue` is defined with an `__eq__` method but lacks a `__hash__` method. \n\nIn Python, when you define `__eq__`, it's often a good practice to also define `__hash__` to ensure that equal objects have equal hash values.\n\nTherefore, the function that contains the fault is the `__init__` method of the `ModelChoiceIteratorValue` class, as it is responsible for creating instances of this class that are being used in a context where hashability is required.\n\nHowever, based on the provided information and standard professional guidelines, the actual fix would involve adding a `__hash__` method to the `ModelChoiceIteratorValue` class.\n\nThe correct answer would thus relate to where the fix should be applied, which directly relates to the class definition of `ModelChoiceIteratorValue`.\n\nFAULT: __init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1703,
+ "response_tokens": 295,
+ "elapsed_s": 1.18,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

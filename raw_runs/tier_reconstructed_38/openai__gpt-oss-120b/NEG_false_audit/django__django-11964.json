@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6373,
+ "raw": "FAULT: __init__",
+ "reasoning": "We need to identify which function contains the fault causing the enum value not being converted to primitive type when creating model instance. The issue: In Django, when assigning enum member to a field with choices, the value should be stored as the underlying value (string). In tests, after creation, my_object.my_str_value is MyChoice.FIRST_CHOICE (enum), not 'first'. The conversion likely occurs in Model.__init__ or in field's to_python/from_db. Actually, when creating via objects.create, the value is passed to Model.__init__, which sets attribute via setattr. The field's descriptor may handle conversion. In Django, fields have a descriptor that returns the value from the instance's __dict__ and may convert. For CharField with choices, the descriptor is from Field.get_attname? Actually, fields use a descriptor class: DeferredAttribute for normal fields. In Model.__init__, they assign raw value to the attribute name, not the attname? Let's recall: In Model.__init__, they loop over fields and set values via setattr(self, field.attname, value) maybe? Let's check: In Django's Model.__init__, they have something like:\n\ndef __init__(self, *args, **kwargs):\n    ...\n    for field in self._meta.concrete_fields:\n        if field.attname not in kwargs:\n            continue\n        setattr(self, field.attname, kwargs.pop(field.attname))\n\nBut for fields with choices, they still assign raw value. The conversion from enum to value is done by the field's get_prep_value or to_python? Actually, when assigning to model attribute, the descriptor's __set__ may call field.get_prep_value? I think the descriptor is DeferredAttribute which just sets value in instance.__dict__[self.field.attname] = value. No conversion. So the conversion occurs when saving to DB: field.get_prep_value will convert enum to its value. But after creation, before saving, the attribute remains enum. In test, they call objects.create which saves immediately, but after save, the instance still holds enum? objects.create returns the saved instance; after save, the attribute may still be enum because the descriptor didn't convert. The DB value is stored as string, but retrieving later returns string because from_db conversion uses field.from_db_value which returns the raw value (string). So the fault is that Model.__init__ does not coerce enum to its value. The function containing fault likely Model.__init__.\n\nThus answer: Model.__init__.\n\nCheck list: function names include \"def __init__(self, *args, **kwargs):\" under class Model. So answer: __init__.\n\nThus output: FAULT: __init__ .",
+ "finish_reason": "stop",
+ "prompt_tokens": 1538,
+ "response_tokens": 568,
+ "elapsed_s": 1.79,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

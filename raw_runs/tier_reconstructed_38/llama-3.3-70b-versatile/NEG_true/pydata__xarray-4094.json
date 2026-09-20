@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4094",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 19554,
+ "raw": "FAULT: to_stacked_array",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 5153,
+ "response_tokens": 7,
+ "elapsed_s": 6.8,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "to_stacked_array",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 7761,
+ "raw": "FAULT: dot",
+ "reasoning": "\nOkay, let's try to figure out which function in xarray is causing this bug with the boolean weights in the weighted mean. \n\nThe user provided a minimal example where using a boolean array as weights leads to an incorrect result. The problem seems to be in how the sum of weights is calculated. When they use xr.dot on two boolean arrays, it returns True instead of a numerical value. That's because the dot product is supposed to sum the element-wise products, but with booleans, True is 1 and False is 0. However, if the result is still a boolean, then True would be 1, but when used in a division, it's treated as 1.0 in Python. Wait, but in the example, the sum_of_weights is True, and then the weighted sum is 2.0 (since the weights are [True, True, False], which are 1,1,0; the data is [1,1,1], so the weighted sum is 1*1 + 1*1 + 1*0 = 2. Then dividing by sum_of_weights (which should be 2) gives 1.0. But in the code, sum_of_weights is True, which is 1, hence 2.0 / 1.0 = 2.0, which is wrong. So the issue is that xr.dot is returning a boolean instead of an integer or float.\n\nLooking at the code, the xr.dot function is involved here. The xr.dot function is supposed to compute the dot product along certain dimensions. But when the inputs are boolean, the result is a boolean. However, in the context of weighted mean, the sum of weights should be a numerical value. So the problem is that xr.dot isn't converting the result to a numerical type when the inputs are boolean. \n\nThe xr.dot function is in the list of candidate functions. The user's localization notes also mention that the dot function directly produces the incorrect output. The xr.dot function is called to compute the sum_of_weights, but when the weights are boolean, the result is a boolean (True) instead of an integer (2). This leads to division by True, which is 1.0, hence the incorrect result. \n\nTherefore, the fault lies in the xr.dot function because it doesn't handle boolean arrays correctly, not converting them to numerical types before performing the dot product. The xr.dot function should ensure that the result is a numerical value, but it's returning a boolean instead.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2121,
+ "response_tokens": 522,
+ "elapsed_s": 7.88,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

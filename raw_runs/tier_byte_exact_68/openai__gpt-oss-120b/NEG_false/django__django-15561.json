@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15561",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4832,
+ "raw": "FAULT: _alter_field",
+ "finish_reason": "stop",
+ "prompt_tokens": 1224,
+ "response_tokens": 1696,
+ "elapsed_s": 4.07,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_alter_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

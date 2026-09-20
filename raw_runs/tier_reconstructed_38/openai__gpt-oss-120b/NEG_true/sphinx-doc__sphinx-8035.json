@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 10735,
+ "raw": "FAULT: bool_option",
+ "reasoning": "We need to identify which function contains the fault: the handling of private-members option as boolean, not allowing arguments. Likely the option parser for private-members is defined somewhere similar to members_option. In the list, there is members_option, members_set_option, inherited_members_option, etc. There is no private_members_option listed, but maybe it's defined similarly. However the list includes members_option, members_set_option, inherited_members_option, member_order_option, annotation_option, bool_option, merge_special_members_option, cut_lines, between, Options, Documenter methods, etc.\n\nThe handling of private-members likely uses bool_option, which treats any presence as True. The fault is that private-members option is defined using bool_option rather than members_set_option. So the function containing the fault is bool_option? Or maybe members_option is used for members, but private-members uses bool_option. The question: \"Which function contains the fault?\" The answer likely is bool_option, because it treats the option as boolean, causing all private members to be included. So I'd answer:\n\nFAULT: bool_option\n\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2568,
+ "response_tokens": 232,
+ "elapsed_s": 1.15,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "bool_option",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

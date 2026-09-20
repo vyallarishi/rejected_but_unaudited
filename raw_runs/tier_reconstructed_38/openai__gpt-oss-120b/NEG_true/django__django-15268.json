@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4057,
+ "raw": "FAULT: reduce",
+ "reasoning": "We need to identify which function contains the fault causing failure to optimize multiple AlterFooTogether operations into one. The description says that reduce method is used to combine operations. Since AlterUniqueTogether and AlterIndexTogether do not override reduce, base implementation returns False, so they are not combined. The fault is that reduce method should be overridden to combine consecutive operations. So the function containing the fault is reduce. The answer: reduce.",
+ "finish_reason": "stop",
+ "prompt_tokens": 964,
+ "response_tokens": 98,
+ "elapsed_s": 0.67,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

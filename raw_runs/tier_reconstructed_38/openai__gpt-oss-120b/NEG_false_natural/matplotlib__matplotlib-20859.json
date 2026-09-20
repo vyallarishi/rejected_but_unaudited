@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6823,
+ "raw": "FAULT: Legend.__init__",
+ "reasoning": "We need to answer which function contains the fault. The description says the error arises in Legend.__init__ where it checks parent type. So the faulty function is Legend.__init__. The list includes \"Legend.__init__\". So answer that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1726,
+ "response_tokens": 65,
+ "elapsed_s": 0.64,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6700,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is that when using shared axes and calling ax.clear(), extra ticks and labels appear that shouldn't be there. The user mentioned that this is a change between matplotlib 3.4.1 and 3.4.2. \n\nFirst, looking at the code provided, the key steps are creating subplots with shared x and y axes, then clearing each axis and plotting. The issue arises after the clear call. The user's analysis suggests that the clear method is resetting some properties that affect shared axes, like the NullFormatter which hides the tick labels on interior axes.\n\nIn the localization notes, it's mentioned that ax.clear() calls ax.cla(), which in turn calls self.xaxis.clear() and self.yaxis.clear(). The Axis.clear() method resets axis properties to defaults, including formatters and ticks. For shared axes, this reset removes the NullFormatter that was hiding the tick labels on interior axes. Without that formatter, the labels become visible, causing the problem.\n\nLooking at the list of functions provided, the relevant ones would be in the Axis class. The Axis class has a clear method, which is called during the cla() process. The Axis.clear() method is likely responsible for resetting the formatters and ticks. If this method is not properly handling shared axes, it could remove the NullFormatter that was set up to hide the labels.\n\nThe candidate functions listed include Axis.clear. The problem seems to be that when Axis.clear() is called on a shared axis, it's resetting the formatter to the default, which is not NullFormatter. This would cause the tick labels to reappear. Therefore, the fault is in the Axis.clear() function because it's not preserving the shared axis formatters correctly.\n\nOther functions like cla() or reset_ticks() might be involved, but according to the user's analysis, the direct cause is the Axis.clear() method resetting the formatter. So the answer should be Axis.clear.\n</think>\n\nFAULT: Axis.clear",
+ "finish_reason": "stop",
+ "prompt_tokens": 1760,
+ "response_tokens": 413,
+ "elapsed_s": 2.26,
+ "key_suffix": "QqzJWR",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

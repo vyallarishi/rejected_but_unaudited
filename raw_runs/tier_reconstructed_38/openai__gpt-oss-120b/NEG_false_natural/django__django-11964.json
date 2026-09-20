@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6303,
+ "raw": "FAULT: Model.__init__",
+ "reasoning": "We need to identify which function contains the fault causing the enum value not being converted to its primitive when creating instance. The description says that when creating instance via objects.create with enum member, the field value remains enum object, not string. The conversion likely occurs in Model.__init__ or in field's to_python or get_prep_value. But the issue is that __init__ assigns directly without conversion. In Django, Model.__init__ does something like:\n\ndef __init__(self, *args, **kwargs):\n    for field in self._meta.concrete_fields:\n        if field.attname not in kwargs:\n            continue\n        setattr(self, field.attname, kwargs[field.attname])\n\nBut there is also handling for many-to-many etc. It does not call field.get_prep_value. So the fault is in Model.__init__.\n\nThus answer: Model.__init__.\n\nCheck list: there is \"def __init__(self, *args, **kwargs):\" under class Model. So output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1525,
+ "response_tokens": 222,
+ "elapsed_s": 0.98,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

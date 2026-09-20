@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4917,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "We need to answer: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\"\n\nThe bug is in cross_val_predict, specifically in the part that accesses estimator.classes_ when method='predict_proba'. The function that contains the fault is cross_val_predict (or maybe _enforce_prediction_order?). Let's examine code: In cross_val_predict, after predictions are collected, they call _enforce_prediction_order(classes, predictions, n_classes, method). The classes variable is obtained from estimator.classes_ earlier. Indeed the code snippet: \n\n```\nif method == \"predict_proba\":\n    # check if estimator has predict_proba\n    if not hasattr(estimator, \"predict_proba\"):\n        raise ...\n    # get classes\n    classes = getattr(estimator, \"classes_\", None)\n    if classes is None:\n        # maybe estimator is a meta-estimator?\n        # ...\n```\n\nBut the bug is that for MultiOutputClassifier, estimator.classes_ doesn't exist; they need to get from each estimator. So the fault is in cross_val_predict. The function list includes cross_val_predict. So answer: FAULT: cross_val_predict.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1286,
+ "response_tokens": 263,
+ "elapsed_s": 1.14,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

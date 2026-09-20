@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9004,
+ "raw": "FAULT: _convert_data_to_col",
+ "reasoning": "We need to identify which function contains the fault: the automatic conversion of structured ndarray to NdarrayMixin occurs in Table initialization when converting data to column. Likely in _convert_data_to_col method. The code snippet is from there. So answer: _convert_data_to_col.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2250,
+ "response_tokens": 73,
+ "elapsed_s": 0.74,
+ "key_suffix": "04ZFOa",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_convert_data_to_col",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

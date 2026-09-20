@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15467",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5379,
+ "raw": "<think>\nOkay, let's try to figure out where the issue is here. The user is saying that when they define radio_fields in their ModelAdmin, their custom empty_label gets overridden by the default \"None\" label. They provided an example where they set the empty_label in formfield_for_foreignkey, but it doesn't take effect because in Django's code, specifically in options.py line 234, the empty_label is being set to _('None') if the field is blank. The user suggests changing that line to use kwargs.get('empty_label') instead.\n\nLooking at the code structure, the problem seems to be in the formfield_for_foreignkey method of the BaseModelAdmin. The user's custom empty_label is set, but when the parent class's formfield_for_foreignkey is called, it checks if the field is a radio field and then overrides the empty_label. \n\nThe key part is in the BaseModelAdmin's formfield_for_foreignkey method. When radio_fields is in use, Django is enforcing its own empty_label. The user's proposed fix is to modify how empty_label is assigned there. So the faulty function is the one where this override happens, which is formfield_for_foreignkey in the BaseModelAdmin. That's the function that's responsible for setting the empty_label to the default, thus overriding the user's custom setting. Therefore, the answer should be formfield_for_foreignkey.\n</think>\n\nFAULT: formfield_for_foreignkey",
+ "finish_reason": "stop",
+ "prompt_tokens": 1291,
+ "response_tokens": 296,
+ "elapsed_s": 16.06,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "formfield_for_foreignkey",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

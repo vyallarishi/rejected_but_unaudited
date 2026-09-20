@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2742,
+ "raw": "reduce",
+ "reasoning": "We need to identify which function contains the fault causing the optimizer not to combine AlterUniqueTogether and AlterIndexTogether operations. The description: In #31503 they split AlterFooTogether into two types of operations: remove constraints then add constraints. This allows field alterations to work. In some cases, this introduced two operations that can be reduced to one. The optimizer should combine them. The candidate functions list includes reduce method in Operation base class. The issue: reduce not overridden for AlterUniqueTogether and AlterIndexTogether, so they cannot be combined. The fault likely is that reduce method in base class returns False (or something) and should be overridden in these classes to allow reduction. So the faulty function is reduce in django/db/migrations/operations/base.py. The question: \"Which function contains the fault?\" Answer with one function name. So \"reduce\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 708,
+ "response_tokens": 183,
+ "elapsed_s": 0.89,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

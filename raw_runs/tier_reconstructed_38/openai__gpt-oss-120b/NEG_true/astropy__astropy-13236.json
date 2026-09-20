@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 11991,
+ "raw": "FAULT: _convert_data_to_col",
+ "reasoning": "We need to identify which function contains the fault: the auto conversion of structured ndarray to NdarrayMixin occurs in Table initialization when adding column. The code snippet is likely in Table._convert_data_to_col or Table._convert_col_for_table? The snippet shown earlier:\n\n```\n# Structured ndarray gets viewed as a mixin unless already a valid\n# mixin class\nif (not isinstance(data, Column) and not data_is_mixin\n        and isinstance(data, np.ndarray) and len(data.dtype) > 1):\n    data = data.view(NdarrayMixin)\n    data_is_mixin = True\n```\n\nWhere is that? Probably in Table._convert_data_to_col. Let's search memory: In astropy.table.table, there is a method _convert_data_to_col that handles conversion of data to Column. That likely contains that snippet. So answer: _convert_data_to_col.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2912,
+ "response_tokens": 198,
+ "elapsed_s": 1.51,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_data_to_col",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

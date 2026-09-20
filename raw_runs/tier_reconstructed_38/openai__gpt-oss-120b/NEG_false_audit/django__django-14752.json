@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3903,
+ "raw": "FAULT: get",
+ "reasoning": "We need to identify which function contains the fault: the hardcoded result serialization is in AutocompleteJsonView.get method. The issue: get constructs JsonResponse with list comprehension. So the function containing the fault is get. The question: \"Which function contains the fault?\" Answer with one function name. So \"get\".",
+ "finish_reason": "stop",
+ "prompt_tokens": 926,
+ "response_tokens": 77,
+ "elapsed_s": 0.76,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

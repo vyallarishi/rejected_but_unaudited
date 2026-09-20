@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-20826",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5741,
+ "raw": "### Thought Process and Reasoning\n\nThe bug report describes an issue with `ax.clear()` adding extra ticks and un-hiding shared-axis tick labels when using shared axes in matplotlib. The problem arises from the `ax.clear()` call, which resets the axis properties to their defaults, including formatters and ticks.\n\nUpon examining the code and the provided information, it appears that the issue lies in the `Axis.clear()` method. This method is responsible for resetting the axis properties to their defaults. However, in the case of shared axes, this reset removes the `NullFormatter` that was hiding tick labels on interior axes, causing the tick labels to become visible again.\n\nThe expected behavior is that `ax.clear()` should not change the visibility of tick labels on interior axes when using shared axes.\n\n### Solution\n\nTo fix this issue, we need to modify the `Axis.clear()` method to preserve the `NullFormatter` on interior axes when using shared axes.\n\n```python\nFAULT: Axis.clear\n```\n\nHowever, the actual fix involves modifying the `Axis.clear()` method to check if the axis is a shared axis and if so, preserve the `NullFormatter`. \n\nThe relevant code change would look something like this:\n\n```python\ndef clear(self):\n    # ...\n    if self.is_shared() and self not in self.get_shared_axes():\n        self.set_major_formatter(self._major_formatter)\n        self.set_minor_formatter(self._minor_formatter)\n    else:\n        self.set_major_formatter(mpl.ticker.NullFormatter())\n        self.set_minor_formatter(mpl.ticker.NullFormatter())\n    # ...\n```\n\nBut the above code isn't directly given in the source and would likely require some tweaking.\n\nA more straightforward fix might involve adding a line to `Axis.clear()` to specifically handle the case of shared axes:\n\n```python\ndef clear(self):\n    # ...\n    if self.get_scale().name == 'linear' and self in self.axes.get_shared_axes():\n        self.set_major_formatter(mpl.ticker.NullFormatter())\n        self.set_minor_formatter(mpl.ticker.NullFormatter())\n    # ...\n``` \nHowever the best practice is usually going directly into  source  in this case `lib/matplotlib/axis.py`. \n\nThe matplotlib issue tracker contains an associated [PR](https://github.com/matplotlib/matplotlib/pull/18562).",
+ "finish_reason": "stop",
+ "prompt_tokens": 1507,
+ "response_tokens": 469,
+ "elapsed_s": 1.47,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clear",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

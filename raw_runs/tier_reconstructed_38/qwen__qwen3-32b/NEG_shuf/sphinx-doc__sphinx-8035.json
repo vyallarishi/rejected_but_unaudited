@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 12591,
+ "raw": "FAULT: filter_members",
+ "reasoning": "\nOkay, let's try to figure out which function is responsible for the issue described. The problem is about the `:private-members:` option in Sphinx's autodoc not allowing specific private members to be documented, instead documenting all when the option is present. The user wants to specify which private members to include, similar to how `:members:` works.\n\nLooking at the provided code snippets, the relevant part is likely in the filtering logic of members. The `filter_members` function is mentioned in the localization notes. The note says that `filter_members` checks if members are private and whether to include them based on the `private-members` option. Currently, this option is a boolean, so when set, all private members are included. The user's issue is that they want to specify individual private members, not all.\n\nThe `filter_members` function's logic would need to be modified to check if specific private members are listed in the option, rather than just a boolean. The current implementation probably checks if `self.options.private_members` is True, and if so, includes all private members. To support specifying particular members, this function would need to check against a list of names provided in the option.\n\nOther functions like `members_option` or `members_set_option` might handle parsing the option arguments. For example, `members_option` could be used to parse the list of member names passed to `:private-members:`, similar to how `:members:` works. The `members_set_option` might process these into a set for quicker lookups.\n\nIn the `ClassDocumenter` or `Documenter` class, the `document_members` method might call `filter_members` with the list of desired members. The `generate` method in `ClassDocumenter` could be where the options are applied, using the parsed members from `private-members:`.\n\nBut according to the note, the key function is `filter_members` because it's where the decision to include or exclude private members is made. The current logic there doesn't handle specific names, only a boolean. So modifying `filter_members` to check against a list of specified private members would address the issue. Therefore, the fault lies in the `filter_members` function's handling of the `private-members` option.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2927,
+ "response_tokens": 469,
+ "elapsed_s": 10.16,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

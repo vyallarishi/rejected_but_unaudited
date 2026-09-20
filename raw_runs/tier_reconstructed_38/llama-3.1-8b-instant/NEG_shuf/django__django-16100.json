@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16100",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 8307,
+ "raw": "changelist_view",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1920,
+ "response_tokens": 5,
+ "elapsed_s": 0.36,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "changelist_view",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15503",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5958,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using the has_key lookup on a JSONField with a numeric key in SQLite, it doesn't work. The test case shows that using '1111' as a key isn't found, but 'foo' works. The user mentioned that the generated SQL uses JSON_TYPE with the key directly, without the proper JSON path syntax like $.key.\n\nLooking at the candidate functions, the HasKeyLookup class has methods for different databases, including as_sqlite. The localization notes mention that the as_sqlite method is providing an incorrect SQL template. Specifically, it's passing the key as a string without the necessary path formatting. \n\nThe HasKeyLookup's as_sqlite method probably uses a template that doesn't correctly format the key as a JSON path. For SQLite's JSON functions, numeric keys might need to be handled differently. The JSON path syntax usually requires something like $.\"1111\" for string keys, but maybe for numeric keys, it's just $.1111. However, if the key is passed as a string, it might not be correctly interpreted. \n\nLooking at the code for HasKeyLookup, the as_sqlite method would generate the SQL using a template. If the template is using the key directly without wrapping it in quotes properly or formatting it as a path, that's the problem. The correct JSON path for a key named '1111' would be $.\"1111\" if it's a string, but if the key is numeric, maybe SQLite expects just $.1111 without quotes. However, if the key is passed as a string in the SQL function, it might not be recognized. \n\nThe issue is likely in the as_sqlite method of the HasKeyLookup class because that's responsible for generating the correct SQL for SQLite. The method might not be correctly constructing the JSON path expression. For example, using JSON_TYPE(data, '1111') instead of JSON_TYPE(data, '$.\"1111\"'). The JSON_TYPE function in SQLite checks the type of the value at the specified path, so the path needs to be correctly formatted.\n\nTherefore, the fault is in the as_sqlite method of the HasKeyLookup class. The method isn't properly formatting the key into a JSON path, leading to incorrect SQL being generated when the key is numeric.\n</think>\n\nFAULT: HasKeyLookup.as_sqlite",
+ "finish_reason": "stop",
+ "prompt_tokens": 1466,
+ "response_tokens": 509,
+ "elapsed_s": 1.53,
+ "key_suffix": "c6aTkM",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "as_sqlite",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

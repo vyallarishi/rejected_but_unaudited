@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10323",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5418,
+ "raw": "To solve this issue, we need to identify the function responsible for the incorrect indentation when using the `literalinclude` directive with the `:prepend:` option.\n\nThe problem arises from the order of operations in the `LiteralIncludeReader.read` method. The `:prepend:` and `:append:` content is added to the lines before the dedentation occurs. This causes the prepended lines to be incorrectly dedented, resulting in poor indentation.\n\nThe `dedent_filter` method is applied to the entire content, including the prepended lines. This is the root cause of the issue. To fix this, we need to apply the dedentation only to the original content, excluding the prepended lines.\n\nAfter analyzing the provided code and the Sphinx documentation, I have identified the function responsible for the fault:\n\n```\nFAULT: LiteralIncludeReader.read\n```\n\nHowever, based on the code structure and the issue description, a more specific function that likely contains the fault is:\n\n```\nFAULT: LiteralIncludeReader.dedent_filter\n```\n\nBut the actual fix involves changing the order of operations in the `LiteralIncludeReader.read` method or modifying the `dedent_filter` method to exclude the prepended lines.\n\nA possible solution is to modify the `LiteralIncludeReader` class to apply the dedentation before adding the prepended lines. This can be achieved by rearranging the order of operations in the `read` method or by creating a new filter that applies the dedentation only to the original content.\n\nThe correct solution involves modifying the `LiteralIncludeReader` class to apply the dedentation correctly. However, based on the provided information, the most relevant function to investigate is:\n\n```\nFAULT: LiteralIncludeReader.dedent_filter\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1393,
+ "response_tokens": 344,
+ "elapsed_s": 1.23,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "read",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

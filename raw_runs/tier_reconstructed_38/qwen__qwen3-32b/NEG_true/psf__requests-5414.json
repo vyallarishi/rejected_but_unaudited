@@ -1,0 +1,20 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4675,
+ "raw": "FAULT: prepare_url",
+ "reasoning": "\nOkay, let's try to figure out which function in the Requests library is responsible for the UnicodeError when handling a URL like http://.example.com. \n\nFirst, the user mentioned that when they try to make a request to that URL, a UnicodeError is raised instead of the expected InvalidUrl exception. The problem seems to be in the URL preparation phase.\n\nLooking at the code structure, the PreparedRequest class has a method called prepare_url. The user's localization notes say that prepare_url is where the issue starts. Let me think through the steps they outlined.\n\nThe URL \"http://.example.com\" is passed to prepare_url. The host here is \".example.com\". The code checks if the host is ASCII, which it is, so it skips the IDNA encoding block. But \".example.com\" is an invalid hostname because of the leading dot. However, the prepare_url function doesn't validate the host's structure beyond checking if it's ASCII. So it leaves the invalid host as is. Later, when urllib3 tries to process this host, it might attempt to encode it with IDNA, which fails because of the invalid label (the leading dot makes the label empty or too long).\n\nWait, the user's notes mention that in the prepare_url function, the host is ASCII, so the block that catches UnicodeError is skipped. But the problem arises later when the host is processed by urllib3. So maybe the fault is in the _get_idna_encoded_host method? Or perhaps in prepare_url not properly validating the host before passing it along?\n\nBut according to the user's analysis, the prepare_url function isn't catching the invalid host. The _get_idna_encoded_host function is part of the PreparedRequest class. Let me check the code flow. The prepare_url function is responsible for parsing and encoding the URL. If the host is invalid (like .example.com), but it's ASCII, the code doesn't do any further validation. So when the host is passed to urllib3, which uses IDNA encoding, it throws a UnicodeError because the host is invalid.\n\nThe problem is that prepare_url isn't catching the invalid host structure (like leading dot) and allowing it to proceed, leading to a later error. The expected behavior is to raise InvalidUrl, but that's not happening because the check in prepare_url isn't catching it. Therefore, the fault lies in the prepare_url function not properly validating the host structure beyond ASCII check.\n\nSo the answer should be prepare_url.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1236,
+ "response_tokens": 514,
+ "elapsed_s": 6.38,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 4165,
+ "raw": "FAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 945,
+ "response_tokens": 5,
+ "elapsed_s": 0.27,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4998,
+ "raw": "FAULT: get",
+ "reasoning": "We need to answer which function contains the fault. The issue is about AutocompleteJsonView.get constructing results directly, lacking extension point. The fault is that get method hardcodes result serialization. So the function containing the fault is AutocompleteJsonView.get. So answer: get.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1157,
+ "response_tokens": 69,
+ "elapsed_s": 0.64,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 8275,
+ "raw": "FAULT: safe_text_dupfile",
+ "finish_reason": "stop",
+ "prompt_tokens": 2059,
+ "response_tokens": 7,
+ "elapsed_s": 0.38,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "safe_text_dupfile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

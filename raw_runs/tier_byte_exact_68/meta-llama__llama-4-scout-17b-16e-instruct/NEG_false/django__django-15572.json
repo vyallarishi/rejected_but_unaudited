@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15572",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2362,
+ "raw": "To solve this issue, we need to understand the root cause and then identify the function that contains the fault.\n\nThe problem arises from the way Django handles template directories in versions greater than 3.2.3. Specifically, it normalizes these directories using `pathlib.Path`. When an empty string is present in `TEMPLATES['DIRS']`, it gets normalized to the project root (`pathlib.Path('.')`). This causes issues with the autoreload feature because it leads to incorrect detection of template changes.\n\nThe autoreload mechanism watches for changes in template directories. When a `.py` file is saved, it also triggers an update to the corresponding `.pyc` file. If the project root is among the template directories (due to an empty string in `TEMPLATES['DIRS']`), the autoreloader will detect the `.pyc` file change. This detection leads to the invocation of `template_changed` with the path to the `.pyc` file.\n\nThe critical part of the code that fails is the check within `template_changed`:\n```python\nif file_path.suffix == '.py':\n```\nThis check fails for `.pyc` files because their suffix is `.pyc`, not `.py`. However, the primary issue here is not this check itself but how the empty string in `TEMPLATES['DIRS']` leads to the project root being watched for template changes.\n\nGiven the information and the process of elimination, the fault lies in how `template_changed` handles file paths, specifically when those paths result from the normalization of empty strings in `TEMPLATES['DIRS']`.\n\nThe function that contains the fault, based on the description and the process of elimination, is:\n\nFAULT: template_changed",
+ "finish_reason": "stop",
+ "prompt_tokens": 585,
+ "response_tokens": 346,
+ "elapsed_s": 1.03,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "template_changed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

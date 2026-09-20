@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2424,
+ "raw": "FAULT: get_new_connection",
+ "reasoning": "We need to identify which function contains the fault. The issue: MySQL backend uses deprecated \"db\" and \"passwd\" kwargs. The description says get_connection_params populates kwargs with 'db' and 'passwd'. But they say \"Ruled out: get_connection_params: This function only reads the relevant value; it does not modify it, so it cannot be where the incorrect behavior originates.\" Wait contradictory: earlier they said get_connection_params populates dict with those keys. But they claim it's not the fault because it only reads? Actually the fault is likely in get_new_connection, which receives conn_params and passes them to MySQLdb.connect. If get_connection_params uses deprecated keys, but they claim it's not the fault? The question: \"Which function contains the fault?\" They gave list of candidate functions. The fault is that the backend uses deprecated kwargs. The code that actually passes those kwargs to the MySQL client is get_new_connection. That function likely calls MySQLdb.connect(**conn_params). So the fault is there: it passes the dict with deprecated keys. So answer: get_new_connection.",
+ "finish_reason": "stop",
+ "prompt_tokens": 686,
+ "response_tokens": 239,
+ "elapsed_s": 1.03,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_new_connection",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

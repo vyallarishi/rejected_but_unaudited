@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-5262",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8336,
+ "raw": "To solve this issue, we need to understand the problem and identify the root cause. The error occurs when `youtube-dl` logs to pytest captured output. The issue arises because `_pytest.capture.EncodedFile` mode includes `b` (binary), which causes `youtube-dl` to write `bytes` instead of `str`.\n\nThe problem lies in the `EncodedFile` class in `src/_pytest/capture.py`. The `EncodedFile` class is used to capture output and encode it to a specific encoding. However, the `mode` attribute of the `EncodedFile` instance is not explicitly set, and it defaults to the mode of the underlying buffer, which is a binary mode (`rb+`).\n\nTo fix this issue, we need to modify the `EncodedFile` class to exclude the `b` mode. We can do this by setting the `mode` attribute of the `EncodedFile` instance to a non-binary mode, such as `r+`.\n\nHere is the corrected code:\n\n```python\nclass EncodedFile(object):\n    def __init__(self, buffer, encoding):\n        self.buffer = buffer\n        self.encoding = encoding\n        self.mode = 'r+'  # Set mode to non-binary\n\n    # ... rest of the class remains the same ...\n```\n\nHowever, a more accurate solution would be to define a property for `mode` in the `EncodedFile` class that excludes the `b` character:\n\n```python\nclass EncodedFile(object):\n    def __init__(self, buffer, encoding):\n        self.buffer = buffer\n        self.encoding = encoding\n\n    @property\n    def mode(self):\n        mode = self.buffer.mode\n        return mode.replace('b', '')\n\n    # ... rest of the class remains the same ...\n```\n\nThe function that contains the fault is `EncodedFile`'s `__init__` or its `mode` property, but most directly it's related to how `EncodedFile` handles or reports its mode. However, based on the provided code structure and common practices, the best answer from the given list would be:\n\nFAULT: EncodedFile",
+ "finish_reason": "stop",
+ "prompt_tokens": 2054,
+ "response_tokens": 434,
+ "elapsed_s": 1.43,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "EncodedFile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6154,
+ "raw": "## Step 1: Understanding the Issue\nThe problem arises from the fact that when creating an instance of a model with a field that has choices defined by an Enum (like `TextChoices` or `IntegerChoices`), the value stored in the instance attribute is the Enum object itself, not its underlying value.\n\n## Step 2: Identifying the Source of the Issue\nThe issue is rooted in how Django handles model instance creation and attribute assignment. Specifically, when `MyObject.objects.create(my_str_value=MyChoice.FIRST_CHOICE)` is called, it directly assigns `MyChoice.FIRST_CHOICE` to `my_str_value` without converting it to its primitive value (`'first'`).\n\n## 3: Analyzing the Model Creation Process\nDuring model instance creation, Django's `Model.__init__` method is involved. This method performs assignments of the provided keyword arguments to the instance's attributes. However, it does not automatically convert Enum objects to their underlying values.\n\n## 4: Finding the Relevant Function\nThe function that directly deals with setting attribute values on a model instance during its creation is `Model.__init__`. However, the specific handling of Enum values and their conversion to the actual field value (e.g., string or integer) is more closely related to how Django's model fields are initialized and validated.\n\n## 5: Identifying the Fault\nThe fault lies in how Django assigns and represents the Enum object directly without coercion to its base type (string or integer) during the creation of a model instance. The `__init__` method of the `Model` class is where this assignment happens, but the actual fix or handling might involve deeper mechanisms like field-specific `from_db_value` or `to_python` methods.\n\n## 6: Conclusion on Fault Location\nGiven the provided information and focusing on the direct assignment and representation issue, the fault can be associated with how model attributes are initialized and represented, pointing towards core model handling.\n\nThe final answer is: \nFAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1430,
+ "response_tokens": 407,
+ "elapsed_s": 1.39,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

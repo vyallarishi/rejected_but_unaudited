@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5108,
+ "raw": "FAULT: forbid_multi_line_headers",
+ "reasoning": "We need to identify which function contains the fault. The issue: when encoding is iso-8859-1, the Message-ID header includes non-ASCII domain, causing UnicodeEncodeError in forbid_multi_line_headers when it tries to encode with ascii then fallback to Header with encoding latin-1. The code that sets the Message-ID is in EmailMessage.message() where it does `msg['Message-ID'] = make_msgid(domain=DNS_NAME)`. The error occurs in forbid_multi_line_headers, which is called by SafeMIMEMessage.__setitem__ (or SafeMIMEText etc). The function that contains the fault is likely `forbid_multi_line_headers` because it doesn't handle non-ASCII domain properly; it tries to encode header value using ascii and then uses Header with given encoding, but for Message-ID it should not be encoded, should be ASCII only, but domain must be punycode. The fix suggestion is to convert domain to punycode before using. So the faulty function is `forbid_multi_line_headers`. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: forbid_multi_line_headers.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1326,
+ "response_tokens": 268,
+ "elapsed_s": 1.54,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "forbid_multi_line_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

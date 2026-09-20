@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2651,
+ "raw": "FAULT: translate_url",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 567,
+ "response_tokens": 5,
+ "elapsed_s": 0.43,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "translate_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

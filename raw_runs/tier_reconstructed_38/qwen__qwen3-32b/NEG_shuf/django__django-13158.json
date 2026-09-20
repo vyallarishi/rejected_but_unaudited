@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13158",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9203,
+ "raw": "FAULT: set_empty",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using a union() in the queryset for the ModelMultipleChoiceField, submitting the form empty adds all objects from the queryset, whereas with the OR query (|), it works as expected. The user suspects that QuerySet.none() isn't working correctly on combined queries.\n\nLooking at the code provided, the key difference is between using the | operator and the union() method. The user mentions that when using union(), the none() method isn't behaving as expected. The issue seems to be in how the combined query (from union()) is handled when none() is called.\n\nIn Django's QuerySet handling, when you call none(), it modifies the query to return no results. For a regular QuerySet, this might add a WHERE 1=0 or similar condition. But for a combined query (like a union), maybe the none() isn't properly applied to the combined parts.\n\nThe candidate functions listed include set_empty(), which is part of the Query class. The user's localization notes mention that set_empty is called when QuerySet.none() is used. The problem might be that when the queryset is a union (CombinedQuery), calling set_empty on it doesn't correctly propagate the \"empty\" condition to both parts of the union.\n\nLooking at the functions in the list, the set_empty method is part of the Query class. If the CombinedQuery (which is a type of query for unions) doesn't properly handle set_empty, then applying none() might not work as intended. The set_empty function adds a NothingNode to the where clause, but maybe in the case of a union, the CombinedQuery doesn't correctly apply this to all components, leading to the query not being properly emptied.\n\nTherefore, the fault is likely in the set_empty function, as it's responsible for modifying the query to return no results, and if it doesn't handle CombinedQueries correctly, that would explain the observed behavior.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2096,
+ "response_tokens": 413,
+ "elapsed_s": 7.25,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "set_empty",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

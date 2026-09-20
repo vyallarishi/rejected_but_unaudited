@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15525",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 7271,
+ "raw": "Deserializer",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1758,
+ "response_tokens": 2,
+ "elapsed_s": 0.37,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "Deserializer",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

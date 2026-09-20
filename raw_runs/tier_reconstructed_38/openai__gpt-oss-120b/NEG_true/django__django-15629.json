@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 9628,
+ "raw": "FAULT: _alter_field",
+ "reasoning": "We need to identify which function in django/db/backends/base/schema.py contains the fault causing db_collation not propagated to foreign key columns during alter_field. Likely _alter_field or _alter_column_type_sql or _alter_column_collation_sql. The issue: when primary key collation changes, foreign key columns are altered type but not collation. The code that generates column alteration for foreign key fields probably uses field.db_parameters() which for ForeignKey returns column type but not collation. The function that builds ALTER TABLE MODIFY column statements is _alter_column_type_sql, which receives new_type and new_collation? Actually there is _alter_column_collation_sql. The alter_field method decides whether to call _alter_column_type_sql or _alter_column_collation_sql. The bug is that for foreign key fields, the collation is not passed. So the function that decides to alter column collation is _field_should_be_altered? Or _field_should_be_altered? But the actual missing collation is in _alter_field where it builds new_type and new_collation. The function that returns new_collation is new_field.db_parameters()['collation'] maybe. For ForeignKey, db_parameters doesn't include collation. So the fault is in _alter_field not propagating collation from related field. However the question: \"Which function contains the fault?\" Likely _alter_field.\n\nThus answer: _alter_field.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2288,
+ "response_tokens": 303,
+ "elapsed_s": 1.15,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_alter_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

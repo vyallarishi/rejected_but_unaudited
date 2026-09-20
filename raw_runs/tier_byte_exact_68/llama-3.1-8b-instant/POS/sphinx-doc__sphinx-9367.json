@@ -1,0 +1,17 @@
+{
+ "instance_id": "sphinx-doc__sphinx-9367",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 2390,
+ "raw": "FAULT: visit_Tuple",
+ "finish_reason": "stop",
+ "prompt_tokens": 715,
+ "response_tokens": 6,
+ "elapsed_s": 0.39,
+ "key_suffix": "04ZFOa",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "visit_Tuple",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2494,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "We need to identify which function contains the fault. The issue: MySQL backend uses deprecated \"db\" and \"passwd\" kwargs. The code that populates kwargs with those keys is get_connection_params. The description says get_connection_params: Yes, a direct path exists. This function populates a dictionary, kwargs, with connection parameters. Specifically, it uses the keys 'db' and 'passwd' based on the 'NAME' and 'PASSWORD' settings: `kwargs['db'] = settings_dict['NAME']` and `kwargs['passwd'] = settings_dict['PASSWORD']`. This dictionary is then returned and used by `get_new_connection` to connect to the database, passing these depr... The note says \"Ruled out: - get_connection_params: ruled out; the true cause is upstream.\" Wait contradictory. The description says get_connection_params is where the deprecated keys are set. But the \"Ruled out\" says get_connection_params is ruled out; the true cause is upstream. Hmm.\n\nWe need to decide which function contains the fault. The fault is that the backend uses deprecated kwargs. The function that actually uses those kwargs is get_connection_params. However, maybe the upstream mysqlclient expects new keys, but Django passes old ones. So the fault is in get_connection_params. The \"Ruled out\" note might be a trick: they say it's ruled out; the true cause is upstream. But the question: \"Which function contains the fault?\" We need to answer with one function name from the list. The list includes get_connection_params, get_new_connection, etc. The fault is in get_connection_params because it creates the dict with deprecated keys. So answer that.\n\nThus: FAULT: get_connection_params",
+ "finish_reason": "stop",
+ "prompt_tokens": 699,
+ "response_tokens": 364,
+ "elapsed_s": 1.34,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

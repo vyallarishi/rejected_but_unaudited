@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14349",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7548,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is that Django's URLValidator tests are failing on Python versions that have the bpo-43882 fix. The issue seems to be related to how URLs with trailing newlines are handled. \n\nFrom the description, the bpo-43882 fix changes the URL splitting behavior to strip LF, CR, and tab characters. So when a URL with a newline is passed to the validator, Python's urlsplit now parses it correctly by stripping the newline. But Django's URLValidator might not be expecting this, leading to test failures where it's supposed to raise a ValidationError but doesn't because the newline is stripped.\n\nLooking at the Django code, the URLValidator is a subclass of RegexValidator. The __call__ method in URLValidator probably first tries to validate the URL using the regex, and if that fails, it catches the ValidationError, splits the URL, and tries again. But with the new Python behavior, the newline is stripped, so the regex validation passes the second time, causing the test to fail because it expected an error.\n\nSo the problem is in the URLValidator's __call__ method. The __call__ method in URLValidator is handling the validation and catching exceptions. The test expects that a URL with a newline would fail, but because Python strips the newline, the URL is valid after splitting. Therefore, the Django validator isn't checking for these control characters before validation, leading to the test failure.\n\nThe fix would involve checking for these characters early, but the question is which function is at fault. The URLValidator's __call__ is the one that's not handling this case correctly. So the function in the list that's responsible is URLValidator's __call__ method.\n</think>\n\nFAULT: URLValidator.::__call__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1772,
+ "response_tokens": 378,
+ "elapsed_s": 1.18,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "URLValidator",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14999",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6731,
+ "raw": "FAULT: RenameModel.database_forwards",
+ "reasoning": "We need to identify which function contains the fault causing RenameModel with db_table to be a noop but currently it drops/recreates constraints etc. The description says: In Postgres, it drops and recreates foreign key constraints. In sqlite it recreates the table (as expected for a table renaming). The bug: RenameModel operation that already has db_table defined must be a noop. So the operation should detect that db_table hasn't changed and skip altering table. The function likely is RenameModel.database_forwards where it calls schema_editor.alter_db_table regardless. So the fault is in RenameModel.database_forwards. The list includes that function. So answer: database_forwards method of RenameModel. The function name as listed: database_forwards. Probably need full name: RenameModel.database_forwards. The prompt says answer with one function name from the list. So \"database_forwards\" ambiguous because many classes have that name. But they want the specific function. The list includes \"def database_forwards(self, app_label, schema_editor, from_state, to_state):\" under RenameModel. So answer: database_forwards. But to be precise maybe \"RenameModel.database_forwards\". However they said one function name from the list. The list shows each function with its class context. So I think \"RenameModel.database_forwards\". I'll output that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1585,
+ "response_tokens": 292,
+ "elapsed_s": 1.48,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "database_forwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

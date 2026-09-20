@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16136",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4230,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user provided a detailed description of the error they're encountering. The main issue is that when a GET request is made to a view that only has an async post method, Django returns a 500 error because HttpResponseNotAllowed can't be awaited.\n\nLooking at the traceback, the error occurs because the HttpResponseNotAllowed object is being used in an await expression. The user's analysis points out that the dispatch method is returning a synchronous HttpResponseNotAllowed when a GET request is made, but since the view is considered async (because of the async post method), Django's async_to_sync wrapper tries to await the result of dispatch, which is not awaitable in this case.\n\nSo the problem is in the dispatch method. The dispatch method is supposed to handle the request and return a response. When the request method isn't allowed, dispatch calls http_method_not_allowed, which returns an HttpResponseNotAllowed. But in an async context, this response isn't awaitable, leading to the TypeError.\n\nThe dispatch function needs to ensure that even when returning synchronous responses, they are properly wrapped or handled in an async-friendly way. Since the dispatch method is the one returning the HttpResponseNotAllowed directly, that's the culprit here. Therefore, the fault lies in the dispatch function.\n</think>\n\nFAULT: dispatch",
+ "finish_reason": "stop",
+ "prompt_tokens": 1123,
+ "response_tokens": 273,
+ "elapsed_s": 0.89,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "dispatch",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

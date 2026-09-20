@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "NEG_shuf",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 9054,
+ "raw": "FAULT: _check_early_stopping_scorer",
+ "finish_reason": "stop",
+ "prompt_tokens": 2310,
+ "response_tokens": 12,
+ "elapsed_s": 0.83,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

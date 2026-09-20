@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2337,
+ "raw": "FAULT: get_new_connection",
+ "reasoning": "We need to identify which function contains the fault. The issue: MySQL backend uses deprecated \"db\" and \"passwd\" kwargs. The function that creates the kwargs is get_connection_params. It populates kwargs with 'db' and 'passwd'. So the fault is in get_connection_params. The prompt says \"Ruled out: - get_connection_params: ruled out; the true cause is upstream.\" Wait, they say \"Ruled out: - get_connection_params: ruled out; the true cause is upstream.\" That suggests they think get_connection_params is not the fault? But the description says the function populates dict with 'db' and 'passwd'. The issue is that those are deprecated. So the function that contains the fault is get_connection_params. However they say \"Ruled out: - get_connection_params: ruled out; the true cause is upstream.\" That seems contradictory. Maybe they think the bug is not in get_connection_params but in get_new_connection? Let's examine: get_new_connection receives conn_params dict and passes to MySQLdb.connect(**conn_params). The deprecation is about passing 'db' and 'passwd' to MySQLdb.connect. So the fault could be in get_new_connection because it passes the dict unchanged. But the root cause is that get_connection_params uses wrong keys. However they say it's ruled out. So they want the function that actually passes the deprecated kwargs to the driver: get_new_connection. That function likely calls MySQLdb.connect(**conn_params). The deprecation is about the driver marking those kwargs deprecated, but the backend still uses them. So the function containing the fault is get_new_connection. The question: \"Which function contains the fault? Answer with one function name from the list\". Considering the note \"Ruled out: - get_connection_params: ruled out; the true cause is upstream.\" So they want the upstream function that passes the kwargs: get_new_connection. So answer: get_new_connection.",
+ "finish_reason": "stop",
+ "prompt_tokens": 671,
+ "response_tokens": 411,
+ "elapsed_s": 1.43,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_new_connection",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

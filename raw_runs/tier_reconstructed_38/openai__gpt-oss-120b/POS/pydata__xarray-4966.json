@@ -1,0 +1,19 @@
+{
+ "instance_id": "pydata__xarray-4966",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6174,
+ "raw": "FAULT: UnsignedIntegerCoder.decode",
+ "reasoning": "We need to answer with the function name that contains the fault. The issue is handling of signed bytes from OPeNDAP via pydap. The code that checks _Unsigned attribute is in xarray/coding/variables.py, likely in UnsignedIntegerCoder.decode. Let's recall: UnsignedIntegerCoder handles conversion of unsigned integer to signed? Actually it decodes unsigned integer variables. The warning is from conventions.py line 492: variable 'test' has _Unsigned attribute but is not of integer type. Ignoring attribute. That warning is raised in decode_cf_variable maybe. But the actual conversion logic is in UnsignedIntegerCoder.decode. The bug is that it doesn't handle unsigned=False case. So the function containing the fault is UnsignedIntegerCoder.decode. So answer: UnsignedIntegerCoder.decode.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1769,
+ "response_tokens": 180,
+ "elapsed_s": 0.99,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "decode",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

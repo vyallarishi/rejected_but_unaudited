@@ -1,0 +1,19 @@
+{
+ "instance_id": "psf__requests-5414",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4834,
+ "raw": "FAULT: _get_idna_encoded_host",
+ "reasoning": "We need to answer which function contains the fault. The issue: Getting http://.example.com raises UnicodeError instead of InvalidUrl. The code path: In requests/models.py, there is a function _get_idna_encoded_host(host) that does IDNA encoding and catches UnicodeError? Let's recall. In urllib3, they have similar. In requests, prepare_url calls _get_idna_encoded_host. The UnicodeError arises from idna.encode(host) raising UnicodeError. The code likely doesn't catch it and raise InvalidUrl. So the fault is in _get_idna_encoded_host not handling empty label. Or prepare_url not catching UnicodeError. The question: \"Which function contains the fault? Answer with one function name from the list\". The list includes many functions. The fault is likely in _get_idna_encoded_host(host). That function probably just returns host.encode('idna') and doesn't catch UnicodeError. So the fault is there. So answer: _get_idna_encoded_host.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1316,
+ "response_tokens": 220,
+ "elapsed_s": 1.11,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_get_idna_encoded_host",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

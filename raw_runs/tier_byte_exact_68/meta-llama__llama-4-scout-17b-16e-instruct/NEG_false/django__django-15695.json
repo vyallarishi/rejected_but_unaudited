@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15695",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5942,
+ "raw": "## Step 1: Understanding the issue\nThe issue described is related to the `RenameIndex` operation in Django's migration system. Specifically, when an unnamed index (which is created for `unique_together` constraints) moves backward and forward, the `RenameIndex` operation crashes. This happens because when moving backward, the operation does not properly restore the old auto-generated name of the index.\n\n## Step 2: Identifying the problematic code\nThe problem lies in the `database_backwards` method of the `RenameIndex` operation. When the index is unnamed (meaning it was automatically generated for a `unique_together` constraint), moving backward should restore its original name. However, the current implementation does not handle this case correctly, leading to a crash when trying to reapply the `RenameIndex` operation.\n\n## 3: Analyzing the provided code and conversations\nThe conversations and code snippets provided point towards the `RenameIndex` operation's `database_backwards` method as the source of the issue. Specifically, the check `if self.old_fields:` is mentioned as problematic because it prevents the index name from being reverted when moving backward.\n\n## 4: Determining the faulty function\nGiven the information and analysis, the faulty function is the one responsible for handling the backward database operation of the `RenameIndex` operation. This function is part of the `RenameIndex` class, which is a subclass of `ModelOperation`.\n\n## 5: Conclusion\nThe function that contains the fault is `database_backwards`. This method needs to be adjusted to correctly handle unnamed indexes when moving backward, ensuring that the original index name is restored.\n\nFAULT: database_backwards",
+ "finish_reason": "stop",
+ "prompt_tokens": 1356,
+ "response_tokens": 337,
+ "elapsed_s": 1.26,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_backwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

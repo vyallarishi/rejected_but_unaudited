@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15525",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 5537,
+ "raw": "FAULT: _get_model",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1417,
+ "response_tokens": 6,
+ "elapsed_s": 0.34,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_get_model",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

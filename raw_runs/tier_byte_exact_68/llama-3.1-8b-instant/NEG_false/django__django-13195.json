@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13195",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 5455,
+ "raw": "FAULT: delete_cookie",
+ "finish_reason": "stop",
+ "prompt_tokens": 1273,
+ "response_tokens": 5,
+ "elapsed_s": 0.53,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "delete_cookie",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

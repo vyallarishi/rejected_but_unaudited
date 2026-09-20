@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7134,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves a problem with Django's ORM when using `union` and `order_by` on querysets. Specifically, when a queryset is created using `union` and then `order_by` is called on it, the original queryset becomes corrupted. This corruption occurs because the `clone` method used in `order_by` performs a shallow copy of the queryset's attributes, including the `combined_queries` attribute that contains sub-queries for the union.\n\nTo solve this issue, we need to identify the function responsible for the faulty behavior. The key to solving this problem lies in understanding how querysets are cloned and how their attributes are copied during this process.\n\n### Analysis of the Code\n\nThe problem arises from the `clone` method in the `Query` class, which is part of Django's ORM. When `order_by` is called on a queryset, it clones the queryset to avoid side effects. However, the `clone` method performs a shallow copy of the queryset's `__dict__`, which means it does not recursively copy all nested objects.\n\n### Identification of the Faulty Function\n\nGiven the description of the issue and the analysis of the code, the faulty function is the one responsible for cloning a queryset. In Django's ORM, this function is `clone`.\n\n### Solution\n\nThe function that contains the fault is:\n```\nFAULT: clone\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1831,
+ "response_tokens": 285,
+ "elapsed_s": 1.18,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

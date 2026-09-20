@@ -1,0 +1,20 @@
+{
+ "instance_id": "pydata__xarray-4075",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6756,
+ "raw": "FAULT: dot",
+ "reasoning": "\nOkay, let's try to figure out which function in the xarray codebase is responsible for this bug. The user provided a minimal example where using boolean weights in a weighted mean calculation gives an incorrect result. The problem seems to be with how the sum of weights is computed when the weights are boolean.\n\nLooking at the problem description, when the weights are boolean, the sum_of_weights is calculated as the dot product of two boolean arrays. The dot product function returns True (which is 1 in a numerical context) instead of the correct count of True values (which should be 2 in this case). The user suggests that converting the boolean weights to integers fixes the issue.\n\nIn the localization notes, it's mentioned that the dot function is where the incorrect output is produced. The dot function is used to calculate the sum of weights, which ends up being a boolean True. Then, when dividing the weighted sum (which is 2) by sum_of_weights (treated as 1.0), the result is 2.0 instead of the correct 1.0 (since 2 / 2 = 1). \n\nThe key here is that the dot product of two boolean arrays is resulting in a boolean instead of a numerical sum. The xr.dot function is responsible for this calculation. The xr.dot function probably isn't handling boolean types correctly, leading to the incorrect normalization in the weighted mean calculation.\n\nSo, the fault lies in the dot function because it's not properly handling the boolean weights when computing the sum of weights. The dot product should return the count of True values in the weights, but instead, it returns a boolean, which when converted to a float becomes 1.0, leading to the wrong result.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1891,
+ "response_tokens": 357,
+ "elapsed_s": 7.84,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dot",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

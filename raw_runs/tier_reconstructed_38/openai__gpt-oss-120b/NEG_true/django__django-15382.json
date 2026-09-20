@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8488,
+ "raw": "FAULT: _add_q",
+ "reasoning": "We need to identify which function contains the fault causing filter on Exists-subquery with empty queryset to remove whole WHERE block. The description says bug similar to #33018. The candidate functions list includes many. The analysis says: \"add_q: This function is directly on the causal path. It receives the Q object containing ~Exists(EmptyQuerySet). It then calls _add_q to process it. The bug is that this condition, which should evaluate to TRUE, is instead causing self.set_empty() to be called somewhere during the _add_q execution. This marks the entire query as empty, leading to the observed EmptyResultSet and the missing WHERE block.\"\n\nThus the fault is likely in _add_q or add_q? The description says bug is that condition should evaluate to TRUE but instead causing set_empty. The function that decides emptiness is probably _add_q. But the question: \"Which function contains the fault? Answer with one function name from the list\". The list includes add_q, _add_q? Actually list includes add_q but not _add_q. The list includes add_q: def add_q(self, q_object). It also includes _add_q: def _add_q(self, q_object, used_aliases, ...). The list includes _add_q as well. Yes, in the list: def _add_q(self, q_object, used_aliases, branch_negated=False, ...). So the fault could be in _add_q. The analysis says bug is that condition should evaluate to TRUE but instead causing set_empty somewhere during _add_q execution. So the faulty function is _add_q.\n\nThus answer: _add_q.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2021,
+ "response_tokens": 351,
+ "elapsed_s": 1.29,
+ "key_suffix": "U0l0Y0",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

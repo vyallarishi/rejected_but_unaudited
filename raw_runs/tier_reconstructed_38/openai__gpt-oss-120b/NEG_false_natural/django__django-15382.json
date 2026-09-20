@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6229,
+ "raw": "FAULT: _add_q",
+ "reasoning": "We need to identify which function contains the fault causing filter on Exists-subquery with empty queryset to remove whole WHERE block. The description says add_q receives Q object containing ~Exists(EmptyQuerySet). It then calls _add_q to process it. The bug is that this condition, which should evaluate to TRUE, is instead causing self.set_empty() to be called somewhere during the _add_q execution. So which function contains the fault? Likely in Query._add_q or maybe in Query.build_filter or resolve_expression. The description says \"add_q: This function is directly on the causal path. It receives the Q object containing ~Exists(EmptyQuerySet). It then calls _add_q to process it. The bug is that this condition, which should evaluate to TRUE, is instead causing self.set_empty() to be called somewhere during the _add_q execution.\" So the fault is in _add_q. So answer: _add_q.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1539,
+ "response_tokens": 206,
+ "elapsed_s": 1.06,
+ "key_suffix": "vsRRmV",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

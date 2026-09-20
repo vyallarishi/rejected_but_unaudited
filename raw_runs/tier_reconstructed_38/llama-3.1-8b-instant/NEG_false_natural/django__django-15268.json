@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15268",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 2693,
+ "raw": "deconstruct",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 664,
+ "response_tokens": 3,
+ "elapsed_s": 0.46,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "deconstruct",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

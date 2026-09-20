@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16256",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 4508,
+ "raw": "create_reverse_many_to_one_manager",
+ "finish_reason": "stop",
+ "prompt_tokens": 1124,
+ "response_tokens": 7,
+ "elapsed_s": 0.31,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "create_reverse_many_to_one_manager",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

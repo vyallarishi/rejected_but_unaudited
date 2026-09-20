@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3069,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem lies in the `UserCreationForm` from `django.contrib.auth.forms`. When saving data, it doesn't properly handle `ManyToManyField` fields, resulting in their data not being saved.\n\n2. **Identifying the cause**: The cause of this issue is in the `save` method of `UserCreationForm`. Unlike its parent class `ModelForm`, `UserCreationForm` doesn't call `self.save_m2m()` when `commit=True`.\n\n3. **Locating the faulty function**: The faulty function is `save(self, commit=True)` in `UserCreationForm`. This function is responsible for saving the form data to the model.\n\n# Fixed solution:\n```python\nclass UserCreationForm(forms.ModelForm):\n    # ...\n\n    def save(self, commit=True):\n        user = super().save(commit=False)\n        user.set_password(self.cleaned_data[\"password1\"])\n        if commit:\n            user.save()\n            self.save_m2m()  # Add this line to save ManyToMany fields\n        return user\n```\n\n# Explanation of changes:\n*   We call `super().save(commit=False)` to create a model instance without saving it to the database yet.\n*   We set the user's password using `user.set_password(self.cleaned_data[\"password1\"])`.\n*   If `commit` is `True`, we save the user instance using `user.save()`.\n*   We then call `self.save_m2m()` to save the `ManyToMany` fields.\n\n# Tests and example uses:\nYou can test this fix by creating a form with `ManyToMany` fields and verifying that the data is properly saved when the form is submitted.\n\n```python\nfrom django.contrib.auth.forms import UserCreationForm\nfrom .models import CustomUser, Group\n\n# Assume CustomUser is a custom User model with a ManyToManyField to Group\n# Create a form instance\nform = UserCreationForm({\n    'username': 'testuser',\n    'password1': 'password',\n    'password2': 'password',\n    'groups': [1,]  # Assuming there's a Group instance with id 1\n})\n\n# Save the form\nform.save()\n\n# Verify that the user is created and the ManyToMany field is saved\nuser = CustomUser.objects.get(username='testuser')\nprint(user.groups.all())  # Should print the Group instance\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 709,
+ "response_tokens": 500,
+ "elapsed_s": 8.19,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

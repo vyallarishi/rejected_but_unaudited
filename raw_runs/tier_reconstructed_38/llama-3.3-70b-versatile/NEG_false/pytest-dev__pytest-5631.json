@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_false",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 3646,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 998,
+ "response_tokens": 7,
+ "elapsed_s": 5.51,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

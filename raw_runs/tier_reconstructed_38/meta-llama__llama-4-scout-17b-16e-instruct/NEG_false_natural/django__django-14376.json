@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2424,
+ "raw": "## Step 1: Understand the issue\nThe issue is about deprecated \"db\" and \"passwd\" kwargs in the MySQL backend of Django. The \"db\" and \"passwd\" usage is deprecated in favor of \"database\" and \"password\" respectively.\n\n## Step 2: Identify the source of the issue\nThe issue arises from the `get_new_connection` method in `django/db/backends/mysql/base.py`. This method is responsible for establishing a new connection to the database.\n\n## Step 3: Analyze the `get_new_connection` method\nThe `get_new_connection` method takes `conn_params` as an argument and uses it to connect to the database. The `conn_params` dictionary is populated by the `get_connection_params` method.\n\n## 4: Determine the faulty function\nSince `get_connection_params` only reads the relevant values and does not modify them, it is unlikely to be the source of the issue. The `get_new_connection` method, however, is where the connection parameters are actually used. But to precisely pinpoint where the incorrect behavior originates, we should look for where the 'db' and 'passwd' keys are used.\n\n## 5: Locate the usage of 'db' and 'passwd'\nGiven that `get_connection_params` populates `kwargs` with 'db' and 'passwd', and this dictionary is used by `get_new_connection`, we should verify if `get_new_connection` or a method it calls directly uses 'db' and 'passwd'.\n\n## 6: Conclusion\nThe method that actually contains the fault, based on the process of elimination and understanding of how the connection parameters are handled, is `get_new_connection`. This is because it's the method where the connection is established using the parameters, and it's likely where the deprecated keys are passed to the MySQL client.\n\nFAULT: get_new_connection",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 620,
+ "response_tokens": 378,
+ "elapsed_s": 7.02,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_new_connection",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

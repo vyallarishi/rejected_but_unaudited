@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 14158,
+ "raw": "FAULT: get_formsets_with_inlines",
+ "finish_reason": "stop",
+ "prompt_tokens": 3174,
+ "response_tokens": 9,
+ "elapsed_s": 7.67,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_formsets_with_inlines",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

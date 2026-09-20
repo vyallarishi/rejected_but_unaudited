@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15695",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6029,
+ "raw": "## Step 1: Understanding the issue\nThe issue described is related to the `RenameIndex` operation in Django's migration system. Specifically, when an unnamed index (which is created for `unique_together` constraints) is moved backward and forward, the `RenameIndex` operation crashes. This happens because when moving backward, the operation does not correctly restore the old auto-generated name of the index.\n\n## Step 2: Identifying the problematic code\nThe problem lies in the `database_backwards` method of the `RenameIndex` operation. When this method is called for an unnamed index, it checks `if self.old_fields:`. If `self.old_fields` is populated (which it is, because it's an unnamed index), the method returns without doing anything. This means the index name is not reverted back to its original name.\n\n## 3: Locating the fault\nGiven the description, the fault is in the `database_backwards` method of the `RenameIndex` class. This method is responsible for handling the reversal of the index rename operation. The issue arises because it does not properly handle the case when moving an unnamed index backward.\n\n## 4: Conclusion\nThe function that contains the fault is `database_backwards`.\n\nFAULT: database_backwards",
+ "finish_reason": "stop",
+ "prompt_tokens": 1371,
+ "response_tokens": 258,
+ "elapsed_s": 1.0,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_backwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

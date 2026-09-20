@@ -1,0 +1,20 @@
+{
+ "instance_id": "astropy__astropy-13236",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 11991,
+ "raw": "FAULT: _convert_data_to_col",
+ "reasoning": "\nOkay, let's try to figure out which function is responsible for the automatic conversion of a structured numpy array into an NdarrayMixin when added to a Table. The user mentioned that the code in question is part of the Table's initialization or column addition process.\n\nLooking at the list of candidate functions in astropy/table/table.py, the key is to find where a structured array is processed and converted. The issue points to a specific code snippet that checks if the data is a structured ndarray and then views it as NdarrayMixin. \n\nThe functions related to initializing the Table or adding columns are likely candidates. The _convert_data_to_col function seems relevant because its name suggests converting data to a column. The description provided mentions that this function is part of the cosmology I/O system and is used during read operations, but the user's issue is about adding a column to a Table. However, maybe _convert_data_to_col is involved in that process.\n\nWait, the user's note says that _convert_data_to_col is part of the cosmology I/O and doesn't participate in creating or modifying Table columns. But the issue is about when a structured array is added to a Table. Let me check other functions.\n\nThe Table's __init__ method is a candidate, but it's a big function. The _init_from_ndarray function is called when initializing from an ndarray. The code in question checks for a structured array (len(data.dtype) > 1) and converts it to NdarrayMixin. \n\nLooking at the functions, the _convert_data_to_col function is mentioned in the localization notes as part of the process. But the user says that the symptom is the automatic conversion when adding a structured array as a column. The code snippet provided is part of the _convert_data_to_col function. Wait, the code snippet shows:\n\nif (not isinstance(data, Column) and not data_is_mixin\n        and isinstance(data, np.ndarray) and len(data.dtype) > 1):\n    data = data.view(NdarrayMixin)\n    data_is_mixin = True\n\nThis code is in the _convert_data_to_col function. The user's localization notes mention that _convert_data_to_col is part of the cosmology I/O, but maybe that's incorrect. Wait, the user's note says that _convert_data_to_col is part of the cosmology I/O system and is used during a read operation. But the code in question is about adding a column to a Table. However, the _convert_data_to_col is called when converting data to a column, which would be part of the Table's initialization or when adding columns. \n\nWait, the user's issue is that when you add a structured array to a Table, it gets converted to NdarrayMixin. The code that does this is in _convert_data_to_col. Therefore, the function containing the fault is _convert_data_to_col. The user's localization notes mention that this function is part of cosmology I/O, but perhaps that's a mistake. The actual function responsible for converting data to a column in the Table is _convert_data_to_col, which is called during the Table's initialization or when adding columns. Therefore, the answer should be _convert_data_to_col.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2854,
+ "response_tokens": 668,
+ "elapsed_s": 25.2,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_convert_data_to_col",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

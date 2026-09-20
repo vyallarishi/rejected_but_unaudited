@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 6322,
+ "raw": "FAULT: process_rhs",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1534,
+ "response_tokens": 5,
+ "elapsed_s": 0.35,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "process_rhs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

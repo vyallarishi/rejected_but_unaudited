@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13128",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5588,
+ "raw": "## Step 1: Understanding the Issue\nThe problem arises from a Django ORM query where temporal subtraction is being performed without using `ExpressionWrapper`. The query attempts to annotate a model `Experiment` with a delta calculated as `F('end') - F('start') + Value(datetime.timedelta(), output_field=DurationField())`. This results in a `FieldError` due to mixed types (`DateTimeField` and `DurationField`) in the expression.\n\n## 2: Identifying the Source of the Error\nThe error message indicates that the issue is with resolving the output field of an expression that contains mixed types. The expression `(F('end') - F('start'))` yields a `DateTimeField` - `DateTimeField` operation, which the ORM incorrectly resolves as another `DateTimeField` instead of a `DurationField`.\n\n## 3: Analyzing the Code Structure\nThe key classes and functions involved are `Expression`, `CombinedExpression`, `TemporalSubtraction`, and `F`. The critical part of the code is how the ORM resolves the output type of expressions, particularly in `CombinedExpression` and its handling of `DateTimeField` operations.\n\n## 4: Locating the Fault\nThe fault lies in how the ORM determines the output field of a combined expression, specifically when both operands are of the same type (e.g., `DateTimeField`). The `_resolve_output_field` method in `BaseExpression` seems to be the point where the output field is inferred. If both source fields are identical, it incorrectly assumes the result is of the same type.\n\n## 5: Conclusion\nThe function that contains the fault is `_resolve_output_field`. This method is responsible for determining the output field of an expression. In the case of subtracting two `DateTimeField` instances, it fails to recognize that the result should be a `DurationField`, not another `DateTimeField`.\n\nFAULT: _resolve_output_field",
+ "finish_reason": "stop",
+ "prompt_tokens": 1310,
+ "response_tokens": 394,
+ "elapsed_s": 1.59,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_resolve_output_field",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

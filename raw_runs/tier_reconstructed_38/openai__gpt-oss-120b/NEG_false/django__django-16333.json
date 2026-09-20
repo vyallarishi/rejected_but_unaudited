@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3127,
+ "raw": "FAULT: UserCreationForm.save",
+ "reasoning": "We need to identify which function contains the fault. The issue: UserCreationForm.save(commit=True) omits to call self.save_m2m(). In ModelForm.save, after saving instance, it calls self.save_m2m() if commit=True. But UserCreationForm overrides save and doesn't call it. So the faulty function is UserCreationForm.save. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: FAULT: UserCreationForm.save.",
+ "finish_reason": "stop",
+ "prompt_tokens": 787,
+ "response_tokens": 130,
+ "elapsed_s": 0.84,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "save",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

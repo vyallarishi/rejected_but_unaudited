@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3031,
+ "raw": "<think>\nOkay, let's try to figure out which function in the given list has the fault related to the two-digit year check in django.utils.http.parse_http_date.\n\nThe problem description says that the current logic is hard-coded to treat years 0-69 as 2000-2069 and 70-99 as 1970-1999. But according to RFC 7231, the correct approach is to check if the parsed date is more than 50 years in the future and adjust accordingly based on the current year. The existing code isn't doing that sliding window check relative to the current time, hence the incorrect conversion.\n\nLooking at the list of candidate functions, the relevant one here is parse_http_date. The description mentions that this function is called with an RFC 850 date string, extracts the year, and applies the if year <70: add 2000 else add 1900 logic. That's the hard-coded part that's causing the issue. So the fault is in the parse_http_date function because it's using a fixed threshold instead of a dynamic check based on the current year.\n\nOther functions like http_date might be related but the description specifically points to parse_http_date. The other functions listed (urlquote, urlencode, etc.) don't seem relevant to date parsing. So the answer should be parse_http_date.\n</think>\n\nFAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 759,
+ "response_tokens": 301,
+ "elapsed_s": 0.88,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

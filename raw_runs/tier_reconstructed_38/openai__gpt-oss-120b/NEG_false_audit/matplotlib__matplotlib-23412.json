@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 11218,
+ "raw": "FAULT: draw",
+ "reasoning": "We need to identify which function contains the fault causing offset dash linestyle to have no effect in patch objects. The description says there is a comment \"Patch has traditionally ignored the dashoffset.\" and a context manager that overwrites dash offset with 0. Likely in Patch.draw method. Let's locate in patches.py: class Patch has draw(self, renderer). Inside draw, they probably set dash pattern. So the fault is in Patch.draw. The function name from list: \"draw\". But there are many draw methods: in Patch, in FancyArrowPatch, etc. The relevant is Patch.draw. So answer: draw.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2986,
+ "response_tokens": 138,
+ "elapsed_s": 0.85,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

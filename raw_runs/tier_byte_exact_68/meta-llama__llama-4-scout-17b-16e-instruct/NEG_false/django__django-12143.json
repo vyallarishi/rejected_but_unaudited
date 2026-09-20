@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6320,
+ "raw": "## Step 1: Identify the problem\nThe problem lies in the way a regex pattern is generated in the admin changeform view when using regex special characters in a formset prefix. This can cause data loss.\n\n## Step 2: Understand the context\nThe issue arises from the line `pk_pattern = re.compile(r'{}-\\d+-{}$'.format(prefix, self.model._meta.pk.name))` in `django/contrib/admin/options.py`. The `prefix` variable is user-provided and can contain any characters, including regex special characters.\n\n## 3: Locate the faulty function\nThe faulty function needs to be identified from the list of candidate functions in `django/contrib/admin/options.py`. The function that contains the line causing the issue is the one that needs to be pinpointed.\n\n## 4: Analyze the code and identify the function\nGiven that the line `pk_pattern = re.compile(r'{}-\\d+-{}$'.format(prefix, self.model._meta.pk.name))` is the source of the problem, we need to find which function this line belongs to. This line is used to compile a regex pattern for matching formset prefixes.\n\n## 5: Conclusion\nThe function `_create_formsets` or more specifically, a function that `_create_formsets` calls, like `get_inline_instances`, seems to be involved in processing the formset prefix. However, to directly answer the question based on standard Django code and without further detailed code analysis provided here, we look for a function that is known to handle formsets and regex patterns.\n\nThe final answer is:\nFAULT: get_inline_instances",
+ "finish_reason": "stop",
+ "prompt_tokens": 1502,
+ "response_tokens": 332,
+ "elapsed_s": 1.0,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_inline_instances",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2157,
+ "raw": "<think>\nOkay, let's see. The issue is about the two-digit year check in Django's parse_http_date function. The problem is that the current logic uses a hardcoded threshold (year < 70 \u2192 2000, else 1900) which doesn't follow the RFC 7231 requirement. The RFC says that if a date with a two-digit year is more than 50 years in the future, it should be adjusted to the past. So the hardcoded approach isn't correct because it's not relative to the current year.\n\nLooking at the candidate functions, the relevant one is parse_http_date. The description mentions that in this function, the year is extracted and converted, then the if year <70 logic is applied. That's the part that's wrong. The function needs to calculate based on the current year instead of adding 1900 or 2000 based on 70. So the fault is in parse_http_date. The other functions like http_date might be related but the actual parsing and conversion is in parse_http_date. So the answer should be parse_http_date.\n</think>\n\nFAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 559,
+ "response_tokens": 242,
+ "elapsed_s": 0.69,
+ "key_suffix": "kaO9MQ",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13315",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5806,
+ "raw": "To solve this issue, we need to understand the problem and analyze the provided code and conversations.\n\nThe problem is that the `limit_choices_to` parameter on a `ForeignKey` field can cause duplicate options in the form field. This happens when a `Q` object is passed as `limit_choices_to`, which involves a join and results in duplicate rows in the query set.\n\nThe conversations and code changes suggest that the issue is related to the `ModelChoiceField` and how it handles the `limit_choices_to` parameter. Specifically, the problem seems to be that the `complex_filter` method is used to apply the `limit_choices_to` parameter, which can result in duplicate rows.\n\nAfter analyzing the code and conversations, it appears that the `ModelChoiceField` class is responsible for creating the form field and that the `_get_queryset` method is where the `limit_choices_to` parameter is applied.\n\nThe fault is likely in the `apply_limit_choices_to_to_formfield` function or in the `ModelChoiceField` class, specifically in the `_get_queryset` method.\n\nHowever, based on the conversations and code changes, the most likely function that contains the fault is:\n\nFAULT: apply_limit_choices_to_to_formfield\n\nThis function is responsible for applying the `limit_choices_to` parameter to the form field, and it seems that the issue is related to how it handles `Q` objects and joins.\n\nHere is the corrected code:\n\n```python\ndef apply_limit_choices_to_to_formfield(formfield):\n    if formfield.queryset is None:\n        # This is a lazy evaluation. formfield.queryset doesn't\n        # call the database until the queryset is evaluated.\n        # We don't want to do a query here or on the line above\n        # because that might cause a problem if the default\n        # manager is overridden.\n        formfield.queryset = formfield.model._default_manager.using(formfield.db)\n    if limit_choices_to is not None:\n        formfield.queryset = formfield.queryset.filter(limit_choices_to)\n```\n\nThe corrected code uses the `filter` method instead of `complex_filter` to apply the `limit_choices_to` parameter, which should prevent duplicate rows from being returned.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1353,
+ "response_tokens": 453,
+ "elapsed_s": 1.33,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "apply_limit_choices_to_to_formfield",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

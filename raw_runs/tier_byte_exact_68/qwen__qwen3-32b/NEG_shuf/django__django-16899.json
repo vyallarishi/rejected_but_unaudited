@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16899",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4747,
+ "raw": "<think>\nOkay, let's try to figure out which function is responsible for the issue described. The problem is that when there's an error in the readonly_fields of a ModelAdmin subclass, the error message mentions the index (like readonly_fields[0]) but not the actual field name. Other fields like list_editable do include the field name in their error messages. The user wants to unify these messages so that readonly_fields errors also include the field name.\n\nLooking at the candidate functions, the relevant ones are probably in the BaseModelAdminChecks or ModelAdminChecks classes. The specific check for readonly_fields is likely in _check_readonly_fields or _check_readonly_fields_item. \n\nThe error message for readonly_fields is generated when the value is not a callable, an attribute of the ModelAdmin, or the model. The current message points out the index but not the name. The other fields, like list_editable, use functions like _check_list_editable_item which probably include the field name in the error.\n\nSo, the function that checks each item in readonly_fields is _check_readonly_fields_item. If that function isn't including the field name in the error message, that's the problem. Comparing with other checks like _check_list_editable_item, which do include the name, the issue is probably in _check_readonly_fields_item. Therefore, modifying that function to include the field name in the error message would fix the issue.\n</think>\n\nFAULT: _check_readonly_fields_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 1143,
+ "response_tokens": 303,
+ "elapsed_s": 0.9,
+ "key_suffix": "3U6wj9",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_check_readonly_fields_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

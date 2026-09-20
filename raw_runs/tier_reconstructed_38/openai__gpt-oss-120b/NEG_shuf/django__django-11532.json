@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11532",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 7592,
+ "raw": "FAULT: forbid_multi_line_headers",
+ "reasoning": "We need to identify which function contains the fault causing the issue. The issue: Email messages crash on non-ASCII domain when email encoding is non-unicode. The failure occurs when assigning Message-ID header with non-ASCII domain. The code path: EmailMessage.message() calls make_msgid(domain=DNS_NAME). DNS_NAME is set to non-ASCII. Then msg['Message-ID'] = ... triggers SafeMIMEMessage.__setitem__ which calls forbid_multi_line_headers(name, val, self.encoding). That function attempts to encode header value using Header(val, encoding).encode(). The encoding is iso-8859-1, causing UnicodeEncodeError.\n\nThe fix suggested: convert domain name to punycode before using. So the fault is likely in make_msgid or in the code that uses DNS_NAME directly without punycode conversion. make_msgid is from email.utils? In Django they may have a wrapper. Let's search: In django/core/mail/message.py line 260: msg['Message-ID'] = make_msgid(domain=DNS_NAME). So the function that should handle punycode is maybe make_msgid, but that's from email.utils, not Django. However the fault is that DNS_NAME is not punycode. DNS_NAME is defined in django/core/mail/utils.py maybe. Let's check candidate functions list: There's forbid_multi_line_headers, sanitize_address, BadHeaderError, and many class methods. The bug is about domain name conversion before using in Message-ID. The function that sets the header is __setitem__ in SafeMIMEMessage, which calls forbid_multi_line_headers. But the root cause is that forbid_multi_line_headers tries to encode using given encoding, but the value contains non-ASCII domain. However the proper handling would be to punycode the domain before constructing Message-ID, so the fault is likely in make_msgid usage, but that's not a function in list. The list includes forbid_multi_line_headers, sanitize_address, etc. The function that is directly responsible for encoding header values is forbid_multi_line_headers. It attempts to encode val using Header(val, encoding).encode(). It doesn't handle punycode. But the bug is that DNS_NAME is non-ASCII, and they should convert it before passing to make_msgid. That conversion could be done in make_msgid call site (EmailMessage.message) or earlier. However the function that currently fails is forbid_multi_line_headers, which raises UnicodeEncodeError. So the fault is there.\n\nThus answer: forbid_multi_line_headers.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1832,
+ "response_tokens": 525,
+ "elapsed_s": 1.61,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "forbid_multi_line_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

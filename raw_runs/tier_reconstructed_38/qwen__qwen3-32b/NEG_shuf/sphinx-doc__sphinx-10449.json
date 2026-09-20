@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10449",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 16053,
+ "raw": "FAULT: format_signature",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue where using `autodoc_typehints = \"description\"` makes the autoclass include a return type for the class itself. \n\nThe user provided a code example where a class `Square` has an `__init__` method with a return type of `None`. When generating the docs with Sphinx's autodoc, the class is shown with a return type, which shouldn't happen because classes don't have return types. The problem seems to be that the class's signature is being generated based on the `__init__` method's return type.\n\nLooking at the code structure, the `ClassDocumenter` class is responsible for documenting classes. The method `format_signature` in `ClassDocumenter` probably handles how the signature of the class is formatted. Since classes don't have return types, but their `__init__` might, maybe the code is incorrectly using the `__init__`'s return type when generating the class signature.\n\nIn the `ClassDocumenter`, the `_find_signature` method might be looking for the signature of the class, which typically is not present, so it might be falling back to something else. The `format_signature` method in `ClassDocumenter` could be calling a method that's supposed to get the signature of the class, but if it's not found, maybe it's using the `__init__` method's signature. \n\nThe `format_signature` function in the `ClassDocumenter` might be using `_call_format_args` which could be pulling in the `__init__` method's signature, including the return type. Since `autodoc_typehints = \"description\"` is set, it's including the return annotation from `__init__` into the class's signature, which is incorrect.\n\nLooking at the candidate functions listed, the `format_signature` method in the `ClassDocumenter` is likely the one responsible. The `format_signature` method in `ClassDocumenter` is probably generating the signature for the class by looking at the `__init__` method's signature and including its return type, which is not correct for the class itself.\n\nAnother possibility is the `_find_signature` method in `ClassDocumenter`, which might be incorrectly determining the signature. But since the issue is about how the signature is formatted, especially including the return type, the `format_signature` method is more likely the culprit.\n\nTherefore, the fault is in the `format_signature` method of the `ClassDocumenter` class.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 3753,
+ "response_tokens": 528,
+ "elapsed_s": 5.91,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "format_signature",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

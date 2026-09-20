@@ -1,0 +1,17 @@
+{
+ "instance_id": "pytest-dev__pytest-10081",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4979,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that when they run pytest with --pdb, the tearDown method is being called even for a test class that's marked with unittest.skip. Normally, when you skip a class, none of its setup or teardown should run, right? But with --pdb, it's executing the tearDown, which is causing an error because xxx isn't defined.\n\nLooking at the code flow they described: when using --pdb, the pytest_runtest_protocol hands over to the default runner. The default runner calls item.setup(), which for unittest.TestCase is handled by TestCaseFunction.setup(). \n\nIn the setup method, maybe they're not checking if the test is skipped at the class level. So even though the class is skipped, setup is still called, which sets _explicit_tearDown. Then, during teardown, since that flag is set, it runs the tearDown method. But the test was supposed to be skipped entirely, so setup and teardown shouldn't run.\n\nThe key is that the setup method in TestCaseFunction isn't checking for class-level skips. The setup method is supposed to run the setUp method of the test case, but if the test is skipped at the class level, it shouldn't do that. However, the skipping logic might be checked later, after setup has already been called. \n\nSo the problem is that in TestCaseFunction.setup(), they're not checking if the test is skipped at the class level. Therefore, even though the test is skipped, setup runs, leading to the teardown being called later. The setup function is responsible for initializing the test instance and running setUp, but if the test is skipped, it should probably not proceed with setup. \n\nLooking at the functions listed, the setup method of TestCaseFunction is the one that's responsible for this. If setup is called without checking for class-level skips, then it will run setUp and set the flag for teardown. Therefore, the fault lies in TestCaseFunction.setup() not handling class-level skips correctly. \n\nSo the answer should be TestCaseFunction.setup.\n</think>\n\nFAULT: TestCaseFunction.setup",
+ "finish_reason": "stop",
+ "prompt_tokens": 1241,
+ "response_tokens": 428,
+ "elapsed_s": 1.32,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "setup",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

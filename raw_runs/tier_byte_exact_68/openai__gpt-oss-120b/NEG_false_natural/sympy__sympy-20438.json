@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-20438",
+ "arm": "NEG_false_natural",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 4124,
+ "raw": "FAULT: Relational._eval_simplify",
+ "finish_reason": "stop",
+ "prompt_tokens": 1288,
+ "response_tokens": 198,
+ "elapsed_s": 0.91,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_eval_simplify",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

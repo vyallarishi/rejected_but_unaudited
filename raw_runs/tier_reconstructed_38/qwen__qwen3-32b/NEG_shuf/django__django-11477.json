@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2060,
+ "raw": "FAULT: reverse",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the problem here. The issue is with the translate_url() function creating an incorrect URL when optional named groups are missing. The description says that when optional arguments are absent in the URL pattern, there's a problem. \n\nLooking at the candidate functions, the main one mentioned is translate_url. The localization notes explain that translate_url is directly involved. Here's what happens: translate_url takes a URL, resolves it using resolve(), which gives a ResolverMatch. If there's a missing optional named group, match.kwargs has the key with None. Then, when reverse() is called with these kwargs, it might be passing None for the optional argument. But reverse() might not handle None values properly for optional parameters, leading to an incorrect URL.\n\nSo the problem is that when reverse() is called with kwargs that include a None value for an optional group, it might not omit that parameter correctly. Instead of leaving it out, it might include it in a way that's invalid. For example, if the URL pattern has an optional group like (?:year=(\\d+))?, and the kwargs has 'year'=None, reverse() might still try to include it, causing an incorrect URL.\n\nWait, but the question is which function contains the fault. The issue is in translate_url, but the actual fault might be in reverse(). Because translate_url is using reverse() with the kwargs that have None values. If reverse() doesn't handle None values correctly for optional parameters, that's where the problem is. \n\nThe reverse function is responsible for generating URLs based on view names and arguments. If it receives a kwargs dictionary with a key that's supposed to be optional but has a None value, maybe it's not handling that case. For example, if the optional parameter should be omitted when not provided, but reverse() is including it because the key is present in kwargs with None, leading to an incorrect URL.\n\nSo the fault is in the reverse() function. Because when translate_url calls reverse with kwargs that have None for optional parameters, reverse is not correctly omitting those parameters. Therefore, the function that needs to be fixed is reverse(), as it's not handling None values in kwargs for optional named groups properly.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 457,
+ "response_tokens": 463,
+ "elapsed_s": 5.22,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reverse",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16429",
+ "arm": "NEG_false",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 1731,
+ "raw": "FAULT: timesince",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 466,
+ "response_tokens": 5,
+ "elapsed_s": 0.24,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "timesince",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

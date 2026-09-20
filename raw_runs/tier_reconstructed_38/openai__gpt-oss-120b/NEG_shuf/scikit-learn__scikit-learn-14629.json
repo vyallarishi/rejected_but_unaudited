@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6456,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "We need to answer: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\"\n\nThe context: The issue is with cross_val_predict method='predict_proba' and MultiOutputClassifier. The code path that accesses estimator.classes_ is in cross_val_predict function in sklearn/model_selection/_validation.py. The list of candidate functions includes cross_val_predict, _fit_and_predict, _enforce_prediction_order, etc. The fault is likely in cross_val_predict where it assumes estimator has classes_ attribute. So answer: cross_val_predict.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1641,
+ "response_tokens": 139,
+ "elapsed_s": 0.91,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

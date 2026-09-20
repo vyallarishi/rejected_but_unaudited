@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "NEG_true",
+ "model": "llama-3.3-70b-versatile",
+ "tier": "reconstructed",
+ "provider": "groq",
+ "prompt_chars": 4027,
+ "raw": "FAULT: _combine",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1051,
+ "response_tokens": 5,
+ "elapsed_s": 0.34,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_combine",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

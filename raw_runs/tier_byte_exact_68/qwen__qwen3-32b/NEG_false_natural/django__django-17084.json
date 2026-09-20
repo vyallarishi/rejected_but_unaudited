@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-17084",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4766,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is using Django 4.2 and\u9047\u5230\u4e86 an error when trying to use an aggregate over a window function. The error is a PostgreSQL GroupingError because aggregate functions can't contain window functions. \n\nThe example code shows that they annotate a queryset with a cumulative sum using a Window function, then try to aggregate that annotated field. The issue arises because Django's ORM is generating invalid SQL, probably trying to do SUM(SUM(...) OVER (...)), which PostgreSQL doesn't allow.\n\nLooking at the localization notes, it says that get_aggregation is involved. The function get_aggregation is called when they do the aggregate() call. The problem is that get_aggregation is resolving \"cumul_DJR\" to the Window expression directly, leading to a Sum(Window(...)) which is invalid. The SQL compiler then turns this into SUM(SUM(...) OVER (...)), which PostgreSQL rejects.\n\nBut the user also mentions that get_aggregation is ruled out because it just reads the value and doesn't propagate it. Wait, maybe not. The get_aggregation function is responsible for handling the aggregation expressions. When they call aggregate with Sum(\"cumul_DJR\"), get_aggregation would process that. The problem is that it's not wrapping the Window function in a subquery, so when it tries to aggregate over the Window expression directly, it's invalid.\n\nSo the fault lies in the function that's supposed to handle the aggregation expressions. The get_aggregation function is part of the Query class. But maybe another function is involved in resolving the expression incorrectly. Wait, the localization notes say that get_aggregation constructs an invalid expression tree, Sum(Window(...)), because it fails to recognize the need for a subquery. So the issue is that when you aggregate over an annotated window function, Django isn't creating a subquery to first compute the window function, then aggregate that result. Instead, it's trying to nest the aggregates directly.\n\nIn Django's ORM, when you annotate with a window function, that's part of the SELECT clause. When you then aggregate over that annotation, Django needs to perform the aggregation in a subquery, because you can't directly aggregate over a window function in the same query. But the get_aggregation function might not be handling this case, leading to the invalid SQL.\n\nLooking at the list of functions provided, the relevant one would be get_aggregation. Even though the user mentions that get_aggregation reads the value but doesn't propagate it, the problem here is that it's adding the malformed expression to the query. The function is responsible for processing the aggregation expressions, and it's not correctly handling the case where the field is an annotation involving a window function. Therefore, the fault is in get_aggregation.\n</think>\n\nFAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1164,
+ "response_tokens": 575,
+ "elapsed_s": 16.71,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-15382",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6071,
+ "raw": "FAULT: _add_q",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when using a filter with ~Exists on an empty queryset, it removes the entire WHERE block. The user mentioned that this is similar to issue #33018, which I might not be familiar with, but I can try to deduce based on the code provided.\n\nLooking at the candidate functions, the key is to find where the query processing happens when adding a Q object. The user's example uses a ~Exists with an empty queryset, which should logically be true (since NOT EXISTS of nothing is true?), but Django is treating it as an empty result set.\n\nThe functions related to adding Q objects are add_q and _add_q. The user's note says that add_q is on the causal path and calls _add_q. The problem occurs during _add_q's execution, leading to set_empty() being called.\n\nIn the list of functions, the relevant ones are add_q and _add_q. The _add_q function is probably where the processing happens. Let me look at the parameters of _add_q. It has parameters like branch_negated, current_negated, etc. The function might be handling the negation and existence checks.\n\nWhen an Exists subquery is used, especially with an empty queryset, Django's query construction might be incorrectly evaluating it. The Exists expression's exists() method might return False if the subquery is empty. But when negated (~Exists), that would become True. However, if during the query building process, encountering an empty queryset in an Exists leads to the entire WHERE clause being cleared, that's a problem.\n\nThe _add_q function is responsible for adding the Q object to the query. If during this process, when handling a negated Exists with an empty queryset, it triggers a set_empty() call, that would mark the entire query as empty. The set_empty() function is mentioned in the localization notes. The user says that during _add_q execution, self.set_empty() is called, which sets the query to empty, leading to the EmptyResultSet.\n\nLooking at the functions, the _add_q function is where this would happen. So the fault is in the _add_q function. The function's job is to process the Q object and add the filter. If it incorrectly determines that the condition is impossible (due to the empty queryset in Exists), it might call set_empty, which clears the WHERE clause.\n\nAnother possibility is the build_where function, but the user's note points to _add_q. The key is that when processing the ~Exists(EmptyQuerySet), which should be True, the query builder incorrectly marks the entire query as empty. This likely happens in _add_q when handling the Exists expression, especially when the subquery is empty. The function might have logic that when a subquery is empty, it negates the condition or removes it, leading to the WHERE clause being cleared.\n\nTherefore, the faulty function is _add_q.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1442,
+ "response_tokens": 619,
+ "elapsed_s": 8.21,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_add_q",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

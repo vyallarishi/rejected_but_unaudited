@@ -1,0 +1,19 @@
+{
+ "instance_id": "matplotlib__matplotlib-22871",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 7540,
+ "raw": "format_ticks",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1976,
+ "response_tokens": 3,
+ "elapsed_s": 0.45,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "format_ticks",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

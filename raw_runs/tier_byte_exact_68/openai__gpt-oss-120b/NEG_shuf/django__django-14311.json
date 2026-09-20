@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14311",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 2942,
+ "raw": "FAULT: get_child_arguments",
+ "finish_reason": "stop",
+ "prompt_tokens": 770,
+ "response_tokens": 267,
+ "elapsed_s": 1.04,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_child_arguments",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

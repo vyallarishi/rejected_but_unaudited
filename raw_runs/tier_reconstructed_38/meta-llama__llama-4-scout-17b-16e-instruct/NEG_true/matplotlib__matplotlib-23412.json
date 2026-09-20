@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 12612,
+ "raw": " draw",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 3241,
+ "response_tokens": 2,
+ "elapsed_s": 0.82,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

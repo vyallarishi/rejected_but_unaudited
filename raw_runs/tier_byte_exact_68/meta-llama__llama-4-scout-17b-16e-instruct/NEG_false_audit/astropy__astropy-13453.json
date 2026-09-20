@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 7719,
+ "raw": "To solve this issue, we need to identify the function responsible for writing the HTML table and modify it to apply the formatting specified in the `formats` dictionary.\n\nThe issue arises from the fact that the `HTML.write` method in `astropy.io.ascii.html` does not call `self.data.format_columns(cols)`, which is necessary for applying the formats and creating string representations of the data.\n\n### Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem is that when writing an astropy table to HTML format, the `formats` option to the `write()` method is ignored.\n2. **Identifying the cause**: The cause of the issue is that the `HTML.write` method does not apply the formatting specified in the `formats` dictionary.\n3. **Locating the relevant code**: The relevant code is in the `astropy/io/ascii/html.py` file, specifically in the `HTML` class.\n\n### Fixed solution:\nTo fix this issue, we need to modify the `HTML` class in `astropy/io/ascii/html.py` to apply the formatting specified in the `formats` dictionary. \n\n```python\n# In astropy/io/ascii/html.py\n\nclass HTMLOutputter(core.TableOutputter):\n    # ...\n\n    def __call__(self, cols, meta):\n        # Apply formatting\n        formatted_cols = []\n        for col, format_func in zip(cols, self.formats.values()):\n            formatted_col = [format_func(val) for val in col]\n            formatted_cols.append(formatted_col)\n        # ...\n```\n\nHowever, a more accurate and minimal fix would involve directly modifying the `write` method of the `HTML` class to utilize the existing infrastructure for formatting columns:\n\n```python\n# In astropy/io/ascii/html.py\n\nclass HTML(core.BaseReader):\n    # ...\n\n    def write(self, table):\n        # ...\n        self.data.format_columns(table)\n        # ...\n```\n\nBut the actual fix involves adding a line to call `format_columns`:\n\n```python\ndef write(self, table):\n    # ...\n    self.data.format_columns(table)\n    # Now fill in the rows of the table\n    for row in table:\n        self.writer.write([str(x) for x in row])\n```\n\n### Explanation of changes:\n*   **Added `self.data.format_columns(table)`**: This line applies the formatting specified in the `formats` dictionary to the table columns.\n\n### Tests and example uses:\nYou can test this fix by running the following example:\n\n```python\nfrom astropy.table import Table\nfrom io import StringIO\n\n# Generate table\nt = Table([(1.23875234858e-24, 3.2348748432e-15), (2, 4)], names=('a', 'b'))\n\n# Write HTML table with \"a\" column formatted to show 2 decimal places\nwith StringIO() as sp:\n    t.write(sp, format=\"html\", formats={\"a\": lambda x: f\"{x:.2e}\"})\n    print(sp.getvalue())\n```\n\nThis should output the HTML table with the \"a\" column formatted to show 2 decimal places.\n\n### FAULT:\nThe function that contains the fault is `write` in the `HTML` class of `astropy/io/ascii/html.py`. \n\nTo directly pinpoint:\n\nFAULT: write",
+ "finish_reason": "stop",
+ "prompt_tokens": 1996,
+ "response_tokens": 686,
+ "elapsed_s": 2.44,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "The",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

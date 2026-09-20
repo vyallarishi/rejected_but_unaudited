@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-15629",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8117,
+ "raw": "FAULT: column_sql",
+ "reasoning": "We need to identify which function in django/db/backends/base/schema.py contains the fault causing db_collation not propagated to foreign key columns during alter field. The issue: when altering primary key collation, the foreign key columns are altered (type change) but collation not included. The function likely responsible for generating column alteration SQL for foreign key fields: maybe _alter_column_type_sql or _alter_column_collation_sql. The ALTER statements for foreign key columns are generated via _alter_field which calls _alter_column_type_sql and maybe _alter_column_collation_sql. The collation missing suggests that _alter_column_type_sql does not include collation for foreign key columns. Or the function that determines column definition for foreign key fields: column_sql? But during alter, they use _alter_field which builds new_type and new_collation. The collation is passed to _alter_column_collation_sql, but maybe not called for foreign keys because they are not considered to have collation? The function that decides if collation should be altered: _field_should_be_altered? Not.\n\nThe bug: db_collation attribute on primary key not propagated to foreign key columns. The code that copies collation from referenced field to related fields likely missing. The function that determines related fields: _related_non_m2m_objects? Or _is_relevant_relation? But the issue is during migration, they alter the primary key field, and then they also alter foreign key columns to match type but not collation. The function that generates the column definition for foreign key fields is probably field.db_parameters() which for ForeignKey returns the column type based on target field's db_type but not collation. The function that builds column_sql for a field uses field.db_parameters(connection). That may not include collation for foreign key fields. The function column_sql is in schema editor. It calls field.db_parameters(connection) and then builds column definition. So the fault likely in column_sql not handling db_collation for foreign key fields. However the issue occurs during alter, not create. But column_sql used for both.\n\nThus answer: column_sql. Let's answer that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1985,
+ "response_tokens": 445,
+ "elapsed_s": 1.45,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "column_sql",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

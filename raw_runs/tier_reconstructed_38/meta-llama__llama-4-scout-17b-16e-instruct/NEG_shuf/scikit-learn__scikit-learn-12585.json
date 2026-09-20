@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4320,
+ "raw": "To solve this issue, let's analyze the problem step by step.\n\nThe issue arises when using the `clone` function from `sklearn.base` with an estimator that has a parameter which is a class (not an instance) of another estimator. The error occurs because `clone` tries to call `get_params` on the class, which fails because `get_params` is an instance method.\n\nThe `clone` function is defined in `sklearn.base`. The relevant part of the code is where it checks if the estimator has a `get_params` method. \n\nThe problem lies in the fact that `clone` checks if the estimator has a `get_params` method, and if so, it assumes it's an instance and tries to call `get_params` on it. However, if the estimator is a class (not an instance), this will fail.\n\nThe fix involves modifying the condition to also check if the estimator is a class.\n\nThe function that contains the fault is `clone`.\n\nHere's how we can modify the `clone` function in `sklearn/base.py` to fix the issue:\n\n```python\ndef clone(estimator, safe=True):\n    # ...\n    if not hasattr(estimator, 'get_params') or isinstance(estimator, type):\n        # If estimator is a class or does not have get_params, \n        # we assume it is a concrete estimator and set it to the class\n        return estimator\n    # ...\n```\n\nHowever, the actual fix should be applied in a way that it doesn't break other functionality. A more accurate fix would involve checking if the object is an instance of the estimator class.\n\n```python\ndef clone(estimator, safe=True):\n    # ...\n    if not hasattr(estimator, 'get_params') or isinstance(estimator, type) and issubclass(estimator, BaseEstimator):\n        # If estimator is a class or does not have get_params, \n        # we assume it is a concrete estimator and set it to the class\n        return estimator\n    # ...\n    new_object_params = estimator.get_params(deep=False)\n    # ...\n```\n\nBut based on the provided information and standard practices for fixing such issues in `sklearn`, a more straightforward fix would be to modify the condition in `clone` function as:\n\nFAULT: clone",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1009,
+ "response_tokens": 463,
+ "elapsed_s": 10.52,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

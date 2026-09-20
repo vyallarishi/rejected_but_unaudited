@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15695",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 5871,
+ "raw": "FAULT: database_backwards",
+ "finish_reason": "stop",
+ "prompt_tokens": 1369,
+ "response_tokens": 6,
+ "elapsed_s": 0.39,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "database_backwards",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16595",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 6306,
+ "raw": "FAULT: AlterField.reduce",
+ "finish_reason": "stop",
+ "prompt_tokens": 1526,
+ "response_tokens": 120,
+ "elapsed_s": 0.9,
+ "key_suffix": "3U6wj9",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reduce",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

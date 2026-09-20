@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9686,
+ "raw": "To address the issue of supporting specific `:private-members:` for autodoc, we need to modify the `filter_members` function in `sphinx/ext/autodoc/__init__.py`. This function is responsible for determining which members to include or exclude from the documentation based on the provided options.\n\nThe current implementation of `filter_members` treats `:private-members:` as a boolean flag. When this option is present, it sets `self.options.private_members` to `True`, causing all private members to be included in the documentation. However, this does not allow for specifying particular private members to be documented.\n\nTo fix this, we need to modify the `filter_members` function to also consider a list of specific private members to include when `:private-members:` is provided with arguments.\n\nHere is the corrected code:\n\n```python\ndef filter_members(self, members: List[Tuple[str, Any]], want_all: bool\n                   ):\n    # ...\n    if self.options.private_members:\n        if isinstance(self.options.private_members, list):\n            # New behavior: include only specified private members\n            private_members = [member for member in members if member[0] in self.options.private_members]\n            members = private_members\n        else:\n            # Old behavior: include all private members\n            members = [member for member in members if member[0].startswith('_') and not member[0].startswith('__')]\n    # ...\n```\n\nAnd we need to modify the `members_option` function to parse the `:private-members:` option and store it as a list of specific members:\n\n```python\ndef members_option(arg: Any):\n    # ...\n    if arg:\n        members = [member.strip() for member in arg.split(',')]\n        return members\n    return arg\n```\n\nAnd also, we need to update the documentation to reflect the new behavior of `:private-members:`.\n\nThe function that contains the fault is:\n```\nFAULT: filter_members\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2271,
+ "response_tokens": 395,
+ "elapsed_s": 3.87,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

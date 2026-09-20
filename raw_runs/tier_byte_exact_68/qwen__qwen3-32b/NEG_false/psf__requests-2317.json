@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3216,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is saying that when they pass a byte string method like b'GET' to requests, it gets converted into a string that looks like \"b'GET'\", which is then uppercased to \"B'GET'\". This causes a 404 because the HTTP method isn't recognized.\n\nLooking at the code, the line in question is method = builtin_str(method). So in Python 3, builtin_str is str, and when you convert a bytes object to a string using str(), it gives you a string representation of the bytes, like \"b'GET'\". That's not what they want\u2014they need the actual string 'GET' instead.\n\nThe user mentioned that in Python 2.6, this doesn't happen. In Python 2, str(b'GET') would just be 'GET' because bytes and strings are the same there. But in Python 3, bytes and str are different, so converting bytes to str requires decoding.\n\nSo the problem is that the prepare_method function is using str() on the bytes object. The function in question is prepare_method in the PreparedRequest class. The line self.method = builtin_str(self.method).upper() is causing the issue. The function that's at fault here is prepare_method because it's not handling the case where the method is a bytes object. Instead of converting it with str(), it should decode the bytes to a string using .decode('utf-8') or something similar.\n\nThe user also ruled out the request function, so the fault lies in prepare_method. The correct function name from the list provided is prepare_method.\n</think>\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 792,
+ "response_tokens": 347,
+ "elapsed_s": 1.05,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

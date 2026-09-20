@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11551",
+ "arm": "NEG_false_audit",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 8968,
+ "raw": "FAULT: _check_list_display_item",
+ "finish_reason": "stop",
+ "prompt_tokens": 2173,
+ "response_tokens": 8,
+ "elapsed_s": 0.43,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_check_list_display_item",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

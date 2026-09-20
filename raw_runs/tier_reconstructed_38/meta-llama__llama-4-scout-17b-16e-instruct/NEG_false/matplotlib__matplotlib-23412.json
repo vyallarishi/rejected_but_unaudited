@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-23412",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 11061,
+ "raw": " 1: Understand the issue\nThe issue is that the offset dash linestyle has no effect in patch objects. This means when a linestyle is set with an offset (or dashoffset) for a patch object, the offset part of the linestyle is ignored.\n\n## Step 2: Identify the relevant code\nThe relevant code for this issue seems to be in the `draw` method of the `Patch` class in `lib/matplotlib/p`. The comment `# Patch has traditionally ignored the dashoffset.` suggests that there is a historical reason for this behavior.\n\n## Step 3: Analyze the code\nIn the `draw` method, there is a line that explicitly sets the dash pattern to ignore the offset: `with cbook._setattr_cm(self, _dash_pattern=(0, self._[1]))`. This line temporarily overwrites the dash offset with 0 for the scope of the draw call.\n\n## Step 4: faulty function\nBased on the analysis, the faulty function is the `draw` method of the `Patch` class.\n\nThe final answer is:\nFAULT: draw",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2852,
+ "response_tokens": 237,
+ "elapsed_s": 2.81,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

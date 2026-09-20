@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3573,
+ "raw": "### Thought Process and Reasoning\n\nThe error message indicates that there's a `ValueError` when collecting tests that patch an array. The issue arises when using the `@patch` decorator with a `new` parameter set to a numpy array. The error occurs in the `num_mock_patch_args` function within the `_pytest/compat.py` file.\n\nTo solve this issue, we need to understand the purpose of the `num_mock_patch_args` function and how it interacts with the `@patch` decorator. The function appears to be counting the number of mock patch arguments in a test function.\n\nThe error message suggests that the issue is related to the `in` operator being used with a numpy array. The `in` operator is used to check if a value is present in a collection. However, when used with a numpy array, it returns an array of booleans instead of a single boolean value, which causes the `ValueError`.\n\n### Solution\n\nThe fault is in the `num_mock_patch_args` function. \n\nTo fix this issue, we need to modify the `num_mock_patch_args` function to handle numpy arrays correctly. We can do this by checking if `p.new` is an instance of numpy.ndarray before checking if it's in `sentinels`.\n\n```python\nimport numpy as np\n\ndef num_mock_patch_args(function):\n    # ...\n    sentinels = [...]\n    for p in patchings:\n        if not p.attribute_name and isinstance(p.new, np.ndarray):\n            # Handle numpy array separately\n            continue\n        if not p.attribute_name and p.new in sentinels:\n            # ...\n```\n\nHowever, a more robust solution would be to use a try-except block to catch the `ValueError` exception and handle it accordingly.\n\n```python\ndef num_mock_patch_args(function):\n    # ...\n    sentinels = [...]\n    for p in patchings:\n        try:\n            if not p.attribute_name and p.new in sentinels:\n                # ...\n        except ValueError:\n            # Handle the ValueError exception\n            continue\n```\n\nFAULT: num_mock_patch_args",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 951,
+ "response_tokens": 426,
+ "elapsed_s": 6.46,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

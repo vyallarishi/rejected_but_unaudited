@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14710",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8011,
+ "raw": "To solve this issue, we need to identify the root cause and then apply the necessary fix. The error occurs when `HistGradientBoostingClassifier` is used with a string target and early stopping is turned on. The problem arises because the scorer used under the hood during early stopping receives `y_true` as integers while `y_pred` are the original classes (i.e., strings). \n\nThe issue is localized in the `_check_early_stopping_scorer` method of the `BaseHistGradientBoosting` class. Here, `self.scorer_` is called with `y_small_train`, which contains integer-encoded labels. However, the scorer calls `self.predict()`, which returns predictions as strings by using `self.classes_`. \n\nThe default scorer, `accuracy_score`, receives `y_true` as integers and `y_pred` as strings, leading to a `TypeError` when `np.union1d` attempts to sort the concatenated array of integers and strings.\n\nTo fix this issue, we need to ensure that `y_true` is encoded in the same way as `y_pred` when computing the score during early stopping. \n\nThe function that contains the fault is:\nFAULT: _check_early_stopping_scorer\n\nThe fix involves encoding `y_true` using `self._encode_y` before passing it to the scorer. \n\nHere is the corrected code:\n\n```python\n    def _check_early_stopping_scorer(self, X_binned_small_train, y_small_train,\n                                      X_binned_val, y_val):\n        # Store score on training data\n        self.train_score_.append(\n            self.scorer_(self, X_binned_small_train,\n                           self._encode_y(y_small_train))\n        )\n```\n\nAnd also for validation score:\n\n```python\n        # Store score on validation data\n        self.val_score_.append(\n            self.scorer_(self, X_binned_val, self._encode_y(y_val))\n        )\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2037,
+ "response_tokens": 407,
+ "elapsed_s": 1.29,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_check_early_stopping_scorer",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

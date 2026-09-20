@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12143",
+ "arm": "NEG_false_natural",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 6407,
+ "raw": "FAULT: _changeform_view",
+ "finish_reason": "stop",
+ "prompt_tokens": 1533,
+ "response_tokens": 7,
+ "elapsed_s": 0.37,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_changeform_view",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

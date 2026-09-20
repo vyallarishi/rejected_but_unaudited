@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6823,
+ "raw": "### Thought Process and Reasoning\n\nThe issue presented involves adding a legend to a `SubFigure` in Matplotlib, which currently does not work. The error message indicates that the legend needs either an Axes or a Figure as its parent. This suggests that the problem lies in the validation check within the Legend class's `__init__` method.\n\nTo identify the faulty function, let's analyze the provided information:\n\n1. **Bug Summary**: The bug is about adding a legend to a `SubFigure`, which should ideally work but currently raises an error.\n2. **Code for Reproduction**: A simple code snippet that creates a `SubFigure`, plots something on it, and then attempts to add a legend.\n3. **Actual Outcome**: The code raises a `TypeError` because the legend needs either an Axes or a Figure as its parent, not a `SubFigure`.\n4. **Expected Outcome**: The expectation is that adding a legend to a `SubFigure` should work.\n\nGiven the error message and the expected behavior, the issue seems to stem from the Legend class's `__init__` method, specifically where it checks the type of its parent.\n\n### Solution\n\nThe fault lies in the `__init__` method of the `Legend` class. This method currently checks if the parent is an instance of `Axes` or `Figure` and raises a `TypeError` if it's not. Since `SubFigure` is not an instance of `Axes` or `Figure` but should be able to host a legend, the check needs to be adjusted.\n\n```python\ndef __init__(\n    self, parent, handles, labels,\n    loc=None,\n    numpoints=None,      # number of points in the legend line\n    markerscale=None,    # relative size of legend markers vs. original\n    markerfirst=True,    # left/right ordering of legend marker and label\n    scatterpoints=None,  # number of scatter points\n    scatteryoffsets=None,\n    prop=None,           # properties for the legend texts\n    fontsize=None,       # keyword to set font size directly\n    labelcolor=None,     # keyword to set the text color\n\n    # spacing & pad defined as a fraction of the font-size\n    borderpad=None,      # whitespace inside the legend border\n    labelspacing=None,   # vertical space between the legend entries\n    handlelength=None,   # length of the legend handles\n    handleheight=None,   # height of the legend handles\n    handletextpad=None,  # pad between the legend handle and text\n    borderaxespad=None,  # pad between the axes and legend border\n    columnspacing=None,  # spacing between columns\n\n    ncol=1,     # number of columns\n    mode=None,  # horizontal distribution of columns: None or \"expand\"\n\n    fancybox=None,  # True: fancy box, False: rounded box, None: rcParam\n    shadow=None,\n    title=None,           # legend title\n    title_fontsize=None,  # legend title font size\n    framealpha=None,      # set frame alpha\n    edgecolor=None,       # frame patch edgecolor\n    facecolor=None,       # frame patch facecolor\n\n    bbox_to_anchor=None,  # bbox to which the legend will be anchored\n    bbox_transform=None,  # transform for the bbox\n    frameon=None,         # draw frame\n    handler_map=None,\n    title_fontproperties=None,  # properties for the legend title\n):\n    # ... existing code\n\n    if not isinstance(parent, (Figure, Axes, SubFigure)):  # Adjust this line\n        raise TypeError(\"Legend needs either Axes, Figure, or SubFigure as parent\")\n```\n\n### FAULT\n\nThe faulty function where the type check for the parent of the Legend needs adjustment is:\n\n```\n__init__\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1651,
+ "response_tokens": 796,
+ "elapsed_s": 2.35,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

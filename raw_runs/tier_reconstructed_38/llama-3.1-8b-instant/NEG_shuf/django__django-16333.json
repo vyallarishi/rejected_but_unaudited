@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 3463,
+ "raw": "UserCreationForm",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 810,
+ "response_tokens": 4,
+ "elapsed_s": 0.36,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "UserCreationForm",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

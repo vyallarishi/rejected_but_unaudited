@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11276",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2306,
+ "raw": "<think>\nOkay, let's see. The issue is about replacing Django's own escape function with Python's built-in html.escape(). The problem mentions that Django's django.utils.html.escape() is duplicating functionality that's already available in the standard library since Python 3.2. The main points are performance improvements and code deduplication.\n\nThe user ran some benchmarks and saw a significant speedup when switching from Django's escape to Python's. Also, there's a note about the output difference for the apostrophe\u2014Python's version outputs &#x27; instead of &#39;. But they mention it's functionally equivalent, even though it's a change in the literal text.\n\nLooking at the list of candidate functions in django/utils/html.py, the one in question is the escape function. The description says that Django's escape uses str.translate, which is slower and causes code duplication. The other functions like escapejs, format_html, etc., aren't directly mentioned in the problem.\n\nThe localization notes also point out that the escape function's use of str.translate is the direct cause of the performance issue. So the fault lies in the escape function because it's the one that's both duplicated and causing the performance bottleneck. The other functions listed don't seem to be part of the immediate issue here. So the answer should be the escape function.\n</think>\n\nFAULT: escape",
+ "finish_reason": "stop",
+ "prompt_tokens": 536,
+ "response_tokens": 278,
+ "elapsed_s": 26.03,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "escape",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

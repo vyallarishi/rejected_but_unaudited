@@ -1,0 +1,17 @@
+{
+ "instance_id": "pylint-dev__pylint-4661",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2986,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user wants pylint to follow the XDG Base Directory Specification, specifically moving the .pylint.d directory out of their home folder into the proper location like $HOME/.local/share/pylint. \n\nThe problem seems to be that pylint is creating a directory in the home folder, which isn't compliant with XDG. The user mentioned that the _get_pdata_path function in pylint/config/__init__.py is a candidate. Let me look at the functions listed.\n\nThe candidate functions are _get_pdata_path, load_results, save_results, and find_pylintrc. The user provided some localization notes about _get_pdata_path. According to those notes, _get_pdata_path uses the PYLINT_HOME constant which is set to ~/.pylint.d. This function generates paths under that directory. So if we change PYLINT_HOME to use the XDG-compliant path, that would solve the problem. \n\nThe other functions like load_results and save_results probably use _get_pdata_path to get the correct path. So the root of the issue is in _get_pdata_path because it's the one that determines where the data is stored. The PYLINT_HOME constant is the key here; changing that to use XDG's $HOME/.local/share/pylint would make pylint store its data in the correct location. \n\nThe other functions mentioned in the \"Ruled out\" section aren't directly involved in path creation. So the fault lies in _get_pdata_path because it's responsible for generating the path using the incorrect constant. To fix the issue, this function needs to be modified to use the XDG base directory instead.\n</think>\n\nFAULT: _get_pdata_path",
+ "finish_reason": "stop",
+ "prompt_tokens": 665,
+ "response_tokens": 356,
+ "elapsed_s": 1.07,
+ "key_suffix": "04ZFOa",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "_get_pdata_path",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

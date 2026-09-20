@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-4604",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 5583,
+ "raw": "FAULT: _store_type_annotation_names",
+ "reasoning": "We need to identify which function contains the fault causing unused-import false positive for a module used in a type comment. The description says that visit_assign is called on the assignment line, but there is no logic for parsing the type comment and marking abc as used. So the fault likely is in _store_type_annotation_names or similar. The function that should handle type comments is probably _store_type_annotation_names, which processes type annotation nodes. However the issue is that type comments are not being considered for import usage. The function that checks imports is _check_imports, but the detection of usage occurs earlier when marking names as consumed. The function that records type annotation names is _store_type_annotation_names. If that function doesn't handle type comments, then imports used only in type comments are considered unused. So the bug is likely in _store_type_annotation_names (maybe missing handling of type comments). The question: \"Which function contains the fault? Answer with one function name from the list\". The list includes _store_type_annotation_names. So answer that.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1436,
+ "response_tokens": 227,
+ "elapsed_s": 0.94,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_store_type_annotation_names",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

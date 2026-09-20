@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 3503,
+ "raw": "AdminReadonlyField",
+ "finish_reason": "stop",
+ "prompt_tokens": 846,
+ "response_tokens": 5,
+ "elapsed_s": 0.4,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "AdminReadonlyField",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

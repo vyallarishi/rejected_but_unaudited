@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3127,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem is that when using `UserCreationForm` with a custom User model that has ManyToManyField fields, the data in these fields is not saved. This is because `UserCreationForm` does not call `self.save_m2m()` like its parent class `ModelForm` does.\n\n2. **Identifying the cause**: The cause of the issue is in the `save` method of `UserCreationForm`. Unlike `ModelForm`, it does not call `self.save_m2m()` after saving the model instance.\n\n3. **Locating the faulty function**: The faulty function is `save` in `UserCreationForm`. \n\n# Fixed solution:\n```python\nclass UserCreationForm(forms.ModelForm):\n    # ...\n\n    def save(self, commit=True):\n        user = super().save(commit=False)\n        if commit:\n            user.save_m2m()\n        return user\n```\n\n# Explanation of changes:\n*   We override the `save` method of `UserCreationForm`.\n*   We call the parent class's `save` method with `commit=False` to create the model instance without saving the M2M fields yet.\n*   We then save the M2M fields by calling `user.save_m2m()` if `commit` is `True`.\n\n# Tests and example uses:\nYou can test this fix by creating a custom User model with a ManyToManyField, and then using `UserCreationForm` to create a new user instance. Verify that the M2M fields are saved correctly.\n\n```python\n# models.py\nfrom django.db import models\nfrom django.contrib.auth.models import AbstractUser\n\nclass User(AbstractUser):\n    groups = models.ManyToManyField('auth.Group')\n\n# forms.py\nfrom django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm\nfrom .models import User\n\nclass UserCreationForm(BaseUserCreationForm):\n    class Meta:\n        model = User\n\n# views.py\nfrom django.shortcuts import redirect\nfrom .forms import UserCreationForm\n\ndef create_user(request):\n    if request.method == 'POST':\n        form = UserCreationForm(request.POST)\n        if form.is_valid():\n            form.save()\n            return redirect('success_url')\n    else:\n        form = UserCreationForm()\n    return render(request, 'template.html', {'form': form})\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 725,
+ "response_tokens": 491,
+ "elapsed_s": 5.83,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

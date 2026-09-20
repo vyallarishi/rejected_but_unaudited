@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8996,
+ "raw": "FAULT: Legend.__init__",
+ "reasoning": "\nOkay, let's try to figure out why adding a legend to a SubFigure isn't working. The user provided a code example where they create a SubFigure, add an Axes to it, plot some data with a label, and then try to add a legend to the SubFigure. The error they get is a TypeError saying that the Legend needs either Axes or Figure as a parent. \n\nLooking at the traceback, the error occurs in the Legend's __init__ method. The Legend is being created with the SubFigure as the parent, but the code checks if the parent is an instance of Figure or Axes. Since SubFigure isn't one of those, it throws an error.\n\nSo the problem is that the Legend class doesn't accept a SubFigure as a valid parent. The SubFigure is a new feature (introduced in Matplotlib 3.4 I think), and maybe the Legend code hasn't been updated to handle SubFigure as a parent. \n\nThe user mentioned that changing the check in legend.py from checking for Figure or Axes to FigureBase (which SubFigure inherits from) would fix it. That makes sense because SubFigure is a subclass of FigureBase. So the Legend's __init__ function should accept any FigureBase, not just Figure or Axes.\n\nThe relevant code in Legend.__init__ is where it checks if the parent is an Axes or Figure. Since SubFigure is a FigureBase but not a Figure, the check fails. The fix would be to check for FigureBase instead. \n\nSo the fault is in the Legend class's __init__ method, specifically the check for valid parent types. The function that needs to be modified is Legend.__init__.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2165,
+ "response_tokens": 352,
+ "elapsed_s": 5.14,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

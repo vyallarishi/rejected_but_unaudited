@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2603,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that when a user changes their email, a password reset token generated before the change is still accepted, which shouldn't happen. The description says that the fix is to include the user's email in the _make_hash_value method of PasswordResetTokenGenerator.\n\nSo, the main issue is that when the token is generated, it's using some user data to create a hash. If the email isn't part of that data, then changing the email later doesn't affect the hash. When the token is checked later, the hash would still match because the email change isn't considered. Therefore, the token validation doesn't account for the email change.\n\nLooking at the functions listed, the PasswordResetTokenGenerator's _make_hash_value is responsible for creating the data that's hashed. If the email isn't included in that data, then changing the email would not invalidate the token. The check_token method would use the same _make_hash_value function to generate the hash again during validation, but since the email has changed, but the hash doesn't include it, the token is still considered valid. \n\nSo the fault is in the _make_hash_value function because it doesn't include the user's email address in the hash value. The fix would be to modify this function to include the email. The other functions like make_token or check_token might call this function, but the core issue is in what data is being hashed here. Therefore, the correct function where the fault lies is _make_hash_value.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 555,
+ "response_tokens": 329,
+ "elapsed_s": 4.98,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

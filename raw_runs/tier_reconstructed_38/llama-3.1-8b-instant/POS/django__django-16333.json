@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 3069,
+ "raw": "save",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 727,
+ "response_tokens": 2,
+ "elapsed_s": 0.38,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "save",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

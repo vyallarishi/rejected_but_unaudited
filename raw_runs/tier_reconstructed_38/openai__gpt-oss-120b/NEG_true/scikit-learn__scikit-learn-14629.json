@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6148,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "We need to answer which function contains the fault. The description says the bug is in cross_val_predict method handling of estimator.classes_ for MultiOutputClassifier. The function that accesses estimator.classes_ is likely `_enforce_prediction_order` or maybe `_fit_and_predict`. Let's check the code snippet: In cross_val_predict, after predictions, they call `_enforce_prediction_order(classes, predictions, n_classes, method)`. The classes variable is obtained earlier: they compute `classes = getattr(estimator, \"classes_\", None)`. Actually in cross_val_predict, they have:\n\n```\nif method == \"predict_proba\":\n    # check if estimator has predict_proba\n    if not hasattr(estimator, \"predict_proba\"):\n        raise ...\n    # get classes\n    classes = getattr(estimator, \"classes_\", None)\n    # ...\n```\n\nThus the function that contains the fault is `cross_val_predict`. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" The list includes many functions, including `cross_val_predict`. So answer: FAULT: cross_val_predict.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1555,
+ "response_tokens": 253,
+ "elapsed_s": 1.04,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

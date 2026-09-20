@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5978,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user provided a test case where ModelAdmin's lookup_allowed is incorrectly raising a DisallowedModelAdminLookup when there's a foreign key as a primary key. The test involves a chain of models: Country, Place, Restaurant (with a OneToOneField to Place as the primary key), and Waiter with a ForeignKey to Restaurant. The list_filter in WaiterAdmin includes 'restaurant__place__country', but lookup_allowed is rejecting it.\n\nThe user's explanation says that the admin is treating the foreign key as a primary key as if it's a concrete inheritance scenario. In that case, when processing the lookup path 'restaurant__place__country', the admin might be shortcutting 'place' to directly access 'country' on Restaurant, which doesn't exist. \n\nLooking at the localization notes, the key part is in the lookup_allowed function. The problem occurs when processing the 'place' part of the lookup. Since 'place' is the primary key of Restaurant, it's considered a target field for the incoming 'restaurant' relation. The condition in lookup_allowed checks if the current field is not in the target_fields of the previous field's path info. If it's not there, it adds it to the relation_parts. But in this case, since 'place' is a target field, the condition is false, so 'place' isn't added to relation_parts. This causes the lookup path to be shortened to 'restaurant__country', which isn't in list_filter, leading to a disallowed lookup.\n\nSo the function in question is lookup_allowed. The error is in how it handles fields that are primary keys, especially when they are foreign keys or one-to-one fields. The logic for determining whether to include a part of the lookup path is flawed when the field is a primary key. The condition involving target_fields is causing it to skip adding 'place' to the relation_parts, thereby incorrectly reconstructing the lookup path.\n\nTherefore, the faulty function is lookup_allowed.\n</think>\n\nFAULT: lookup_allowed",
+ "finish_reason": "stop",
+ "prompt_tokens": 1383,
+ "response_tokens": 422,
+ "elapsed_s": 1.21,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14894",
+ "arm": "POS",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4011,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is getting a ZeroDivisionError when using sparse data with SVR in scikit-learn. The error occurs in the _sparse_fit function. Let me look at the code they provided and the traceback.\n\nThe key part is when they convert x_train to a sparse matrix and fit the model. The error happens because support_vectors_ is empty, leading to a division by zero when calculating the step for np.arange. \n\nLooking at the localization notes, the issue is in the _sparse_fit function. When there are no support vectors, n_SV is zero. Then, dual_coef_indices.size is zero, and they try to compute dual_coef_indptr with np.arange, using a step of dual_coef_indices.size / n_class. If n_class is 1 (since it's SVR, not classification), then dividing by n_class would be zero. Wait, SVR is a regression problem, so maybe n_class here is not applicable. But in the code, maybe for SVR, the code is using a different approach. \n\nWait, the function _sparse_fit is in base.py. Let me think about how the code flows. When there are no support vectors, the code tries to create a dual_coef as a sparse matrix. The problem is when creating the indices for the sparse matrix. The line causing the error is probably where they calculate the step for arange. If there are no support vectors, then dual_coef_indices is empty, and n_class might be zero or not. For SVR, it's a regression problem, so maybe n_class is 1. But if dual_coef_indices.size is 0, then dividing by n_class (which is 1) would give 0, leading to step=0 in np.arange, which causes an error.\n\nSo the FAULT is in the _sparse_fit function. The code doesn't handle the case where there are no support vectors, leading to division by zero when creating the dual_coef_indptr. The specific line would be where they compute the step as dual_coef_indices.size / n_class. When there are no support vectors, dual_coef_indices is empty (size 0), and if n_class is also 0 (unlikely, but maybe in some cases), but for SVR, n_class is probably 1. Either way, when the size is 0, dividing by n_class (even if it's 1) gives 0, which is invalid for the step in arange.\n\nTherefore, the function with the fault is _sparse_fit.\n</think>\n\nFAULT: _sparse_fit",
+ "finish_reason": "stop",
+ "prompt_tokens": 1243,
+ "response_tokens": 537,
+ "elapsed_s": 1.44,
+ "key_suffix": "j6UVRF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_sparse_fit",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

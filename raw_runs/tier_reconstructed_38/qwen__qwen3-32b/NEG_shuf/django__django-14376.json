@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4218,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "\nOkay, let's see. The issue is about deprecated keyword arguments \"db\" and \"passwd\" in the MySQL backend of Django. The problem is that mysqlclient has marked these as deprecated and replaced them with \"database\" and \"password\". The user is pointing out that Django's code still uses the old kwargs, which need to be updated.\n\nLooking at the candidate functions, the key part is in the get_connection_params method. The description mentions that get_connection_params uses 'db' and 'passwd' in the kwargs dictionary. That makes sense because when establishing a database connection, you need to pass parameters like database name and password. The get_connection_params function is responsible for preparing these parameters, which are then used in get_new_connection to actually create the connection. \n\nSo, the fault lies in the get_connection_params function because it's using the deprecated keys. The fix would involve changing 'db' to 'database' and 'passwd' to 'password' in the parameters passed to the MySQL connection. The other functions like CursorWrapper's methods or other parts of DatabaseWrapper don't seem to be involved in setting up the connection parameters. Therefore, the correct function to address is get_connection_params.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1015,
+ "response_tokens": 251,
+ "elapsed_s": 3.18,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

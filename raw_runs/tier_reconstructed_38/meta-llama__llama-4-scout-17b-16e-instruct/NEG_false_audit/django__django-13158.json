@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13158",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6966,
+ "raw": "To solve this issue, let's analyze the provided information and code snippets.\n\nThe problem arises when using `QuerySet.none()` on a combined query (specifically, a `union` query) in Django. The `ModelMultipleChoiceField` in a form is used with a queryset that is a union of two queries. When the form is submitted with no selected choices, `QuerySet.none()` is called on the queryset, which should return an empty queryset. However, instead of returning an empty queryset, it returns all objects that match the queryset.\n\nThe key to solving this issue lies in understanding how Django handles combined queries, specifically `union` queries, and how `QuerySet.none()` interacts with these queries.\n\nThe `set_empty` method in `django/db/models/sql/query.py` seems relevant, as it is called when `QuerySet.none()` is used. This method adds a `NothingNode` to the query's `where` clause, effectively filtering out all results.\n\nHowever, the issue seems to be that when `set_empty` is called on a `union` query, it does not correctly set the empty flag for the combined query. This results in the `union` query not being treated as empty, even when it should be.\n\nGiven the information and the goal to identify the function that contains the fault, we can deduce that the issue lies in how `QuerySet.none()` handles `union` queries.\n\nThe function that contains the fault is:\n```\nset_empty\n```",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1633,
+ "response_tokens": 301,
+ "elapsed_s": 4.77,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "set_empty",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

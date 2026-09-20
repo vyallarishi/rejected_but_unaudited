@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15375",
+ "arm": "POS",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 5882,
+ "raw": "FAULT: get_aggregation",
+ "finish_reason": "stop",
+ "prompt_tokens": 1502,
+ "response_tokens": 6,
+ "elapsed_s": 0.41,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_aggregation",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4038,
+ "raw": "## Step 1: Understanding the issue\nThe issue arises when saving a parent object after setting a foreign key relationship to a child object that has a non-auto CharField as its primary key. If the child object's primary key is set after it is assigned to the parent, the parent's foreign key field is not updated correctly.\n\n## Step 2: Identifying the relevant code\nThe problem seems to be related to how the foreign key field is handled when the related object is assigned to the parent. This involves the `__set__` method of the descriptor class for the foreign key field.\n\n## 3: Analyzing the descriptor classes\nThe descriptor classes involved are `ForeignKeyDeferredAttribute`, `ForwardManyToOneDescriptor`, and others. However, the key method to focus on is `__set__`, which is called when the related object is assigned to the parent.\n\n## 4: Locating the fault\nThe fault lies in how the `__set__` method handles the assignment of a new related object. Specifically, when the related object is a new instance without a primary key set, the method sets the foreign key field on the parent to the current value of the related object's primary key, which might be empty or not yet set.\n\n## 5: Identifying the specific function\nGiven the description and the analysis, the function that contains the fault is likely related to setting the foreign key on the parent object when a new related object is assigned. The `ForeignKeyDeferredAttribute` class's `__set__` method seems to be directly involved in this process.\n\nThe final answer is:\nFAULT: __set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 899,
+ "response_tokens": 329,
+ "elapsed_s": 1.17,
+ "key_suffix": "c6aTkM",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

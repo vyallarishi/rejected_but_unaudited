@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_shuf",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6018,
+ "raw": "FAULT: _arithmetic_mask",
+ "reasoning": "We need to identify which function contains the fault causing mask propagation error. Likely in NDArithmeticMixin._arithmetic_mask or handling of mask when operand missing mask. The error arises when handle_mask is np.bitwise_or, which expects integer arrays, but one mask is None. The code probably does something like `handle_mask(self.mask, operand.mask)` without checking None. In v5.2 they maybe used logical_or which works with None? Actually logical_or on None would error too. But maybe they had a fallback: if one mask is None, return the other mask. So the bug is in `_arithmetic_mask`. So answer: _arithmetic_mask.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1649,
+ "response_tokens": 151,
+ "elapsed_s": 0.92,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

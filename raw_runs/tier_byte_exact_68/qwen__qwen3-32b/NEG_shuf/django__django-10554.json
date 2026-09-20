@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8985,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is about a Django queryset that uses a union and ordering, and then when you try to evaluate it again, it breaks with an ORDER BY error. The user provided a traceback and some code examples.\n\nFrom the description, when they create a union of two querysets and apply an order_by, then later try to evaluate the queryset again, it throws a ProgrammingError because the ORDER BY refers to a column position that's not in the select list. The key part here is that after calling order_by() on the queryset, the original queryset becomes broken. \n\nThe localization notes mention that when you call order_by(), it clones the queryset. But because of how the clone is done, the combined_queries (the subqueries in the union) are shared between the original and the clone. Then, modifying the clone (adding order_by) changes the subqueries in-place, which also affects the original queryset. This leads to the original queryset being in an invalid state when it's evaluated again.\n\nLooking at the candidate functions, the clone method in the Query class is mentioned. The note says that Query.clone is called when cloning the queryset, and it does a shallow copy of __dict__, which includes combined_queries. Since combined_queries is a list of other query objects, modifying them in the clone would affect the original. \n\nSo the fault is likely in the clone method of the Query class. When the clone is made, the combined_queries are not deep-copied, leading to shared state between the original and the clone. When order_by is called on the clone (as part of the new order_by() call), it modifies the subqueries in-place, which breaks the original queryset.\n\nTherefore, the function responsible is Query.clone.\n</think>\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 2250,
+ "response_tokens": 373,
+ "elapsed_s": 1.32,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

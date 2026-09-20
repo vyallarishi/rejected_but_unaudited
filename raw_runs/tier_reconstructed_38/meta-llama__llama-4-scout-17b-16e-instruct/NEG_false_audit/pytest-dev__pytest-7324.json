@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2057,
+ "raw": "To solve this issue, let's analyze the given information and the code structure.\n\nThe problem arises when `Expression.compile(\"False\")` is called, which leads to a crash in the Python interpreter on a debug build for Python 3.8+. The error message points to an assertion failure in the `compiler_nameop` function within the Python's C code, specifically when it encounters an `ast.Name` node that represents a boolean literal (\"True\" or \"False\").\n\nThe critical part of the code is in the `compile` method of the `Expression` class. This method is called with the input string `\"False\"`, which is then parsed into an AST (Abstract Syntax Tree) node using the `expression` function from the `src/_pytest/mark/expression.py` module.\n\nThe key insight here is that the `compile` method of the `Expression` class uses the Python built-in `compile` function to compile the parsed AST node into bytecode. However, when the input string is a boolean literal (\"True\" or \"False\"), this approach causes issues because the `compile` function expects a valid Python expression that can be used as a name, not a boolean literal.\n\nGiven this understanding, the fault lies in the `compile` method of the `Expression` class. This method is responsible for compiling the input string into bytecode, and it does so by calling the Python built-in `compile` function.\n\nThe function that contains the fault is `compile`. \n\nHowever, based on the structure and the details provided, it seems that the actual function that needs to be adjusted or understood is within the `Expression` class, specifically the method that calls `compile`.\n\nFAULT: compile",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 542,
+ "response_tokens": 341,
+ "elapsed_s": 4.63,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "compile",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

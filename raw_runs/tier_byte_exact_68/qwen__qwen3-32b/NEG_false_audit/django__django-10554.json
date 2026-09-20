@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-10554",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7357,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is describing an issue with Django's QuerySet union and ordering. When they create a union of two querysets and apply ordering, then later try to evaluate the queryset again, it throws an error related to the ORDER BY clause not referencing a column in the select list.\n\nThe key part of the trace is the error message: \"ORDER BY position 4 is not in select list\". This suggests that when the query is executed, the ORDER BY is trying to reference a column that's not selected. The user also mentions that the problem arises when they call order_by() on the union queryset, which modifies the underlying query in a way that affects the original queryset when it's re-evaluated.\n\nLooking at the localization notes, the problem is related to cloning. When order_by() is called, it clones the original queryset's query. However, the clone shares the combined_queries (the subqueries in the union) with the original. Then, when the clone modifies the ordering on one of the subqueries, it corrupts the original's state. This is because the clone is a shallow copy, so the combined_queries list is the same in both the original and the clone. When the clone's subquery is modified, the original's subquery is also modified, leading to unexpected behavior when the original is re-evaluated.\n\nThe candidate functions listed include Query.clone. The notes say that when order_by() is called, it clones the query, but the clone shares the combined_queries. The problem is that modifying the clone's subqueries affects the original. So the fault is likely in the Query.clone method because it's not properly deep copying the combined_queries, leading to shared state between the original and the clone.\n\nThe Query.clone method is responsible for creating a copy of the query. If it's doing a shallow copy (i.e., just copying the references to the combined_queries), then any modifications to those subqueries in the clone would affect the original. The correct approach would be to deep copy the combined_queries so that each clone has its own separate list of subqueries. Therefore, the fault lies in the Query.clone function not properly handling the cloning of combined_queries.\n</think>\n\nFAULT: clone",
+ "finish_reason": "stop",
+ "prompt_tokens": 1915,
+ "response_tokens": 462,
+ "elapsed_s": 1.32,
+ "key_suffix": "ijKYqB",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

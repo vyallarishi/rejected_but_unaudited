@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 6896,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is. The user is saying that when using modelform_factory with a custom form that has a formfield_callback specified in its Meta, the callback isn't being used. Instead, the formfield_callback is being set to None.\n\nLooking at the example, they have a MyForm class that defines formfield_callback in both the class itself and the Meta. Then when they create the FactoryForm using modelform_factory, the fields aren't required as expected. The issue is that the formfield_callback in the Meta is being overwritten.\n\nThe localization notes mention that modelform_factory constructs a new Meta class with formfield_callback set to None if it's passed. So the problem is in how modelform_factory handles the Meta options. \n\nThe candidate functions include modelform_factory and others. The key part is in modelform_factory's handling of the form's Meta. When creating the new form class, it's overriding the Meta's formfield_callback with None. \n\nLooking at the code for modelform_factory, it uses the form's Meta to create a new Meta for the generated form. If the user provides a form with a Meta that has formfield_callback, but modelform_factory is not correctly including that in the new Meta, then that's the issue. \n\nIn Django's modelform_factory, when you pass a form class, it creates a new form class by combining the form's Meta with the arguments passed to modelform_factory. The problem is that when the formfield_callback is passed as an argument to modelform_factory, it's overriding the one in the Meta of the provided form. In the example, when the user passes form=MyForm, modelform_factory should respect the formfield_callback from MyForm's Meta, but instead it's setting it to None because the function's default is None and it's not checking the existing Meta.\n\nSo the fault is in modelform_factory because it's not properly merging the Meta options from the provided form with the arguments passed to the function. Specifically, when constructing the new Meta, it's setting formfield_callback to the one provided in the modelform_factory call (which is None in the example) instead of using the one from the form's Meta if it exists.\n</think>\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1590,
+ "response_tokens": 483,
+ "elapsed_s": 14.57,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

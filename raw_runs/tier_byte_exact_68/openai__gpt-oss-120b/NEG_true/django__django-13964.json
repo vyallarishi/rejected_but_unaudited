@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "prompt_chars": 5622,
+ "raw": "FAULT: ForwardManyToOneDescriptor.__set__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1297,
+ "response_tokens": 283,
+ "elapsed_s": 1.08,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "__set__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

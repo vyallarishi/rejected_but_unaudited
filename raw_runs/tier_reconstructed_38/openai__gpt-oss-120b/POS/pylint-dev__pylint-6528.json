@@ -1,0 +1,19 @@
+{
+ "instance_id": "pylint-dev__pylint-6528",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 6861,
+ "raw": "FAULT: _discover_files",
+ "reasoning": "We need to identify which function contains the fault: the issue is that pylint's recursive mode does not respect ignore settings. Likely the function that discovers files does not filter based on ignore options. The candidate list includes `_discover_files`. The description says: \"_discover_files: Yes, a direct path exists. When Pylint is run with `--recursive=y`, this function is used to find files. The provided code for this function uses `os.walk` to find all `.py` files but contains no logic to filter the results based on the `--ignore`, `--ignore-patterns`, or `--ignore-paths` options. Therefore, it will yield paths to files that should have been ignored, such as `.a/foo.py`, causing t\". So the fault is in `_discover_files`. So answer: `_discover_files`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1726,
+ "response_tokens": 185,
+ "elapsed_s": 0.86,
+ "key_suffix": "1NHaKF",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_discover_files",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

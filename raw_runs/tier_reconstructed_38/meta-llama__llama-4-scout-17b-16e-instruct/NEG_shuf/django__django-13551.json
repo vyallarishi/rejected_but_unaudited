@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2380,
+ "raw": "## Step 1: Understand the issue\nThe problem arises when a user's email address is changed after a password reset token has been generated but before the token is used. The token remains valid even though it was generated with the old email address.\n\n## 2: Identify the relevant code\nThe code responsible for generating and checking password reset tokens is located in `django/contrib/auth/tokens.py`, specifically in the `PasswordResetTokenGenerator` class.\n\n## 3: Analyze the token generation and validation process\nThe `make_token` method generates a token, and the `check_token` method checks if a token is valid. The `_make_hash_value` method is crucial as it creates the hash value used to generate and validate tokens.\n\n## 4: Determine the cause of the issue\nThe issue is that the `_make_hash_value` method does not take into account the user's email address when generating the hash value. This means that if a user's email address changes, the hash value generated before the change will still match the one generated after the change, causing an invalid token to be considered valid.\n\n## 5: Identify the function that needs to be modified\nThe function that needs to be modified is `_make_hash_value` because it is responsible for creating the hash value that is used to validate tokens. This function should include the user's email address in the hash value.\n\n## 6: Conclusion\nThe function that contains the fault is `_make_hash_value` because it does not include the user's email address in the hash value, which allows tokens to remain valid even after the user's email address has changed.\n\nFAULT: _make_hash_value",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 528,
+ "response_tokens": 331,
+ "elapsed_s": 6.83,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14311",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2729,
+ "raw": "To solve this issue, we need to understand how the autoreloading of `python -m custom_module runserver` works and identify the function responsible for the fault.\n\nThe original fix only dealt with `-m foo.bar` where `bar` is a package and `__main__.py` exists under `foo/bar`. However, when a dotted name for a module (e.g., `foo.bar.baz` where `baz.py` resides under `foo/bar`) is specified like `-m foo.bar.baz`, the resulting arguments end up being `-m foo.bar`, which is incorrect.\n\nLooking at the candidate functions in `django/utils/autoreload.py`, we need to find the one that handles the detection of Django modules and the construction of arguments for autoreloading.\n\nThe function `get_child_arguments` seems relevant as it might be responsible for constructing the arguments for the child process. However, it has been ruled out.\n\nUpon closer inspection, the issue seems to be related to how the module name is handled when using `python -m`. The correct function to look at would be the one that deals with the module detection and argument construction.\n\nThe fault is likely in the function that checks if a module is a Django module and handles the autoreloading logic.\n\nFAULT: is_django_module",
+ "finish_reason": "stop",
+ "prompt_tokens": 658,
+ "response_tokens": 263,
+ "elapsed_s": 0.98,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "is_django_module",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,20 @@
+{
+ "instance_id": "matplotlib__matplotlib-20859",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8996,
+ "raw": "### Thought Process and Reasoning\n\nThe task is to identify the function that contains the fault in the given issue. The issue is about adding a legend to a `SubFigure` not working as expected. \n\nThe provided code snippet reproduces the bug:\n```python\nimport matplotlib.pyplot as plt\n\nsubfig = plt.figure().subfigures()\nax = subfig.subplots()\nax.plot([0, 1, 2], [0, 1, 2], label=\"test\")\nsubfig.legend()\n```\nThis results in a `TypeError` because `Legend` needs either `Axes` or `Figure` as a parent.\n\nThe expected outcome is to allow a legend per subfigure.\n\nThe actual outcome shows a traceback indicating that the error is in the `legend.py` file, specifically in the `__init__` method of the `Legend` class.\n\nThe relevant code snippet from `legend.py` is:\n```python\ndef __init__(\n    self, parent, handles, labels,\n    ...\n):\n    if not isinstance(parent, (Figure, Axes)):\n        raise TypeError(\"Legend needs either Axes or Figure as parent\")\n```\nThis check fails when `parent` is a `SubFigure` instance.\n\n### Solution\n\nBased on the analysis, the function that contains the fault is `__init__` in the `Legend` class.\n\nThe issue arises because `SubFigure` is not an instance of `Axes` or `Figure`, but it should be allowed as a parent for a legend.\n\nThe fix would be to modify the check to allow `FigureBase` instances, which `SubFigure` inherits from.\n\n### FAULT\n\nFAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2141,
+ "response_tokens": 339,
+ "elapsed_s": 1.23,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

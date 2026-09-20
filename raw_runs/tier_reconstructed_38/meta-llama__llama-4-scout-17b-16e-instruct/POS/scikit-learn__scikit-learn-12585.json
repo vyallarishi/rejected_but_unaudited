@@ -1,0 +1,20 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-12585",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3027,
+ "raw": "To solve this issue, we need to identify the function that contains the fault. The problem arises when the `clone` function is called with an estimator whose parameter is a class, not an instance. \n\nThe `clone` function in `sklearn.base` is designed to create a deep copy of an estimator, including its parameters. However, when a parameter is a class (not an instance), it attempts to call `get_params` on that class, which fails because `get_params` is an instance method.\n\nThe localization notes provided point directly to the `clone` function as the source of the issue. This function is responsible for recursively cloning an estimator and its parameters. \n\nThe fault lies in how the function handles parameters that are estimator classes rather than instances. The current implementation does not correctly distinguish between classes and instances when deciding whether to call `clone` recursively.\n\nTherefore, the function that contains the fault is `clone`.\n\nFAULT: clone",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 727,
+ "response_tokens": 191,
+ "elapsed_s": 0.84,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "clone",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

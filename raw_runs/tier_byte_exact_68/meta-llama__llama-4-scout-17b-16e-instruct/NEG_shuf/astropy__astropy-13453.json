@@ -1,0 +1,17 @@
+{
+ "instance_id": "astropy__astropy-13453",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 8923,
+ "raw": "To solve this issue, we need to identify the function responsible for writing the HTML table and modify it to apply the formatting specified in the `formats` dictionary.\n\nThe issue arises from the `write` method in the `HTML` class of `astropy.io.ascii.html`. This method is responsible for writing the table data to an HTML file. However, it does not apply the formatting specified in the `formats` dictionary.\n\nThe `write` method in the `HTML` class should be modified to apply the formatting. This can be achieved by calling `self.data.format_columns(cols)` before writing the column data.\n\nHere is the corrected code:\n\n```python\ndef write(self, table):\n    # ... existing code ...\n\n    # Apply formatting\n    formatted_cols = self.data.format_columns(table.columns)\n\n    # Write column data with formatting\n    for row in zip(*formatted_cols):\n        self.writer.write([self._escape_html(str(cell)) for cell in row])\n\n    # ... existing code ...\n```\n\nHowever, the actual implementation might vary depending on the existing code structure.\n\nThe function that contains the fault is:\nFAULT: write\n\nTo fix the issue, you can use a monkey patch or submit a pull request to the astropy repository with the corrected code.\n\nHere is a simple example of how to use a monkey patch:\n\n```python\nimport astropy.io.ascii.html\n\ndef write(self, table):\n    # Apply formatting\n    cols = [table[column] for column in table.colnames]\n    formatted_cols = self.data.format_columns(cols)\n\n    # Write HTML table\n    self.writer.write(\"<html>\")\n    self.writer.write(\"<head>\")\n    self.writer.write(\"<meta charset='utf-8'/>\")\n    self.writer.write(\"<meta content='text/html;charset=UTF-8' http-equiv='Content-type'/>\")\n    self.writer.write(\"</head>\")\n    self.writer.write(\"<body>\")\n    self.writer.write(\"<table>\")\n\n    # Write header\n    self.writer.write(\"<thead>\")\n    self.writer.write(\"<tr>\")\n    for col in table.colnames:\n        self.writer.write(f\"<th>{col}</th>\")\n    self.writer.write(\"</tr>\")\n    self.writer.write(\"</thead>\")\n\n    # Write data\n    self.writer.write(\"<tbody>\")\n    for row in zip(*formatted_cols):\n        self.writer.write(\"<tr>\")\n        for cell in row:\n            self.writer.write(f\"<td>{cell}</td>\")\n        self.writer.write(\"</tr>\")\n    self.writer.write(\"</tbody>\")\n\n    self.writer.write(\"</table>\")\n    self.writer.write(\"</body>\")\n    self.writer.write(\"</html>\")\n\nastropy.io.ascii.html.HTML.write = write\n```\n\nYou can apply this patch before using the `write` method:\n\n```python\nfrom astropy.table import Table\nfrom io import StringIO\nimport astropy.io.ascii.html\n\n# ... (apply the monkey patch)\n\nt = Table([(1.23875234858e-24, 3.2348748432e-15), (2, 4)], names=('a', 'b'))\nwith StringIO() as sp:\n    t.write(sp, format=\"html\", formats={\"a\": lambda x: f\"{x:.2e}\"})\n    print(sp.getvalue())\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 2264,
+ "response_tokens": 663,
+ "elapsed_s": 2.31,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "write",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

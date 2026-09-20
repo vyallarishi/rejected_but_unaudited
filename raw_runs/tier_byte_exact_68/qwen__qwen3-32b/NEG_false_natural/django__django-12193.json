@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 2925,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The problem is about SplitArrayField with BooleanField where checkboxes remain checked after the first True value. \n\nFrom the description, when using SplitArrayField, the SplitArrayWidget's get_context method is involved. The key part is that the final_attrs dictionary is modified by the CheckboxInput's get_context. Since the same final_attrs is reused for each widget in the loop, once 'checked' is set to True, all subsequent checkboxes inherit that.\n\nLooking at the candidate functions, the SplitArrayWidget's get_context is responsible for rendering the list of checkboxes. The code loops through each item, passing the same final_attrs to each CheckboxInput's get_context. When a True is encountered, it adds 'checked': True to final_attrs. Then, even if later items are False, the 'checked' remains in the attrs, causing them to be checked incorrectly.\n\nSo the fault lies in SplitArrayWidget's get_context method because it's reusing the same attrs dictionary for all subwidgets, leading to the checked state being retained beyond where it should be. The CheckboxInput's get_context modifies the passed attrs, which is the same instance for all iterations after the first. Therefore, the SplitArrayWidget.get_context is the function where this issue occurs.\n</think>\n\nFAULT: SplitArrayWidget.get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 661,
+ "response_tokens": 278,
+ "elapsed_s": 0.86,
+ "key_suffix": "04ZFOa",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

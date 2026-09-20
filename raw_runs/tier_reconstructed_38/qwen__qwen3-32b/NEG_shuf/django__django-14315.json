@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14315",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2532,
+ "raw": "FAULT: settings_to_cmd_args_env",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is that the PostgreSQL client's runshell isn't respecting os.environ values in some cases. Specifically, when the environment variables are empty, they're being passed as an empty dict instead of None, which leads to subprocess not using the OS environment variables.\n\nLooking at the description, the bug was introduced in a specific commit. The key part here is the function settings_to_cmd_args_env in the PostgreSQL client's code. The localization notes mention that settings_to_cmd_args_env can produce the symptom. The function initializes env = {} and returns that, which then gets passed to runshell. If the env is empty, then when it's used in subprocess, it replaces the OS environment with an empty one, causing the issue.\n\nThe runshell function itself is the one that eventually calls subprocess, so if it receives an empty env from settings_to_cmd_args_env, that's the problem. But the actual fault is in how settings_to_cmd_args_env is constructing the env. The issue is that when there are no specific password or SSL options, it returns an empty dict. However, when passing env to subprocess, if you pass an empty dict, it doesn't merge with os.environ; instead, it replaces it. The correct approach would be to pass None for the env if there are no specific variables to set, allowing subprocess to inherit the OS environment.\n\nSo the fault is in the settings_to_cmd_args_env function because it's returning an empty dict instead of None when there are no environment variables to add. This leads to the subprocess in runshell using the empty dict, thus not respecting the OS environment variables.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 616,
+ "response_tokens": 351,
+ "elapsed_s": 4.67,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "settings_to_cmd_args_env",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

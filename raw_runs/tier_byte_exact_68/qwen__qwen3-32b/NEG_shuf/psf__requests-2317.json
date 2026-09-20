@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3795,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when they pass a byte string method like b'GET' to requests, it gets converted into the string \"b'GET'\", which is incorrect. This leads to a 404 error because the HTTP method becomes \"B'GET'\" after uppercasing.\n\nLooking at the code, the key line is in the prepare_method function. The user mentioned that in the prepare_method, the line self.method = builtin_str(self.method).upper() is executed. The issue is that when the method is a byte string (like b'GET'), converting it to a regular string using str() in Python 3 results in \"b'GET'\", which is not the intended HTTP method.\n\nSo the problem is that the prepare_method is receiving a byte string where it expects a regular string. The function prepare_method is supposed to handle the method, but it's not expecting a bytes object. The conversion from bytes to str in Python 3 using str() on bytes gives the string representation of the bytes object, which includes the 'b' prefix. That's not correct because HTTP methods should be uppercase ASCII strings like 'GET', 'POST', etc.\n\nThe function that's at fault here is prepare_method because it's the one that's taking the method and converting it with builtin_str (which is str in Python 3). The prepare_method function is supposed to ensure the method is a string, but when given bytes, it's not handling it correctly. The correct approach would be to decode the bytes to a string using the correct encoding (probably ASCII or UTF-8) instead of just converting the bytes object to a string representation.\n\nSo the FAULT lies in the prepare_method function because it's not properly handling the case where the method is a bytes object. Instead of using str(), which in Python 3 converts bytes to their string representation (including the 'b' prefix), it should decode the bytes to a string. However, the prepare_method is part of the PreparedRequest class, so the specific function name would be prepare_method.\n</think>\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 911,
+ "response_tokens": 440,
+ "elapsed_s": 1.33,
+ "key_suffix": "c6aTkM",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

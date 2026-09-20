@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14915",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5217,
+ "raw": "To solve this issue, we need to identify the source of the problem, which is that `ModelChoiceIteratorValue` is not hashable. This means it cannot be used as a key in a dictionary, which is what's happening in the `create_option` method when trying to access `self.show_fields[value]`.\n\nThe error occurs because the `value` in the `create_option` method is an instance of `ModelChoiceIteratorValue`, which does not implement the `__hash__` method, making it unhashable.\n\nLooking at the provided code and the issue description, the problem seems to stem from how `ModelChoiceIteratorValue` is used and its lack of a `__hash__` method. \n\nThe `ModelChoiceIteratorValue` class is defined as:\n```python\nclass ModelChoiceIteratorValue:\n    def __init__(self, value, instance):\n    def __str__(self):\n    def __eq__(self, other):\n```\nIt seems that this class should also define a `__hash__` method to make instances of it hashable.\n\nHowever, to identify the function that contains the fault based on the provided information and following the format required for the answer:\n\nFAULT: ModelChoiceIteratorValue.__init__ \n\nBut more accurately in terms of fixing the issue (adding `__hash__` method), the fault is in the class definition of `ModelChoiceIteratorValue`. However, according to the task, we should provide a function name. A more precise answer based on the task and standard practices would involve pointing to where the fix or the issue originates:\n\nThe actual fix involves adding `__hash__` to `ModelChoiceIteratorValue`, but given the constraints:\n\nFAULT: ModelChoiceIteratorValue.__init__",
+ "finish_reason": "stop",
+ "prompt_tokens": 1260,
+ "response_tokens": 352,
+ "elapsed_s": 1.54,
+ "key_suffix": "mT2ohy",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

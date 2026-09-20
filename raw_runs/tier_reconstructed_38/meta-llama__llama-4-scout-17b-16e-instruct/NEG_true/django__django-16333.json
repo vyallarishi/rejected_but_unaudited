@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-16333",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 4417,
+ "raw": "# Step-by-step analysis of the problem:\n1. **Understanding the Issue**: The problem is that when using `UserCreationForm` with a custom User model that has ManyToManyField fields, the data in these fields is not saved. This is because `UserCreationForm`'s `save` method does not call `self.save_m2m()` like its parent class `ModelForm` does.\n\n2. **Identifying the Cause**: The cause of the issue is in the `save` method of `UserCreationForm`. Unlike `ModelForm`, it does not call `self.save_m2m()` when `commit=True`. This method is crucial for saving ManyToMany fields.\n\n3. **Locating the Fault**: The fault lies in the `save` method of `UserCreationForm`. This method needs to be adjusted to call `self.save_m2m()` when `commit=True` to ensure that ManyToMany fields are properly saved.\n\n# Fixed solution:\nThe fix involves modifying the `save` method in `UserCreationForm` to include a call to `self.save_m2m()` when `commit=True`. Here is how you can do it:\n\n```python\nclass UserCreationForm(forms.ModelForm):\n    # ... existing code ...\n\n    def save(self, commit=True):\n        user = super().save(commit=False)\n        # Password is set in the clean method, so we don't need to do it here.\n        # self.set_password(self.cleaned_data[\"password1\"])\n        if commit:\n            user.save()\n            self.save_m2m()  # This line was added.\n        return user\n```\n\nHowever, to make the code more robust and DRY (Don't Repeat Yourself), we should actually call `super().save(commit=commit)` instead of `user.save()` and `self.save_m2m()` separately:\n\n```python\nclass UserCreationForm(forms.ModelForm):\n    # ... existing code ...\n\n    def save(self, commit=True):\n        user = super().save(commit=False)\n        # Password is set in the clean method, so we don't need to do it here.\n        # self.set_password(self.cleaned_data[\"password1\"])\n        if commit:\n            super().save(commit=commit)  # This will call save_m2m\n        return user\n```\n\nOr more simply:\n\n```python\nclass UserCreationForm(forms.ModelForm):\n    # ... existing code ...\n\n    def save(self, commit=True):\n        user = super().save(commit=commit)\n        return user\n```\n\n# Explanation of changes:\n*   **Call to `super().save(commit=commit)`**: This ensures that the saving of the model instance and all its fields, including ManyToMany fields, is handled properly by the parent class.\n\n# Tests and example uses:\nTo test this fix, you can create a test case that checks if ManyToMany fields are saved correctly when using `UserCreationForm`. Here's an example:\n\n```python\nfrom django.test import TestCase\nfrom .forms import UserCreationForm\nfrom .models import User, Group\n\nclass TestUserCreationForm(TestCase):\n    def test_save_m2m(self):\n        group = Group.objects.create(name='test_group')\n        form_data = {\n            'username': 'testuser',\n            'password1': 'password',\n            'password2': 'password',\n            'groups': (group.id,)\n        }\n        form = UserCreationForm(data=form_data)\n        if form.is_valid():\n            user = form.save()\n            self.assertIn(group, user.groups.all())\n```\n\nThis test case creates a new user with a ManyToMany field (in this case, a group) and checks if the relationship is saved correctly.",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 994,
+ "response_tokens": 752,
+ "elapsed_s": 9.69,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}

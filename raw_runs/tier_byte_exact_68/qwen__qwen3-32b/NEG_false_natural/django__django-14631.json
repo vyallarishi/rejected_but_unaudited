@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14631",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3581,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The problem is about BaseForm's _clean_fields() and changed_data not accessing values via BoundField. The description says that this leads to inconsistencies, like form._clean_fields() returning a different value from form[name].initial when they should be the same.\n\nFirst, I need to recall how Django forms work. The BaseForm class handles the core logic, and Form is a subclass. The _clean_fields method is part of the validation process, where each field is cleaned. The changed_data method determines which fields have changed from their initial values.\n\nThe issue points out that these methods don't use BoundField to access values. BoundField is what wraps a field and provides context-specific information, like initial data. So, if _clean_fields and changed_data are accessing data directly instead of through BoundField, that could lead to inconsistencies.\n\nLooking at the candidate functions, the relevant ones are BaseForm._clean_fields and BaseForm.changed_data. The description mentions that changed_data uses self.fields.items(), which gives the unbound fields, not the bound ones. The current logic for changed_data is complex, sometimes using self[name].initial (which is a BoundField property) and other times calculating it manually. This inconsistency is the problem.\n\nThe proposed fix is to move the logic into a BoundField method, like bf._did_change(), which would handle comparing the current value to the initial value properly. For _clean_fields, it's similar\u2014cleaning should use the BoundField's data.\n\nSo the fault lies in the changed_data method because it's directly accessing the fields instead of using BoundField methods. The problem is that changed_data is using multiple paths to get initial values and current values, leading to possible discrepancies. By moving the logic to BoundField, it centralizes the access through BoundField, ensuring consistency.\n\nTherefore, the function containing the fault is BaseForm.changed_data.\n</think>\n\nFAULT: changed_data",
+ "finish_reason": "stop",
+ "prompt_tokens": 827,
+ "response_tokens": 404,
+ "elapsed_s": 1.08,
+ "key_suffix": "c6aTkM",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "changed_data",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

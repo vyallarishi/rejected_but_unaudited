@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-12193",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4167,
+ "raw": "## Step 1: Analyze the problem description\nThe issue lies in the rendering of a `SplitArrayField` with a `BooleanField`, where after the first `True` value in the initial data array, all subsequent widgets are rendered as checked, regardless of their actual value.\n\n## 2: Identify the cause of the problem\nThe cause of the problem is that the `CheckboxInput` widget's `get_context()` method modifies the `attrs` dictionary passed into it by setting `'checked': True` when the value is `True`. This modified `attrs` dictionary is then used for all subsequent widgets, causing them to be rendered as checked.\n\n## 3: Examine the code structure\nThe relevant code is in `django/contrib/postgres/forms/array.py`, specifically in the `SplitArrayWidget` class. The `get_context()` method of `SplitArrayWidget` is responsible for rendering the list of checkboxes.\n\n## 4: Locate the faulty function\nThe faulty function is `get_context` in the `SplitArrayWidget` class. This function creates a single `final_attrs` dictionary to be used for all subwidgets and loops through the data, calling `self.widget.get_context` for each item. This is where the issue arises, as `CheckboxInput.get_context` modifies the `final_attrs` dictionary.\n\n## 5: Confirm the faulty function name\nBased on the analysis, the faulty function is `get_context`.\n\nFAULT: get_context",
+ "finish_reason": "stop",
+ "prompt_tokens": 932,
+ "response_tokens": 297,
+ "elapsed_s": 1.06,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_context",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

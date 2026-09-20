@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14855",
+ "arm": "NEG_false_natural",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 3604,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user says that when a ForeignKey is in readonly_fields in a custom admin site, the generated URL uses /admin/ instead of /custom-admin/. They traced it to the get_admin_url function in helpers.py. The problem seems to be that when reversing the URL, the current_app parameter isn't provided, so it defaults to the main admin namespace.\n\nLooking at the code, the get_admin_url function is part of the AdminReadonlyField class. The user replaced the reverse call with one that includes current_app set to the admin site's name, which fixed the issue. The question is whether this is the correct approach and if there are any side effects.\n\nThe AdminReadonlyField's get_admin_url method is responsible for generating the URL for the readonly ForeignKey. Since the custom admin site uses a different namespace, not providing current_app would cause reverse to use the default 'admin' namespace. By adding current_app=self.model_admin.admin_site.name, they ensure that the URL is generated under the correct custom admin namespace.\n\nOther functions in the list are part of forms, fieldsets, etc., but the key part here is the get_admin_url method in AdminReadonlyField. The user's fix targets this method. Since the issue is about URL reversing in the context of a custom admin site, and the fix involves adding current_app, the faulty function is get_admin_url in AdminReadonlyField. The user's correction makes sense because it specifies the current app namespace, which is necessary when using custom admin sites. As for side effects, if the AdminReadonlyField is used in the default admin site, this change shouldn't break anything because the current_app would still be 'admin'. So the answer should be the get_admin_url function within AdminReadonlyField.\n</think>\n\nFAULT: get_admin_url",
+ "finish_reason": "stop",
+ "prompt_tokens": 839,
+ "response_tokens": 382,
+ "elapsed_s": 1.31,
+ "key_suffix": "IGhw8y",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_admin_url",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

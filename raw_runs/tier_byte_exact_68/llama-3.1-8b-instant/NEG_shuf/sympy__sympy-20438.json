@@ -1,0 +1,17 @@
+{
+ "instance_id": "sympy__sympy-20438",
+ "arm": "NEG_shuf",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 5604,
+ "raw": "FAULT: _eval_simplify",
+ "finish_reason": "stop",
+ "prompt_tokens": 1575,
+ "response_tokens": 7,
+ "elapsed_s": 0.34,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "_eval_simplify",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

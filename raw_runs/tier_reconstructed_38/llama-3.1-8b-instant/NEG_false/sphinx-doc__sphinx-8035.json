@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_false",
+ "model": "llama-3.1-8b-instant",
+ "tier": "reconstructed",
+ "prompt_chars": 9686,
+ "raw": "FAULT: filter_members",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 2307,
+ "response_tokens": 5,
+ "elapsed_s": 0.39,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

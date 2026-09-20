@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16256",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4749,
+ "raw": "## Step 1: Analyze the given issue\nThe issue describes a problem with the `acreate()`, `aget_or_create()`, and `aupdate_or_create()` methods on related managers in Django. These methods were unintentionally added to related managers and do not work as intended because they call the methods from `QuerySet` instead of the related manager.\n\n## Step 2: Understand the cause of the issue\nThe cause of the issue is that the `BaseManager.from_queryset` method is used to create a manager class that copies methods from `QuerySet`, including the async methods. However, these async methods (`acreate`, `aget_or_create`, `aupdate_or_create`) are not properly implemented for related managers.\n\n## 3: Identify the location of the fault\nThe fault is located in the `create_reverse_many_to_one_manager` and `create_forward_many_to_many_manager` functions in `django/db/models/fields/related_descriptors.py`. These functions define the related managers that inherit from the manager class created by `BaseManager.from_queryset`.\n\n## 4: Verify the candidate functions\nUpon reviewing the candidate functions, we notice that `create_reverse_many_to_one_manager` and `create_forward_many_to_many_manager` are responsible for defining the related managers. The `create_reverse_many_to_one_manager` function is a likely candidate for the fault.\n\n## 5: Determine the faulty function\nThe faulty function is `create_reverse_many_to_one_manager` because it defines a `RelatedManager` that inherits from the manager class created by `BaseManager.from_queryset`, which copies the generic async methods from `QuerySet`. This leads to the incorrect behavior of `acreate()`, `aget_or_create()`, and `aupdate_or_create()` on related managers.\n\nFAULT: create_reverse_many_to_one_manager",
+ "finish_reason": "stop",
+ "prompt_tokens": 1144,
+ "response_tokens": 372,
+ "elapsed_s": 1.38,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "create_reverse_many_to_one_manager",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

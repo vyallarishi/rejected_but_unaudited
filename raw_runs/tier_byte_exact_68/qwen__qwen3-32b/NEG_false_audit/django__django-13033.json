@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13033",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 8379,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing this issue. The user is dealing with a Django queryset that's generating an unexpected SQL query when ordering by a self-referential foreign key. The problem seems to be related to how Django handles the joins and ordering when there's a default ordering on the model.\n\nThe key part of the problem is when they use `order_by(\"record__root_id\")`, which leads to an extra LEFT OUTER JOIN and an unexpected DESC order. The user noticed that using `order_by(\"record__root__id\")` gives the correct SQL without the extra join. Also, the default ordering on `OneModel` is set to `-id`, which might be influencing the generated SQL.\n\nLooking at the localization notes, the issue is in the `setup_joins` function. The user's analysis suggests that when processing the `root_id` part of the order_by path, Django incorrectly joins through the `root` relation because of the default ordering. \n\nThe `setup_joins` function is responsible for setting up the necessary joins for a given field lookup. When handling the path `record__root_id`, Django might be interpreting `root_id` as a relation (since `root` is a ForeignKey to itself) and thus adding an extra join. However, `root_id` is actually a field, not a relation. Because of the default ordering on `OneModel`, Django might be trying to apply that ordering when resolving the join, leading to the extra join and the incorrect ordering direction.\n\nThe `setup_joins` function would process each part of the field path. For `record`, it joins the `OneModel` table. Then for `root_id`, since `root` is a ForeignKey, Django might be trying to follow that relation, leading to an additional join. But since `root_id` is a direct field (the foreign key field), it shouldn't require a join. The presence of the default ordering on `OneModel` could be causing Django to apply that ordering when resolving the field, leading to the extra join and the DESC ordering.\n\nTherefore, the fault likely lies in how `setup_joins` handles the resolution of the `root_id` field in the presence of a default ordering on the model. The function might be incorrectly treating `root_id` as a relation that needs to be joined, leading to the unnecessary join and the application of the default ordering's DESC.\n</think>\n\nFAULT: setup_joins",
+ "finish_reason": "stop",
+ "prompt_tokens": 2139,
+ "response_tokens": 504,
+ "elapsed_s": 1.38,
+ "key_suffix": "mT2ohy",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "setup_joins",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

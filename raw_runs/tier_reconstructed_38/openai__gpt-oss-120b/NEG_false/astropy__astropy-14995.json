@@ -1,0 +1,19 @@
+{
+ "instance_id": "astropy__astropy-14995",
+ "arm": "NEG_false",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4280,
+ "raw": "FAULT: _arithmetic_mask",
+ "reasoning": "We need to identify which function contains the fault causing mask propagation error. The issue occurs when one operand has mask and other doesn't. In v5.3, mask handling likely changed. The function that handles mask propagation is `_arithmetic_mask` or maybe `_arithmetic`. The error arises when handle_mask is applied to mask arrays, but one mask is None. The code likely does something like `handle_mask(self.mask, operand.mask)` without checking None. The function that does that is `_arithmetic_mask`. So the fault is there. The question: \"Which function contains the fault? Answer with one function name from the list\". Likely `_arithmetic_mask`.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1269,
+ "response_tokens": 151,
+ "elapsed_s": 0.93,
+ "key_suffix": "15GW3E",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_arithmetic_mask",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

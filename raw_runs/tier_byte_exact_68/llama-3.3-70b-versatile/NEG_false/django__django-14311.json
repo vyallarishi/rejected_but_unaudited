@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14311",
+ "arm": "NEG_false",
+ "model": "llama-3.3-70b-versatile",
+ "prompt_chars": 2572,
+ "raw": "FAULT: get_child_arguments",
+ "finish_reason": "stop",
+ "prompt_tokens": 653,
+ "response_tokens": 6,
+ "elapsed_s": 0.38,
+ "key_suffix": "42TFwC",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_child_arguments",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

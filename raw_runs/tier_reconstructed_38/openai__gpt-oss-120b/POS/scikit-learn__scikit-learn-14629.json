@@ -1,0 +1,19 @@
+{
+ "instance_id": "scikit-learn__scikit-learn-14629",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 4855,
+ "raw": "FAULT: cross_val_predict",
+ "reasoning": "We need to answer: Which function contains the fault? The user identified that the problem is in the use of estimator.classes_ in cross_val_predict. The function that contains that code is cross_val_predict (or maybe _enforce_prediction_order). The link points to sklearn/model_selection/_validation.py lines 857-866, which is inside cross_val_predict. Let's check: In cross_val_predict, after predictions are collected, they call _enforce_prediction_order which uses classes. Actually the code snippet likely in cross_val_predict. The question: \"Which function contains the fault? Answer with one function name from the list, on a single line: FAULT: <function_name>\" So answer: cross_val_predict.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1269,
+ "response_tokens": 159,
+ "elapsed_s": 6.21,
+ "key_suffix": "U0l0Y0",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "cross_val_predict",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

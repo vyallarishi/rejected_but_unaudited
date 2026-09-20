@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13158",
+ "arm": "NEG_false",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6809,
+ "raw": "## Step 1: Understand the issue\nThe problem arises when using `QuerySet.none()` on a combined query (specifically, a union query) in Django. This results in all objects being returned instead of an empty set.\n\n## 2: Identify the relevant code path\nThe issue is triggered when `QuerySet.none()` is called on a queryset that is a union of other querysets. This leads to the `set_empty` method being called on the query.\n\n## 3: Analyze the `set_empty` method\nThe `set_empty` method adds a `NothingNode` to the query's where clause. However, for union queries, which are instances of `CombinedQuery`, this method does not behave as expected.\n\n## 4: Determine the faulty function\nThe fault lies in how `set_empty` handles `CombinedQuery` instances. Specifically, when `set_empty` is called on a `CombinedQuery`, it should set the `empty` attribute to `True` and return, rather than adding a `NothingNode` to the where clause.\n\n## 5: Conclusion\nThe function that contains the fault is `set_empty`. This method needs to be adjusted to properly handle `CombinedQuery` instances.\n\nset_empty",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1605,
+ "response_tokens": 253,
+ "elapsed_s": 3.21,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "set_empty",
+ "parse_method": "short_answer",
+ "hit_output_cap": false
+}

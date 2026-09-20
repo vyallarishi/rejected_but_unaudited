@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 8638,
+ "raw": "## Step 1: Understand the issue\nThe issue arises when creating an instance of a model that has a field with choices restricted by a TextChoices or IntegerChoices enum. The value returned by the getter of the field is of the same type as the one created by enum.Enum (enum value), which can lead to unexpected issues.\n\n## Step 2: Identify the relevant code path\nThe problem occurs during model instance creation and attribute access. The `Model.__init__` method performs a raw assignment of the enum object to the field attribute without converting it to its primitive value.\n\n## 3: Analyze the Model class\nIn the `Model` class, the `__init__` method is responsible for setting the attributes of the model instance. The issue is that it does not convert the enum member to its primitive value when assigning it to the attribute.\n\n## 4: Determine the function to modify\nThe function that contains the fault is the `__init__` method of the `Model` class. However, since we need to identify a specific function from the provided list that is related to the issue and can be modified to fix it, we should look for a function that is involved in setting or getting the model's field values.\n\n## 5: Consider the provided options and code paths\nGiven the list of functions and the context, we need to find a function that could be responsible for setting the field values of a model instance. The `__init__` method itself is not directly listed, but we should consider how model instances are initialized and how their attributes are set.\n\n## 6: Identify the correct function\nUpon reviewing the provided code paths and considering the initialization and attribute setting of model instances, the function that seems most relevant to the issue at hand, in terms of being part of the model layer and potentially influencing how field values are handled, would be related to how Django models handle their attributes and choices.\n\nThe final answer is: \nFAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1934,
+ "response_tokens": 401,
+ "elapsed_s": 4.27,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

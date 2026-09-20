@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16661",
+ "arm": "NEG_false_audit",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6203,
+ "raw": "## Step 1: Analyze the problem description\nThe issue described is related to the `ModelAdmin.lookup_allowed()` function in Django's admin interface. Specifically, it incorrectly raises a `DisallowedModelAdminLookup` exception when using a foreign key as a primary key in a model.\n\n## Step 2: Understand the provided test case\nA test case `test_lookup_allowed_foreign_primary` is provided, which demonstrates the issue. The test defines several models: `Country`, `Place`, `Restaurant`, and `Waiter`. The `WaiterAdmin` class has a `list_filter` that includes `restaurant__place__country`. The test asserts that `lookup_allowed('restaurant__place__country', 'test_value')` should return `True`.\n\n## 3: Identify the problematic code\nThe problematic code is in the `lookup_allowed` method of the `ModelAdmin` class. This method checks if a given lookup is allowed based on the model's `list_filter` and the relationships between fields.\n\n## 4: Determine the cause of the issue\nThe cause of the issue is that when processing the `place` field, which is a primary key and a `OneToOneField`, the code incorrectly assumes it's a concrete inheritance scenario. This leads to the `place` field not being appended to `relation_parts`, resulting in an incorrect reconstructed path `restaurant__country` being checked against `list_filter`.\n\n## 5: Locate the fault\nBased on the provided information and analysis, the fault lies in the `lookup_allowed` method of the `ModelAdmin` class. This method is responsible for determining whether a lookup is allowed, and it contains the logic that's currently producing the incorrect result.\n\nThe final answer is:\n```\nFAULT: lookup_allowed\n```",
+ "finish_reason": "stop",
+ "prompt_tokens": 1439,
+ "response_tokens": 358,
+ "elapsed_s": 1.38,
+ "key_suffix": "kaO9MQ",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "lookup_allowed",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

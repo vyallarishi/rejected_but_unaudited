@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-11964",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 6303,
+ "raw": "## Step 1: Understand the issue\nThe problem arises when creating an instance of a model with a field that has choices limited to a TextChoices or IntegerChoices enum. The value returned by the getter of the field is of the same type as the one created by enum.Enum (enum value), not the primitive type (e.g., str or int) as expected.\n\n## 2: Identify the source of the issue\nThe issue originates from how Django handles the assignment of enum values to model fields. When assigning `MyChoice.FIRST_CHOICE` to `my_str_value`, it directly assigns the enum object, not its value.\n\n## 3: Locate the relevant code\nThe relevant code is in `django/db/models/base.py`, specifically in the `Model` class's `__init__` method, where the instance attributes are set. However, the actual fix involves understanding how Django's model fields handle assignments and conversions.\n\n## 4: Analyze the Model class\nThe `Model` class in `django/db/models/base.py` has an `__init__` method that initializes the model instance. This method directly assigns the provided values to the instance's attributes without explicit conversion.\n\n## 5: Determine the function responsible for the fault\nThe fault lies in how the model instance is initialized and how it handles the assignment of enum values to its fields. The `__init__` method of the `Model` class is where the instance attributes are initially set, but the specific handling of enum choices is more closely related to the field's behavior.\n\n## 6: Consider the field's behavior\nThe behavior of converting enum values to their primitive types is related to how Django's fields handle their values. However, the direct assignment of an enum object to a field and its storage is primarily handled at the model level.\n\n## 7: Conclusion\nGiven the context and focusing on the model level, the `__init__` method of the `Model` class is crucial. However, the actual fix often involves the specific field classes (like `CharField` or `IntegerField`) and how they handle `choices`. The key function to look at, based on the provided information and focusing on model instance initialization and attribute setting, would relate to how Django models handle attribute setting.\n\nThe final answer is: \nFAULT: __init__",
+ "reasoning": "",
+ "finish_reason": "stop",
+ "prompt_tokens": 1462,
+ "response_tokens": 474,
+ "elapsed_s": 7.96,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "__init__",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-14915",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 7182,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the issue here. The user upgraded from Django 3.0 to 3.1 and now they're getting a TypeError about ModelChoiceIteratorValue being unhashable. The error happens when they check if 'value in self.show_fields', which is a dictionary.\n\nSo, the problem is that in Django 3.1, the value passed to create_option is now a ModelChoiceIteratorValue instance instead of something hashable, like an integer or a string. In the previous version, maybe the value was the actual primary key or the model instance, but now it's this wrapper class.\n\nLooking at the code, the user's create_option method is using 'value' as a key in a dictionary. The error occurs because ModelChoiceIteratorValue isn't hashable. The localization notes mention that ModelChoiceIteratorValue is created in the choice function. \n\nThe choice function is part of ModelChoiceIterator, which is used by ModelChoiceField. The choice function creates a ModelChoiceIteratorValue instance to wrap the choice's value. This value is then passed through the iterator and ends up in the user's create_option method.\n\nSo, when the user does 'value in self.show_fields', Python tries to hash the ModelChoiceIteratorValue instance to look it up in the dictionary. Since this class doesn't define __hash__, and isn't a standard hashable type, it throws an error.\n\nNow, the question is which function in the provided list is responsible for creating this value. The notes say that the choice function creates the ModelChoiceIteratorValue. Looking at the code, the choice method in ModelChoiceIterator is the one that returns a tuple, where the value is wrapped in ModelChoiceIteratorValue. \n\nTherefore, the fault lies in the 'choice' function of the ModelChoiceIterator class. This function is generating the unhashable value that's causing the error downstream when used as a dictionary key.\n</think>\n\nFAULT: choice",
+ "finish_reason": "stop",
+ "prompt_tokens": 1693,
+ "response_tokens": 405,
+ "elapsed_s": 1.18,
+ "key_suffix": "c6aTkM",
+ "attempt": 2,
+ "max_output_used": 3000,
+ "predicted_function": "choice",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

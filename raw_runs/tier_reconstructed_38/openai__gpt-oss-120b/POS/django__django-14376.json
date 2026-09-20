@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14376",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 2262,
+ "raw": "FAULT: get_connection_params",
+ "reasoning": "We need to answer with the function name that contains the fault. The description says the issue is that MySQL backend uses deprecated \"db\" and \"passwd\" kwargs. The function that populates those kwargs is get_connection_params. So answer: get_connection_params.",
+ "finish_reason": "stop",
+ "prompt_tokens": 653,
+ "response_tokens": 68,
+ "elapsed_s": 0.92,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get_connection_params",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

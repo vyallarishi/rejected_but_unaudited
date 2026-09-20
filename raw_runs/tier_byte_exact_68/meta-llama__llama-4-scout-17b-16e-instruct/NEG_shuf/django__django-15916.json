@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-15916",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6898,
+ "raw": "To solve this issue, we need to identify the function responsible for creating a form class based on a given model and form. The problem arises from the fact that the `modelform_factory` function does not use the `formfield_callback` specified in the `Meta` class of the provided form.\n\nThe `modelform_factory` function is defined in `django/forms/models.py`. This function creates a new form class based on the provided model and form. It also accepts a `formfield_callback` argument, which defaults to `None` if not provided.\n\nThe issue here is that the `formfield_callback` specified in the `Meta` class of the provided form is not being used. Instead, the `formfield_callback` argument passed to `modelform_factory` (or its default value of `None`) is used.\n\nLet's analyze the code:\n\n```python\ndef modelform_factory(model, form=ModelForm, fields=None, exclude=None, formfield_callback=None):\n    # ...\n    if formfield_callback is None:\n        formfield_callback = getattr(form, 'formfield_callback', None)\n    # ...\n    Meta = type('Meta', (), meta_attrs)\n    # ...\n    form = type(form.__name__, (form,), {\n        'Meta': Meta,\n        # ...\n    })\n    return form\n```\n\nThe problem lies in the fact that `formfield_callback` is checked for `None` before it's assigned the value from `form.Meta.formfield_callback`. This means that if `formfield_callback` is not provided to `modelform_factory`, it will default to `None` instead of using the `formfield_callback` specified in the form's `Meta` class.\n\nThe fix involves changing the order of assignment:\n\n```python\ndef modelform_factory(model, form=ModelForm, fields=None, exclude=None, formfield_callback=None):\n    # ...\n    formfield_callback = formfield_callback or getattr(form, 'Meta', {}).get('formfield_callback')\n    # ...\n    Meta = type('Meta', (), meta_attrs)\n    # ...\n    form = type(form.__name__, (form,), {\n        'Meta': Meta,\n        # ...\n    })\n    return form\n```\n\nThe function that contains the fault is:\n\nFAULT: modelform_factory",
+ "finish_reason": "stop",
+ "prompt_tokens": 1544,
+ "response_tokens": 462,
+ "elapsed_s": 1.54,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "modelform_factory",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

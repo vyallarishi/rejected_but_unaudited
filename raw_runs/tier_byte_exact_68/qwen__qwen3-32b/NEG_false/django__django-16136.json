@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-16136",
+ "arm": "NEG_false",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 4073,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The user is encountering a TypeError when making a GET request to a view that only has an async post method. The error is that HttpResponseNotAllowed can't be used in an 'await' expression. \n\nLooking at the traceback, the error occurs when the server tries to handle a GET request to the Demo view. The Demo view's as_view() is called, and since the view has an async post method, Django's handling it with async_to_sync. The dispatch method is called in an async context. \n\nWhen a GET request comes in, the dispatch method checks the allowed methods. Since there's no GET handler, it calls http_method_not_allowed. But http_method_not_allowed returns an HttpResponseNotAllowed, which is a synchronous response. However, because the view is being treated as async (due to the async post method), the dispatch method is expected to return an awaitable. But since http_method_not_allowed returns a regular HttpResponse, it's not awaitable, leading to the TypeError when the async code tries to await it.\n\nSo the problem is in the dispatch method. The dispatch method in the View class is synchronous, but when the view is considered async (because of the async post method), Django uses async_to_sync to wrap it. But when dispatch is called in this context, and returns a synchronous response, that response is not awaitable. The async code expects an awaitable, hence the error.\n\nThe dispatch method needs to handle the case where the request method isn't allowed by returning an awaitable HttpResponseNotAllowed. But currently, it's returning the synchronous version. So the dispatch method is the one that's at fault here because it's returning a non-awaitable response in an async context.\n</think>\n\nFAULT: dispatch",
+ "finish_reason": "stop",
+ "prompt_tokens": 1095,
+ "response_tokens": 364,
+ "elapsed_s": 1.1,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "dispatch",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-2317",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5079,
+ "raw": "<think>\nOkay, let's try to figure out which function is causing the problem here. The user is saying that when they pass a byte string like b'GET' as the method to requests, it gets converted into a string literal like \"b'GET'\", which then causes a 404 because the HTTP method is incorrect.\n\nLooking at the code structure they provided, the key part seems to be in the PreparedRequest's prepare_method function. The line in question is where they do method = builtin_str(method).upper(). In Python 3, builtin_str is str, so when you pass a bytes object (like b'GET'), converting it to a str using str(b'GET') gives \"b'GET'\", which is not what they want. The correct method should be 'GET' as a string.\n\nThe user mentioned that in Python 2.6, this doesn't happen. Maybe in Python 2, the str() of a bytes object (which in Python 2 is just a string) doesn't add the 'b' prefix. But in Python 3, bytes and str are separate, so converting bytes to str requires decoding, not just using str().\n\nSo the problem is that prepare_method is using builtin_str (which is str in Python 3) on a bytes object. The function that does this conversion is prepare_method in the PreparedRequest class. Therefore, the fault lies in the prepare_method function because it's not handling the case where the method is a bytes object. Instead of converting it properly (like decoding bytes to str), it's using str(), which results in the literal string representation.\n\nOther functions like get, put, etc., directly pass the method as a string, so they don't trigger the issue. The problem arises when a byte string is passed, which is then processed by prepare_method. So the faulty function is prepare_method.\n</think>\n\nFAULT: prepare_method",
+ "finish_reason": "stop",
+ "prompt_tokens": 1205,
+ "response_tokens": 389,
+ "elapsed_s": 24.78,
+ "key_suffix": "4QTq9Z",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "prepare_method",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

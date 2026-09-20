@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 2831,
+ "raw": "### Thought Process and Reasoning\n\nTo identify the function containing the fault, let's analyze the provided information step by step.\n\n1. **Understanding the Issue**: The problem arises when trying to remove a default header from a session object in the `requests` library. Specifically, setting a header value to `None` results in the string 'None' being sent as the header value instead of removing the header.\n\n2. **Expected Behavior**: The expected behavior, as discussed, is that setting a header value to `None` should remove the header, similar to how it works with method arguments.\n\n3. **Current Implementation**: The current implementation involves a session object (`requests.Session()`) and modifying its headers directly (`session.headers['Accept-Encoding'] = None`).\n\n4. **Reference Solution**: A working solution is provided using `del session.headers['Accept-Encoding']`, which directly removes the header.\n\n5. **Candidate Functions**: The fault could be in one of the functions listed from `requests/models.py`, specifically those related to preparing requests and handling headers.\n\n6. **Analysis of prepare_headers**: The function `prepare_headers` is crucial as it prepares the headers for a request. It receives a `headers` dictionary and iterates through its items to build a `CaseInsensitiveDict`. The issue seems to stem from the fact that it does not filter out values that are `None`.\n\n7. **Conclusion**: Given that `prepare_headers` does not check for or filter out `None` values from the headers dictionary, and it directly stores these values, leading to the incorrect header being sent, this function contains the fault.\n\n### Solution\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 656,
+ "response_tokens": 331,
+ "elapsed_s": 1.14,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

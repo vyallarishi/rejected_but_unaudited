@@ -1,0 +1,17 @@
+{
+ "instance_id": "psf__requests-1921",
+ "arm": "NEG_false_natural",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 3006,
+ "raw": "To solve this issue, we need to identify the function responsible for preparing the headers in the `requests` library. The problem arises when setting a default header to `None` in a session, which results in the string 'None' being sent as the header value.\n\nThe key to solving this issue lies in understanding how the `requests` library handles headers, particularly default headers set in a session. When a header is set to `None`, it should be removed from the headers dictionary to prevent it from being sent. However, the current implementation does not handle `None` values correctly.\n\nLooking at the provided code snippets and the class structure in `requests/models.py`, we can see that the `PreparedRequest` class has a method called `prepare_headers`. This method is responsible for preparing the headers for a request.\n\nThe `prepare_headers` method takes a `headers` dictionary as an argument and iterates through its items to build a `CaseInsensitiveDict`. The issue arises because this method does not check for or filter out values that are `None`. As a result, a tuple like `('Accept-Encoding', None)` is stored in the final `self.headers` object, leading to the string 'None' being sent as the header value.\n\nTo fix this issue, we need to modify the `prepare_headers` method to handle `None` values correctly. However, the question only asks for the function name that contains the fault.\n\nFAULT: prepare_headers",
+ "finish_reason": "stop",
+ "prompt_tokens": 693,
+ "response_tokens": 293,
+ "elapsed_s": 0.88,
+ "key_suffix": "w3to9u",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "prepare_headers",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

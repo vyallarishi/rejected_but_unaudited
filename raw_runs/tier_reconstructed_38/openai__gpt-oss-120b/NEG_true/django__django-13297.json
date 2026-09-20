@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-13297",
+ "arm": "NEG_true",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 8572,
+ "raw": "FAULT: Exact.process_rhs",
+ "reasoning": "We need to identify which function contains the fault causing SimpleLazyObject not being resolved. The description says that get_object_or_404 creates an Exact lookup where RHS is SimpleLazyObject, and process_rhs doesn't resolve it. So the faulty function likely is in django/db/models/lookups.py, maybe Exact.process_rhs or BuiltinLookup.process_rhs or FieldGetDbPrepValueMixin.get_db_prep_lookup. The SimpleLazyObject should be resolved before being passed to DB. The bug is that process_rhs doesn't call resolve_expression_parameter? Actually SimpleLazyObject is a lazy wrapper that resolves when cast to str, but not automatically. The lookup should call resolve_expression_parameter? Let's think: In Django 3.0, kwargs from URL resolver were plain strings. In 3.1, they become SimpleLazyObject due to lazy URL resolver? The bug is that the lookup doesn't resolve lazy objects. The function that should resolve is probably `FieldGetDbPrepValueMixin.get_db_prep_lookup` which calls `connection.ops.adapt_unknown_value(value)`? Not sure.\n\nBut the question: \"Which function contains the fault? Answer with one function name from the list\". The list includes many functions. The likely culprit is `Exact.process_rhs` because that's where the RHS is processed for exact lookups. It probably doesn't resolve lazy objects. So answer: Exact.process_rhs.",
+ "finish_reason": "stop",
+ "prompt_tokens": 2043,
+ "response_tokens": 290,
+ "elapsed_s": 1.25,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "process_rhs",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

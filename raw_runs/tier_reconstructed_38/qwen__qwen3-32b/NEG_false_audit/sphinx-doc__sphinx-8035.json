@@ -1,0 +1,20 @@
+{
+ "instance_id": "sphinx-doc__sphinx-8035",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 9843,
+ "raw": "FAULT: filter_members",
+ "reasoning": "\nOkay, let's try to figure out which function is responsible for the issue with the :private-members: option in autodoc. The user wants to specify individual private members to document instead of all of them when using :private-members:. \n\nLooking at the problem description, the current behavior is that :private-members: acts as a boolean flag\u2014either all private members are documented or none. The user wants it to take arguments like :members: does. The prior discussion mentions that the solution might involve changing how the private-members option is handled.\n\nThe candidate functions listed include various Documenter classes and their methods. The key part here is the localization note pointing to filter_members. The note says that filter_members skips private members unless they're given explicitly or the private-members option is set. Currently, private-members is a boolean, so if it's set, all private members are included. But the user wants to specify which ones to include.\n\nSo, the issue is that the filter_members function isn't handling a list of specific private members to include. Instead, it's just checking if the private-members option is True. If the option could take arguments (like a list of member names), then filter_members would need to check if each member is in that list. The current implementation probably doesn't support that because the option is treated as a boolean.\n\nThe other functions like members_option or members_set_option might handle parsing the option, but the actual filtering logic is in filter_members. The ruled-out functions like merge_special_members_option are probably not involved here. \n\nTherefore, the fault lies in the filter_members function because it's where the decision is made to include or exclude private members based on the option. The current code doesn't allow specifying which private members to include, only enabling or disabling all of them. To implement the desired feature, this function would need to be modified to check against a list of specified names when the private-members option is used.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 2310,
+ "response_tokens": 399,
+ "elapsed_s": 8.86,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "filter_members",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

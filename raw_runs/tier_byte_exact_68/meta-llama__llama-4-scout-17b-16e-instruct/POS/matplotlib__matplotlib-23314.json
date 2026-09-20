@@ -1,0 +1,17 @@
+{
+ "instance_id": "matplotlib__matplotlib-23314",
+ "arm": "POS",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 4976,
+ "raw": "## Step-by-step analysis of the problem:\n1. **Understanding the issue**: The problem states that the `set_visible()` function does not work as expected for 3D projections in matplotlib. Specifically, when `set_visible(False)` is called on an axes object with a 3D projection, the axes still appears visible.\n\n2. **Identifying the relevant code**: The provided code snippet demonstrates the issue, where `ax1.set_visible(False)` does not hide the subplot.\n\n3. **Analyzing the matplotlib codebase**: The candidate functions are listed from `lib/mpl_toolkits/mplot3d/axes3d.py`. We need to find which function is responsible for drawing the 3D axes and check if it respects the visibility setting.\n\n4. **Localization of the fault**: The notes point towards the `draw` method of the `Axes3D` class. It mentions that `Axes3D.draw` does not check `self.get_visible()` at the beginning, which suggests that this is where the fault lies.\n\n## FAULT: draw\n\nThe `draw` method in `Axes3D` (or its parent class `Axes`) seems to be the source of the issue because it does not check if the axes are visible before drawing them. This is different from the behavior of other artists in matplotlib, which typically check their visibility at the beginning of their drawing methods.\n\nTo fix this, one could override the `draw` method in `Axes3D` to check `self.get_visible()` before proceeding with the drawing process. Here is an example of how the fix could look:\n\n```python\nclass Axes3D(Axes):\n    # existing methods...\n\n    def draw(self, renderer):\n        if not self.get_visible():\n            return\n        # Rest of the drawing code...\n```\n\nThis change ensures that if `set_visible(False)` is called on an `Axes3D` instance, it will not be drawn, fixing the reported bug.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1403,
+ "response_tokens": 398,
+ "elapsed_s": 1.39,
+ "key_suffix": "AG0xGb",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "draw",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

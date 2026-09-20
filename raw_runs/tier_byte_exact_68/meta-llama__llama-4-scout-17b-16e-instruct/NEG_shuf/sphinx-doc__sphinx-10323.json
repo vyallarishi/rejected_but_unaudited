@@ -1,0 +1,19 @@
+{
+ "instance_id": "sphinx-doc__sphinx-10323",
+ "arm": "NEG_shuf",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 6456,
+ "raw": "To solve this issue, we need to identify the function responsible for the incorrect indentation when using the `literalinclude` directive with the `:prepend:` option.\n\nThe problem arises from the fact that the `:prepend:` and `:append:` content is being dedented along with the included code, which leads to incorrect indentation. The expected behavior is that the leading whitespace should be preserved in the output.\n\nUpon analyzing the provided code and the Sphinx documentation, it appears that the issue lies in the order of filters applied to the included content. The `prepend_filter` and `append_filter` are applied before the `dedent_filter`, which causes the prepended lines to be incorrectly dedented.\n\nTo fix this issue, we need to modify the `LiteralIncludeReader` class to apply the `dedent_filter` before the `prepend_filter` and `append_filter`. This can be achieved by modifying the `read` method of the `LiteralIncludeReader` class to change the order of the filters.\n\nThe function that contains the fault is:\n\nFAULT: `LiteralIncludeReader.read`\n\nThis function is responsible for reading the included file and applying the filters to the content. By changing the order of the filters, we can ensure that the `dedent_filter` is applied before the `prepend_filter` and `append_filter`, which should fix the indentation issue. \n\nHere's how you can modify the `read` method:\n\n```python\ndef read(self, location: Tuple[str, int] = None) -> Tuple[str, int]:\n    # ...\n    self.filters = [self.start_filter, self.pyobject_filter, \n                    self.lines_filter, self.dedent_filter, \n                    self.prepend_filter, self.append_filter, \n                    self.end_filter]\n    # ...\n```\n\nHowever, the actual implementation might vary depending on the Sphinx version and the specific requirements of the project. \n\nThe key insight here is that the order of filters in the `LiteralIncludeReader` class needs to be adjusted to ensure that the `dedent_filter` is applied before the `prepend_filter` and `append_filter`. This change should fix the indentation issue when using the `literalinclude` directive with the `:prepend:` option. \n\nIt's also worth noting that using the `dedent` option creatively, as shown in the example, can provide a workaround for this issue. However, the ideal solution is to modify the `LiteralIncludeReader` class to apply the filters in the correct order. \n\nIn conclusion, the function that contains the fault is `LiteralIncludeReader.read`, and modifying the order of filters in this function should fix the indentation issue.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1626,
+ "response_tokens": 530,
+ "elapsed_s": 1.52,
+ "key_suffix": "sruaC4",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "read",
+ "parse_method": "fault_line",
+ "hit_output_cap": false,
+ "predicted_function_original": null,
+ "parse_method_original": "none"
+}

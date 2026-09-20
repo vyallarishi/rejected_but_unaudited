@@ -1,0 +1,20 @@
+{
+ "instance_id": "pytest-dev__pytest-5631",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 5158,
+ "raw": "FAULT: num_mock_patch_args",
+ "reasoning": "\nOkay, let's try to figure out which function is causing this issue. The user provided a detailed error trace and some context. The problem occurs when using pytest 3.6.0 with a test that uses a patch where 'new' is a numpy array. The error is a ValueError during test collection, specifically in the line where it checks if p.new is in sentinels.\n\nLooking at the error message, the key part is that p.new is a numpy array, and checking if it's in sentinels causes an error because numpy arrays don't play well with the 'in' operator in this context. The user mentioned that the issue was introduced by a specific commit related to mock patch args. \n\nThe localization notes say that the function num_mock_patch_args is the direct source. Let me check what that function does. The function num_mock_patch_args is supposed to count the number of mock patch arguments in a function. It iterates over patchings and checks conditions on each patch object 'p'. The problematic line is in the list comprehension where it checks if p.new is in sentinels. \n\nThe sentinels are probably a set of special objects used to identify certain mock objects. When p.new is a numpy array, the 'in' operation returns a boolean array instead of a single boolean, leading to the ValueError. The numpy array's truth value is ambiguous because it doesn't know whether to treat the array as True or False in a boolean context, hence the error message about using a.any() or a.all().\n\nSo the fault lies in the num_mock_patch_args function because it's the one performing the check that triggers the error. The function is part of the compat module in pytest, and the specific line is where p.new is checked against sentinels. The problem arises because numpy arrays don't handle the 'in' operator correctly in this scenario. The fix would involve modifying how pytest checks if p.new is a sentinel, perhaps by ensuring that the check is done in a way compatible with numpy arrays. But the question here is to identify which function is at fault, and according to the user's analysis and the error trace, it's num_mock_patch_args.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 1298,
+ "response_tokens": 455,
+ "elapsed_s": 10.95,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "num_mock_patch_args",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

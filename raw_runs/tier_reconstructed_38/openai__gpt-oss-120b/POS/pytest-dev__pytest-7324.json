@@ -1,0 +1,19 @@
+{
+ "instance_id": "pytest-dev__pytest-7324",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1840,
+ "raw": "FAULT: expression",
+ "reasoning": "We need to identify which function contains the fault causing the assertion failure. The bug occurs when Expression.compile receives \"False\". It parses to an AST Name node with id 'False'. Then compile() asserts that name is not \"False\", \"True\", \"None\". In normal Python, these are constants, not names. The parser should produce ast.Constant node for literals, not ast.Name. So the fault is in the parser that creates ast.Name for \"False\". Which function creates the AST node? Likely in expression parsing functions: maybe `primary_expr`? But list includes functions: expression(s: Scanner), expr(s: Scanner), and_expr(s: Scanner), not_expr(s: Scanner). The parser likely handles literals in `primary_expr` but not listed. Maybe `expression` handles tokens and returns ast.Name for identifiers. So the bug is that it treats \"False\" as identifier, not constant. The function that should handle constants is probably `primary_expr` but not listed. Among listed, maybe `expression` is the top-level that decides token type. So answer: expression.",
+ "finish_reason": "stop",
+ "prompt_tokens": 561,
+ "response_tokens": 233,
+ "elapsed_s": 2.11,
+ "key_suffix": "X3iAnI",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "expression",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

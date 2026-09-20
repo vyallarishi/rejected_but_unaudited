@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-14752",
+ "arm": "NEG_false_audit",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 3903,
+ "raw": "FAULT: get",
+ "reasoning": "\nOkay, let's try to figure out which function is the fault here. The issue is about refactoring AutocompleteJsonView to allow adding extra fields in the autocomplete response without having to override the entire get() method. \n\nThe user suggests that the problem is in the get() method of AutocompleteJsonView because it directly constructs the results list with a fixed structure. By extracting the part that serializes each result into a separate method (serialize_result), it would make it easier to extend without overriding the whole get().\n\nLooking at the candidate functions listed: get, get_paginator, get_queryset, process_request, has_perm. The main issue is in the get() method where the results are built. The current code in get() creates the 'results' list directly, which is hard-coded. The proposed solution is to move that serialization logic into a separate method. Therefore, the fault lies in the get() method because it's where the inflexible code resides. The other functions like get_queryset or process_request don't directly handle the response structure. So the answer should be the get function.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 874,
+ "response_tokens": 228,
+ "elapsed_s": 2.33,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "get",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

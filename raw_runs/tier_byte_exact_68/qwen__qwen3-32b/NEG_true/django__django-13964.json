@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-13964",
+ "arm": "NEG_true",
+ "model": "qwen/qwen3-32b",
+ "prompt_chars": 5622,
+ "raw": "<think>\nOkay, let's try to figure out where the problem is here. The issue is that when you set a child object (Product) on a parent (Order) and then later set the primary key of that child, the parent doesn't update its foreign key reference correctly. This leads to the parent saving with an incorrect product_id, which is an empty string instead of the intended \"foo\".\n\nLooking at the code example, when they do order.product = Product() and then set sku later, the product's primary key isn't set at the time of assignment. The ForwardManyToOneDescriptor's __set__ method is probably involved here because that's what handles assigning the product to the order's foreign key.\n\nIn Django's ORM, when you assign a related object to a ForeignKey field, the descriptor (like ForwardManyToOneDescriptor) is responsible for setting the underlying field (product_id) on the parent model. If the related object (Product) doesn't have its primary key set at the time of assignment, the descriptor would take the current value of the Product's primary key, which is empty. Even if later the Product's sku is set and saved, the Order's product_id remains as empty string because the assignment only happened once.\n\nSo the problem is that the __set__ method in ForwardManyToOneDescriptor doesn't account for the possibility that the related object's primary key might be set later. It uses the current state of the related object's primary key at the time of assignment. For auto-incrementing primary keys, maybe Django can handle it because the ID is generated upon save, but for non-auto fields like CharField, you have to set it manually. The descriptor doesn't re-check the primary key value when the related object is saved later.\n\nTherefore, the fault lies in the __set__ method of the ForwardManyToOneDescriptor class. When the ForeignKey is set, it directly takes the primary key value of the related object at that moment. If that object's primary key is later changed, the parent's foreign key isn't updated because the descriptor doesn't track changes to the related object's primary key after assignment.\n</think>\n\nFAULT: ForwardManyToOneDescriptor",
+ "finish_reason": "stop",
+ "prompt_tokens": 1212,
+ "response_tokens": 436,
+ "elapsed_s": 1.28,
+ "key_suffix": "A11SkB",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "ForwardManyToOneDescriptor",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

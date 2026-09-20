@@ -1,0 +1,20 @@
+{
+ "instance_id": "django__django-13551",
+ "arm": "NEG_shuf",
+ "model": "qwen/qwen3-32b",
+ "tier": "reconstructed",
+ "provider": "openrouter",
+ "prompt_chars": 2380,
+ "raw": "FAULT: _make_hash_value",
+ "reasoning": "\nOkay, let's try to figure out which function is causing the issue here. The problem is about password reset tokens being valid even after a user changes their email. The description says that when a user changes their email, the password reset token should be invalidated, but it's not happening. The suggested fix is to include the user's email in the _make_hash_value method of the PasswordResetTokenGenerator class.\n\nLooking at the candidate functions in tokens.py, the main suspect is _make_hash_value because that's where the hash is generated. If the email isn't part of the data hashed here, then changing the email wouldn't affect the token. The current implementation probably uses the user's id and maybe some other fields, but not the email. So when the email changes, the hash value would still be the same because the email isn't included. \n\nThe check_token method would compare the old token (generated with the old email) with the new hash (which now uses the new email?), but wait, if the email isn't part of the hash, then changing the email doesn't affect the hash. Wait, no\u2014if the user's email is changed, but the hash is based on the user object at the time of token generation. But when the user changes their email, the existing token should no longer be valid. So the hash should include something that changes when the email changes. \n\nThe _make_hash_value function is responsible for creating the data that's hashed. If the email is not part of this data, then even after changing the email, the same hash would be generated for the same user and timestamp. Therefore, when the token is checked, it would still validate even though the email has changed. \n\nSo the correct fix is to include the user's email in the _make_hash_value method. Therefore, the fault is in this function because it's not including the email in the hash value, leading to tokens that remain valid even after the email is changed. The other functions like make_token or check_token might use this helper method, so the core issue is in _make_hash_value not including the email.\n",
+ "finish_reason": "stop",
+ "prompt_tokens": 534,
+ "response_tokens": 440,
+ "elapsed_s": 5.63,
+ "key_suffix": "a8e52a",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "_make_hash_value",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

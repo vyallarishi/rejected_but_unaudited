@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-11477",
+ "arm": "NEG_false_audit",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 1407,
+ "raw": "FAULT: reverse",
+ "reasoning": "We need to identify which function contains the fault causing translate_url to create incorrect URL when optional named groups are missing. The description says translate_url calls resolve, gets match.kwargs where optional group missing has value None, then calls reverse with these kwargs. The issue likely is that reverse should drop kwargs with None values, but it doesn't, causing URL pattern to include \"None\" or missing part. So the fault is in reverse function handling of kwargs with None for optional groups. So function containing fault is reverse. The list includes reverse(viewname, urlconf=None, args=None, kwargs=None, current_app=None). So answer: reverse.",
+ "finish_reason": "stop",
+ "prompt_tokens": 386,
+ "response_tokens": 141,
+ "elapsed_s": 0.87,
+ "key_suffix": "X6XBbC",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": "reverse",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

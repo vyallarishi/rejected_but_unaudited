@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11555",
+ "arm": "NEG_true",
+ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+ "prompt_chars": 5078,
+ "raw": "FAULT: get_order_by\n\nThe function `get_order_by` in `django/db/models/sql/compiler.py` contains the fault. This function is responsible for processing the ordering clause, which includes handling the `Meta.ordering` attribute. The bug occurs because an `OrderBy` object is incorrectly treated as a string, leading to an `AttributeError` when `get_order_dir` is called.\n\nHere's a breakdown of the issue:\n\n1. `self.query.get_meta().ordering` contains an `OrderBy` object.\n2. The `get_order_by` function iterates through this list and assigns the `OrderBy` object to the `field` variable.\n3. The condition `if hasattr(field, 'resolve_expression')` evaluates to False, which is incorrect for an `OrderBy` object.\n4. The `else` block is executed, which is intended for string-based field names.\n5. The function `get_order_dir` is called with the `OrderBy` object as its first argument, leading to an `AttributeError`.\n\nThe `get_order_by` function needs to be modified to correctly handle `OrderBy` objects in the `Meta.ordering` attribute. \n\nTo fix the issue, you can modify the `get_order_by` function as follows:\n\n```python\ndef get_order_by(self):\n    ...\n    for field in self.query.get_meta().ordering:\n        if hasattr(field, 'resolve_expression'):\n            # Handle OrderBy objects correctly\n            order_by_expression = field.resolve_expression(self.query, self.connection)\n            # Add the expression to the ordering clause\n            ordering.append(order_by_expression)\n        else:\n            # Handle string-based field names as before\n            ...\n```\n\nThis modification ensures that `OrderBy` objects in the `Meta.ordering` attribute are handled correctly, preventing the `AttributeError` and fixing the bug.",
+ "finish_reason": "stop",
+ "prompt_tokens": 1132,
+ "response_tokens": 377,
+ "elapsed_s": 1.32,
+ "key_suffix": "ijKYqB",
+ "attempt": 1,
+ "max_output_used": 2048,
+ "predicted_function": "get_order_by",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

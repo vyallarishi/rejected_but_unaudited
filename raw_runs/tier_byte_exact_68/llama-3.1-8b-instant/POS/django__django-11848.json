@@ -1,0 +1,17 @@
+{
+ "instance_id": "django__django-11848",
+ "arm": "POS",
+ "model": "llama-3.1-8b-instant",
+ "prompt_chars": 2157,
+ "raw": "FAULT: parse_http_date",
+ "finish_reason": "stop",
+ "prompt_tokens": 553,
+ "response_tokens": 6,
+ "elapsed_s": 0.45,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 1024,
+ "predicted_function": "parse_http_date",
+ "parse_method": "fault_line",
+ "hit_output_cap": false
+}

@@ -1,0 +1,19 @@
+{
+ "instance_id": "django__django-14017",
+ "arm": "POS",
+ "model": "openai/gpt-oss-120b",
+ "tier": "reconstructed",
+ "prompt_chars": 3180,
+ "raw": "_fault: _combine",
+ "reasoning": "We need to answer which function contains the fault. The issue is that Q.__and__ doesn't handle Exists because Exists doesn't implement __rand__ and Q._combine expects other to be Q. The fault is in Q._combine function, which raises TypeError. So answer: _combine. The list includes def _combine(self, other, conn): So function name is _combine.",
+ "finish_reason": "stop",
+ "prompt_tokens": 905,
+ "response_tokens": 91,
+ "elapsed_s": 0.77,
+ "key_suffix": "QqzJWR",
+ "attempt": 1,
+ "max_output_used": 6000,
+ "predicted_function": null,
+ "parse_method": "none",
+ "hit_output_cap": false
+}
